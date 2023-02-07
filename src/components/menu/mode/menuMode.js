@@ -1,9 +1,10 @@
 import { reactive } from "vue"
-
+import {getHiddenDomHeight} from 'utils/dom'
+import {expand ,close} from 'utils/animate'
 class MenuMode{
 
     constructor(){
-        this.rctMenuData = reactive({
+        this.rctMenu = reactive({
             data : []
         })
     }
@@ -13,7 +14,7 @@ class MenuMode{
     }
 
     loadData(data){
-        this.rctMenuData.data = data
+        this.rctMenu.data = data
     }
 
     itemClick(node){
@@ -21,8 +22,22 @@ class MenuMode{
         node.active = true
     }
 
-    subClick(node){
-        node.childNodesVisible = !node.childNodesVisible
+    subClick(node ,subXmvMenuEl){
+        
+        let subXmvMenuElHeight = getHiddenDomHeight(subXmvMenuEl)
+
+        const cbf = ()=>{
+            node.childNodesVisible = !node.childNodesVisible
+        }
+
+        if (node.childNodesVisible){
+            close(subXmvMenuEl ,subXmvMenuElHeight ,cbf)
+        }else{
+            expand(subXmvMenuEl ,subXmvMenuElHeight ,cbf)
+        }
+
+        
+
     }
 }
 

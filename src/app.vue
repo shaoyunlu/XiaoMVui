@@ -25,7 +25,9 @@ export default defineComponent({
             {name : '菜单二'},
             {name : '菜单三' ,childNodes : [
                 {name : '菜单三-1'},
-                {name : '菜单三-2'}
+                {name : '菜单三-2',childNodes:[
+                    {name : '菜单三-2-1'}
+                ]}
             ]}
         ]
 

@@ -1,6 +1,6 @@
 <template>
     <ul class="xmv-menu">
-        <xmv-menu-core v-for="child in menuMode.rctMenuData.data" :node="child"></xmv-menu-core>
+        <xmv-menu-core v-for="child in menuMode.rctMenu.data" :node="child"></xmv-menu-core>
     </ul>
 </template>
 

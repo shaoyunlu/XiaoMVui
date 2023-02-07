@@ -3,14 +3,14 @@
         <div class="xmv-sub-menu__title">
             <span>{{node.name}}</span>
         </div>
-        <ul class="xmv-menu" v-if="node.childNodesVisible">
+        <ul class="xmv-menu" v-show="node.childNodesVisible" ref="subXmvMenuRef">
             <xmv-menu-core v-for="child in node.childNodes" :node="child"></xmv-menu-core>
         </ul>
     </li>
 </template>
 
 <script>
-import {defineComponent, inject, onMounted, ref} from 'vue'
+import {defineComponent, inject, nextTick, onMounted, ref} from 'vue'
 export default defineComponent({
     name:"",
     props:{
@@ -19,12 +19,14 @@ export default defineComponent({
     setup(props ,context) {
 
         const menuMode = inject('MenuMode')
+        const subXmvMenuRef = ref(null)
+
         const handleClick = ()=>{
-            menuMode.subClick(props.node)
+            menuMode.subClick(props.node ,subXmvMenuRef.value)
         }
 
         return {
-            handleClick
+            handleClick ,subXmvMenuRef
         }
     }
 })

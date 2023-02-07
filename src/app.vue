@@ -1,5 +1,5 @@
 <template>
-    <xmv-layout mode="l_tr">
+    <xmv-layout mode="l_tr" lWval="300px">
         <template v-slot:top>
             <div>top</div>
         </template>
@@ -20,8 +20,17 @@ export default defineComponent({
 
         const menuRef = ref(null)
 
+        const menuData = [
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单三' ,childNodes : [
+                {name : '菜单三-1'},
+                {name : '菜单三-2'}
+            ]}
+        ]
+
         onMounted(()=>{
-            menuRef.value.loadData()
+            menuRef.value.loadData(menuData)
         })
 
         return {

@@ -64,7 +64,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     .xmv-layout{
         display: flex;
         flex-direction: column;

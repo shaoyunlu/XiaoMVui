@@ -7,7 +7,10 @@
             <xmv-menu ref="menuRef"></xmv-menu>
         </template>
         <template v-slot:right>
-            <div>right</div>
+            <div>
+                <button @click="handleCollapse">折叠</button>
+                <button @click="handleExpand">展开</button>
+            </div>
         </template>
     </xmv-layout>
 </template>
@@ -17,6 +20,14 @@ import {defineComponent,onMounted,ref} from 'vue'
 export default defineComponent({
     name:"",
     setup(props ,context) {
+
+        const handleCollapse = ()=>{
+            menuRef.value.collapse()
+        }
+
+        const handleExpand = ()=>{
+            menuRef.value.expand()
+        }
 
         const menuRef = ref(null)
 
@@ -36,7 +47,7 @@ export default defineComponent({
         })
 
         return {
-            menuRef
+            menuRef,handleCollapse,handleExpand
         }
     }
 })

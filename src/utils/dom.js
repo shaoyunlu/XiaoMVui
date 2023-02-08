@@ -24,19 +24,14 @@ export function removeClass(el ,className){
 
 // 获取一个隐藏元素的实际高度
 export function getHiddenDomHeight(el){
-    let oriDispaly = el.style.display
-    let oriPosition = el.style.position
-    let oriZIndex = el.style['z-index']
 
-    el.style.display = 'block'
-    el.style.position = 'absolute'
-    el.style['z-index'] = '-1000'
+    let oriCssText = el.style.cssText
+    el.style.cssText = oriCssText + `;display:block;position:absolute;z-index:-1000`
 
+    let domWidth = el.scrollWidth
     let domHeight = el.scrollHeight
 
-    el.style.display = oriDispaly
-    el.style.position = oriPosition
-    el.style['z-index'] = oriZIndex
+    el.style.cssText = oriCssText
 
-    return domHeight
+    return {domWidth ,domHeight}
 }

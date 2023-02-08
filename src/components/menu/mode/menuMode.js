@@ -5,8 +5,11 @@ class MenuMode{
 
     constructor(){
         this.rctMenu = reactive({
-            data : []
+            data : [],
+            isCollapse : false
         })
+
+        this.curSelNode = null
     }
 
     init(){
@@ -17,27 +20,36 @@ class MenuMode{
         this.rctMenu.data = data
     }
 
+    collapse(){
+        this.rctMenu.isCollapse = true
+    }
+
+    expand(){
+        this.rctMenu.isCollapse = false
+    }
+
     itemClick(node){
-        // 当前节点选中
-        node.active = true
+        if (this.curSelNode){
+            this.curSelNode.active = false
+        }
+        node.active = !node.active
+        this.curSelNode = node
     }
 
     subClick(node ,subXmvMenuEl){
-        
-        let subXmvMenuElHeight = getHiddenDomHeight(subXmvMenuEl)
-
+        if (this.rctMenu.isCollapse){
+            return false
+        }
+        let {domHeight} = getHiddenDomHeight(subXmvMenuEl)
         const cbf = ()=>{
             node.childNodesVisible = !node.childNodesVisible
         }
 
         if (node.childNodesVisible){
-            close(subXmvMenuEl ,subXmvMenuElHeight ,cbf)
+            close(subXmvMenuEl ,domHeight ,cbf)
         }else{
-            expand(subXmvMenuEl ,subXmvMenuElHeight ,cbf)
+            expand(subXmvMenuEl ,domHeight ,cbf)
         }
-
-        
-
     }
 }
 

@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent, inject, provide} from 'vue'
 import xmvMenuItem from './menuItem.vue'
 import xmvSubMenu from './subMenu.vue'
 import {isEmpty} from 'utils/data'
@@ -16,6 +16,8 @@ export default defineComponent({
         node:Object
     },
     setup(props ,context) {
+
+        provide('Level' ,inject('Level') + 1)
 
         const isLeaf = computed(()=>{
             return isEmpty(props.node.childNodes)

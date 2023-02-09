@@ -1,10 +1,6 @@
 
 const animateDuration = 300
 
-export function toggleAnimate(){
-
-}
-
 export function expand(el ,expandVal ,cbf){
 
     var oriCssText = el.style.cssText
@@ -13,7 +9,7 @@ export function expand(el ,expandVal ,cbf){
 
     setTimeout(()=>{
         el.style.height = expandVal + 'px'
-    },0)
+    },10)
 
     setTimeout(()=>{
         el.style.cssText = oriCssText
@@ -29,7 +25,7 @@ export function close(el ,expandVal ,cbf){
 
     setTimeout(()=>{
         el.style.height = '0'
-    },0)
+    },10)
 
     setTimeout(()=>{
         el.style.cssText = oriCssText

@@ -8,8 +8,11 @@
         </template>
         <template v-slot:right>
             <div>
-                <button @click="handleCollapse">折叠</button>
-                <button @click="handleExpand">展开</button>
+                <xmv-tooltip>
+                    <xmv-button @btnClick="handleCollapse">折叠</xmv-button>
+                </xmv-tooltip>
+                
+                <xmv-button @btnClick="handleExpand">展开</xmv-button>
             </div>
         </template>
     </xmv-layout>

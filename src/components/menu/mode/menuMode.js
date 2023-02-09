@@ -1,5 +1,5 @@
 import { reactive } from "vue"
-import {getHiddenDomHeight} from 'utils/dom'
+import {getHiddenDomWH} from 'utils/dom'
 import {expand ,close} from 'utils/animate'
 import {collapseAnimate ,expandAnimate} from './menuAnimate'
 class MenuMode{
@@ -51,7 +51,7 @@ class MenuMode{
         if (this.rctMenu.isCollapse){
             return false
         }
-        let {domHeight} = getHiddenDomHeight(subXmvMenuEl)
+        let {domHeight} = getHiddenDomWH(subXmvMenuEl)
         const cbf = ()=>{
             node.childNodesVisible = !node.childNodesVisible
         }

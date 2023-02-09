@@ -1,0 +1,43 @@
+.xmv-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    height: 32px;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--xmv-button-text-color);
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    transition: .1s;
+    font-weight: var(--xmv-button-font-weight);
+    user-select: none;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    background-color: var(--xmv-button-bg-color);
+    border: var(--xmv-border);
+    border-color: var(--xmv-button-border-color);
+    padding: 8px 15px;
+    font-size: var(--xmv-font-size-base);
+    border-radius: var(--xmv-border-radius-base);
+
+    >span{
+        display: inline-flex;
+        align-items: center;
+    }
+
+    &:hover,&:focus{
+        color: var(--xmv-button-hover-text-color);
+        border-color: var(--xmv-button-hover-border-color);
+        background-color: var(--xmv-button-hover-bg-color);
+        outline: none;
+    }
+
+    &:active{
+        color: var(--xmv-button-active-text-color);
+        border-color: var(--xmv-button-active-border-color);
+        background-color: var(--xmv-button-active-bg-color);
+        outline: none;
+    }
+}

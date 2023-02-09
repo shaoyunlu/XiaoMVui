@@ -1,3 +1,4 @@
+// 元素隐藏或显示
 export function toggle(el){
     if (el.style.display == 'none'){
         el.style.display = ''
@@ -22,9 +23,8 @@ export function removeClass(el ,className){
     el.className = el.className.replace(className,"").trim()
 }
 
-// 获取一个隐藏元素的实际高度
-export function getHiddenDomHeight(el){
-
+// 获取一个隐藏元素的实际宽高
+export function getHiddenDomWH(el){
     let oriCssText = el.style.cssText
     el.style.cssText = oriCssText + `;display:block;position:absolute;z-index:-1000`
 

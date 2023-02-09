@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, nextTick, onMounted, ref} from 'vue'
+import {defineComponent, inject, ref} from 'vue'
 export default defineComponent({
     name:"",
     props:{

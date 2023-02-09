@@ -7,6 +7,7 @@ export default defineConfig({
         alias :{
                 'comps' : resolve(__dirname ,'src/components'),
                 'style' : resolve(__dirname ,'src/style'),
+                'theme' : resolve(__dirname,'src/style/theme/dark'),
                 'utils' : resolve(__dirname ,'src/utils'),
                 'json' : resolve(__dirname ,'src/json'),
                 'demo' : resolve(__dirname ,'src/demo')

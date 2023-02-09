@@ -35,3 +35,9 @@ export function getHiddenDomWH(el){
 
     return {domWidth ,domHeight}
 }
+
+export function nextFrame (fn) {
+    requestAnimationFrame(function () {
+        requestAnimationFrame(fn);
+  });
+}

@@ -1,6 +1,7 @@
+import {nextFrame} from 'utils/dom'
+
 const animateDuration = 300
 var expandWidth = 0
-
 
 export function collapseAnimate(el ,cbf){
 
@@ -9,9 +10,14 @@ export function collapseAnimate(el ,cbf){
     el.style.cssText =  oriCssText + `;display:block;width:${expandWidth}px;overflow:hidden;
                         transition:width var(--xmv-transition-duration);`
 
-    setTimeout(()=>{
+    nextFrame(()=>{
         el.style.width = 'calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2)'
-    },10)
+    })
+
+
+    // el.addEventListener("transitionend", function (){
+    //     console.log(1)
+    // });
 
     setTimeout(()=>{
         el.style.cssText = oriCssText
@@ -26,9 +32,9 @@ export function expandAnimate(el ,cbf){
                         overflow:hidden;
                         transition:width var(--xmv-transition-duration);`
 
-    setTimeout(()=>{
+    nextFrame(()=>{
         el.style.width = expandWidth + 'px'
-    },10)
+    })
 
     setTimeout(()=>{
         el.style.cssText = oriCssText

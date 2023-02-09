@@ -1,3 +1,4 @@
+import {nextFrame} from 'utils/dom'
 
 const animateDuration = 300
 
@@ -7,9 +8,9 @@ export function expand(el ,expandVal ,cbf){
     el.style.cssText =  oriCssText + `;display:block;height:0;overflow:hidden;
                         transition:height var(--xmv-transition-duration);`
 
-    setTimeout(()=>{
+    nextFrame(()=>{
         el.style.height = expandVal + 'px'
-    },10)
+    })
 
     setTimeout(()=>{
         el.style.cssText = oriCssText
@@ -23,9 +24,9 @@ export function close(el ,expandVal ,cbf){
     var oriCssText = el.style.cssText
     el.style.cssText = oriCssText + `;height:${expandVal}px;overflow:hidden;transition:height var(--xmv-transition-duration)`
 
-    setTimeout(()=>{
+    nextFrame(()=>{
         el.style.height = '0'
-    },10)
+    })
 
     setTimeout(()=>{
         el.style.cssText = oriCssText

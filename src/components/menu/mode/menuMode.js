@@ -1,6 +1,7 @@
 import { reactive } from "vue"
 import {getHiddenDomHeight} from 'utils/dom'
 import {expand ,close} from 'utils/animate'
+import {collapseAnimate ,expandAnimate} from './menuAnimate'
 class MenuMode{
 
     constructor(){
@@ -9,6 +10,7 @@ class MenuMode{
             isCollapse : false
         })
 
+        this.menuElRef = null
         this.curSelNode = null
     }
 
@@ -21,11 +23,20 @@ class MenuMode{
     }
 
     collapse(){
-        this.rctMenu.isCollapse = true
+
+        collapseAnimate(this.menuElRef.value ,()=>{
+            this.rctMenu.isCollapse = true
+            this.rctMenu.data.forEach(node =>{
+                node.childNodesVisible = false
+            })
+        })
+
     }
 
     expand(){
-        this.rctMenu.isCollapse = false
+        expandAnimate(this.menuElRef.value ,()=>{
+            this.rctMenu.isCollapse = false
+        })
     }
 
     itemClick(node){

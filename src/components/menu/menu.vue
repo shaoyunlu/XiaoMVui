@@ -1,12 +1,12 @@
 <template>
-    <ul class="xmv-menu xml-menu--vertical"  
+    <ul class="xmv-menu xml-menu--vertical"  ref="menuElRef"
         :class="{'xmv-menu--collapse' : menuMode.rctMenu.isCollapse}"  style="--xmv-menu-level:0">
         <xmv-menu-core v-for="child in menuMode.rctMenu.data" :node="child"></xmv-menu-core>
     </ul>
 </template>
 
 <script>
-import {defineComponent, provide} from 'vue'
+import {defineComponent, onMounted, provide ,ref} from 'vue'
 import MenuMode from './mode/menuMode'
 
 
@@ -14,6 +14,7 @@ export default defineComponent({
     name:"xmvMenu",
     setup(props ,context) {
 
+        const menuElRef = ref(null)
         const menuMode = new MenuMode()
         
         const loadData = (menuData)=>{
@@ -28,11 +29,15 @@ export default defineComponent({
             menuMode.expand()
         }
 
+        onMounted(()=>{
+            menuMode.menuElRef = menuElRef
+        })
+
         provide('MenuMode' ,menuMode)
         provide('Level' ,0)
 
         return {
-            loadData,menuMode,collapse,expand
+            loadData,menuMode,collapse,expand,menuElRef
         }
     }
 })

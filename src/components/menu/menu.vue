@@ -9,7 +9,6 @@
 import {defineComponent, onMounted, provide ,ref} from 'vue'
 import MenuMode from './mode/menuMode'
 
-
 export default defineComponent({
     name:"xmvMenu",
     setup(props ,context) {

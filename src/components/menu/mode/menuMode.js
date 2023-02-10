@@ -1,7 +1,8 @@
 import { reactive } from "vue"
 import {getHiddenDomWH} from 'utils/dom'
-import {expand ,close} from 'utils/animate'
-import {collapseAnimate ,expandAnimate} from './menuAnimate'
+import {collapse as widthCollapse ,expand as widthExpand} from 'comps/transition/widthCollapseExpand'
+import {collapse as heightCollapse ,expand as heightExpand} from 'comps/transition/heightCollapseExpand'
+import {addClass,removeClass,hasClass} from 'utils/dom'
 class MenuMode{
 
     constructor(){
@@ -23,19 +24,25 @@ class MenuMode{
     }
 
     collapse(){
-
-        collapseAnimate(this.menuElRef.value ,()=>{
-            this.rctMenu.isCollapse = true
-            this.rctMenu.data.forEach(node =>{
-                node.childNodesVisible = false
-            })
+        let expandWidthStr = this.__getExpandWidth()
+        widthCollapse(this.menuElRef.value,
+            expandWidthStr,
+            'calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2)',
+            ()=>{
+                this.rctMenu.isCollapse = true
+                this.rctMenu.data.forEach(node =>{
+                    node.childNodesVisible = false
+                })
         })
-
     }
 
     expand(){
-        expandAnimate(this.menuElRef.value ,()=>{
-            this.rctMenu.isCollapse = false
+        let expandWidthStr = this.__getExpandWidth()
+        widthExpand(this.menuElRef.value,
+            expandWidthStr,
+            'calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2)',
+            ()=>{
+                this.rctMenu.isCollapse = false
         })
     }
 
@@ -57,10 +64,23 @@ class MenuMode{
         }
 
         if (node.childNodesVisible){
-            close(subXmvMenuEl ,domHeight ,cbf)
+            heightCollapse(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }else{
-            expand(subXmvMenuEl ,domHeight ,cbf)
+            heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }
+    }
+
+    __getExpandWidth(){
+        let expandWidth
+        if (hasClass(this.menuElRef.value,'xmv-menu--collapse')){
+            removeClass(this.menuElRef.value,'xmv-menu--collapse')
+            expandWidth = this.menuElRef.value.scrollWidth
+            addClass(this.menuElRef.value,'xmv-menu--collapse')
+        }else{
+            expandWidth = this.menuElRef.value.scrollWidth
+        }
+        
+        return expandWidth + 'px'
     }
 }
 

@@ -36,6 +36,44 @@ export function getHiddenDomWH(el){
     return {domWidth ,domHeight}
 }
 
+// 获取元素位置
+export function getPagePosition(el ,type){
+    let boundCr = el.getBoundingClientRect()
+    let docScrollLeft = document.documentElement.scrollLeft
+    let docScrollTop = document.documentElement.scrollTop
+    let gutter = 5
+    let offsetWidth = el.offsetWidth
+    let offsetHeight = el.offsetHeight
+    let offsetTop = boundCr.top + docScrollTop
+    let offsetLeft = boundCr.left + docScrollLeft
+
+    switch (type) {
+
+        case 'left':
+            return {left : offsetLeft - offsetWidth - gutter ,top : offsetTop}
+            break;
+
+        case 'right':
+            return {left : offsetLeft + offsetWidth + gutter ,top : offsetTop}
+            break;
+
+        case 'top':
+            return {left : offsetLeft ,top : offsetTop - offsetHeight - gutter}
+            break;
+
+        case 'bottom':
+            return {left : offsetLeft ,top : offsetTop + offsetHeight + gutter}
+            break;
+    
+        default:
+            return {left : offsetLeft ,top : offsetTop}
+            break;
+    }
+
+    
+
+}
+
 export function nextFrame (fn) {
     requestAnimationFrame(function () {
         requestAnimationFrame(fn);

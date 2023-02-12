@@ -1,43 +1,37 @@
-import {nextFrame} from 'utils/dom'
 
-const animateDuration = 300
+import {opacityIn as opcIn ,opacityOut as opcOut} from 'comps/transition/opacityInOut'
 
-class Transition{
-    constructor({elRef ,baCbf ,caCbf ,aaCbf}){
-        this.elRef = elRef
-        this.oriCssText
-        this.baCbf = baCbf
-        this.caCbf = caCbf
-        this.aaCbf = aaCbf 
+class XmvTransition{
+
+    constructor(){
+        this.animateType
+        this.animateTimeOutMap = {
+
+        }
     }
 
-    init(){
+    start(animateType ,el ,cbf ,...args){
 
+        this.animateType = animateType
+
+        if (animateType == 'opacityIn'){
+            clearTimeout(this.animateTimeOutMap['opacityOut'])
+        }
+
+        const wrapCbf = ()=>{
+            cbf && cbf()
+        }
+        this.animateTimeOutMap[animateType] = this[animateType](el ,wrapCbf ,...args)
     }
 
-    start(){
-        this.beforeAnimate()
-        this.currentAnimate()
-        this.afterAnimate()
+    opacityIn(el ,cbf ,...args){
+        return opcIn(el ,cbf ,...args)
     }
 
-    beforeAnimate(){
-        this.oriCssText = this.elRef.value.oriCssText
-        this.baCbf(this.elRef.value ,this.oriCssText)
+    opacityOut(el ,cbf ,...args){
+        return opcOut(el ,cbf ,...args)
     }
 
-    currentAnimate(){
-        nextFrame(()=>{
-            this.caCbf(this.elRef.value)
-        })
-    }
-
-    afterAnimate(){
-        setTimeout(()=>{
-            this.elRef.value.style.cssText = this.oriCssText
-            this.aaCbf(this.elRef.value)
-        } ,animateDuration)
-    }
 }
 
-export default Transition
+export default XmvTransition

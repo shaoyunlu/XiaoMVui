@@ -1,3 +1,7 @@
+*, :before, :after {
+    box-sizing: border-box;
+}
+
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;
     --xmv-color-success-rgb: 103, 194, 58;
@@ -118,10 +122,6 @@
     --xmv-border-color-hover: var(--xmv-text-color-disabled);
     --xmv-border: var(--xmv-border-width) var(--xmv-border-style) var(--xmv-border-color);
     --xmv-svg-monochrome-grey: var(--xmv-border-color);
-    
-
-
-    --xmv-transition-duration : 0.3s;
 }
 
 [class*=" xmv-icon-"], [class^=xmv-icon-] {

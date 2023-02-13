@@ -1,8 +1,7 @@
 import { reactive } from "vue"
 import {getHiddenDomWH} from 'utils/dom'
-import {collapse as widthCollapse ,expand as widthExpand} from 'comps/transition/widthCollapseExpand'
-import {collapse as heightCollapse ,expand as heightExpand} from 'comps/transition/heightCollapseExpand'
 import {addClass,removeClass,hasClass} from 'utils/dom'
+import XmvTransition from 'comps/transition/transition'
 class MenuMode{
 
     constructor(){
@@ -13,6 +12,7 @@ class MenuMode{
 
         this.menuElRef = null
         this.curSelNode = null
+        this.transition = new XmvTransition()
     }
 
     init(){
@@ -24,8 +24,11 @@ class MenuMode{
     }
 
     collapse(){
+        if (this.rctMenu.isCollapse){
+            return false
+        }
         let expandWidthStr = this.__getExpandWidth()
-        widthCollapse(this.menuElRef.value,
+        this.transition.widthCollapse(this.menuElRef.value,
             expandWidthStr,
             'calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2)',
             ()=>{
@@ -37,8 +40,11 @@ class MenuMode{
     }
 
     expand(){
+        if (!this.rctMenu.isCollapse){
+            return false
+        }
         let expandWidthStr = this.__getExpandWidth()
-        widthExpand(this.menuElRef.value,
+        this.transition.widthExpand(this.menuElRef.value,
             expandWidthStr,
             'calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2)',
             ()=>{
@@ -64,9 +70,9 @@ class MenuMode{
         }
 
         if (node.childNodesVisible){
-            heightCollapse(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
+            this.transition.heightCollapse(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }else{
-            heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
+            this.transition.heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }
     }
 

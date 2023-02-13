@@ -1,5 +1,4 @@
 <template>
-    <slot name="content"></slot>
     <slot></slot>
 </template>
 
@@ -24,10 +23,9 @@ export default defineComponent({
     setup(props ,{slots ,attrs}) {
         const transition = new XmvTransition()
         var pEl = document.getElementById('el-popper-container')
-        var el
+        var triggerEl
         var popperEl
         var defaultSlot
-        var contentSlot
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -35,40 +33,43 @@ export default defineComponent({
             popperEl = document.createElement('div')
             addClass(popperEl ,'xmv-popper is-dark')
             popperEl.innerHTML = props.content
-            let {left ,top} = getPagePosition(el ,props.placement)
+            let {left ,top} = getPagePosition(triggerEl ,props.placement)
             let cssText = `z-index:2002;width:${props.width};position:absolute;opacity:0;
                             left:0px;top:0px;margin:0;right:auto;bottom:auto;transform: translate(${left}px,${top}px)`
             popperEl.style.cssText = cssText
         }
 
         const handleMouseover = ()=>{
-            if (popperEl.parentNode === pEl){
-                return false
-            }
-            pEl.appendChild(popperEl)
-            transition.start('opacityIn' ,popperEl ,()=>{})
+            transition.opacityIn(()=>{
+                pEl.appendChild(popperEl)
+            })
         }
 
         const handleMouseleave = ()=>{
-            transition.start('opacityOut' ,popperEl ,()=>{
+            transition.opacityOut(()=>{
                 pEl.removeChild(popperEl)
             })
         }
 
         onMounted(()=>{
-            el = defaultSlot[0].el
+            triggerEl = defaultSlot[0].el
             createPopperEl()
+            transition.setEl(popperEl)
 
-            el.addEventListener('mouseover' ,()=>{
+            triggerEl.addEventListener('mouseover' ,()=>{
                 handleMouseover()
             })
-            el.addEventListener('mouseleave' ,()=>{
+            triggerEl.addEventListener('mouseleave' ,()=>{
                 handleMouseleave()
             })
 
-            // contentSlot = ( slots.content) == null ? void 0 : slots.content.call(slots, attrs)
-            // render(contentSlot[0], document.body);
+            popperEl.addEventListener('mouseover' ,()=>{
+                handleMouseover()
+            })
 
+            popperEl.addEventListener('mouseleave' ,()=>{
+                handleMouseleave()
+            })
         })
 
         onUnmounted(()=>{

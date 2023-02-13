@@ -10,9 +10,8 @@
             <div>
                 
                 <xmv-button @btnClick="handleCollapse">折叠</xmv-button>
-
-                
                 <xmv-button @btnClick="handleExpand">展开</xmv-button>
+                <h3>Tootip</h3>
                 <ul>
                     <li>
                         <xmv-tooltip content="上边" placement="top">
@@ -33,6 +32,19 @@
                         <xmv-tooltip content="右边" placement="right">
                             <xmv-button>右</xmv-button>
                         </xmv-tooltip>
+                    </li>
+                </ul>
+                <h3>Popover</h3>
+                <ul>
+                    <li>
+                        <xmv-popover placement="right">
+                            <xmv-button>右</xmv-button>
+                            <template #content>
+                                <div style="width:300px;height:300px">
+                                    哈哈
+                                </div>
+                            </template>
+                        </xmv-popover>
                     </li>
                 </ul>
                 

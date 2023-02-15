@@ -37,14 +37,14 @@
                 <h3>Popover</h3>
                 <ul>
                     <li>
+                        <!--
                         <xmv-popover placement="right">
-                            <xmv-button>右</xmv-button>
-                            <template #content>
-                                <div style="width:300px;height:300px">
-                                    哈哈
-                                </div>
+                            <template #trigger>
+                                <xmv-button>右</xmv-button>
                             </template>
+                            <xmv-button>右</xmv-button>
                         </xmv-popover>
+                        -->
                     </li>
                 </ul>
                 

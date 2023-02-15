@@ -1,13 +1,17 @@
 <template>
     <li class="xmv-menu-item" 
         :class="{'is-active':node.active}" @click.stop="handleClick">
-        <i class="xmv-icon-code" v-if="level == 1"></i>
-        <span>{{node.name}}</span>
+        <xmv-tooltip :content="node.name" placement="right" v-if="level == 1">
+            <div class="xmv-menu-tooltip__trigger xmv-tooltip__trigger">
+                <i class="xmv-icon-code" v-if="level == 1"></i>
+            </div>
+        </xmv-tooltip>
+        <span v-if="level > 1">{{node.name}}</span>
     </li>
 </template>
 
 <script>
-import {defineComponent,h,inject} from 'vue'
+import {defineComponent,h,inject, onMounted} from 'vue'
 export default defineComponent({
     name:"",
     props:{

@@ -1,7 +1,10 @@
 <template>
     <ul class="xmv-menu xml-menu--vertical"  ref="menuElRef"
         :class="{'xmv-menu--collapse' : menuMode.rctMenu.isCollapse}"  style="--xmv-menu-level:0">
-        <xmv-menu-core v-for="child in menuMode.rctMenu.data" :node="child"></xmv-menu-core>
+        <xmv-menu-core v-for="child in menuMode.rctMenu.data" :node="child" 
+                    v-if="!menuMode.rctMenu.isCollapse"></xmv-menu-core>
+        <xmv-menu-core-collapse v-for="child in menuMode.rctMenu.data" :node="child"
+                    v-else></xmv-menu-core-collapse>
     </ul>
 </template>
 

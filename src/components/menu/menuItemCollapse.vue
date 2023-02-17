@@ -1,7 +1,7 @@
 <template>
     <li class="xmv-menu-item" 
         :class="{'is-active':node.active}" @click.stop="handleClick">
-        <xmv-tooltip :content="node.name" placement="right" v-if="level == 1">
+        <xmv-tooltip :content="node.name" placement="right" v-if="level == 1" :isAlignCenter="true">
             <div class="xmv-menu-tooltip__trigger xmv-tooltip__trigger">
                 <i class="xmv-icon-code" v-if="level == 1"></i>
             </div>

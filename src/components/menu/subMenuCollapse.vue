@@ -1,6 +1,6 @@
 <template>
-    <li class="xmv-sub-menu" @mouseover="handleMouseover">
-        <xmv-popover ref="popoverRef" :needUpdate=true>
+    <li class="xmv-sub-menu" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
+        <xmv-popover :beStripped="level == 1?true:false"  ref="popoverRef" :needUpdate=true>
             <template #trigger>
                 <div class="xmv-sub-menu__title">
                     <i class="xmv-icon-code" v-if="level == 1"></i>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, onMounted, ref ,watch} from 'vue'
+import {defineComponent, inject, nextTick, onMounted, ref ,watch} from 'vue'
 export default defineComponent({
     name:"",
     props:{
@@ -29,17 +29,17 @@ export default defineComponent({
         const subXmvMenuRef = ref(null)
         const popoverRef = ref(null)
 
-        const handleMouseover = ()=>{
-            console.log()
+        const handleMouseover = (e)=>{
+            popoverRef.value.$.xmvShow()
         }
 
-
-        onMounted(()=>{
-            // 需要给popover重新定位
-        })
+        const handleMouseleave = (e)=>{
+            popoverRef.value.$.xmvHide()
+        }
 
         return {
-            subXmvMenuRef,level,menuMode,popoverRef,handleMouseover
+            subXmvMenuRef,level,menuMode,popoverRef,
+            handleMouseover,handleMouseleave
         }
     }
 })

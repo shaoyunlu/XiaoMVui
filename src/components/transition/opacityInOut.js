@@ -1,8 +1,6 @@
 import {nextFrame} from 'utils/dom'
 import {animateDuration} from 'utils/dict'
 
-
-
 export function opacityIn(el ,cbf){
     var oriCssText = el.style.cssText
     el.style.cssText = oriCssText + `

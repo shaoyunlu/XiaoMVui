@@ -1,4 +1,4 @@
-import { reactive } from "vue"
+import { nextTick, reactive } from "vue"
 import {getHiddenDomWH} from 'utils/dom'
 import {addClass,removeClass,hasClass} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
@@ -7,7 +7,7 @@ class MenuMode{
     constructor(){
         this.rctMenu = reactive({
             data : [],
-            isCollapse : true
+            isCollapse : false
         })
 
         this.menuElRef = null
@@ -74,6 +74,12 @@ class MenuMode{
         }else{
             this.transition.heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }
+    }
+
+    onMounted(){
+        nextTick(()=>{
+            console.log(this.curSelNode)
+        })
     }
 
     __getExpandWidth(){

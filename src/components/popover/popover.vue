@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted ,render} from 'vue'
+import {defineComponent, getCurrentInstance, onMounted ,render ,watch} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -18,7 +18,8 @@ export default defineComponent({
             type : String,
             default : 'right'
         },
-        needUpdate : false
+        needUpdate : false,
+        beStripped : true
     },
     setup(props ,{slots ,attrs}) {
         const transition = new XmvTransition()
@@ -28,7 +29,10 @@ export default defineComponent({
         var defaultSlot
         var defaultEl
         var triggerSlot
+        var currentEventName
         
+        const instance = getCurrentInstance()
+
         const createPopperEl = ()=>{
             if (popperEl)
                 return false
@@ -40,19 +44,31 @@ export default defineComponent({
             popperEl.style.cssText = cssText
         }
 
-        const handleMouseover = ()=>{
+        const handleMouseover = (cbf)=>{
+            if (currentEventName == 'mouseover'){
+                return false
+            }
+            currentEventName = 'mouseover'
+            if (props.needUpdate){
+                let {left ,top} = getPagePosition(triggerEl ,props.placement)
 
-            let {left ,top} = getPagePosition(triggerEl ,props.placement)
-            popperEl.style.left = left + 'px'
-            popperEl.style.top = top + 'px'
+                if (pEl.id != 'el-popper-container'){
+                    left = triggerEl.offsetWidth
+                    top = triggerEl.offsetTop
+                }
 
+                popperEl.style.left = left + 'px'
+                popperEl.style.top = top + 'px'
+            }
+            
             transition.opacityIn(()=>{
                 popperEl.style.opacity = 0
                 popperEl.style.display = ''
             })
         }
 
-        const handleMouseleave = ()=>{
+        const handleMouseleave = (cbf)=>{
+            currentEventName = 'mouseleave'
             transition.opacityOut(()=>{
                 popperEl.style.display = 'none'
             })
@@ -60,6 +76,12 @@ export default defineComponent({
 
         onMounted(()=>{
             defaultEl = defaultSlot[0].el
+
+            if (props.beStripped){
+                pEl = document.getElementById('el-popper-container')
+            }else{
+                pEl = defaultEl.parentNode
+            }
 
             triggerSlot = ( slots.trigger) == null ? void 0 : slots.trigger.call(slots, attrs)
             render(triggerSlot[0], defaultEl.parentNode)
@@ -87,6 +109,14 @@ export default defineComponent({
             popperEl.addEventListener('mouseleave' ,()=>{
                 handleMouseleave()
             })
+
+            instance.xmvShow = ()=>{
+                handleMouseover()
+            }
+
+            instance.xmvHide = ()=>{
+                handleMouseleave()
+            }
         })
 
         return ()=>{

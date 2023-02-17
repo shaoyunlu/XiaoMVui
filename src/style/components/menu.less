@@ -18,12 +18,13 @@
 .xmv-menu--collapse {
     width: calc(var(--xmv-menu-icon-width) + var(--xmv-menu-base-level-padding) * 2);
     .xmv-sub-menu:hover{
+        cursor: pointer;
         outline: none;
         color: var(--xmv-menu-hover-text-color);
         background-color: var(--xmv-menu-hover-bg-color);
     }
 }
-
+.xmv-menu--collapse>.xmv-sub-menu>.xmv-sub-menu__title{pointer-events: none;}
 .xmv-menu--collapse>.xmv-sub-menu>.xmv-sub-menu__title>span,
 .xmv-menu--collapse>.xmv-menu-item>span{
     height: 0;

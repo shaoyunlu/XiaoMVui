@@ -26,6 +26,11 @@ export default defineComponent({
             menuMode.itemClick(props.node)
         }
 
+        onMounted(()=>{
+            if (props.node.active)
+                menuMode.curSelNode = props.node
+        })
+
         return {
             handleClick,menuMode,level
         }

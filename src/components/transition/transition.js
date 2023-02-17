@@ -28,33 +28,24 @@ class XmvTransition{
         if (this.animateType == 'opacityIn'){
             return false
         }
-
         this.animateType = 'opacityIn'
-
         beforeCbf && beforeCbf()
-        
         clearTimeout(this.animateTimeOutMap['opacityOut'])
         clearTimeout(this.delayRunTimeout)
-
         opcIn(this.el ,()=>{})
-
     }
 
     opacityOut(afterCbf){
         if (this.animateType == 'opacityOut'){
             return false
         }
-
         this.animateType = 'opacityOut'
-
         const wrapCbf = ()=>{
             afterCbf && afterCbf()
         }
-        
         this.delayRunTimeout = setTimeout(()=>{
             this.animateTimeOutMap['opacityOut'] = opcOut(this.el ,wrapCbf)
         },100)
-
     }
 
     widthCollapse(el ,expandStr ,collapseStr ,cbf){

@@ -51,28 +51,25 @@ export function getPagePosition(el ,type){
 
         case 'left':
             return {left : offsetLeft - offsetWidth - gutter ,top : offsetTop}
-            break;
 
         case 'right':
             return {left : offsetLeft + offsetWidth + gutter ,top : offsetTop}
-            break;
 
         case 'top':
             return {left : offsetLeft ,top : offsetTop - offsetHeight - gutter}
-            break;
 
         case 'bottom':
             return {left : offsetLeft ,top : offsetTop + offsetHeight + gutter}
-            break;
+
+        case 'center':
+            return {left : offsetLeft ,top:offsetTop}
     
         default:
             return {left : offsetLeft ,top : offsetTop}
-            break;
     }
-
-    
-
 }
+
+
 
 export function nextFrame (fn) {
     requestAnimationFrame(function () {

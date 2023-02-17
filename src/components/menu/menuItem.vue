@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {defineComponent,h,inject} from 'vue'
+import {defineComponent,h,inject, onMounted} from 'vue'
 export default defineComponent({
     name:"",
     props:{
@@ -21,6 +21,11 @@ export default defineComponent({
         const handleClick = (e)=>{
             menuMode.itemClick(props.node)
         }
+
+        onMounted(()=>{
+            if (props.node.active)
+                menuMode.curSelNode = props.node
+        })
 
         return {
             handleClick,menuMode,level

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, ref ,watch} from 'vue'
+import {defineComponent, inject, onMounted, ref ,watch} from 'vue'
 export default defineComponent({
     name:"",
     props:{
@@ -28,9 +28,9 @@ export default defineComponent({
             menuMode.subClick(props.node ,subXmvMenuRef.value)
         }
 
-        watch(menuMode.rctMenu ,(oldVal,newVal)=>{
-            
-        } ,{immediate:true})
+        onMounted(()=>{
+            props.node.subXmvMenuRef = subXmvMenuRef
+        })
 
         return {
             handleClick ,subXmvMenuRef,level,menuMode

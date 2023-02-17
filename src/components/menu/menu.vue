@@ -33,6 +33,7 @@ export default defineComponent({
 
         onMounted(()=>{
             menuMode.menuElRef = menuElRef
+            menuMode.onMounted()
         })
 
         provide('MenuMode' ,menuMode)

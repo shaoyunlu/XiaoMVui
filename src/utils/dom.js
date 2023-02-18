@@ -51,6 +51,19 @@ export function getPagePosition(el ,type ,faceEl){
     let faceElWidth = faceEl.offsetWidth
     let faceElHeight = faceEl.offsetHeight
 
+    let screenWidth = document.documentElement.offsetWidth
+    let screenHeight = document.documentElement.offsetHeight
+
+    if (type == 'top' && boundCr.top < faceElHeight){
+        type = 'bottom'
+    }else if (type == 'bottom' && (screenHeight - boundCr.bottom) < faceElHeight){
+        type = 'top'
+    }else if (type == 'left' && boundCr.left < faceElWidth){
+        type = 'right'
+    }else if (type == 'right' && (screenWidth - boundCr.right) < faceElWidth){
+        type = 'left'
+    }
+
     switch (type) {
 
         case 'left':

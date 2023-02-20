@@ -2,6 +2,7 @@
 import {opacityIn as opcIn ,opacityOut as opcOut} from 'comps/transition/opacityInOut'
 import {collapse as wCollapse ,expand as wExpand} from 'comps/transition/widthCollapseExpand'
 import {collapse as hCollapse ,expand as hExpand} from 'comps/transition/heightCollapseExpand'
+import {scaleIn as sIn ,scaleOut as sOut} from 'comps/transition/scaleInOut'
 
 class LinkNode{
     constructor(promise ,next){
@@ -45,6 +46,30 @@ class XmvTransition{
         }
         this.delayRunTimeout = setTimeout(()=>{
             this.animateTimeOutMap['opacityOut'] = opcOut(this.el ,wrapCbf)
+        },100)
+    }
+
+    scaleIn(beforeCbf){
+        if (this.animateType == 'scaleIn'){
+            return false
+        }
+        this.animateType = 'scaleIn'
+        beforeCbf && beforeCbf()
+        clearTimeout(this.animateTimeOutMap['scaleOut'])
+        clearTimeout(this.delayRunTimeout)
+        sIn(this.el ,()=>{})
+    }
+
+    scaleOut(afterCbf){
+        if (this.animateType == 'scaleOut'){
+            return false
+        }
+        this.animateType = 'scaleOut'
+        const wrapCbf = ()=>{
+            afterCbf && afterCbf()
+        }
+        this.delayRunTimeout = setTimeout(()=>{
+            this.animateTimeOutMap['scaleOut'] = sOut(this.el ,wrapCbf)
         },100)
     }
 

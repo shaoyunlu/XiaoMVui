@@ -61,15 +61,15 @@ export default defineComponent({
                 popperEl.style.top = top + 'px'
             }
             
-            transition.opacityIn(()=>{
-                popperEl.style.opacity = 0
+            transition.scaleIn(()=>{
+                // popperEl.style.scale = 0
                 popperEl.style.display = ''
             })
         }
 
         const handleMouseleave = (cbf)=>{
             currentEventName = 'mouseleave'
-            transition.opacityOut(()=>{
+            transition.scaleOut(()=>{
                 popperEl.style.display = 'none'
             })
         }

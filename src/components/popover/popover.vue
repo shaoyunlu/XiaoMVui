@@ -62,9 +62,8 @@ export default defineComponent({
                 return false
             }
             currentEventName = 'mouseover'
-<<<<<<< HEAD
             if (props.needUpdate){
-                let {left ,top} = getPagePosition(triggerEl ,props.placement)
+                let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl)
 
                 if (pEl.id != 'el-popper-container'){
                     left = triggerEl.offsetWidth
@@ -77,11 +76,6 @@ export default defineComponent({
             
             transition.scaleIn(()=>{
                 // popperEl.style.scale = 0
-=======
-            setPosition()   
-            transition.opacityIn(()=>{
-                popperEl.style.opacity = 0
->>>>>>> 01ac86c22f12d333733a101514cd04ba8dbc6bec
                 popperEl.style.display = ''
             })
         }

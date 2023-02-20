@@ -14,25 +14,18 @@
                 <h3>Tootip</h3>
                 <ul>
                     <li>
-                        <xmv-tooltip content="上边" placement="top">
-                            <xmv-button>上</xmv-button>
+                        <xmv-tooltip content="上边" placement="top" :isAlignCenter="true">
+                            <span>上</span>
                         </xmv-tooltip>
                     </li>
-                    <li>
-                        <xmv-tooltip content="下边" placement="bottom">
-                            <xmv-button>下</xmv-button>
-                        </xmv-tooltip>
-                    </li>
+
                     <li>
                         <xmv-tooltip content="左边" placement="left">
                             <xmv-button>左</xmv-button>
                         </xmv-tooltip>
                     </li>
-                    <li>
-                        <xmv-tooltip content="右边" placement="right">
-                            <xmv-button>右</xmv-button>
-                        </xmv-tooltip>
-                    </li>
+
+                    
                 </ul>
                 <h3>Popover</h3>
                 <ul>
@@ -92,5 +85,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-
+    ul li{
+        margin : 30px 0
+    }
 </style>

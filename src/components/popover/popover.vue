@@ -37,18 +37,32 @@ export default defineComponent({
             if (popperEl)
                 return false
             popperEl = document.createElement('div')
+
             addClass(popperEl ,'xmv-popper is-light is-pure')
-            let {left ,top} = getPagePosition(triggerEl ,props.placement)
+
             let cssText = `z-index:2080;position:absolute;display:none;
-                            left:${left}px;top:${top}px;margin:0;right:auto;bottom:auto;`
+                            left:0px;top:0px;margin:0;right:auto;bottom:auto;`
             popperEl.style.cssText = cssText
         }
 
+        const setPosition = ()=>{
+            let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl)
+
+            if (pEl.id != 'el-popper-container'){
+                left = triggerEl.offsetWidth + 5
+                top = triggerEl.offsetTop
+            }
+
+            popperEl.style.left = left + 'px'
+            popperEl.style.top = top + 'px'
+        }
+    
         const handleMouseover = (cbf)=>{
             if (currentEventName == 'mouseover'){
                 return false
             }
             currentEventName = 'mouseover'
+<<<<<<< HEAD
             if (props.needUpdate){
                 let {left ,top} = getPagePosition(triggerEl ,props.placement)
 
@@ -63,6 +77,11 @@ export default defineComponent({
             
             transition.scaleIn(()=>{
                 // popperEl.style.scale = 0
+=======
+            setPosition()   
+            transition.opacityIn(()=>{
+                popperEl.style.opacity = 0
+>>>>>>> 01ac86c22f12d333733a101514cd04ba8dbc6bec
                 popperEl.style.display = ''
             })
         }

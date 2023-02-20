@@ -2,6 +2,8 @@
     box-sizing: border-box;
 }
 
+.xmv-place-span{display: none;}
+
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;
     --xmv-color-success-rgb: 103, 194, 58;

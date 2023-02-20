@@ -37,29 +37,46 @@ export function getHiddenDomWH(el){
 }
 
 // 获取元素位置
-export function getPagePosition(el ,type){
+export function getPagePosition(el ,type ,faceEl){
     let boundCr = el.getBoundingClientRect()
     let docScrollLeft = document.documentElement.scrollLeft
     let docScrollTop = document.documentElement.scrollTop
     let gutter = 5
-    let offsetWidth = el.offsetWidth
-    let offsetHeight = el.offsetHeight
     let offsetTop = boundCr.top + docScrollTop
     let offsetLeft = boundCr.left + docScrollLeft
+
+    let elWidth = el.offsetWidth
+    let elHeight = el.offsetHeight
+
+    let faceElWidth = faceEl.offsetWidth
+    let faceElHeight = faceEl.offsetHeight
+
+    let screenWidth = document.documentElement.offsetWidth
+    let screenHeight = document.documentElement.offsetHeight
+
+    if (type == 'top' && boundCr.top < faceElHeight){
+        type = 'bottom'
+    }else if (type == 'bottom' && (screenHeight - boundCr.bottom) < faceElHeight){
+        type = 'top'
+    }else if (type == 'left' && boundCr.left < faceElWidth){
+        type = 'right'
+    }else if (type == 'right' && (screenWidth - boundCr.right) < faceElWidth){
+        type = 'left'
+    }
 
     switch (type) {
 
         case 'left':
-            return {left : offsetLeft - offsetWidth - gutter ,top : offsetTop}
+            return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop}
 
         case 'right':
-            return {left : offsetLeft + offsetWidth + gutter ,top : offsetTop}
+            return {left : offsetLeft  + gutter +  elWidth ,top : offsetTop}
 
         case 'top':
-            return {left : offsetLeft ,top : offsetTop - offsetHeight - gutter}
+            return {left : offsetLeft ,top : offsetTop - gutter - faceElHeight}
 
         case 'bottom':
-            return {left : offsetLeft ,top : offsetTop + offsetHeight + gutter}
+            return {left : offsetLeft ,top : offsetTop + gutter + elHeight}
 
         case 'center':
             return {left : offsetLeft ,top:offsetTop}
@@ -69,7 +86,21 @@ export function getPagePosition(el ,type){
     }
 }
 
+export function test(){
 
+}
+
+// 元素一，元素二居中对齐
+export function getAlignPosition(el1 ,el2){
+    let el1osw = el1.offsetWidth
+    let el1osh = el1.offsetHeight
+
+    let el2osw = el2.offsetWidth
+    let el2osh = el2.offsetHeight
+
+    return {offsetLeft : (el1osw - el2osw)/2,
+            offsetTop :(el1osh - el2osh)/2}
+}
 
 export function nextFrame (fn) {
     requestAnimationFrame(function () {

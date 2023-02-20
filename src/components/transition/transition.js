@@ -26,7 +26,7 @@ class XmvTransition{
     }
 
     opacityIn(beforeCbf){
-        if (this.animateType == 'opacityIn' || this.isAnimating){
+        if (this.animateType == 'opacityIn' && this.isAnimating){
             return false
         }
         this.animateType = 'opacityIn'
@@ -54,14 +54,18 @@ class XmvTransition{
     }
 
     scaleIn(beforeCbf){
-        if (this.animateType == 'scaleIn'){
+        if (this.animateType == 'scaleIn' && this.isAnimating){
             return false
         }
         this.animateType = 'scaleIn'
+        this.isAnimating = true
         beforeCbf && beforeCbf()
+        const afterCbf = ()=>{
+            this.isAnimating = false
+        }
         clearTimeout(this.animateTimeOutMap['scaleOut'])
         clearTimeout(this.delayRunTimeout)
-        sIn(this.el ,()=>{})
+        sIn(this.el ,afterCbf)
     }
 
     scaleOut(afterCbf){
@@ -74,7 +78,7 @@ class XmvTransition{
         }
         this.delayRunTimeout = setTimeout(()=>{
             this.animateTimeOutMap['scaleOut'] = sOut(this.el ,wrapCbf)
-        },100)
+        },200)
     }
 
     widthCollapse(el ,expandStr ,collapseStr ,cbf){

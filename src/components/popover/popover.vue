@@ -1,10 +1,11 @@
 <template>
+    <span ref="placeSpan" class="xmv-place-span"></span>
     <slot name="trigger"></slot>
     <slot></slot>
 </template>
 
 <script>
-import {defineComponent, getCurrentInstance, onMounted ,render ,watch} from 'vue'
+import {defineComponent, getCurrentInstance, onMounted ,render ,ref} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -22,6 +23,7 @@ export default defineComponent({
         beStripped : true
     },
     setup(props ,{slots ,attrs}) {
+        const placeSpan = ref(null)
         const transition = new XmvTransition()
         var pEl = document.getElementById('el-popper-container')
         var triggerEl
@@ -62,20 +64,10 @@ export default defineComponent({
                 return false
             }
             currentEventName = 'mouseover'
-            if (props.needUpdate){
-                let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl)
 
-                if (pEl.id != 'el-popper-container'){
-                    left = triggerEl.offsetWidth
-                    top = triggerEl.offsetTop
-                }
+            setPosition()
 
-                popperEl.style.left = left + 'px'
-                popperEl.style.top = top + 'px'
-            }
-            
             transition.scaleIn(()=>{
-                // popperEl.style.scale = 0
                 popperEl.style.display = ''
             })
         }
@@ -88,19 +80,16 @@ export default defineComponent({
         }
 
         onMounted(()=>{
-            defaultEl = defaultSlot[0].el
+
+            triggerEl = placeSpan.value.nextElementSibling
+            defaultEl = triggerEl.nextElementSibling
+            placeSpan.value.remove()
 
             if (props.beStripped){
                 pEl = document.getElementById('el-popper-container')
             }else{
                 pEl = defaultEl.parentNode
             }
-
-            triggerSlot = ( slots.trigger) == null ? void 0 : slots.trigger.call(slots, attrs)
-            render(triggerSlot[0], defaultEl.parentNode)
-            triggerEl = triggerSlot[0].el
-
-            defaultEl.parentNode.insertBefore(triggerEl ,defaultEl)
 
             createPopperEl()
             popperEl.appendChild(defaultEl)
@@ -122,20 +111,24 @@ export default defineComponent({
             popperEl.addEventListener('mouseleave' ,()=>{
                 handleMouseleave()
             })
-
-            instance.xmvShow = ()=>{
-                handleMouseover()
-            }
-
-            instance.xmvHide = ()=>{
-                handleMouseleave()
-            }
         })
 
-        return ()=>{
-            defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)
-            return defaultSlot
+        const show = ()=>{
+            handleMouseover()
         }
+
+        const hide = ()=>{
+            handleMouseleave()
+        }
+
+        return {placeSpan ,show ,hide}
+
+        // return ()=>{
+        //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)
+        //     return defaultSlot
+        // }
+
+        
     }
 })
 </script>

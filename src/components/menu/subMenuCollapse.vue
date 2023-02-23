@@ -30,11 +30,11 @@ export default defineComponent({
         const popoverRef = ref(null)
 
         const handleMouseover = (e)=>{
-            popoverRef.value.$.xmvShow()
+            popoverRef.value.show()
         }
 
         const handleMouseleave = (e)=>{
-            popoverRef.value.$.xmvHide()
+            popoverRef.value.hide()
         }
 
         return {

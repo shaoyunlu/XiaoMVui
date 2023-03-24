@@ -126,11 +126,8 @@
     --xmv-svg-monochrome-grey: var(--xmv-border-color);
 }
 
-[class*=" xmv-icon-"], [class^=xmv-icon-] {
+[class*=" xmv-icon"], [class^=xmv-icon] {
     --color: inherit;
-    height: 1em;
-    width: 1em;
-    line-height: 1em;
     display: inline-flex;
     justify-content: center;
     align-items: center;

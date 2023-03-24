@@ -1,10 +1,10 @@
 <template>
-    <xmv-layout mode="l_tr" lWval="300px">
+    <xmv-layout mode="l_tr" lWval="700px">
         <template v-slot:top>
             <div>top</div>
         </template>
         <template v-slot:left>
-            <xmv-menu ref="menuRef"></xmv-menu>
+            <xmv-menu ref="menuRef" :isVertical="false"></xmv-menu>
         </template>
         <template v-slot:right>
             <div>

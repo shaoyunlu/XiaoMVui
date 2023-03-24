@@ -22,7 +22,7 @@ export default defineComponent({
         needUpdate : false,
         beStripped : true
     },
-    setup(props ,{slots ,attrs}) {
+    setup(props ,{slots ,attrs ,emit}) {
         const placeSpan = ref(null)
         const transition = new XmvTransition()
         var pEl = document.getElementById('el-popper-container')
@@ -64,12 +64,11 @@ export default defineComponent({
                 return false
             }
             currentEventName = 'mouseover'
-
             setPosition()
-
             transition.scaleIn(()=>{
                 popperEl.style.display = ''
             })
+            emit('mouseover')
         }
 
         const handleMouseleave = (cbf)=>{
@@ -77,6 +76,7 @@ export default defineComponent({
             transition.scaleOut(()=>{
                 popperEl.style.display = 'none'
             })
+            emit('mouseleave')
         }
 
         onMounted(()=>{

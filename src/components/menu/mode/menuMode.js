@@ -7,7 +7,7 @@ class MenuMode{
     constructor(){
         this.rctMenu = reactive({
             data : [],
-            isCollapse : true
+            isCollapse : false
         })
 
         this.menuElRef = null

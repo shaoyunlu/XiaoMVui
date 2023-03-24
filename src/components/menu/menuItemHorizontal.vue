@@ -1,9 +1,6 @@
 <template>
     <li class="xmv-menu-item" 
         :class="{'is-active':node.active}" @click.stop="handleClick">
-        <i class="xmv-icon" v-if="level == 1">
-            <font-awesome-icon icon="coffee" size="1x" />
-        </i>
         <span>{{node.name}}</span>
     </li>
 </template>

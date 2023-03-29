@@ -6,6 +6,7 @@ import xmvMenuCoreCollapse from 'comps/menu/menuCoreCollapse.vue'
 import xmvMenuCoreHorizontal from 'comps/menu/menuCoreHorizontal.vue'
 import xmvPopover from 'comps/popover/popover.vue'
 import xmvTooltip from 'comps/tooltip/tooltip.vue'
+import xmvScrollbar from 'comps/scrollbar/scrollbar.vue'
 
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
 
@@ -18,6 +19,7 @@ const register = (vue)=>{
     vue.component('xmvMenuCoreHorizontal', xmvMenuCoreHorizontal)
     vue.component('xmvPopover', xmvPopover)
     vue.component('xmvTooltip', xmvTooltip)
+    vue.component('xmvScrollbar', xmvScrollbar)
 
     vue.component('font-awesome-icon' ,FontAwesomeIcon)
     vue.component('font-awesome-layers' ,FontAwesomeLayers)

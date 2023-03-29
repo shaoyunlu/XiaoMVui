@@ -86,10 +86,6 @@ export function getPagePosition(el ,type ,faceEl){
     }
 }
 
-export function test(){
-
-}
-
 // 元素一，元素二居中对齐
 export function getAlignPosition(el1 ,el2){
     let el1osw = el1.offsetWidth
@@ -106,4 +102,18 @@ export function nextFrame (fn) {
     requestAnimationFrame(function () {
         requestAnimationFrame(fn);
   });
+}
+
+// 获取dom矩阵
+export function getDomMartix(el){
+    let transform = el.style.transform
+    if (!transform){
+        return [1,0,0,1,0,0]
+    }
+    let martixStr = transform.substring(7 ,transform.length-1)
+    return martixStr.split(",")
+}
+
+export function setDomMartix(el ,martix){
+    el.style.transform = `matrix(${martix[0]}, ${martix[1]}, ${martix[2]}, ${martix[3]}, ${martix[4]}, ${martix[5]})`
 }

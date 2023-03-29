@@ -1,49 +1,21 @@
 <template>
-    <xmv-layout mode="l_tr" lWval="700px">
-        <template v-slot:top>
-            <div>top</div>
-        </template>
-        <template v-slot:left>
-            <xmv-menu ref="menuRef" :isVertical="false"></xmv-menu>
-        </template>
-        <template v-slot:right>
-            <div>
-                
-                <xmv-button @btnClick="handleCollapse">折叠</xmv-button>
-                <xmv-button @btnClick="handleExpand">展开</xmv-button>
-                <h3>Tootip</h3>
-                <ul>
-                    <li>
-                        <xmv-tooltip content="上边" placement="top" :isAlignCenter="true">
-                            <span>上</span>
-                        </xmv-tooltip>
-                    </li>
-
-                    <li>
-                        <xmv-tooltip content="左边" placement="left">
-                            <xmv-button>左</xmv-button>
-                        </xmv-tooltip>
-                    </li>
-
-                    
-                </ul>
-                <h3>Popover</h3>
-                <ul>
-                    <li>
-                        <!--
-                        <xmv-popover placement="right">
-                            <template #trigger>
-                                <xmv-button>右</xmv-button>
-                            </template>
-                            <xmv-button>右</xmv-button>
-                        </xmv-popover>
-                        -->
-                    </li>
-                </ul>
-                
-            </div>
-        </template>
-    </xmv-layout>
+    <header class="navbar has-sidebar">
+        <xmv-menu ref="horizontalMenuRef" :isVertical="false"></xmv-menu>
+    </header>
+    <div class="sidebar">
+        <xmv-scrollbar>
+            <xmv-menu ref="sideBarMenuRef"></xmv-menu>
+        </xmv-scrollbar>
+    </div>
+    <main id="page-content" class="page-content has-sidebar">
+        <div style="width:200px;height: 300px;background-color: greenyellow;">
+            <xmv-scrollbar>
+                <div style="width:500px">
+                    <p>123a</p>
+                </div>
+            </xmv-scrollbar>
+        </div>
+    </main>
 </template>
 
 <script>
@@ -52,17 +24,18 @@ export default defineComponent({
     name:"",
     setup(props ,context) {
 
-        const handleCollapse = ()=>{
-            menuRef.value.collapse()
-        }
+        const horizontalMenuRef = ref(null)
+        const sideBarMenuRef = ref(null)
 
-        const handleExpand = ()=>{
-            menuRef.value.expand()
-        }
+        // const handleCollapse = ()=>{
+        //     menuRef.value.collapse()
+        // }
 
-        const menuRef = ref(null)
+        // const handleExpand = ()=>{
+        //     menuRef.value.expand()
+        // }
 
-        const menuData = [
+        const horizontalMenuData = [
             {name : '菜单一'},
             {name : '菜单二'},
             {name : '菜单三' ,childNodes : [
@@ -73,12 +46,126 @@ export default defineComponent({
             ]}
         ]
 
+        const sideBarMenuData = [
+            {name : '菜单一'},
+            {name : '菜单二' ,childNodes : [
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+            ]},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单一'},
+            {name : '菜单二'},
+            {name : '菜单二' ,childNodes : [
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+            ]},
+            {name : '菜单二' ,childNodes : [
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+                {name : '菜单二'},
+                {name : '菜单一'},
+            ]},
+            {name : '菜单三' ,childNodes : [
+                {name : '菜单三-1' ,active : true},
+                {name : '菜单三-2',childNodes:[
+                    {name : '菜单三-2-1'}
+                ]}
+            ]}
+        ]
+
         onMounted(()=>{
-            menuRef.value.loadData(menuData)
+            horizontalMenuRef.value.loadData(horizontalMenuData)
+            sideBarMenuRef.value.loadData(sideBarMenuData)
         })
 
         return {
-            menuRef,handleCollapse,handleExpand
+            horizontalMenuRef,sideBarMenuRef
         }
     }
 })

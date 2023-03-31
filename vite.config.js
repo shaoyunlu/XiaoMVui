@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import vue from '@vitejs/plugin-vue'
 import {resolve} from 'path'
+import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
     resolve:{
@@ -13,5 +14,13 @@ export default defineConfig({
                 'demo' : resolve(__dirname ,'src/demo')
               }
     },
-    plugins : [vue()]
+    plugins : [
+                vue(),
+                legacy({
+                    targets : ['firefox 50']
+                })
+              ],
+    // build: {
+    //             sourcemap: true,
+    //         }
 })

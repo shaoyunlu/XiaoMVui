@@ -4,7 +4,7 @@
         <xmv-tooltip :content="node.name" placement="right" v-if="level == 1" :isAlignCenter="true">
             <div class="xmv-menu-tooltip__trigger xmv-tooltip__trigger">
                 <i class="xmv-icon" v-if="level == 1">
-                    <font-awesome-icon icon="coffee" size="1x" />
+                    
                 </i>
             </div>
         </xmv-tooltip>

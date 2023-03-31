@@ -6,7 +6,7 @@
                 <div class="xmv-sub-menu__title">
                     <span>{{node.name}}</span>
                     <i class="xmv-icon xmv-sub-menu__icon-arrow" :class="{'active' : isActive}">
-                        <font-awesome-icon :icon="['fas', 'angle-down']" />
+                        
                     </i>
                 </div>
             </template>

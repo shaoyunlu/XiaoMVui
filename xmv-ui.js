@@ -8,8 +8,6 @@ import xmvPopover from 'comps/popover/popover.vue'
 import xmvTooltip from 'comps/tooltip/tooltip.vue'
 import xmvScrollbar from 'comps/scrollbar/scrollbar.vue'
 
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
-
 const register = (vue)=>{
     vue.component('xmvLayout', xmvLayout)
     vue.component('xmvButton', xmvButton)
@@ -20,10 +18,6 @@ const register = (vue)=>{
     vue.component('xmvPopover', xmvPopover)
     vue.component('xmvTooltip', xmvTooltip)
     vue.component('xmvScrollbar', xmvScrollbar)
-
-    vue.component('font-awesome-icon' ,FontAwesomeIcon)
-    vue.component('font-awesome-layers' ,FontAwesomeLayers)
-    vue.component('font-awesome-layers-text' ,FontAwesomeLayersText)
 }
 
 export default register

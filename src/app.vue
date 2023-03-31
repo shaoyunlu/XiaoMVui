@@ -1,13 +1,18 @@
 <template>
     <header class="navbar has-sidebar">
+        
         <xmv-menu ref="horizontalMenuRef" :isVertical="false"></xmv-menu>
+        
     </header>
     <div class="sidebar">
+        
         <xmv-scrollbar>
             <xmv-menu ref="sideBarMenuRef"></xmv-menu>
         </xmv-scrollbar>
+        
     </div>
     <main id="page-content" class="page-content has-sidebar">
+        
         <div style="width:200px;height: 300px;background-color: greenyellow;">
             <xmv-scrollbar>
                 <div style="width:500px">
@@ -15,6 +20,7 @@
                 </div>
             </xmv-scrollbar>
         </div>
+        
     </main>
 </template>
 
@@ -36,7 +42,7 @@ export default defineComponent({
         // }
 
         const horizontalMenuData = [
-            {name : '菜单一'},
+            {name : '菜单一1'},
             {name : '菜单二'},
             {name : '菜单三' ,childNodes : [
                 {name : '菜单三-1' ,active : true},

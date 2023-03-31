@@ -2,23 +2,29 @@
     <div class="xmv-scrollbar"
         @mouseover="handleMouseover"
         @mouseleave="handleMouseleave" ref="scrollbarRef">
-        <div class="xmv-scrollbar__wrap xmv-scrollbar__wrap--hidden-default" @scroll="hanleScroll" ref="scrollbarWrapRef">
+        <div class="xmv-scrollbar__wrap xmv-scrollbar__wrap--hidden-default"
+            @mousedown="handleWrapMousedown"
+            @mouseup="handleWrapMouseup"
+            @scroll="hanleScroll" 
+            :style="{'margin-right':isFirefox?'-17px':0 ,'margin-bottom':isFirefox?'-17px':0}"
+            ref="scrollbarWrapRef">
             <div class="xmv-scrollbar__view" ref="viewRef" >
                 <slot></slot>
             </div>
         </div>
-        <div class="xmv-scrollbar__bar is-horizontal">
-            <div class="xmv-scrollbar__thumb" ref="horThumbRef" @mousedown="handleMousedown"></div>
+        <div class="xmv-scrollbar__bar is-horizontal" :style="{'opacity':isFirefox?'0':''}">
+            <div class="xmv-scrollbar__thumb" ref="horThumbRef" @mousedown.stop="handleMousedown"></div>
         </div>
         <div class="xmv-scrollbar__bar is-vertical">
-            <div class="xmv-scrollbar__thumb" ref="verThumRef" @mousedown="handleMousedown"></div>
+            <div class="xmv-scrollbar__thumb" ref="verThumRef" @mousedown.stop="handleMousedown"></div>
         </div>
     </div>
 </template>
 
 <script>
-import {defineComponent ,onMounted,ref} from 'vue'
-import {getDomMartix ,setDomMartix} from 'utils/dom'
+import {defineComponent ,nextTick,onMounted,ref} from 'vue'
+import {getDomMartix ,setDomMartix ,removeTextSelected} from 'utils/dom'
+import {isFirefox} from 'utils/dict'
 export default defineComponent({
     name:"xmvScrollbar",
     setup(props ,context) {
@@ -37,6 +43,7 @@ export default defineComponent({
         var mousePageY = null
         var isScrollIng = false
         var isMousedown = false
+        var isWrapMousedown = false
         var verDomMartix
         var horDomMartix
         var sWh
@@ -62,10 +69,22 @@ export default defineComponent({
             if (isScrollIng && isMousedown){
                 return false
             }
+            if (isScrollIng && isWrapMousedown){
+                return false
+            }
             reset()
         }
 
+        const handleWrapMousedown = ()=>{
+            isWrapMousedown = true
+        }
+
+        const handleWrapMouseup = ()=>{
+            isWrapMousedown = false
+        }
+
         const handleMousedown = (e)=>{
+            removeTextSelected()
             isScrollIng = true
             isMousedown = true
             sWh = getWH(scrollbarRef.value)
@@ -176,10 +195,11 @@ export default defineComponent({
             })
 
             observer.observe(viewRef.value) // 观测DOM元素
+
         })
 
-        return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown,
-                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef}
+        return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
+                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isFirefox}
     }
 })
 </script>

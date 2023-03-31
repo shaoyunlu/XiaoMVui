@@ -114,6 +114,12 @@ export function getDomMartix(el){
     return martixStr.split(",")
 }
 
+// 设置dom矩阵
 export function setDomMartix(el ,martix){
     el.style.transform = `matrix(${martix[0]}, ${martix[1]}, ${martix[2]}, ${martix[3]}, ${martix[4]}, ${martix[5]})`
+}
+
+// 取消文字选中
+export function removeTextSelected(){
+    window.getSelection().removeAllRanges()
 }

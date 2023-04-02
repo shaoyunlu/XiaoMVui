@@ -57,6 +57,7 @@ class XmvTransition{
         if (this.animateType == 'scaleIn' && this.isAnimating){
             return false
         }
+        
         this.animateType = 'scaleIn'
         this.isAnimating = true
         beforeCbf && beforeCbf()

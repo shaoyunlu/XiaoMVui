@@ -6,17 +6,19 @@
             @mousedown="handleWrapMousedown"
             @mouseup="handleWrapMouseup"
             @scroll="hanleScroll" 
-            :style="{'margin-right':isFirefox?'-17px':0 ,'margin-bottom':isFirefox?'-17px':0}"
+            :style="{'margin-right':isPolyfill?'-17px':0 ,'margin-bottom':isPolyfill?'-17px':0}"
             ref="scrollbarWrapRef">
             <div class="xmv-scrollbar__view" ref="viewRef" >
                 <slot></slot>
             </div>
         </div>
-        <div class="xmv-scrollbar__bar is-horizontal" :style="{'opacity':isFirefox?'0':''}">
-            <div class="xmv-scrollbar__thumb" ref="horThumbRef" @mousedown.stop="handleMousedown"></div>
+        <div class="xmv-scrollbar__bar is-horizontal" :style="{'opacity':isPolyfill?'0':''}">
+            <div class="xmv-scrollbar__thumb" ref="horThumbRef" 
+            @mousedown.stop="(event) => handleMousedown('hor', event)"></div>
         </div>
         <div class="xmv-scrollbar__bar is-vertical">
-            <div class="xmv-scrollbar__thumb" ref="verThumRef" @mousedown.stop="handleMousedown"></div>
+            <div class="xmv-scrollbar__thumb" ref="verThumRef" 
+            @mousedown.stop="(event) => handleMousedown('ver', event)"></div>
         </div>
     </div>
 </template>
@@ -24,7 +26,8 @@
 <script>
 import {defineComponent ,nextTick,onMounted,ref} from 'vue'
 import {getDomMartix ,setDomMartix ,removeTextSelected} from 'utils/dom'
-import {isFirefox} from 'utils/dict'
+import {isFirefox ,isLowVersionFirefox} from 'utils/dict'
+import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvScrollbar",
     setup(props ,context) {
@@ -34,6 +37,7 @@ export default defineComponent({
         const viewRef = ref(null)
         const horThumbRef = ref(null)
         const verThumRef = ref(null)
+        const isPolyfill = isLowVersionFirefox('64.0.0')
         var parentHorThumbEl
         var parentVerThumEl
         var currentMouseStatus
@@ -48,14 +52,18 @@ export default defineComponent({
         var horDomMartix
         var sWh
         var vWh
+        var currentMouseDown /* 判断横轴动还是纵轴动 */
         
+        
+
         const handleMouseover = ()=>{
             if (currentMouseStatus == 'mouseover'){
                 return false
             }
             currentMouseStatus = 'mouseover'
-            sWh = getWH(scrollbarRef.value)
-            vWh = getWH(viewRef.value)
+            let gutter = __getGutter()
+            sWh = __getWH(scrollbarRef.value)
+            vWh = __getWH(viewRef.value ,gutter)
 
             wRatio = (sWh.w/vWh.sw).toFixed(3)
             hRatio = (sWh.h/vWh.h).toFixed(3)
@@ -83,12 +91,14 @@ export default defineComponent({
             isWrapMousedown = false
         }
 
-        const handleMousedown = (e)=>{
+        const handleMousedown = (type ,e)=>{
+            currentMouseDown = type
             removeTextSelected()
             isScrollIng = true
             isMousedown = true
-            sWh = getWH(scrollbarRef.value)
-            vWh = getWH(viewRef.value)
+            let gutter = __getGutter()
+            sWh = __getWH(scrollbarRef.value)
+            vWh = __getWH(viewRef.value ,gutter)
             wRatio = (sWh.w/vWh.sw).toFixed(3)
             hRatio = (sWh.h/vWh.h).toFixed(3)
             mousePageX = e.pageX
@@ -100,6 +110,7 @@ export default defineComponent({
         }
 
         const handleWindowMousemove = (e)=>{
+            e.preventDefault()
             let {pageX ,pageY} = e
             let ySubtract = pageY - mousePageY
             let xSubtract = pageX - mousePageX
@@ -128,11 +139,13 @@ export default defineComponent({
                 translateX = scrollLeftValue * wRatio
             }
 
-            setDomMartix(verThumRef.value ,[1,0,0,1,0,translateY])
-            scrollbarWrapRef.value.scrollTop = scrollTopValue
-
-            setDomMartix(horThumbRef.value ,[1,0,0,1,translateX,0])
-            scrollbarWrapRef.value.scrollLeft = scrollLeftValue
+            if (currentMouseDown == 'ver'){
+                setDomMartix(verThumRef.value ,[1,0,0,1,0,translateY])
+                scrollbarWrapRef.value.scrollTop = scrollTopValue
+            }else if (currentMouseDown == 'hor'){
+                setDomMartix(horThumbRef.value ,[1,0,0,1,translateX,0])
+                scrollbarWrapRef.value.scrollLeft = scrollLeftValue
+            }
         }
 
         const handleMouseup = ()=>{
@@ -160,6 +173,7 @@ export default defineComponent({
             vWh = null
             parentHorThumbEl.style.display = 'none'
             parentVerThumEl.style.display = 'none'
+            currentMouseDown = ''
         }
 
         const __judgeVisible = ()=>{
@@ -177,29 +191,37 @@ export default defineComponent({
         const __conversion = ()=>{
             let scrollTop = scrollbarWrapRef.value.scrollTop
             let scrollLeft = scrollbarWrapRef.value.scrollLeft
+
             verThumRef.value.style.transform = `matrix(1, 0, 0, 1, 0, ${scrollTop * hRatio})`
             horThumbRef.value.style.transform = `matrix(1, 0, 0, 1, ${scrollLeft * wRatio} ,0)`
+
         }
 
-        const getWH = (el)=>{
-            return {w:el.clientWidth ,h:el.clientHeight ,sw:el.scrollWidth}
+        const __getWH = (el ,gutter = {ver:0,hor:0})=>{
+            return {w:el.clientWidth ,h:el.clientHeight + gutter.ver ,sw:el.scrollWidth}
+        }
+
+        const __getGutter = ()=>{
+            let __gutter = isPolyfill ? 17 : 0
+            let viewBoundInfo = viewRef.value.getBoundingClientRect()
+            let scrollbarInfo = scrollbarRef.value.getBoundingClientRect()
+            return {'ver' : viewBoundInfo.top - scrollbarInfo.top + scrollbarWrapRef.value.scrollTop + __gutter,
+                    'hor' : 0}
         }
 
         onMounted(()=>{
             parentHorThumbEl = horThumbRef.value.parentNode
             parentVerThumEl = verThumRef.value.parentNode
 
-            const observer = new ResizeObserver(()=>{
+            resizeOB(viewRef.value ,()=>{
                 reset()
                 handleMouseover()
             })
 
-            observer.observe(viewRef.value) // 观测DOM元素
-
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
-                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isFirefox}
+                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill}
     }
 })
 </script>

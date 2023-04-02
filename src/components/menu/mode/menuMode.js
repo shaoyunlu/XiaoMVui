@@ -78,7 +78,7 @@ class MenuMode{
 
     onMounted(){
         nextTick(()=>{
-            console.log(this.curSelNode)
+
         })
     }
 

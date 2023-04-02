@@ -10,6 +10,7 @@ import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
     name:"xmvPopover",
+    emits:['mouseover' ,'mouseleave'],
     props:{
         trigger :{
             type : String,

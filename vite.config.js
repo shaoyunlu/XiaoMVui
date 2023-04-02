@@ -17,9 +17,15 @@ export default defineConfig({
     plugins : [
                 vue(),
                 legacy({
-                    targets : ['firefox 50']
+                    targets : ['firefox 44']
                 })
               ],
+    server: {
+                // 配置服务器
+                hmr: {
+                  overlay: false
+                }
+            }
     // build: {
     //             sourcemap: true,
     //         }

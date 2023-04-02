@@ -17,6 +17,15 @@
             <xmv-scrollbar>
                 <div style="width:500px">
                     <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>123a</p>
+                    <p>end</p>
                 </div>
             </xmv-scrollbar>
         </div>
@@ -42,7 +51,7 @@ export default defineComponent({
         // }
 
         const horizontalMenuData = [
-            {name : '菜单一1'},
+            {name : '菜单一11'},
             {name : '菜单二'},
             {name : '菜单三' ,childNodes : [
                 {name : '菜单三-1' ,active : true},

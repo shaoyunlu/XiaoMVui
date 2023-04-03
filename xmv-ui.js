@@ -7,6 +7,8 @@ import xmvMenuCoreHorizontal from 'comps/menu/menuCoreHorizontal.vue'
 import xmvPopover from 'comps/popover/popover.vue'
 import xmvTooltip from 'comps/tooltip/tooltip.vue'
 import xmvScrollbar from 'comps/scrollbar/scrollbar.vue'
+import xmvTable from 'comps/table/table.vue'
+import xmvTableColumn from 'comps/table/tableColumn.vue'
 
 const register = (vue)=>{
     vue.component('xmvLayout', xmvLayout)
@@ -18,6 +20,8 @@ const register = (vue)=>{
     vue.component('xmvPopover', xmvPopover)
     vue.component('xmvTooltip', xmvTooltip)
     vue.component('xmvScrollbar', xmvScrollbar)
+    vue.component('xmvTable', xmvTable)
+    vue.component('xmvTableColumn', xmvTableColumn)
 }
 
 export default register

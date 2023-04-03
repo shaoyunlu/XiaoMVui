@@ -15,7 +15,7 @@
         
         <div style="width:200px;height: 300px;background-color: greenyellow;">
             <xmv-scrollbar>
-                <div style="width:500px">
+                <div style="width:500px;">
                     <p>123a</p>
                     <p>123a</p>
                     <p>123a</p>

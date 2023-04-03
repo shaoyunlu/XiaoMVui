@@ -61,9 +61,9 @@ export default defineComponent({
                 return false
             }
             currentMouseStatus = 'mouseover'
-            let gutter = __getGutter()
+            //let gutter = __getGutter()
             sWh = __getWH(scrollbarRef.value)
-            vWh = __getWH(viewRef.value ,gutter)
+            vWh = __getWH(viewRef.value)
 
             wRatio = (sWh.w/vWh.sw).toFixed(3)
             hRatio = (sWh.h/vWh.h).toFixed(3)
@@ -96,9 +96,9 @@ export default defineComponent({
             removeTextSelected()
             isScrollIng = true
             isMousedown = true
-            let gutter = __getGutter()
+            //let gutter = __getGutter()
             sWh = __getWH(scrollbarRef.value)
-            vWh = __getWH(viewRef.value ,gutter)
+            vWh = __getWH(viewRef.value)
             wRatio = (sWh.w/vWh.sw).toFixed(3)
             hRatio = (sWh.h/vWh.h).toFixed(3)
             mousePageX = e.pageX
@@ -217,7 +217,6 @@ export default defineComponent({
                 reset()
                 handleMouseover()
             })
-
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,

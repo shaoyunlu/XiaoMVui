@@ -13,23 +13,10 @@
     </div>
     <main id="page-content" class="page-content has-sidebar">
         
-        <div style="width:200px;height: 300px;background-color: greenyellow;">
-            <xmv-scrollbar>
-                <div style="width:500px;">
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>123a</p>
-                    <p>end</p>
-                </div>
-            </xmv-scrollbar>
+        <div style="width:600px">
+            <xmv-table ref="tableRef" :header="tableHeader"></xmv-table>
         </div>
-        
+
     </main>
 </template>
 
@@ -94,13 +81,20 @@ export default defineComponent({
             ]}
         ]
 
+        const tableRef = ref(null)
+        const tableHeader = [
+            {name : '序列一' ,width:100},
+            {name : '序列二' ,width:200},
+            {name : '序列三' ,width:500}
+        ]
+
         onMounted(()=>{
             horizontalMenuRef.value.loadData(horizontalMenuData)
             sideBarMenuRef.value.loadData(sideBarMenuData)
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef
+            horizontalMenuRef,sideBarMenuRef,tableRef,tableHeader
         }
     }
 })

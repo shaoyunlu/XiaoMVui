@@ -4,12 +4,6 @@ import {collapse as wCollapse ,expand as wExpand} from 'comps/transition/widthCo
 import {collapse as hCollapse ,expand as hExpand} from 'comps/transition/heightCollapseExpand'
 import {scaleIn as sIn ,scaleOut as sOut} from 'comps/transition/scaleInOut'
 
-class LinkNode{
-    constructor(promise ,next){
-        this.promise = promise
-        this.next = next
-    }
-}
 
 class XmvTransition{
 

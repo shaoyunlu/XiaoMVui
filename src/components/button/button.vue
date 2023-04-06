@@ -10,11 +10,11 @@
 import {defineComponent} from 'vue'
 export default defineComponent({
     name:"xmvButton",
-    emits:['btnClick'],
+    emits:['click'],
     setup(props ,context) {
 
         const handleClick = ()=>{
-            context.emit('btnClick')
+            context.emit('click')
         }
 
         return {

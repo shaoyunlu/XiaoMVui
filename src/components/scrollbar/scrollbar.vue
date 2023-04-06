@@ -12,7 +12,7 @@
                 <slot></slot>
             </div>
         </div>
-        <div class="xmv-scrollbar__bar is-horizontal" :style="{'opacity':isPolyfill?'0':''}">
+        <div class="xmv-scrollbar__bar is-horizontal" :style="{'opacity':isPolyfill?'0':'' ,'height':isPolyfill?'0':''}">
             <div class="xmv-scrollbar__thumb" ref="horThumbRef" 
             @mousedown.stop="(event) => handleMousedown('hor', event)"></div>
         </div>
@@ -30,6 +30,7 @@ import {isFirefox ,isLowVersionFirefox} from 'utils/dict'
 import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvScrollbar",
+    emits:['scroll'],
     setup(props ,context) {
         
         const scrollbarRef = ref(null)
@@ -55,8 +56,6 @@ export default defineComponent({
         var vWh
         var currentMouseDown /* 判断横轴动还是纵轴动 */
         
-        
-
         const handleMouseover = ()=>{
             if (currentMouseStatus == 'mouseover'){
                 return false
@@ -163,6 +162,8 @@ export default defineComponent({
         const hanleScroll = ()=>{
             isScrollIng = true
             __conversion()
+            context.emit('scroll' ,{'hor' : scrollbarWrapRef.value.scrollLeft})
+
         }
 
         const reset = ()=>{

@@ -12,11 +12,21 @@
         
     </div>
     <main id="page-content" class="page-content has-sidebar">
-        
-        <div style="width:600px;height: 300px;">
-            <xmv-table ref="tableRef" :header="tableHeader"></xmv-table>
+        <div style="display: flex;">
+            <div style="flex:1;overflow: hidden;">
+                <xmv-table ref="tableRef" height="300">
+                    <xmv-table-column prop="name" label="姓名" width="400">
+                        <template>
+                            <xmv-button>点击1</xmv-button>
+                            <xmv-button>点击2</xmv-button>
+                        </template>
+                    </xmv-table-column>
+                    <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
+                    <xmv-table-column prop="height" label="身高" width="200"></xmv-table-column>
+                </xmv-table>
+            </div>
+            <div style="flex:1"></div>
         </div>
-
     </main>
 </template>
 

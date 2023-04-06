@@ -13,7 +13,7 @@
     </div>
     <main id="page-content" class="page-content has-sidebar">
         
-        <div style="width:600px">
+        <div style="width:600px;height: 300px;">
             <xmv-table ref="tableRef" :header="tableHeader"></xmv-table>
         </div>
 
@@ -83,14 +83,28 @@ export default defineComponent({
 
         const tableRef = ref(null)
         const tableHeader = [
-            {name : '序列一' ,width:100},
-            {name : '序列二' ,width:200},
-            {name : '序列三' ,width:500}
+            {name : '姓名' ,width:100 ,key : 'name'},
+            {name : '年龄' ,width:200 ,key : 'age'},
+            {name : '身高' ,width:300 ,key : 'height'}
+        ]
+
+        const tableData = [
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '李四' ,age : '21' ,height : '181'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '李四' ,age : '21' ,height : '181'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '李四' ,age : '21' ,height : '181'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '李四' ,age : '21' ,height : '181'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '李四' ,age : '21' ,height : '181'}
         ]
 
         onMounted(()=>{
             horizontalMenuRef.value.loadData(horizontalMenuData)
             sideBarMenuRef.value.loadData(sideBarMenuData)
+            tableRef.value.loadData(tableData)
         })
 
         return {

@@ -10,7 +10,7 @@
                     <thead class>
                         <tr class>
                             <th v-for="head in tableMode.rctData.header"
-                                class="">
+                                class="xmv-table__cell">
                                 <div class="cell">
                                     {{head.name}}
                                 </div>
@@ -19,7 +19,24 @@
                     </thead>
                 </table>
             </div>
-            <div class="xmv-table__body-wrapper"></div>
+            <div class="xmv-table__body-wrapper">
+                <xmv-scrollbar>
+                    <table class="xmv-table__body" cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col v-for="head in tableMode.rctData.header" :width="head.width">
+                    </colgroup>
+                    <tbody>
+                        <tr v-for="trData in tableMode.rctData.data" class="xmv-table__row">
+                            <td v-for="head in tableMode.rctData.header" class="xmv-table__cell">
+                                <div class="cell">
+                                    {{trData[head.key]}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </xmv-scrollbar>
+            </div>
         </div>
         <div class="xmv-table__column-resize-proxy"></div>
     </div>

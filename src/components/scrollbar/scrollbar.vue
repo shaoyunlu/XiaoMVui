@@ -6,7 +6,7 @@
             @mousedown="handleWrapMousedown"
             @mouseup="handleWrapMouseup"
             @scroll="hanleScroll" 
-            :style="{'margin-right':isPolyfill?'-17px':0 ,'margin-bottom':isPolyfill?'-17px':0}"
+            :style="{'margin-right':isMargin?'-17px':0 ,'margin-bottom':isMargin?'-17px':0}"
             ref="scrollbarWrapRef">
             <div class="xmv-scrollbar__view" ref="viewRef" >
                 <slot></slot>
@@ -38,6 +38,7 @@ export default defineComponent({
         const horThumbRef = ref(null)
         const verThumRef = ref(null)
         const isPolyfill = isLowVersionFirefox('64.0.0')
+        const isMargin = ref(false)
         var parentHorThumbEl
         var parentVerThumEl
         var currentMouseStatus
@@ -59,6 +60,10 @@ export default defineComponent({
         const handleMouseover = ()=>{
             if (currentMouseStatus == 'mouseover'){
                 return false
+            }
+            if (isPolyfill){
+                let res = viewRef.value.scrollHeight - scrollbarRef.value.clientHeight
+                isMargin.value = (res != 17 && res != 0)
             }
             currentMouseStatus = 'mouseover'
             //let gutter = __getGutter()
@@ -201,14 +206,6 @@ export default defineComponent({
             return {w:el.clientWidth ,h:el.clientHeight + gutter.ver ,sw:el.scrollWidth}
         }
 
-        const __getGutter = ()=>{
-            let __gutter = isPolyfill ? 17 : 0
-            let viewBoundInfo = viewRef.value.getBoundingClientRect()
-            let scrollbarInfo = scrollbarRef.value.getBoundingClientRect()
-            return {'ver' : viewBoundInfo.top - scrollbarInfo.top + scrollbarWrapRef.value.scrollTop + __gutter,
-                    'hor' : 0}
-        }
-
         onMounted(()=>{
             parentHorThumbEl = horThumbRef.value.parentNode
             parentVerThumEl = verThumRef.value.parentNode
@@ -220,7 +217,7 @@ export default defineComponent({
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
-                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill}
+                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill ,isMargin}
     }
 })
 </script>

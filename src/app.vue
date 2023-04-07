@@ -22,10 +22,9 @@
                         </template>
                     </xmv-table-column>
                     <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
-                    <xmv-table-column prop="height" label="身高" width="200"></xmv-table-column>
+                    <xmv-table-column prop="height" label="身高"></xmv-table-column>
                 </xmv-table>
             </div>
-            <div style="flex:1"></div>
         </div>
     </main>
 </template>

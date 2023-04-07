@@ -18,11 +18,16 @@ export default defineComponent({
         }
 
         return ()=>{
+            let renderSlot = []
             let defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots)
             if (defaultSlot){
-
+                defaultSlot[0].children.forEach((__slot)=>{
+                    renderSlot.push(h(__slot ,{onClick : handleClick}))
+                })
                 return h('td', { class: 'xmv-table__cell' }, [
-                            h('div', { class: 'cell' } ,[h(defaultSlot[0].children[0] ,{onClick : handleClick})])
+                            h('div', { class: 'cell' } ,
+                                renderSlot
+                            )
                         ]);
             }else{
                 return h('td', { class: 'xmv-table__cell' }, [

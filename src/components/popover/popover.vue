@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {defineComponent, getCurrentInstance, onMounted ,render ,ref} from 'vue'
+import {defineComponent,  onMounted ,ref} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -29,12 +29,8 @@ export default defineComponent({
         var pEl = document.getElementById('el-popper-container')
         var triggerEl
         var popperEl
-        var defaultSlot
         var defaultEl
-        var triggerSlot
         var currentEventName
-        
-        const instance = getCurrentInstance()
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -53,7 +49,7 @@ export default defineComponent({
 
             if (pEl.id != 'el-popper-container'){
                 left = triggerEl.offsetWidth + 5
-                top = triggerEl.offsetTop
+                top = triggerEl.offsetTop - 1
             }
 
             popperEl.style.left = left + 'px'

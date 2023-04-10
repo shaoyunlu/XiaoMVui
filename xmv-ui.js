@@ -9,6 +9,7 @@ import xmvTooltip from 'comps/tooltip/tooltip.vue'
 import xmvScrollbar from 'comps/scrollbar/scrollbar.vue'
 import xmvTable from 'comps/table/table.vue'
 import xmvTableColumn from 'comps/table/tableColumn.vue'
+import xmvIcon from 'comps/icon/icon.vue'
 
 const register = (vue)=>{
     vue.component('xmvLayout', xmvLayout)
@@ -22,6 +23,7 @@ const register = (vue)=>{
     vue.component('xmvScrollbar', xmvScrollbar)
     vue.component('xmvTable', xmvTable)
     vue.component('xmvTableColumn', xmvTableColumn)
+    vue.component('xmvIcon', xmvIcon)
 }
 
 export default register

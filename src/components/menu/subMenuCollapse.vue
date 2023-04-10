@@ -3,7 +3,7 @@
         <xmv-popover :beStripped="level == 1?true:false"  ref="popoverRef" :needUpdate=true>
             <template #trigger>
                 <div class="xmv-sub-menu__title">
-                    <i class="xmv-icon-code" v-if="level == 1"></i>
+                    <xmv-icon v-if="level == 1" name="plus"></xmv-icon>
                     <span>{{node.name}}</span>
                 </div>
             </template>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, nextTick, onMounted, ref ,watch} from 'vue'
+import {defineComponent, inject, ref} from 'vue'
 export default defineComponent({
     name:"",
     props:{

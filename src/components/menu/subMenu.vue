@@ -1,8 +1,9 @@
 <template>
     <li class="xmv-sub-menu" @click.stop="handleClick">
         <div class="xmv-sub-menu__title">
-            <i class="xmv-icon-code" v-if="level == 1"></i>
+            <xmv-icon v-if="level == 1" name="plus"></xmv-icon>
             <span>{{node.name}}</span>
+            <xmv-icon name="arrowRight" class="xmv-sub-menu__icon-arrow" :class="{'active' : node.isExpand}"></xmv-icon>
         </div>
 
         <ul class="xmv-menu" v-show="node.childNodesVisible" ref="subXmvMenuRef" 

@@ -1,9 +1,7 @@
 <template>
     <li class="xmv-menu-item" 
         :class="{'is-active':node.active}" @click.stop="handleClick">
-        <i class="xmv-icon" v-if="level == 1">
-            
-        </i>
+        <xmv-icon name="plus" v-if="level == 1"></xmv-icon>
         <span>{{node.name}}</span>
     </li>
 </template>

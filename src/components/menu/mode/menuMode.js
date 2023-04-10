@@ -74,6 +74,8 @@ class MenuMode{
         }else{
             this.transition.heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
         }
+
+        node.isExpand = !node.isExpand
     }
 
     onMounted(){

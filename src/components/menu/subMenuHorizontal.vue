@@ -5,16 +5,16 @@
             <template #trigger>
                 <div class="xmv-sub-menu__title">
                     <span>{{node.name}}</span>
-                    <i class="xmv-icon xmv-sub-menu__icon-arrow" :class="{'active' : isActive}">
-                        
-                    </i>
+                    <xmv-icon class="xmv-sub-menu__icon-arrow" 
+                            :class="{'active' : isActive}" name="arrowRight"></xmv-icon>
                 </div>
             </template>
 
-            <ul class="xmv-menu"  ref="subXmvMenuRef"
+            <ul class="xmv-menu xmv-menu-popop"  ref="subXmvMenuRef"
                 :style="{'--xmv-menu-level':level}">
                 <xmv-menu-core-horizontal v-for="child in node.childNodes" :node="child"></xmv-menu-core-horizontal>
             </ul>
+
         </xmv-popover>
     </li>
 </template>

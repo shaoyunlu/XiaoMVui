@@ -26,6 +26,18 @@
                 </xmv-table>
             </div>
         </div>
+        <span><xmv-icon name="plus"></xmv-icon></span>
+        <span><xmv-icon name="minus"></xmv-icon></span>
+        <span><xmv-icon name="search"></xmv-icon></span>
+        <span><xmv-icon name="close"></xmv-icon></span>
+        <span><xmv-icon name="arrowRight"></xmv-icon></span>
+        <span><xmv-icon name="loading"></xmv-icon></span>
+        <span><xmv-icon name="check"></xmv-icon></span>
+        <span><xmv-icon name="edit"></xmv-icon></span>
+        <span><xmv-icon name="dlt"></xmv-icon></span>
+        <span><xmv-icon name="sort"></xmv-icon></span>
+        <span><xmv-icon name="setting"></xmv-icon></span>
+        <span><xmv-icon name="refresh"></xmv-icon></span>
     </main>
 </template>
 
@@ -47,45 +59,45 @@ export default defineComponent({
         // }
 
         const horizontalMenuData = [
-            {name : '菜单一11'},
+            {name : '菜单一'},
             {name : '菜单二'},
             {name : '菜单三' ,childNodes : [
-                {name : '菜单三-1' ,active : true},
-                {name : '菜单三-2',childNodes:[
-                    {name : '菜单三-2-1'}
+                {name : '菜单三-一' ,active : true},
+                {name : '菜单三-二',childNodes:[
+                    {name : '菜单三-二-一'}
                 ]}
             ]}
         ]
 
         const sideBarMenuData = [
-            {name : '菜单一'},
-            {name : '菜单二' ,childNodes : [
-                {name : '菜单一'},
-                {name : '菜单二'},
-                {name : '菜单二'},
-                {name : '菜单一'},
+            {name : '菜单1'},
+            {name : '菜单2' ,childNodes : [
+                {name : '菜单2-1'},
+                {name : '菜单2-2'},
+                {name : '菜单2-3'},
+                {name : '菜单2-4'},
             ]},
-            {name : '菜单一'},
-            {name : '菜单二'},
-            {name : '菜单二'},
-            {name : '菜单二' ,childNodes : [
-                {name : '菜单一'},
-                {name : '菜单二'},
-                {name : '菜单二'},
-                {name : '菜单一'},
+            {name : '菜单3'},
+            {name : '菜单4'},
+            {name : '菜单5'},
+            {name : '菜单6' ,childNodes : [
+                {name : '菜单6-1'},
+                {name : '菜单6-2'},
+                {name : '菜单6-3'},
+                {name : '菜单6-4'},
             ]},
-            {name : '菜单二' ,childNodes : [
-                {name : '菜单一'},
-                {name : '菜单二'},
-                {name : '菜单一'},
-                {name : '菜单一'},
-                {name : '菜单二'},
-                {name : '菜单一'},
+            {name : '菜单7' ,childNodes : [
+                {name : '菜单7-1'},
+                {name : '菜单7-2'},
+                {name : '菜单7-3'},
+                {name : '菜单7-4'},
+                {name : '菜单7-6'},
+                {name : '菜单7-7'},
             ]},
-            {name : '菜单三' ,childNodes : [
-                {name : '菜单三-1' ,active : true},
-                {name : '菜单三-2',childNodes:[
-                    {name : '菜单三-2-1'}
+            {name : '菜单8' ,childNodes : [
+                {name : '菜单8-1' ,active : true},
+                {name : '菜单8-2',childNodes:[
+                    {name : '菜单8-2-1'}
                 ]}
             ]}
         ]

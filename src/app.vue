@@ -1,15 +1,13 @@
 <template>
-    <header class="navbar has-sidebar">
-        
+    <header class="navbar has-sidebar">  
         <xmv-menu ref="horizontalMenuRef" :isVertical="false"></xmv-menu>
-        
     </header>
     <div class="sidebar">
-        
-        <xmv-scrollbar>
+        <xmv-scrollbar :explicit="true">
             <xmv-menu ref="sideBarMenuRef"></xmv-menu>
         </xmv-scrollbar>
-        
+
+
     </div>
     <main id="page-content" class="page-content has-sidebar">
         <div style="display: flex;">
@@ -22,7 +20,7 @@
                         </template>
                     </xmv-table-column>
                     <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
-                    <xmv-table-column prop="height" label="身高"></xmv-table-column>
+                    <xmv-table-column prop="height" label="身高" width="800"></xmv-table-column>
                 </xmv-table>
             </div>
         </div>

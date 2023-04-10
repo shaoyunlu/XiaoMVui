@@ -30,6 +30,9 @@ import {isFirefox ,isLowVersionFirefox} from 'utils/dict'
 import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvScrollbar",
+    props:{
+        explicit : {type:Boolean ,default:false}
+    },
     emits:['scroll'],
     setup(props ,context) {
         
@@ -163,7 +166,6 @@ export default defineComponent({
             isScrollIng = true
             __conversion()
             context.emit('scroll' ,{'hor' : scrollbarWrapRef.value.scrollLeft})
-
         }
 
         const reset = ()=>{
@@ -215,6 +217,10 @@ export default defineComponent({
                 reset()
                 handleMouseover()
             })
+
+            if (props.explicit){
+                viewRef.value.style.width = scrollbarRef.value.scrollWidth + 'px'
+            }
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,

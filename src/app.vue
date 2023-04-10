@@ -103,11 +103,6 @@ export default defineComponent({
         ]
 
         const tableRef = ref(null)
-        const tableHeader = [
-            {name : '姓名' ,width:100 ,key : 'name'},
-            {name : '年龄' ,width:200 ,key : 'age'},
-            {name : '身高' ,width:300 ,key : 'height'}
-        ]
 
         const tableData = [
             {name : '张三' ,age : '20' ,height : '180'},
@@ -129,7 +124,7 @@ export default defineComponent({
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef,tableHeader
+            horizontalMenuRef,sideBarMenuRef,tableRef
         }
     }
 })

@@ -24,18 +24,42 @@
                 </xmv-table>
             </div>
         </div>
-        <span><xmv-icon name="plus"></xmv-icon></span>
-        <span><xmv-icon name="minus"></xmv-icon></span>
-        <span><xmv-icon name="search"></xmv-icon></span>
-        <span><xmv-icon name="close"></xmv-icon></span>
-        <span><xmv-icon name="arrowRight"></xmv-icon></span>
-        <span><xmv-icon name="loading"></xmv-icon></span>
-        <span><xmv-icon name="check"></xmv-icon></span>
-        <span><xmv-icon name="edit"></xmv-icon></span>
-        <span><xmv-icon name="dlt"></xmv-icon></span>
-        <span><xmv-icon name="sort"></xmv-icon></span>
-        <span><xmv-icon name="setting"></xmv-icon></span>
-        <span><xmv-icon name="refresh"></xmv-icon></span>
+        <div>
+            <span><xmv-icon name="plus"></xmv-icon></span>
+            <span><xmv-icon name="minus"></xmv-icon></span>
+            <span><xmv-icon name="search"></xmv-icon></span>
+            <span><xmv-icon name="close"></xmv-icon></span>
+            <span><xmv-icon name="arrowRight"></xmv-icon></span>
+            <span><xmv-icon name="loading"></xmv-icon></span>
+            <span><xmv-icon name="check"></xmv-icon></span>
+            <span><xmv-icon name="edit"></xmv-icon></span>
+            <span><xmv-icon name="dlt"></xmv-icon></span>
+            <span><xmv-icon name="sort"></xmv-icon></span>
+            <span><xmv-icon name="setting"></xmv-icon></span>
+            <span><xmv-icon name="refresh"></xmv-icon></span>
+        </div>
+        <xmv-row :gutter="20" justify="center">
+            <xmv-col :span="6">
+                col
+            </xmv-col>
+            <xmv-col :span="6">
+                col
+            </xmv-col>
+            <xmv-col :span="6">
+                col
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-button>点击</xmv-button>
+        <xmv-button type="primary">primary</xmv-button>
+        <xmv-button plain>点击</xmv-button>
+        <xmv-button type="primary" plain>点击</xmv-button>
+        <xmv-button round>点击</xmv-button>
+        <xmv-button type="primary" round>点击</xmv-button>
+        <xmv-button circle icon="search"></xmv-button>
+        <xmv-button circle icon="dlt"></xmv-button>
+        <xmv-button circle icon="edit"></xmv-button>
+        <xmv-button circle icon="plus"></xmv-button>
     </main>
 </template>
 

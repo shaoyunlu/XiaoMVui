@@ -9,7 +9,7 @@ import {defineComponent ,computed, inject} from 'vue'
 export default defineComponent({
     name:"xmvCol",
     props:{
-        span : Number,
+        span : {type : Number ,default : 24},
         offset : Number
     },
     setup(props ,context) {

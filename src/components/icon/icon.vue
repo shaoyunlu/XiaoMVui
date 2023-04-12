@@ -18,9 +18,13 @@ import dlt from './category/delete.vue'
 import sort from './category/sort.vue'
 import setting from './category/setting.vue'
 import refresh from './category/refresh.vue'
+import circleClose from './category/circleClose.vue'
+import vew from './category/view.vue'
+import hide from './category/hide.vue'
 export default defineComponent({
     name:"xmvIcon",
-    components:{plus ,minus ,search ,close ,arrowRight ,loading ,check ,edit ,dlt ,sort ,setting ,refresh},
+    components:{plus ,minus ,search ,close ,arrowRight ,loading ,check ,
+                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide},
     props:{
         name : ''
     },

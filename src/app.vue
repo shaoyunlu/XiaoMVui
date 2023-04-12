@@ -10,8 +10,8 @@
 
     </div>
     <main id="page-content" class="page-content has-sidebar">
-        <div style="display: flex;">
-            <div style="flex:1;overflow: hidden;">
+        <xmv-row>
+            <xmv-col>
                 <xmv-table ref="tableRef" height="300">
                     <xmv-table-column prop="name" label="姓名" width="400">
                         <template>
@@ -22,44 +22,48 @@
                     <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
                     <xmv-table-column prop="height" label="身高" width="800"></xmv-table-column>
                 </xmv-table>
-            </div>
-        </div>
-        <div>
-            <span><xmv-icon name="plus"></xmv-icon></span>
-            <span><xmv-icon name="minus"></xmv-icon></span>
-            <span><xmv-icon name="search"></xmv-icon></span>
-            <span><xmv-icon name="close"></xmv-icon></span>
-            <span><xmv-icon name="arrowRight"></xmv-icon></span>
-            <span><xmv-icon name="loading"></xmv-icon></span>
-            <span><xmv-icon name="check"></xmv-icon></span>
-            <span><xmv-icon name="edit"></xmv-icon></span>
-            <span><xmv-icon name="dlt"></xmv-icon></span>
-            <span><xmv-icon name="sort"></xmv-icon></span>
-            <span><xmv-icon name="setting"></xmv-icon></span>
-            <span><xmv-icon name="refresh"></xmv-icon></span>
-        </div>
-        <xmv-row :gutter="20" justify="center">
-            <xmv-col :span="6">
-                col
-            </xmv-col>
-            <xmv-col :span="6">
-                col
-            </xmv-col>
-            <xmv-col :span="6">
-                col
             </xmv-col>
         </xmv-row>
 
-        <xmv-button>点击</xmv-button>
-        <xmv-button type="primary">primary</xmv-button>
-        <xmv-button plain>点击</xmv-button>
-        <xmv-button type="primary" plain>点击</xmv-button>
-        <xmv-button round>点击</xmv-button>
-        <xmv-button type="primary" round>点击</xmv-button>
-        <xmv-button circle icon="search"></xmv-button>
-        <xmv-button circle icon="dlt"></xmv-button>
-        <xmv-button circle icon="edit"></xmv-button>
-        <xmv-button circle icon="plus"></xmv-button>
+        <xmv-row>
+            <xmv-col>
+                <xmv-button>点击</xmv-button>
+                <xmv-button type="primary">primary</xmv-button>
+                <xmv-button plain>点击</xmv-button>
+                <xmv-button type="primary" plain>点击</xmv-button>
+                <xmv-button round>点击</xmv-button>
+                <xmv-button type="primary" round>点击</xmv-button>
+                <xmv-button circle icon="search"></xmv-button>
+                <xmv-button circle icon="dlt"></xmv-button>
+                <xmv-button circle icon="edit"></xmv-button>
+                <xmv-button circle icon="plus"></xmv-button>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="12">
+                <xmv-input></xmv-input>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="12">
+                <xmv-input disabled></xmv-input>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="12">
+                <xmv-input type="password" showpassword clearable></xmv-input>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="12">
+                <xmv-input clearable></xmv-input>
+            </xmv-col>
+        </xmv-row>
+        
     </main>
 </template>
 
@@ -127,16 +131,7 @@ export default defineComponent({
         const tableRef = ref(null)
 
         const tableData = [
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '李四' ,age : '21' ,height : '181'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '李四' ,age : '21' ,height : '181'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '李四' ,age : '21' ,height : '181'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '李四' ,age : '21' ,height : '181'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '李四' ,age : '21' ,height : '181'}
+            {name : '张三' ,age : '20' ,height : '180'}
         ]
 
         onMounted(()=>{

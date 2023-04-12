@@ -12,6 +12,7 @@ import xmvTableColumn from 'comps/table/tableColumn.vue'
 import xmvIcon from 'comps/icon/icon.vue'
 import xmvRow from 'comps/rowcol/row.vue'
 import xmvCol from 'comps/rowcol/col.vue'
+import xmvInput from 'comps/input/input.vue'
 
 const register = (vue)=>{
     vue.component('xmvLayout', xmvLayout)
@@ -28,6 +29,7 @@ const register = (vue)=>{
     vue.component('xmvIcon', xmvIcon)
     vue.component('xmvRow', xmvRow)
     vue.component('xmvCol', xmvCol)
+    vue.component('xmvInput', xmvInput)
 }
 
 export default register

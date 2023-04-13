@@ -10,7 +10,7 @@ import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
     name:"xmvPopover",
-    emits:['mouseover' ,'mouseleave'],
+    emits:['mouseover' ,'mouseleave' ,'mouseclick'],
     props:{
         trigger :{
             type : String,
@@ -21,16 +21,17 @@ export default defineComponent({
             default : 'right'
         },
         needUpdate : false,
-        beStripped : true
+        beStripped : {type : Boolean ,default : true},
     },
     setup(props ,{slots ,attrs ,emit}) {
         const placeSpan = ref(null)
-        const transition = new XmvTransition()
+        const transition = new XmvTransition({})
         var pEl = document.getElementById('el-popper-container')
         var triggerEl
         var popperEl
         var defaultEl
         var currentEventName
+        var isShow = false
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -45,7 +46,8 @@ export default defineComponent({
         }
 
         const setPosition = ()=>{
-            let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl)
+            let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl)
+            transition.placement = type
 
             if (pEl.id != 'el-popper-container'){
                 left = triggerEl.offsetWidth + 5
@@ -76,6 +78,16 @@ export default defineComponent({
             emit('mouseleave')
         }
 
+        const handleMouseclick = ()=>{
+            if (isShow){
+                isShow = false
+                handleMouseleave()
+            }else{
+                isShow = true
+                handleMouseover()
+            }
+        }
+
         onMounted(()=>{
 
             triggerEl = placeSpan.value.nextElementSibling
@@ -94,20 +106,26 @@ export default defineComponent({
 
             transition.setEl(popperEl)
 
-            triggerEl.addEventListener('mouseover' ,()=>{
-                handleMouseover()
-            })
-            triggerEl.addEventListener('mouseleave' ,()=>{
-                handleMouseleave()
-            })
+            if (props.trigger == 'click'){
+                triggerEl.addEventListener('click' ,()=>{
+                    handleMouseclick()
+                })
+            }else{
+                triggerEl.addEventListener('mouseover' ,()=>{
+                    handleMouseover()
+                })
+                triggerEl.addEventListener('mouseleave' ,()=>{
+                    handleMouseleave()
+                })
 
-            popperEl.addEventListener('mouseover' ,()=>{
-                handleMouseover()
-            })
+                popperEl.addEventListener('mouseover' ,()=>{
+                    handleMouseover()
+                })
 
-            popperEl.addEventListener('mouseleave' ,()=>{
-                handleMouseleave()
-            })
+                popperEl.addEventListener('mouseleave' ,()=>{
+                    handleMouseleave()
+                })
+            }
         })
 
         const show = ()=>{

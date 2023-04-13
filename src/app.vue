@@ -6,8 +6,6 @@
         <xmv-scrollbar :explicit="true">
             <xmv-menu ref="sideBarMenuRef"></xmv-menu>
         </xmv-scrollbar>
-
-
     </div>
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
@@ -41,28 +39,91 @@
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="12">
-                <xmv-input></xmv-input>
+            <xmv-col :span="3">
+                <xmv-popover placement="bottom">
+                    <template #trigger>
+                        <xmv-button>点击</xmv-button>
+                    </template>
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </xmv-popover>
+            </xmv-col>
+            <xmv-col :span="3" :offset="1">
+                <xmv-popover placement="top">
+                    <template #trigger>
+                        <xmv-button>点击</xmv-button>
+                    </template>
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </xmv-popover>
+            </xmv-col>
+            <xmv-col :span="3" :offset="1">
+                <xmv-popover placement="right">
+                    <template #trigger>
+                        <xmv-button>点击</xmv-button>
+                    </template>
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </xmv-popover>
+            </xmv-col>
+            <xmv-col :span="3" :offset="1">
+                <xmv-popover placement="left">
+                    <template #trigger>
+                        <xmv-button>点击</xmv-button>
+                    </template>
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </xmv-popover>
             </xmv-col>
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="12">
+            <xmv-col :span="6">
+                <xmv-tooltip content="测试">
+                    <span>查看</span>
+                </xmv-tooltip>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="6">
+                <xmv-input size="large"></xmv-input>
+            </xmv-col>
+            <xmv-col :span="6" :offset="6">
                 <xmv-input disabled></xmv-input>
             </xmv-col>
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="12">
+            <xmv-col :span="6">
                 <xmv-input type="password" showpassword clearable></xmv-input>
+            </xmv-col>
+            <xmv-col :span="6" :offset="6">
+                <xmv-input clearable></xmv-input>
             </xmv-col>
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="12">
-                <xmv-input clearable></xmv-input>
+            <xmv-col :span="6">
+                <xmv-input prefixicon="search"></xmv-input>
+            </xmv-col>
+            <xmv-col :span="6" :offset="6">
+                <xmv-input prefixicon="calendar"></xmv-input>
             </xmv-col>
         </xmv-row>
+
         
     </main>
 </template>

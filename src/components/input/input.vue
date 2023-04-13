@@ -1,19 +1,20 @@
 <template>
-    <div class="xmv-input" :class="{'is-disabled' : computeDisabled}">
+    <div class="xmv-input" :class="computeClass">
         <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}">
             <input class="xmv-input__inner" 
                 :type="inputType" 
                 autocomplete="off"
                 ref="inputRef"
-                :placeholder="placeholder" @click="handleInputClick" 
+                :placeholder="placeholder"
                 @focus="handleInputFocus" @blur="handleInputBlur"
                 @input="handleInputInput">
             <span class="xmv-input__suffix" v-if="isShowSuffix" ref="suffixRef" @click="handleSuffixClick">
                 <span class="xmv-input__suffix-inner">
-                    <xmv-icon :name="pwdIconName" class="xmv-input__icon" v-if="showpassword != undefined"
+                    <xmv-icon :name="pwdIconName" class="xmv-input__icon" v-if="pwdShow"
                     @click="handleIconPwdClick"></xmv-icon>
-                    <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearable != undefined"
-                    @click="handleIconCloseClick"></xmv-icon>
+                    <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
+                    @click="handleIconClearClick"></xmv-icon>
+                    <xmv-icon :name="prefixicon"  class="xmv-input__icon" v-if="prefixicon != undefined"></xmv-icon>
                 </span>
             </span>
         </div>
@@ -29,7 +30,9 @@ export default defineComponent({
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
         showpassword : String,
-        clearable : String
+        prefixicon : String,
+        clearable : String,
+        size : String
     },
     setup(props ,context) {
 
@@ -40,6 +43,19 @@ export default defineComponent({
         const pwdIconName = ref('hide')
         const suffixRef = ref(null)
         const inputType = ref(props.type)
+        const pwdShow = ref(false)
+        const clearShow = ref(false)
+
+        const computeClass = computed(()=>{
+            let res = []
+            if (props.disabled != undefined){
+                res.push('is-disabled')
+            }
+            if (props.size != undefined){
+                res.push('xmv-input--' + props.size)
+            }
+            return res
+        })
 
         const handleInputFocus = ()=>{
             isFocus.value = true
@@ -50,22 +66,23 @@ export default defineComponent({
         }
 
         const handleInputInput = ()=>{
-            if (props.clearable != undefined){
+            if (props.clearable != undefined || props.showpassword != undefined){
                 // 判断输入框里是否有值
                 if (inputRef.value.value){
-                    isShowSuffix.value = true
+                    if (props.showpassword != undefined){
+                        isShowSuffix.value = true
+                        pwdShow.value = true
+                    }
+                    if (props.clearable != undefined){
+                        isShowSuffix.value = true
+                        clearShow.value = true
+                    }
                 }else{
-                    isShowSuffix.value = false
+                    pwdShow.value = false
+                    clearShow.value = false
+                    isShowSuffix.value = (props.prefixicon != undefined)
                 }
             }
-        }
-
-        const computeDisabled = computed(()=>{
-            return props.disabled != undefined
-        })
-
-        const handleInputClick = ()=>{
-            
         }
 
         const handleSuffixClick = ()=>{
@@ -75,30 +92,30 @@ export default defineComponent({
         const handleIconPwdClick = ()=>{
             if (pwdIconName.value == 'hide'){
                 pwdIconName.value = 'vew'
-                    inputType.value = 'text'
+                inputType.value = 'text'
             }else{
                 pwdIconName.value = 'hide'
                 inputType.value = 'password'
             }
         }
 
-        const handleIconCloseClick = ()=>{
+        const handleIconClearClick = ()=>{
             inputRef.value.value = ''
-            isShowSuffix.value = false
+            handleInputInput()
         }
 
         const initSuffix = ()=>{
-            if (props.showpassword != undefined){
+            if (props.prefixicon != undefined){
                 isShowSuffix.value = true
             }
         }
 
         initSuffix()
 
-        return {isFocus ,inputRef, isShowSuffix ,iconName , suffixRef, computeDisabled,
-                inputType,pwdIconName ,
-                handleInputClick ,handleInputFocus ,handleInputBlur , handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconCloseClick}
+        return {isFocus ,inputRef, isShowSuffix ,iconName , suffixRef,
+                inputType,pwdIconName ,pwdShow ,clearShow, computeClass,
+                handleInputFocus ,handleInputBlur , handleSuffixClick ,handleInputInput ,
+                handleIconPwdClick ,handleIconClearClick}
     }
 })
 </script>

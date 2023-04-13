@@ -87,3 +87,16 @@
     margin-left: 8px;
     cursor: pointer;
 }
+
+.xmv-input--large {
+    --xmv-input-height: var(--xmv-component-size-large);
+    font-size: 14px;
+}
+
+.xmv-input--large .xmv-input__wrapper {
+    padding: 1px 15px;
+}
+
+.xmv-input--large .xmv-input__inner {
+    --xmv-input-inner-height: calc(var(--xmv-input-height, 40px) - 2px);
+}

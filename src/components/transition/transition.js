@@ -7,12 +7,13 @@ import {scaleIn as sIn ,scaleOut as sOut} from 'comps/transition/scaleInOut'
 
 class XmvTransition{
 
-    constructor(){
+    constructor(opt = {}){
         this.el
         this.animateType
         this.delayRunTimeout
         this.animateTimeOutMap = {}
         this.isAnimating = false
+        this.placement
     }
 
     setEl(el){
@@ -60,7 +61,9 @@ class XmvTransition{
         }
         clearTimeout(this.animateTimeOutMap['scaleOut'])
         clearTimeout(this.delayRunTimeout)
-        sIn(this.el ,afterCbf)
+        sIn(this.el ,afterCbf ,{
+            placement : this.placement
+        })
     }
 
     scaleOut(afterCbf){
@@ -72,7 +75,9 @@ class XmvTransition{
             afterCbf && afterCbf()
         }
         this.delayRunTimeout = setTimeout(()=>{
-            this.animateTimeOutMap['scaleOut'] = sOut(this.el ,wrapCbf)
+            this.animateTimeOutMap['scaleOut'] = sOut(this.el ,wrapCbf ,{
+                placement : this.placement
+            })
         },200)
     }
 

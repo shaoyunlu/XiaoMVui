@@ -48,8 +48,10 @@ export function getPagePosition(el ,type ,faceEl){
     let elWidth = el.offsetWidth
     let elHeight = el.offsetHeight
 
-    let faceElWidth = faceEl.offsetWidth
-    let faceElHeight = faceEl.offsetHeight
+    let faceInfo = getHiddenDomWH(faceEl)
+
+    let faceElWidth = faceInfo.domWidth
+    let faceElHeight = faceInfo.domHeight
 
     let screenWidth = document.documentElement.offsetWidth
     let screenHeight = document.documentElement.offsetHeight
@@ -67,22 +69,22 @@ export function getPagePosition(el ,type ,faceEl){
     switch (type) {
 
         case 'left':
-            return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop}
+            return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop ,type : type}
 
         case 'right':
-            return {left : offsetLeft  + gutter +  elWidth ,top : offsetTop}
+            return {left : offsetLeft  + gutter +  elWidth ,top : offsetTop ,type : type}
 
         case 'top':
-            return {left : offsetLeft ,top : offsetTop - gutter - faceElHeight}
+            return {left : offsetLeft ,top : offsetTop - gutter - faceElHeight ,type : type}
 
         case 'bottom':
-            return {left : offsetLeft ,top : offsetTop + gutter + elHeight}
+            return {left : offsetLeft ,top : offsetTop + gutter + elHeight ,type : type}
 
         case 'center':
-            return {left : offsetLeft ,top:offsetTop}
+            return {left : offsetLeft ,top:offsetTop ,type : type}
     
         default:
-            return {left : offsetLeft ,top : offsetTop}
+            return {left : offsetLeft ,top : offsetTop ,type : type}
     }
 }
 

@@ -21,10 +21,11 @@ import refresh from './category/refresh.vue'
 import circleClose from './category/circleClose.vue'
 import vew from './category/view.vue'
 import hide from './category/hide.vue'
+import calendar from './category/calendar.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowRight ,loading ,check ,
-                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide},
+                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar},
     props:{
         name : ''
     },

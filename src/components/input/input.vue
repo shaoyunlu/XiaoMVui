@@ -14,7 +14,7 @@
                     @click="handleIconPwdClick"></xmv-icon>
                     <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
                     @click="handleIconClearClick"></xmv-icon>
-                    <xmv-icon :name="prefixicon"  class="xmv-input__icon" v-if="prefixicon != undefined"></xmv-icon>
+                    <xmv-icon :name="suffixicon"  class="xmv-input__icon" v-if="suffixicon != undefined"></xmv-icon>
                 </span>
             </span>
         </div>
@@ -30,7 +30,7 @@ export default defineComponent({
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
         showpassword : String,
-        prefixicon : String,
+        suffixicon : String,
         clearable : String,
         size : String
     },
@@ -80,7 +80,7 @@ export default defineComponent({
                 }else{
                     pwdShow.value = false
                     clearShow.value = false
-                    isShowSuffix.value = (props.prefixicon != undefined)
+                    isShowSuffix.value = (props.suffixicon != undefined)
                 }
             }
         }
@@ -105,7 +105,7 @@ export default defineComponent({
         }
 
         const initSuffix = ()=>{
-            if (props.prefixicon != undefined){
+            if (props.suffixicon != undefined){
                 isShowSuffix.value = true
             }
         }

@@ -11,6 +11,7 @@ import minus from './category/minus.vue'
 import search from './category/search.vue'
 import close from './category/close.vue'
 import arrowRight from './category/arrowRight.vue'
+import arrowDown from './category/arrowDown.vue'
 import loading from './category/loading.vue'
 import check from './category/check.vue'
 import edit from './category/edit.vue'
@@ -24,7 +25,7 @@ import hide from './category/hide.vue'
 import calendar from './category/calendar.vue'
 export default defineComponent({
     name:"xmvIcon",
-    components:{plus ,minus ,search ,close ,arrowRight ,loading ,check ,
+    components:{plus ,minus ,search ,close ,arrowRight ,arrowDown ,loading ,check ,
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar},
     props:{
         name : ''

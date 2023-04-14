@@ -39,53 +39,11 @@
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="3">
-                <xmv-popover placement="bottom">
-                    <template #trigger>
-                        <xmv-button>点击</xmv-button>
-                    </template>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </xmv-popover>
-            </xmv-col>
-            <xmv-col :span="3" :offset="1">
-                <xmv-popover placement="top">
-                    <template #trigger>
-                        <xmv-button>点击</xmv-button>
-                    </template>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </xmv-popover>
-            </xmv-col>
-            <xmv-col :span="3" :offset="1">
-                <xmv-popover placement="right">
-                    <template #trigger>
-                        <xmv-button>点击</xmv-button>
-                    </template>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </xmv-popover>
-            </xmv-col>
-            <xmv-col :span="3" :offset="1">
-                <xmv-popover placement="left">
-                    <template #trigger>
-                        <xmv-button>点击</xmv-button>
-                    </template>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </xmv-popover>
+            <xmv-col :span="6">
+                <xmv-select>
+                    <xmv-option label="Test Label1" value="Test Value1"></xmv-option>
+                    <xmv-option label="Test Label2" value="Test Value2"></xmv-option>
+                </xmv-select>
             </xmv-col>
         </xmv-row>
 
@@ -117,14 +75,12 @@
 
         <xmv-row>
             <xmv-col :span="6">
-                <xmv-input prefixicon="search"></xmv-input>
+                <xmv-input suffixicon="search"></xmv-input>
             </xmv-col>
             <xmv-col :span="6" :offset="6">
-                <xmv-input prefixicon="calendar"></xmv-input>
+                <xmv-input suffixicon="calendar"></xmv-input>
             </xmv-col>
         </xmv-row>
-
-        
     </main>
 </template>
 

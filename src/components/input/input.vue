@@ -110,12 +110,20 @@ export default defineComponent({
             }
         }
 
+        const focus = ()=>{
+            inputRef.value.focus()
+        }
+
+        const val =(value)=>{
+            inputRef.value.value = value
+        }
+
         initSuffix()
 
         return {isFocus ,inputRef, isShowSuffix ,iconName , suffixRef,
                 inputType,pwdIconName ,pwdShow ,clearShow, computeClass,
                 handleInputFocus ,handleInputBlur , handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconClearClick}
+                handleIconPwdClick ,handleIconClearClick ,focus ,val}
     }
 })
 </script>

@@ -53,8 +53,8 @@ export function getPagePosition(el ,type ,faceEl){
     let faceElWidth = faceInfo.domWidth
     let faceElHeight = faceInfo.domHeight
 
-    let screenWidth = document.documentElement.offsetWidth
-    let screenHeight = document.documentElement.offsetHeight
+    let screenWidth = document.documentElement.clientWidth
+    let screenHeight = document.documentElement.clientHeight
 
     if (type == 'top' && boundCr.top < faceElHeight){
         type = 'bottom'

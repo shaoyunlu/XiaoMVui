@@ -89,7 +89,6 @@ export default defineComponent({
         }
 
         onMounted(()=>{
-
             triggerEl = placeSpan.value.nextElementSibling
             defaultEl = triggerEl.nextElementSibling
             placeSpan.value.remove()
@@ -129,10 +128,12 @@ export default defineComponent({
         })
 
         const show = ()=>{
+            isShow = true
             handleMouseover()
         }
 
         const hide = ()=>{
+            isShow = false
             handleMouseleave()
         }
 

@@ -6,7 +6,7 @@
             @mousedown="handleWrapMousedown"
             @mouseup="handleWrapMouseup"
             @scroll="hanleScroll" 
-            :style="{'margin-right':isMargin?'-17px':0 ,'margin-bottom':isMargin?'-17px':0}"
+            :style="scrollbarWrapStyle"
             ref="scrollbarWrapRef">
             <div class="xmv-scrollbar__view" ref="viewRef" >
                 <slot></slot>
@@ -24,14 +24,16 @@
 </template>
 
 <script>
-import {defineComponent ,nextTick,onMounted,ref} from 'vue'
+import {computed, defineComponent ,nextTick,onMounted,ref} from 'vue'
 import {getDomMartix ,setDomMartix ,removeTextSelected} from 'utils/dom'
-import {isFirefox ,isLowVersionFirefox} from 'utils/dict'
+import {isLowVersionFirefox} from 'utils/dict'
 import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvScrollbar",
     props:{
-        explicit : {type:Boolean ,default:false}
+        explicit : {type:Boolean ,default:false},
+        maxHeightFlag : {type:Boolean ,default:false},
+        maxHeight : {type:Number ,default:274}
     },
     emits:['scroll'],
     setup(props ,context) {
@@ -58,17 +60,8 @@ export default defineComponent({
         var sWh
         var vWh
         var currentMouseDown /* 判断横轴动还是纵轴动 */
-        
-        const handleMouseover = ()=>{
-            if (currentMouseStatus == 'mouseover'){
-                return false
-            }
-            if (isPolyfill){
-                let res = viewRef.value.scrollHeight - scrollbarRef.value.clientHeight
-                isMargin.value = (res != 17 && res != 0)
-            }
-            currentMouseStatus = 'mouseover'
-            //let gutter = __getGutter()
+
+        const init = ()=>{
             sWh = __getWH(scrollbarRef.value)
             vWh = __getWH(viewRef.value)
 
@@ -78,6 +71,17 @@ export default defineComponent({
             // 判断横竖滚动条，哪个需要展示
             __judgeVisible()
             __calcScrollBarWH()
+            __conversion()
+        }
+
+        const handleMouseover = ()=>{
+            if (currentMouseStatus == 'mouseover'){
+                return false
+            }
+            
+            currentMouseStatus = 'mouseover'
+
+            init()
         }
 
         const handleMouseleave = ()=>{
@@ -209,13 +213,25 @@ export default defineComponent({
             return {w:el.clientWidth ,h:el.clientHeight + gutter.ver ,sw:el.scrollWidth}
         }
 
+        const scrollbarWrapStyle = computed(()=>{
+            let styleObj = new Object()
+            if (isPolyfill){
+                styleObj['margin-right'] = '-17px'
+                styleObj['margin-bottom'] = '-17px'
+            }
+            if (props.maxHeightFlag){
+                styleObj['max-height'] = props.maxHeight + 'px'
+            }
+            return styleObj
+        })
+
         onMounted(()=>{
             parentHorThumbEl = horThumbRef.value.parentNode
             parentVerThumEl = verThumRef.value.parentNode
 
             resizeOB(viewRef.value ,()=>{
                 reset()
-                handleMouseover()
+                init()
             })
 
             if (props.explicit){
@@ -224,7 +240,7 @@ export default defineComponent({
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
-                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill ,isMargin}
+                scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill ,isMargin ,scrollbarWrapStyle}
     }
 })
 </script>

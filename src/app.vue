@@ -43,6 +43,14 @@
                 <xmv-select>
                     <xmv-option label="Test Label1" value="Test Value1"></xmv-option>
                     <xmv-option label="Test Label2" value="Test Value2"></xmv-option>
+                    <xmv-option label="Test Label3" value="Test Value3"></xmv-option>
+                    <xmv-option label="Test Label4" value="Test Value4"></xmv-option>
+                    <xmv-option label="Test Label5" value="Test Value5"></xmv-option>
+                    <xmv-option label="Test Label6" value="Test Value6"></xmv-option>
+                    <xmv-option label="Test Label7" value="Test Value7"></xmv-option>
+                    <xmv-option label="Test Label8" value="Test Value8"></xmv-option>
+                    <xmv-option label="Test Label9" value="Test Value9"></xmv-option>
+                    <xmv-option label="Test Label10" value="Test Value10"></xmv-option>
                 </xmv-select>
             </xmv-col>
         </xmv-row>

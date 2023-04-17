@@ -7,6 +7,7 @@
 
 <script>
 import {defineComponent, inject ,ref} from 'vue'
+import {find ,filter} from 'utils/data'
 export default defineComponent({
     name:"",
     props:{
@@ -18,8 +19,11 @@ export default defineComponent({
         const {$on ,$emit} = inject('EventBus')
         const isHover = ref(false)
         const isSelect = ref(false)
-        $on('itemClick' ,(data)=>{
-            isSelect.value = (data.value == props.data.value)
+        $on('itemClick' ,()=>{
+            let res = find(selectMode.rctData.sData ,(tmp)=>{
+                return tmp.value == props.data.value
+            })
+            isSelect.value = (res != undefined)
         })
 
         const handleMouseover = ()=>{
@@ -27,7 +31,24 @@ export default defineComponent({
         }
 
         const handleClick = ()=>{
-            $emit('itemClick' ,props.data)
+            if (selectMode.props.multiple != undefined){
+                // 切换
+                let pData = props.data
+                let res = find(selectMode.rctData.sData ,(tmp)=>{
+                    return tmp.value == pData.value
+                })
+                if (res){
+                    selectMode.rctData.sData = filter(selectMode.rctData.sData ,(tmp)=>{
+                        return tmp.value != res.value
+                    })
+                }else{
+                    selectMode.rctData.sData.push(props.data)
+                }
+            }else{
+                selectMode.rctData.sData = []
+                selectMode.rctData.sData.push(props.data)
+            }
+            $emit('itemClick')
         }
 
         return {handleMouseover ,handleClick ,isHover ,isSelect}

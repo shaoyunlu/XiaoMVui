@@ -50,3 +50,54 @@
 .xmv-select-dropdown__item.hover, .xmv-select-dropdown__item:hover {
     background-color: var(--xmv-fill-color-light);
 }
+
+.xmv-select-dropdown.is-multiple .xmv-select-dropdown__item.selected:after {
+    content: "";
+    position: absolute;
+    right: 20px;
+    border: 1px solid var(--xmv-color-primary);
+    width: 6px;
+    height: 12px;
+    border-bottom: none;
+    border-right: none;
+    transform: rotate(-135deg) translateY(-12px);
+}
+
+.xmv-select__tags {
+    position: absolute;
+    line-height: normal;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: normal;
+    z-index: var(--xmv-index-normal);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    cursor: pointer;
+}
+
+.xmv-select .xmv-select-tags-wrapper.has-prefix {
+    margin-left: 6px;
+}
+
+.xmv-select .xmv-select__tags>span {
+    display: inline-block;
+}
+
+.xmv-select__tags .xmv-tag--info {
+    background-color: var(--xmv-fill-color);
+}
+
+.xmv-select__tags .xmv-tag {
+    box-sizing: border-box;
+    border-color: transparent;
+    margin: 2px 6px 2px 0;
+}
+
+.xmv-select .xmv-select__tags-text {
+    display: inline-block;
+    line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

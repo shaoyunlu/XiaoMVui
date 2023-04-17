@@ -53,3 +53,22 @@ export function treeFindPath(tree, func, field = "", path = []) {
     }
     return []
 }
+
+export function find(array ,fn){
+    let res = null
+    for (let i = 0; i < array.length; i++) {
+        let tmp = array[i]
+        if (fn(tmp)) {
+            res = tmp
+            break;
+        }
+    }
+    return res
+}
+
+export function filter(array ,fn){
+    return array.filter(tmp =>{
+        return fn(tmp)
+    })
+}
+

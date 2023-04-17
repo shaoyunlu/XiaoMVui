@@ -1,5 +1,5 @@
 <template>
-    <div class="xmv-input" :class="computeClass">
+    <div class="xmv-input" :class="computeClass" ref="xmvInputRef">
         <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}">
             <input class="xmv-input__inner" 
                 :type="inputType" 
@@ -14,7 +14,7 @@
                     @click="handleIconPwdClick"></xmv-icon>
                     <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
                     @click="handleIconClearClick"></xmv-icon>
-                    <xmv-icon :name="suffixicon"  class="xmv-input__icon" v-if="suffixicon != undefined"></xmv-icon>
+                    <xmv-icon :name="suffixicon"  class="xmv-input__icon" v-if="suffixicon != undefined" ref="suffixiconRef"></xmv-icon>
                 </span>
             </span>
         </div>
@@ -23,6 +23,7 @@
 
 <script>
 import {defineComponent ,ref ,computed} from 'vue'
+import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvInput",
     props:{
@@ -36,10 +37,12 @@ export default defineComponent({
     },
     setup(props ,context) {
 
+        const xmvInputRef = ref(null)
         const isFocus = ref(false)
         const inputRef = ref(null)
         const isShowSuffix = ref(false)
         const iconName = ref('')
+        const suffixiconRef = ref(null)
         const pwdIconName = ref('hide')
         const suffixRef = ref(null)
         const inputType = ref(props.type)
@@ -118,12 +121,20 @@ export default defineComponent({
             inputRef.value.value = value
         }
 
+        const enable = ()=>{
+            removeClass(xmvInputRef.value ,'is-disabled')
+        }
+
+        const disabled = ()=>{
+            addClass(xmvInputRef.value ,'is-disabled')
+        }
+
         initSuffix()
 
-        return {isFocus ,inputRef, isShowSuffix ,iconName , suffixRef,
-                inputType,pwdIconName ,pwdShow ,clearShow, computeClass,
+        return {isFocus ,xmvInputRef ,inputRef, isShowSuffix ,iconName , suffixRef,
+                inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,
                 handleInputFocus ,handleInputBlur , handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconClearClick ,focus ,val}
+                handleIconPwdClick ,handleIconClearClick ,focus ,val ,enable ,disabled}
     }
 })
 </script>

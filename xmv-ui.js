@@ -15,6 +15,8 @@ import xmvCol from 'comps/rowcol/col.vue'
 import xmvInput from 'comps/input/input.vue'
 import xmvSelect from 'comps/select/select.vue'
 import xmvOption from 'comps/select/option.vue'
+import xmvSelectTags from 'comps/select/tags.vue'
+import xmvTag from 'comps/tag/tag.vue'
 
 const register = (vue)=>{
     vue.component('xmvLayout', xmvLayout)
@@ -34,6 +36,8 @@ const register = (vue)=>{
     vue.component('xmvInput', xmvInput)
     vue.component('xmvSelect', xmvSelect)
     vue.component('xmvOption', xmvOption)
+    vue.component('xmvSelectTags', xmvSelectTags)
+    vue.component('xmvTag', xmvTag)
 }
 
 export default register

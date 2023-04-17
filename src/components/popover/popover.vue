@@ -10,7 +10,7 @@ import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
     name:"xmvPopover",
-    emits:['mouseover' ,'mouseleave' ,'mouseclick'],
+    emits:['mouseover' ,'mouseleave' ,'mouseclick' ,'show' ,'hide'],
     props:{
         trigger :{
             type : String,
@@ -24,6 +24,7 @@ export default defineComponent({
         beStripped : {type : Boolean ,default : true},
     },
     setup(props ,{slots ,attrs ,emit}) {
+        const enableRef = ref(true)
         const placeSpan = ref(null)
         const transition = new XmvTransition({})
         var pEl = document.getElementById('el-popper-container')
@@ -68,6 +69,7 @@ export default defineComponent({
                 popperEl.style.display = ''
             })
             emit('mouseover')
+            emit('show')
         }
 
         const handleMouseleave = (cbf)=>{
@@ -76,9 +78,13 @@ export default defineComponent({
                 popperEl.style.display = 'none'
             })
             emit('mouseleave')
+            emit('hide')
         }
 
         const handleMouseclick = ()=>{
+            if (!enableRef.value){
+                return false
+            }
             if (isShow){
                 isShow = false
                 handleMouseleave()
@@ -137,14 +143,20 @@ export default defineComponent({
             handleMouseleave()
         }
 
-        return {placeSpan ,show ,hide}
+        const enable = ()=>{
+            enableRef.value = true
+        }
+
+        const disabled = ()=>{
+            enableRef.value = false
+        }
+
+        return {enableRef ,placeSpan ,show ,hide ,enable ,disabled ,setPosition}
 
         // return ()=>{
         //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)
         //     return defaultSlot
         // }
-
-        
     }
 })
 </script>

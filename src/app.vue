@@ -39,18 +39,28 @@
         </xmv-row>
 
         <xmv-row>
+            <xmv-col>
+                <xmv-tag>Test Tag</xmv-tag>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
             <xmv-col :span="6">
                 <xmv-select>
-                    <xmv-option label="Test Label1" value="Test Value1"></xmv-option>
-                    <xmv-option label="Test Label2" value="Test Value2"></xmv-option>
-                    <xmv-option label="Test Label3" value="Test Value3"></xmv-option>
-                    <xmv-option label="Test Label4" value="Test Value4"></xmv-option>
-                    <xmv-option label="Test Label5" value="Test Value5"></xmv-option>
-                    <xmv-option label="Test Label6" value="Test Value6"></xmv-option>
-                    <xmv-option label="Test Label7" value="Test Value7"></xmv-option>
-                    <xmv-option label="Test Label8" value="Test Value8"></xmv-option>
-                    <xmv-option label="Test Label9" value="Test Value9"></xmv-option>
-                    <xmv-option label="Test Label10" value="Test Value10"></xmv-option>
+                    <xmv-option v-for="tmp in selectData" :label="tmp.label" :value="tmp.value"></xmv-option>
+                </xmv-select>
+            </xmv-col>
+            <xmv-col :span="6" :offset="3">
+                <xmv-select disabled>
+                    <xmv-option v-for="tmp in selectData" :label="tmp.label" :value="tmp.value"></xmv-option>
+                </xmv-select>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="6">
+                <xmv-select multiple>
+                    <xmv-option v-for="tmp in selectData" :label="tmp.label" :value="tmp.value"></xmv-option>
                 </xmv-select>
             </xmv-col>
         </xmv-row>
@@ -159,6 +169,12 @@ export default defineComponent({
             {name : '张三' ,age : '20' ,height : '180'}
         ]
 
+        const selectData = [
+            {label : 'Label1' ,value : 'Value1'},
+            {label : 'Label2' ,value : 'Value2'},
+            {label : 'Label3' ,value : 'Value3'}
+        ]
+
         onMounted(()=>{
             horizontalMenuRef.value.loadData(horizontalMenuData)
             sideBarMenuRef.value.loadData(sideBarMenuData)
@@ -166,7 +182,7 @@ export default defineComponent({
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef
+            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData
         }
     }
 })

@@ -63,6 +63,11 @@
                     <xmv-option v-for="tmp in selectData" :label="tmp.label" :value="tmp.value"></xmv-option>
                 </xmv-select>
             </xmv-col>
+            <xmv-col :span="6" :offset="3">
+                <xmv-select multiple collapsetags>
+                    <xmv-option v-for="tmp in selectData" :label="tmp.label" :value="tmp.value"></xmv-option>
+                </xmv-select>
+            </xmv-col>
         </xmv-row>
 
         <xmv-row>

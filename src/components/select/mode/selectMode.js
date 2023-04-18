@@ -11,7 +11,9 @@ class SelectMode{
         this.inputRef = ref(null)
         this.popoverRef = ref(null)
         this.tagsRef
-        this.props = reactive(props)
+        this.disabled = ref(props.disabled != undefined)
+        this.multiple = ref(props.multiple != undefined)
+        this.collapsetags = ref(props.collapsetags != undefined)
     }
 
     adjustWH(){

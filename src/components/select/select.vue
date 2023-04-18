@@ -1,9 +1,9 @@
 <template>
     <xmv-popover placement="bottom" :ref="selectMode.popoverRef">
         <template #trigger>
-            <div class="xmv-select" :class="computeClass" :ref="selectMode.selectRef">
+            <div class="xmv-select" :class="computeClass" :ref="selectMode.selectRef" @click="handleActive">
                 <div class="select-trigger">
-                    <xmv-select-tags></xmv-select-tags>
+                    <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
                     <xmv-input :placeholder="computePlaceholder" suffixicon="arrowDown" :ref="selectMode.inputRef"></xmv-input>
                 </div>
             </div>
@@ -45,10 +45,10 @@ export default defineComponent({
 
         const computeClass = computed(()=>{
             let res = []
-            if (props.disabled != undefined){
+            if (selectMode.disabled.value){
                 res.push('xmv-select--disabled')
             }
-            if (props.multiple != undefined){
+            if (selectMode.multiple.value){
                 res.push('is-multiple')
             }
             return res
@@ -68,7 +68,7 @@ export default defineComponent({
         provide('EventBus' ,{$on ,$emit})
 
         $on('itemClick' ,()=>{
-            if (selectMode.props.multiple != undefined){
+            if (selectMode.multiple.value){
                 nextTick(()=>{
                     selectMode.adjustWH()
                 })
@@ -78,17 +78,30 @@ export default defineComponent({
             }
         })
 
+        const handleActive = ()=>{
+            if (!selectMode.disabled.value){
+                console.log(1)
+                selectMode.popoverRef.value.enable()
+            }
+            
+        }
+
         onMounted(()=>{
             selectMode.rctData.dropdownWidth = selectMode.selectRef.value.clientWidth - 2
 
-            if (props.disabled != undefined){
+            if (selectMode.disabled.value){
                 selectMode.inputRef.value.disabled()
                 selectMode.popoverRef.value.disabled()
             }
 
+            if (selectMode.multiple.value){
+                // 需要设置最小高度
+                selectMode.inputRef.value.inputRef.style['min-height'] = '30px'
+            }
+
         })
 
-        return {selectMode ,computeClass ,computePlaceholder}
+        return {selectMode ,computeClass ,computePlaceholder ,handleActive}
     }
 })
 </script>

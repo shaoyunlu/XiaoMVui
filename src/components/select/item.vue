@@ -31,7 +31,7 @@ export default defineComponent({
         }
 
         const handleClick = ()=>{
-            if (selectMode.props.multiple != undefined){
+            if (selectMode.multiple.value){
                 // 切换
                 let pData = props.data
                 let res = find(selectMode.rctData.sData ,(tmp)=>{

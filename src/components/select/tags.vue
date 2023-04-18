@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-select__tags" ref="tagsRef">
-        <span class="xmv-select-tags-wrapper has-prefix" v-if="selectMode.collapsetags.value">
+        <span class="xmv-select-tags-wrapper has-prefix" v-if="selectMode.collapseTags.value">
             <xmv-tag closable @close="() => handleClose(collapData.data)" v-if="collapData.data">
                 {{collapData.data.label}}
             </xmv-tag>

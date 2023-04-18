@@ -20,7 +20,6 @@ export default defineComponent({
             type : String,
             default : 'right'
         },
-        needUpdate : false,
         beStripped : {type : Boolean ,default : true},
     },
     setup(props ,{slots ,attrs ,emit}) {

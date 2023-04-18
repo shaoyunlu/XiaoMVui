@@ -31,8 +31,8 @@ export default defineComponent({
     props:{
         disabled : String,
         multiple : String,
-        collapsetags : String,
-        maxcollapsetags : Number
+        collapseTags : String,
+        maxcollapseTags : Number
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -80,10 +80,8 @@ export default defineComponent({
 
         const handleActive = ()=>{
             if (!selectMode.disabled.value){
-                console.log(1)
                 selectMode.popoverRef.value.enable()
             }
-            
         }
 
         onMounted(()=>{

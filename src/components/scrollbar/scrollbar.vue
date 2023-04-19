@@ -78,9 +78,7 @@ export default defineComponent({
             if (currentMouseStatus == 'mouseover'){
                 return false
             }
-            
             currentMouseStatus = 'mouseover'
-
             init()
         }
 
@@ -206,7 +204,6 @@ export default defineComponent({
 
             verThumRef.value.style.transform = `matrix(1, 0, 0, 1, 0, ${scrollTop * hRatio})`
             horThumbRef.value.style.transform = `matrix(1, 0, 0, 1, ${scrollLeft * wRatio} ,0)`
-
         }
 
         const __getWH = (el ,gutter = {ver:0,hor:0})=>{
@@ -225,6 +222,20 @@ export default defineComponent({
             return styleObj
         })
 
+        const polyfillHeight = ()=>{
+            if (!isPolyfill){
+                return false
+            }
+            let viewHeight =  viewRef.value.scrollHeight
+            if (props.maxHeightFlag){
+                if (viewHeight < props.maxHeight){
+                    scrollbarWrapRef.value.style['margin-bottom'] = '0px'
+                }else{
+                    scrollbarWrapRef.value.style['margin-bottom'] = '-17px'
+                }
+            }
+        }
+
         onMounted(()=>{
             parentHorThumbEl = horThumbRef.value.parentNode
             parentVerThumEl = verThumRef.value.parentNode
@@ -232,6 +243,7 @@ export default defineComponent({
             resizeOB(viewRef.value ,()=>{
                 reset()
                 init()
+                polyfillHeight()
             })
 
             if (props.explicit){

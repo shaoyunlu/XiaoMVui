@@ -10,21 +10,6 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col>
-                <xmv-table ref="tableRef" height="300">
-                    <xmv-table-column prop="name" label="姓名" width="400">
-                        <template>
-                            <xmv-button>点击1</xmv-button>
-                            <xmv-button>点击2</xmv-button>
-                        </template>
-                    </xmv-table-column>
-                    <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
-                    <xmv-table-column prop="height" label="身高" width="800"></xmv-table-column>
-                </xmv-table>
-            </xmv-col>
-        </xmv-row>
-
-        <xmv-row>
-            <xmv-col>
                 <xmv-button>点击</xmv-button>
                 <xmv-button type="primary">primary</xmv-button>
                 <xmv-button plain>点击</xmv-button>
@@ -104,6 +89,21 @@
                 <xmv-input suffixicon="calendar"></xmv-input>
             </xmv-col>
         </xmv-row>
+
+        <xmv-row>
+            <xmv-col>
+                <xmv-table ref="tableRef" height="300">
+                    <xmv-table-column prop="name" label="姓名" width="400">
+                        <template>
+                            <xmv-button>点击1</xmv-button>
+                            <xmv-button>点击2</xmv-button>
+                        </template>
+                    </xmv-table-column>
+                    <xmv-table-column prop="age" label="年龄" width="200"></xmv-table-column>
+                    <xmv-table-column prop="height" label="身高" width="800"></xmv-table-column>
+                </xmv-table>
+            </xmv-col>
+        </xmv-row>
     </main>
 </template>
 
@@ -177,7 +177,8 @@ export default defineComponent({
         const selectData = [
             {label : 'Label1' ,value : 'Value1'},
             {label : 'Label2' ,value : 'Value2'},
-            {label : 'Label3' ,value : 'Value3'}
+            {label : 'Label3' ,value : 'Value3'},
+            {label : 'Label4' ,value : 'Value4'}
         ]
 
         onMounted(()=>{

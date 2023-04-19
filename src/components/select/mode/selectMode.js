@@ -14,6 +14,7 @@ class SelectMode{
         this.disabled = ref(props.disabled != undefined)
         this.multiple = ref(props.multiple != undefined)
         this.collapseTags = ref(props.collapseTags != undefined)
+        this.filterable = ref(props.filterable != undefined)
     }
 
     adjustWH(){

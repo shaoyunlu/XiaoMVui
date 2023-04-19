@@ -1,14 +1,21 @@
 <template>
     <xmv-popover placement="bottom" :ref="selectMode.popoverRef">
         <template #trigger>
-            <div class="xmv-select" :class="computeClass" :ref="selectMode.selectRef" @click="handleActive">
+            <div class="xmv-select" 
+                :class="computeClass" 
+                :ref="selectMode.selectRef" 
+                @click="handleActive"
+                @mouseup.stop="()=>{}">
                 <div class="select-trigger">
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
-                    <xmv-input :placeholder="computePlaceholder" suffixicon="arrowDown" :ref="selectMode.inputRef"></xmv-input>
+                    <xmv-input 
+                        :placeholder="computePlaceholder" 
+                        suffixicon="arrowDown" 
+                        :ref="selectMode.inputRef"></xmv-input>
                 </div>
             </div>
         </template>
-        <div class="xmv-select-dropdown" :class="computeClass"
+        <div class="xmv-select-dropdown" :class="computeClass" @mouseup.stop="()=>{}"
             :style="{'min-width' : selectMode.rctData.dropdownWidth + 'px'}">
             <xmv-scrollbar :maxHeightFlag="true">
                 <ul class="xmv-select-dropdown__list">
@@ -21,7 +28,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide, reactive ,computed, nextTick} from 'vue'
+import {defineComponent, onMounted, provide, reactive ,computed, nextTick ,inject} from 'vue'
 import SelectMode from './mode/selectMode'
 import xmvSelectItem from './item.vue'
 import {createEventBus} from 'utils/event'
@@ -32,7 +39,8 @@ export default defineComponent({
         disabled : String,
         multiple : String,
         collapseTags : String,
-        maxcollapseTags : Number
+        maxcollapseTags : Number,
+        filterable : String
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -64,10 +72,19 @@ export default defineComponent({
 
         const {$on ,$emit} = createEventBus(eventBus)
 
+        const XmvEventOn = inject('Xmv-Event-On')
+
+        XmvEventOn('mouseup' ,(e)=>{
+            if (selectMode.popoverRef.value.isShow){
+                selectMode.popoverRef.value.hide()
+            }
+        })
+
         provide('SelectMode' ,selectMode)
         provide('EventBus' ,{$on ,$emit})
 
         $on('itemClick' ,()=>{
+            selectMode.inputRef.value.focus()
             if (selectMode.multiple.value){
                 nextTick(()=>{
                     selectMode.adjustWH()
@@ -80,6 +97,7 @@ export default defineComponent({
 
         const handleActive = ()=>{
             if (!selectMode.disabled.value){
+                selectMode.inputRef.value.focus()
                 selectMode.popoverRef.value.enable()
             }
         }
@@ -97,9 +115,13 @@ export default defineComponent({
                 selectMode.inputRef.value.inputRef.style['min-height'] = '30px'
             }
 
+            if (!selectMode.filterable){
+                selectMode.inputRef.value.inputRef.setAttribute('readonly' ,'')
+            }
         })
 
-        return {selectMode ,computeClass ,computePlaceholder ,handleActive}
+        return {selectMode ,computeClass ,computePlaceholder,
+            handleActive}
     }
 })
 </script>

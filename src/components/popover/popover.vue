@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {defineComponent,  onMounted ,ref} from 'vue'
+import {defineComponent,  inject,  onMounted ,ref} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -26,12 +26,12 @@ export default defineComponent({
         const enableRef = ref(true)
         const placeSpan = ref(null)
         const transition = new XmvTransition({})
-        var pEl = document.getElementById('el-popper-container')
+        var pEl = inject('Xmv-Dom-PopperContainer')
         var triggerEl
         var popperEl
         var defaultEl
         var currentEventName
-        var isShow = false
+        const isShow = ref(false)
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -49,11 +49,10 @@ export default defineComponent({
             let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl)
             transition.placement = type
 
-            if (pEl.id != 'el-popper-container'){
+            if (pEl.parentNode.tagName != 'BODY'){
                 left = triggerEl.offsetWidth + 5
                 top = triggerEl.offsetTop - 1
             }
-
             popperEl.style.left = left + 'px'
             popperEl.style.top = top + 'px'
         }
@@ -84,11 +83,11 @@ export default defineComponent({
             if (!enableRef.value){
                 return false
             }
-            if (isShow){
-                isShow = false
+            if (isShow.value){
+                isShow.value = false
                 handleMouseleave()
             }else{
-                isShow = true
+                isShow.value = true
                 handleMouseover()
             }
         }
@@ -98,9 +97,7 @@ export default defineComponent({
             defaultEl = triggerEl.nextElementSibling
             placeSpan.value.remove()
 
-            if (props.beStripped){
-                pEl = document.getElementById('el-popper-container')
-            }else{
+            if (!props.beStripped){
                 pEl = defaultEl.parentNode
             }
 
@@ -133,12 +130,12 @@ export default defineComponent({
         })
 
         const show = ()=>{
-            isShow = true
+            isShow.value = true
             handleMouseover()
         }
 
         const hide = ()=>{
-            isShow = false
+            isShow.value = false
             handleMouseleave()
         }
 
@@ -150,7 +147,7 @@ export default defineComponent({
             enableRef.value = false
         }
 
-        return {enableRef ,placeSpan ,show ,hide ,enable ,disabled ,setPosition}
+        return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}
 
         // return ()=>{
         //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)

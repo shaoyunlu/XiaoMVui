@@ -1,3 +1,4 @@
+import {reactive} from 'vue'
 import xmvLayout from 'comps/layout/layout.vue'
 import xmvButton from 'comps/button/button.vue'
 import xmvMenu from 'comps/menu/menu.vue'
@@ -18,7 +19,31 @@ import xmvOption from 'comps/select/option.vue'
 import xmvSelectTags from 'comps/select/tags.vue'
 import xmvTag from 'comps/tag/tag.vue'
 
+import {createEventBus} from 'utils/event'
+
 const register = (vue)=>{
+
+    const {provide} = vue
+
+    const eventBus = reactive({
+        listeners : {}
+    })
+
+    const {$on ,$emit} = createEventBus(eventBus)
+
+    // 创建一个xmv-popper-container
+    const popperContainerDiv = document.createElement('div')
+    popperContainerDiv.id = 'xmv-popper-container'
+    document.body.appendChild(popperContainerDiv)
+
+    provide('Xmv-Dom-PopperContainer' ,popperContainerDiv)
+    provide('Xmv-Event-On' ,$on)
+
+    // 分发各种事件
+    window.addEventListener('mouseup' ,(e)=>{
+        $emit('mouseup' ,e)
+    })
+
     vue.component('xmvLayout', xmvLayout)
     vue.component('xmvButton', xmvButton)
     vue.component('xmvMenu', xmvMenu)

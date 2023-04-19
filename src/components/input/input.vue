@@ -26,6 +26,7 @@ import {defineComponent ,ref ,computed} from 'vue'
 import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvInput",
+    emits:['blur'],
     props:{
         disabled : String,
         type : {type:String ,default:'text'},
@@ -64,8 +65,9 @@ export default defineComponent({
             isFocus.value = true
         }
 
-        const handleInputBlur = ()=>{
+        const handleInputBlur = (e)=>{
             isFocus.value = false
+            context.emit('blur' ,e)
         }
 
         const handleInputInput = ()=>{

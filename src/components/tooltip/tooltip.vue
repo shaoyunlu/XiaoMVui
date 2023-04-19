@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted  ,onUnmounted, ref} from 'vue'
+import {defineComponent, onMounted  ,onUnmounted, ref ,inject} from 'vue'
 import {addClass ,getPagePosition ,getAlignPosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 
@@ -28,7 +28,7 @@ export default defineComponent({
     setup(props ,{slots ,attrs}) {
         const placeSpan = ref(null)
         const transition = new XmvTransition()
-        var pEl = document.getElementById('el-popper-container')
+        var pEl = inject('Xmv-Dom-PopperContainer')
         var triggerEl
         var popperEl
         var defaultSlot

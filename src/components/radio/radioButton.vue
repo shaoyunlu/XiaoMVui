@@ -1,6 +1,11 @@
 <template>
-    <label class="xmv-radio-button">
-        <input type="radio" class="xmv-radio-button__original-radio" :value="label" :name="groupProps.model">
+    <label class="xmv-radio-button" 
+                :class="{
+                    'is-disabled':disabled,
+                    'xmv-radio-button--small':size == 'small'
+                }">
+        <input type="radio" class="xmv-radio-button__original-radio" 
+            :value="label" :name="name" ref="inputRef">
         <span class="xmv-radio-button__inner">
             <slot></slot>
         </span>
@@ -8,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent ,inject} from 'vue'
+import {defineComponent ,inject ,onMounted ,ref ,watch} from 'vue'
 export default defineComponent({
     name:"xmvRadioButton",
     props:{
@@ -18,10 +23,25 @@ export default defineComponent({
     },
     setup(props ,context) {
 
-        const {$on ,$emit} = inject('EventBus')
-        const groupProps = inject('GroupProps')
+        const name = inject('Name')
+        const inputRef = ref(null)
+        const disabled = ref(props.disabled != undefined)
 
-        return {groupProps}
+        watch(disabled ,(newVal ,oldVal)=>{
+            if (disabled.value){
+                inputRef.value.setAttribute('disabled','disabled')
+            }else{
+                inputRef.value.removeAttribute('disabled')
+            }
+        })
+
+        onMounted(()=>{
+            if (disabled.value){
+                inputRef.value.setAttribute('disabled','disabled')
+            }
+        })
+
+        return {name,inputRef,disabled}
     }
 })
 </script>

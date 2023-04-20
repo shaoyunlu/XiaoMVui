@@ -72,3 +72,7 @@ export function filter(array ,fn){
     })
 }
 
+let uuid = 0
+export function generateId(){
+    return uuid++
+}

@@ -7,10 +7,12 @@
 <script>
 import {defineComponent, provide ,reactive} from 'vue'
 import {createEventBus} from 'utils/event'
+import {generateId} from 'utils/data'
 export default defineComponent({
     name:"xmvRadioGroup",
     props:{
-        model : String
+        size : String,
+        disabled : String
     },
     setup(props ,context) {
         
@@ -18,10 +20,12 @@ export default defineComponent({
             listeners : {}
         })
 
+        const id = generateId()
+
         const {$on ,$emit} = createEventBus(eventBus)
 
         provide('EventBus' ,{$on ,$emit})
-        provide('GroupProps' ,props)
+        provide('Name' ,'xmv-' + id)
 
         return {}
     }

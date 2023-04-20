@@ -6,7 +6,7 @@
                     'is-disabled':disabled
                 }">
         <span class="xmv-radio__input" :class="{'is-checked':isChecked,'is-disabled':disabled}" >
-            <input type="radio" class="xmv-radio__original" :value="label" :name="groupProps.model" ref="inputRef">
+            <input type="radio" class="xmv-radio__original" :value="label" :name="name" ref="inputRef">
             <span class="xmv-radio__inner"></span>
         </span>
         <span class="xmv-radio__label">
@@ -26,7 +26,7 @@ export default defineComponent({
     },
     setup(props ,context) {
         const {$on ,$emit} = inject('EventBus')
-        const groupProps = inject('GroupProps')
+        const name = inject('Name')
         const isChecked = ref(false)
         const disabled = ref(props.disabled != undefined)
         const inputRef = ref(null)
@@ -61,7 +61,7 @@ export default defineComponent({
             }
         })
 
-        return {groupProps,isChecked,disabled,inputRef,handleClick}
+        return {isChecked,disabled,inputRef,name,handleClick}
     }
 })
 </script>

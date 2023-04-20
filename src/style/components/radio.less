@@ -151,7 +151,6 @@
     font-weight: var(--xmv-button-font-weight, var(--xmv-font-weight-primary));
     border-left: 0;
     color: var(--xmv-button-text-color, var(--xmv-text-color-regular));
-    -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
     outline: none;
@@ -171,6 +170,12 @@
     border-radius: 0;
 }
 
+.xmv-radio-button--small .xmv-radio-button__inner {
+    padding: 5px 11px;
+    font-size: 12px;
+    border-radius: 0;
+}
+
 .xmv-radio-button:first-child .xmv-radio-button__inner {
     border-left: var(--xmv-border);
     border-radius: var(--xmv-border-radius-base) 0 0 var(--xmv-border-radius-base);
@@ -186,4 +191,13 @@
     background-color: var(--xmv-radio-button-checked-bg-color, var(--xmv-color-primary));
     border-color: var(--xmv-radio-button-checked-border-color, var(--xmv-color-primary));
     box-shadow: -1px 0 0 0 var(--xmv-radio-button-checked-border-color, var(--xmv-color-primary));
+}
+
+.xmv-radio-button__original-radio:disabled+.xmv-radio-button__inner {
+    color: var(--xmv-disabled-text-color);
+    cursor: not-allowed;
+    background-image: none;
+    background-color: var(--xmv-button-disabled-bg-color, var(--xmv-fill-color-blank));
+    border-color: var(--xmv-button-disabled-border-color, var(--xmv-border-color-light));
+    box-shadow: none;
 }

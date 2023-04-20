@@ -24,6 +24,32 @@
         </xmv-row>
 
         <xmv-row>
+            <xmv-col :span="9" :offset="1">
+                <xmv-radio-group model="test">
+                    <xmv-radio label="1">Option 1</xmv-radio>
+                    <xmv-radio label="2">Option 2</xmv-radio>
+                    <xmv-radio label="3">Option 3</xmv-radio>
+                </xmv-radio-group>
+            </xmv-col>
+            <xmv-col :span="9" :offset="1">
+                <xmv-radio-group model="test1">
+                    <xmv-radio label="1" disabled>Option 1</xmv-radio>
+                    <xmv-radio label="2" disabled>Option 2</xmv-radio>
+                </xmv-radio-group>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col>
+                <xmv-radio-group model="test2">
+                    <xmv-radio-button label="1">Option 1</xmv-radio-button>
+                    <xmv-radio-button label="2">Option 2</xmv-radio-button>
+                </xmv-radio-group>
+            </xmv-col>
+
+        </xmv-row>
+
+        <xmv-row>
             <xmv-col>
                 <xmv-tag>Test Tag</xmv-tag>
             </xmv-col>

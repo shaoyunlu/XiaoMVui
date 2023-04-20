@@ -51,6 +51,8 @@ export default defineComponent({
             listeners : {}
         })
 
+        const {$on ,$emit} = createEventBus(eventBus)
+
         const computeClass = computed(()=>{
             let res = []
             if (selectMode.disabled.value){
@@ -69,8 +71,6 @@ export default defineComponent({
                 return ''
             }
         })
-
-        const {$on ,$emit} = createEventBus(eventBus)
 
         const XmvEventOn = inject('Xmv-Event-On')
 

@@ -18,6 +18,9 @@ import xmvSelect from 'comps/select/select.vue'
 import xmvOption from 'comps/select/option.vue'
 import xmvSelectTags from 'comps/select/tags.vue'
 import xmvTag from 'comps/tag/tag.vue'
+import xmvRadioGroup from 'comps/radio/radioGroup.vue'
+import xmvRadio from 'comps/radio/radio.vue'
+import xmvRadioButton from 'comps/radio/radioButton.vue'
 
 import {createEventBus} from 'utils/event'
 
@@ -63,6 +66,9 @@ const register = (vue)=>{
     vue.component('xmvOption', xmvOption)
     vue.component('xmvSelectTags', xmvSelectTags)
     vue.component('xmvTag', xmvTag)
+    vue.component('xmvRadioGroup', xmvRadioGroup)
+    vue.component('xmvRadio', xmvRadio)
+    vue.component('xmvRadioButton', xmvRadioButton)
 }
 
 export default register

@@ -21,6 +21,9 @@ import xmvTag from 'comps/tag/tag.vue'
 import xmvRadioGroup from 'comps/radio/radioGroup.vue'
 import xmvRadio from 'comps/radio/radio.vue'
 import xmvRadioButton from 'comps/radio/radioButton.vue'
+import xmvCheckbox from 'comps/checkbox/checkbox.vue'
+import xmvCheckboxGroup from 'comps/checkbox/checkboxGroup.vue'
+import xmvCheckboxButton from 'comps/checkbox/checkboxButton.vue'
 
 import {createEventBus} from 'utils/event'
 
@@ -69,6 +72,9 @@ const register = (vue)=>{
     vue.component('xmvRadioGroup', xmvRadioGroup)
     vue.component('xmvRadio', xmvRadio)
     vue.component('xmvRadioButton', xmvRadioButton)
+    vue.component('xmvCheckbox', xmvCheckbox)
+    vue.component('xmvCheckboxGroup', xmvCheckboxGroup)
+    vue.component('xmvCheckboxButton', xmvCheckboxButton)
 }
 
 export default register

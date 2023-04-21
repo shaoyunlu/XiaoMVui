@@ -58,6 +58,35 @@
         </xmv-row>
 
         <xmv-row>
+            <xmv-col :span="9" :offset="1">
+                <xmv-checkbox label="test1">Checkbox 1</xmv-checkbox>
+                <xmv-checkbox label="test2" disabled>Checkbox 2</xmv-checkbox>
+            </xmv-col>
+            <xmv-col :span="9" :offset="1">
+                <xmv-checkbox-group>
+                    <xmv-checkbox label="test1">Checkbox 1</xmv-checkbox>
+                    <xmv-checkbox label="test2">Checkbox 2</xmv-checkbox>
+                </xmv-checkbox-group>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="9" :offset="1">
+                <xmv-checkbox-group>
+                    <xmv-checkbox-button label="test1">Checkbox 1</xmv-checkbox-button>
+                    <xmv-checkbox-button label="test2" disabled>Checkbox 2</xmv-checkbox-button>
+                </xmv-checkbox-group>
+            </xmv-col>
+            <xmv-col :span="9" :offset="1">
+                <xmv-checkbox-group>
+                    <xmv-checkbox-button label="test1" size="small">Checkbox 1</xmv-checkbox-button>
+                    <xmv-checkbox-button label="test2" size="small">Checkbox 2</xmv-checkbox-button>
+                </xmv-checkbox-group>
+            </xmv-col>
+
+        </xmv-row>
+
+        <xmv-row>
             <xmv-col>
                 <xmv-tag>Test Tag</xmv-tag>
             </xmv-col>

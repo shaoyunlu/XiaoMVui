@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/shaoyunlu/XiaoMVui#readme",
   "dependencies": {
+    "dayjs": "^1.11.7",
     "vue": "^3.2.47"
   },
   "devDependencies": {

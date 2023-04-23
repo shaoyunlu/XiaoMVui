@@ -119,6 +119,12 @@
         </xmv-row>
 
         <xmv-row>
+            <xmv-col :span="5">
+                <xmv-date-picker></xmv-date-picker>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
             <xmv-col :span="6">
                 <xmv-tooltip content="测试">
                     <span>查看</span>

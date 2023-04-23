@@ -18,7 +18,7 @@ export default defineComponent({
         },
         placement : {
             type : String,
-            default : 'right'
+            default : 'bottom'
         },
         beStripped : {type : Boolean ,default : true},
     },

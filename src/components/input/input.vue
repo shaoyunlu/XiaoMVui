@@ -1,6 +1,11 @@
 <template>
     <div class="xmv-input" :class="computeClass" ref="xmvInputRef">
         <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}">
+            <span class="xmv-input__prefix" v-if="isShowPrefix" @click="handlePrefixClick">
+                <span class="xmv-input__prefix-inner">
+                    <xmv-icon :name="prefixicon" class="xmv-input__icon"></xmv-icon>
+                </span>
+            </span>
             <input class="xmv-input__inner" 
                 :type="inputType" 
                 autocomplete="off"
@@ -32,6 +37,7 @@ export default defineComponent({
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
         showpassword : String,
+        prefixicon : String,
         suffixicon : String,
         clearable : String,
         size : String
@@ -41,6 +47,7 @@ export default defineComponent({
         const xmvInputRef = ref(null)
         const isFocus = ref(false)
         const inputRef = ref(null)
+        const isShowPrefix = ref(false)
         const isShowSuffix = ref(false)
         const iconName = ref('')
         const suffixiconRef = ref(null)
@@ -90,6 +97,10 @@ export default defineComponent({
             }
         }
 
+        const handlePrefixClick = ()=>{
+            inputRef.value.focus()
+        }
+
         const handleSuffixClick = ()=>{
             inputRef.value.focus()
         }
@@ -107,6 +118,12 @@ export default defineComponent({
         const handleIconClearClick = ()=>{
             inputRef.value.value = ''
             handleInputInput()
+        }
+
+        const initPrefix = ()=>{
+            if (props.prefixicon != undefined){
+                isShowPrefix.value = true
+            }
         }
 
         const initSuffix = ()=>{
@@ -131,11 +148,13 @@ export default defineComponent({
             addClass(xmvInputRef.value ,'is-disabled')
         }
 
+        initPrefix()
+
         initSuffix()
 
-        return {isFocus ,xmvInputRef ,inputRef, isShowSuffix ,iconName , suffixRef,
+        return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,
                 inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,
-                handleInputFocus ,handleInputBlur , handleSuffixClick ,handleInputInput ,
+                handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
                 handleIconPwdClick ,handleIconClearClick ,focus ,val ,enable ,disabled}
     }
 })

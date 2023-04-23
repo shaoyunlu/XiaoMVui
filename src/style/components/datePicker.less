@@ -1,0 +1,73 @@
+.xmv-picker-panel {
+    color: var(--xmv-text-color-regular);
+    background: var(--xmv-bg-color-overlay);
+    border-radius: var(--xmv-border-radius-base);
+    line-height: 30px;
+}
+
+.xmv-date-picker {
+    width: 322px;
+}
+
+.xmv-date-picker__header {
+    margin: 12px;
+    text-align: center;
+}
+
+.xmv-date-picker__prev-btn {
+    float: left;
+}
+
+.xmv-picker-panel__icon-btn {
+    font-size: 12px;
+    color: var(--xmv-datepicker-icon-color);
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    margin-top: 8px;
+    &:hover{
+        color: var(--xmv-datepicker-hover-text-color);
+    }
+}
+
+.xmv-picker-panel__icon-btn .xmv-icon {
+    cursor: pointer;
+    font-size: inherit;
+}
+
+.xmv-date-picker__header-label {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 5px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--xmv-text-color-regular);
+    &:hover{
+        color: var(--xmv-datepicker-hover-text-color);
+    }
+}
+
+.xmv-date-picker__next-btn {
+    float: right;
+}
+
+.xmv-date-picker .xmv-picker-panel__content {
+    width: 292px;
+}
+
+.xmv-picker-panel__content {
+    position: relative;
+    margin: 15px;
+}
+
+.xmv-date-table {
+    font-size: 12px;
+    user-select: none;
+}
+
+.xmv-date-picker table {
+    table-layout: fixed;
+    width: 100%;
+}

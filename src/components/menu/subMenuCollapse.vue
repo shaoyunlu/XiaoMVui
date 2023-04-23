@@ -1,6 +1,6 @@
 <template>
     <li class="xmv-sub-menu" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
-        <xmv-popover :beStripped="level == 1?true:false"  trigger="mouse" ref="popoverRef">
+        <xmv-popover :beStripped="level == 1?true:false"  trigger="mouse" ref="popoverRef" placement="right">
             <template #trigger>
                 <div class="xmv-sub-menu__title">
                     <xmv-icon v-if="level == 1" name="plus"></xmv-icon>

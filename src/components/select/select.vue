@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover placement="bottom" :ref="selectMode.popoverRef">
+    <xmv-popover :ref="selectMode.popoverRef">
         <template #trigger>
             <div class="xmv-select" 
                 :class="computeClass" 

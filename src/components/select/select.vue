@@ -5,7 +5,7 @@
                 :class="computeClass" 
                 :ref="selectMode.selectRef" 
                 @click="handleActive"
-                @mouseup.stop="()=>{}">
+                @mouseup="()=>{}">
                 <div class="select-trigger">
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
                     <xmv-input 
@@ -69,14 +69,6 @@ export default defineComponent({
                 return '请选择'
             }else{
                 return ''
-            }
-        })
-
-        const XmvEventOn = inject('Xmv-Event-On')
-
-        XmvEventOn('mouseup' ,(e)=>{
-            if (selectMode.popoverRef.value.isShow){
-                selectMode.popoverRef.value.hide()
             }
         })
 

@@ -122,6 +122,9 @@
             <xmv-col :span="5">
                 <xmv-date-picker></xmv-date-picker>
             </xmv-col>
+            <xmv-col :span="10" :offset="3">
+                <xmv-date-picker type="daterange"></xmv-date-picker>
+            </xmv-col>
         </xmv-row>
 
         <xmv-row>

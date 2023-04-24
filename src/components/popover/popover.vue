@@ -92,6 +92,14 @@ export default defineComponent({
             }
         }
 
+        const XmvEventOn = inject('Xmv-Event-On')
+
+        XmvEventOn('mouseup' ,(e)=>{
+            if (isShow.value){
+                hide()
+            }
+        })
+
         onMounted(()=>{
             triggerEl = placeSpan.value.nextElementSibling
             defaultEl = triggerEl.nextElementSibling

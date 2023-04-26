@@ -1,7 +1,7 @@
 <template>
-    <xmv-popover placement="bottom">
+    <xmv-popover placement="bottom" :ref="datePickerMode.popoverRef">
         <template #trigger>
-            <xmv-input prefixicon="calendar" clearable v-if="type == 'date'"></xmv-input>
+            <xmv-input prefixicon="calendar" clearable v-if="type == 'date'" ref="inputRef"></xmv-input>
             <div v-if="type == 'daterange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default">
@@ -16,8 +16,8 @@
     <div class="xmv-picker-panel" :class="computePanelClass">
         <div class="xmv-picker-panel__body-wrapper">
             <div class="xmv-picker-panel__body">
-                <xmv-calendar pos="left"></xmv-calendar>
-                <xmv-calendar v-if="type == 'daterange'" pos="right"></xmv-calendar>
+                <xmv-calendar :dMode="datePickerMode"></xmv-calendar>
+                <xmv-calendar v-if="type == 'daterange'" :dMode="datePickerRightMode"></xmv-calendar>
             </div>
         </div>
         <div class="xmv-picker-panel__footer"></div>
@@ -25,9 +25,11 @@
 </template>
 
 <script>
-import {computed, defineComponent, provide} from 'vue'
+import {computed, defineComponent, onMounted, provide ,reactive ,ref} from 'vue'
 import DatePickerMode from './mode/datePickerMode'
+import StoreMode from './mode/storeMode'
 import xmvCalendar from './calendar.vue'
+import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"xmvDatePicker",
     components:{xmvCalendar},
@@ -35,10 +37,26 @@ export default defineComponent({
         type : {type:String,default:'date'} //daterange
     },
     setup(props ,context) {
+        const storeMode = new StoreMode()
         const datePickerMode = new DatePickerMode(props)
+        const datePickerRightMode = new DatePickerMode(props)
+        datePickerRightMode.dateObj = datePickerRightMode.dateObj.add(1 ,'month')
+        datePickerRightMode.initDayMode()
+        datePickerRightMode.pos = 'right'
+        storeMode.leftDMode = datePickerMode
+        storeMode.rightDMode = datePickerRightMode
+        const inputRef = ref(null)
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
 
         provide('DatePickerMode' ,datePickerMode)
-
+        provide('DatePickerRightMode' ,datePickerRightMode)
+        provide('StoreMode' ,storeMode)
+        provide('EventBus' ,{$on ,$emit})
 
         const computePanelClass = computed(()=>{
             let res = []
@@ -50,7 +68,18 @@ export default defineComponent({
             return res
         })
 
-        return {datePickerMode ,computePanelClass}
+        $on('tdClick' ,(data)=>{
+            if (datePickerMode.type.value == 'date'){
+                inputRef.value.val(data.format('YYYY-MM-DD'))
+                datePickerMode.popoverRef.value.hide()
+            }
+        })
+
+        onMounted(()=>{
+            $emit('change')
+        })
+
+        return {datePickerMode ,datePickerRightMode ,computePanelClass ,inputRef}
     }
 })
 </script>

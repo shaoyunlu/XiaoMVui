@@ -1,12 +1,14 @@
 <template>
     <div class="xmv-picker-panel__content" :class="computeClass">
         <div :class="computeHeaderClass">
-            <span class="xmv-date-picker__prev-btn">
-                <button type="button" class="d-arrow-left xmv-picker-panel__icon-btn" v-if="shouldShowLeft"
+            <span class="xmv-date-picker__prev-btn" >
+                <button type="button" class="d-arrow-left xmv-picker-panel__icon-btn"
+                    v-if="leftSideDButton"
                     @mouseup.stop="handleDArrowLeft">
                     <xmv-icon name="dArrowLeft"></xmv-icon>
                 </button>
-                <button type="button" class="xmv-picker-panel__icon-btn arrow-left" v-if="shouldShowLeft"
+                <button type="button" class="xmv-picker-panel__icon-btn arrow-left"
+                    v-if="leftSideButton"
                     @mouseup.stop="handleArrowLeft">
                     <xmv-icon name="arrowLeft"></xmv-icon>
                 </button>
@@ -18,11 +20,13 @@
                 {{dMode.rctData.month}}
             </span>
             <span class="xmv-date-picker__next-btn">
-                <button type="button" class="xmv-picker-panel__icon-btn arrow-right" v-if="shouldShowRight"
+                <button type="button" class="xmv-picker-panel__icon-btn arrow-right"
+                     v-if="rightSideButton"
                      @mouseup.stop="handleArrowRight">
                     <xmv-icon name="arrowRight"></xmv-icon>
                 </button>
-                <button type="button" class="xmv-picker-panel__icon-btn d-arrow-right" v-if="shouldShowRight"
+                <button type="button" class="xmv-picker-panel__icon-btn d-arrow-right"
+                    v-if="rightSideDButton"
                     @mouseup.stop="handleDArrowRight">
                     <xmv-icon name="dArrowRight"></xmv-icon>
                 </button>
@@ -36,14 +40,7 @@
                         <th v-for="tmp in dMode.weekHeader">{{tmp}}</th>
                     </tr>
                     <tr class="xmv-date-table__row" v-for="rowList in dMode.rctData.dayList">
-                        <td v-for="tmp in rowList" 
-                            :class="{'prev-month':tmp.prevMonth ,'next-month':tmp.nextMonth ,'available':tmp.available}">
-                            <div class="xmv-date-table-cell">
-                                <span class="xmv-date-table-cell__text">
-                                    {{tmp.value}}
-                                </span>
-                            </div>
-                        </td>
+                        <xmv-calendar-td v-for="tmp in rowList" :data="tmp" :dMode="dMode"></xmv-calendar-td>
                     </tr>
                 </tbody>
             </table>
@@ -52,41 +49,101 @@
 </template>
 
 <script>
-import {computed, defineComponent, inject} from 'vue'
+import {computed, defineComponent, inject ,nextTick,provide,reactive ,ref} from 'vue'
+import xmvCalendarTd from './calendarTd.vue'
+import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"",
     props:{
-        pos : String
+        dMode : Object
     },
-    setup(props ,context) {
+    components:{xmvCalendarTd},
+    setup({dMode} ,context) {
 
-        const dMode = inject('DatePickerMode')
+        const storeMode = inject('StoreMode')
+        const leftSideDButton = ref(true)
+        const leftSideButton = ref(true)
+        const rightSideButton = ref(true)
+        const rightSideDButton = ref(true)
+
+        const {$on : aOn ,$emit : aEmit} = inject('EventBus')
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+        provide('CalendarEventBus' ,{$on ,$emit})
 
         const handleDArrowLeft = ()=>{
-            if (dMode.type.value == 'date'){
-                dMode.dateObj = dMode.dateObj.subtract(1,'year')
-                dMode.initDayMode(dMode.dateObj)
-            }
+            dMode.dateObj = dMode.dateObj.subtract(1,'year')
+            dMode.initDayMode()
+            $emit('change')
+            aEmit('change')
         }
 
         const handleArrowLeft = ()=>{
-            if (dMode.type.value == 'date'){
-                dMode.dateObj = dMode.dateObj.subtract(1,'month')
-                dMode.initDayMode(dMode.dateObj)
-            }
+            
+            dMode.dateObj = dMode.dateObj.subtract(1,'month')
+            dMode.initDayMode()
+            $emit('change')
+            aEmit('change')
         }
 
         const handleDArrowRight = ()=>{
-            if (dMode.type.value == 'date'){
-                dMode.dateObj = dMode.dateObj.add(1,'year')
-                dMode.initDayMode(dMode.dateObj)
-            }
+            dMode.dateObj = dMode.dateObj.add(1,'year')
+            dMode.initDayMode()
+            $emit('change')
+            aEmit('change')
         }
 
         const handleArrowRight = ()=>{
+            dMode.dateObj = dMode.dateObj.add(1,'month')
+            dMode.initDayMode()
+            $emit('change')
+            aEmit('change')
+        }
+
+        aOn('change' ,()=>{
+            judgeButtonShow()
+        })
+
+        const judgeButtonShow = ()=>{
             if (dMode.type.value == 'date'){
-                dMode.dateObj = dMode.dateObj.add(1,'month')
-                dMode.initDayMode(dMode.dateObj)
+                return false
+            }
+
+            let leftMode = storeMode.leftDMode
+            let rightMode = storeMode.rightDMode
+            let differMonth = rightMode.dateObj.diff(leftMode.dateObj, 'month')
+            let differYear = rightMode.dateObj.diff(leftMode.dateObj, 'year')
+            if (differMonth > 1)
+            {
+                leftSideButton.value = true
+                rightSideButton.value = true
+            }
+            else{
+                if (dMode.pos == 'left'){
+                    leftSideButton.value = true
+                    rightSideButton.value = false
+                }else{
+                    leftSideButton.value = false
+                    rightSideButton.value = true
+                }
+            }
+            if (differYear > 0)
+            {
+                leftSideDButton.value = true
+                rightSideDButton.value = true
+            }
+            else{
+                if (dMode.pos == 'left'){
+                    leftSideDButton.value = true
+                    rightSideDButton.value = false
+                }else{
+                    leftSideDButton.value = false
+                    rightSideDButton.value = true
+                }
             }
         }
 
@@ -94,7 +151,7 @@ export default defineComponent({
             let res = []
             if (dMode.type.value == 'daterange'){
                 res.push('xmv-date-range-picker__content')
-                if (props.pos == 'left'){
+                if (dMode.pos == 'left'){
                     res.push('is-left')
                 }else{
                     res.push('is-right')
@@ -116,26 +173,10 @@ export default defineComponent({
             return res
         })
 
-        const shouldShowLeft = computed(()=>{
-            if (dMode.type.value == 'date'){
-                return true
-            }else if(dMode.type.value == 'daterange'){
-                return props.pos == 'left'
-            }
-            return true
-        })
-
-        const shouldShowRight = computed(()=>{
-            if (dMode.type.value == 'date'){
-                return true
-            }else if(dMode.type.value == 'daterange'){
-                return props.pos == 'right'
-            }
-            return true
-        })
-
-        return {dMode ,handleDArrowLeft ,handleArrowLeft ,handleDArrowRight ,handleArrowRight ,
-                computeClass ,computeHeaderClass ,shouldShowLeft ,shouldShowRight}
+        return {handleDArrowLeft ,handleArrowLeft ,
+                handleDArrowRight ,handleArrowRight ,judgeButtonShow,
+                computeClass ,computeHeaderClass ,leftSideButton ,rightSideButton,
+                leftSideDButton ,rightSideDButton}
     }
 })
 </script>

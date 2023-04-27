@@ -8,9 +8,12 @@ class StoreMode{
 
     handleList(dateObj){
         if (this.dateList.length == 2){
-            return false
+            this.dateList = []
+            this.dateList.push(dateObj)
+        }else{
+            this.dateList.push(dateObj)
         }
-        this.dateList.push(dateObj)
+        
     }
 
 }

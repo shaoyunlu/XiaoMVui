@@ -138,6 +138,7 @@ export default defineComponent({
 
         const val =(value)=>{
             inputRef.value.value = value
+            handleInputInput()
         }
 
         const enable = ()=>{

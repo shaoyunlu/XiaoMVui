@@ -40,7 +40,6 @@ export default defineComponent({
                 storeMode.dateObj[dMode.pos] = dateObj
             }else if(dMode.type.value == 'daterange'){
                 storeMode.handleList(dateObj)
-                //storeMode.dateList.push(dateObj)
             }
             
             $emit('tdClick' ,dateObj)
@@ -57,8 +56,10 @@ export default defineComponent({
             return dateObj.date(spanRef.value.innerHTML)
         }
 
-        $on('tdClick' ,(cData)=>{
-            judgeCurrent()
+        aOn('tdClick' ,(cData)=>{
+            nextTick(()=>{
+                judgeCurrent()
+            })
         })
 
         $on('change' ,()=>{

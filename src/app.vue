@@ -154,8 +154,8 @@
         </xmv-row>
 
         <xmv-row>
-            <xmv-col :span="6">
-                <xmv-input suffixicon="search"></xmv-input>
+            <xmv-col :span="5">
+                <xmv-input suffixicon="search" prefixicon="calendar"></xmv-input>
             </xmv-col>
             <xmv-col :span="6" :offset="6">
                 <xmv-input suffixicon="calendar"></xmv-input>

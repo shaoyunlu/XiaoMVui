@@ -69,6 +69,10 @@ export default defineComponent({
             })
         })
 
+        aOn('removeCurrent' ,()=>{
+            isCurrent.value = false
+        })
+
         const judgeToday = ()=>{
             let dateObj = getDate()
             if (dateObj.isSame(dMode.todayObj,'day')){

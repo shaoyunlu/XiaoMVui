@@ -3,7 +3,7 @@
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date"
                 v-if="type == 'date'" 
-                prefixicon="calendar" clearable  ref="inputRef"></xmv-input>
+                prefixicon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
             <div v-if="type == 'daterange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default"
@@ -116,6 +116,15 @@ export default defineComponent({
             leftInputRef.value.value = ''
             rightInputRef.value.value = ''
             storeMode.dateList = []
+            // 取消current
+            $emit('removeCurrent')
+        }
+
+        const handleDateClear = ()=>{
+            inputRef.value.val('')
+            storeMode.dateObj['left'] = new Object()
+            // 取消current
+            $emit('removeCurrent')
         }
 
         onMounted(()=>{
@@ -123,12 +132,11 @@ export default defineComponent({
                 inputRef.value.setInputWidth(1)
             }    
             $emit('change')
-            
         })
 
         return {datePickerMode ,datePickerRightMode ,computePanelClass ,
                 inputRef,leftInputRef,rightInputRef,daterangeRef,isActive,
-                handleDateRangeMouseup,handleDateRangeClose}
+                handleDateRangeMouseup,handleDateRangeClose,handleDateClear}
     }
 })
 </script>

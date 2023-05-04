@@ -128,6 +128,15 @@
         </xmv-row>
 
         <xmv-row>
+            <xmv-col :span="5">
+                <xmv-time-picker></xmv-time-picker>
+            </xmv-col>
+            <xmv-col :span="10" :offset="3">
+                
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
             <xmv-col :span="6">
                 <xmv-tooltip content="测试">
                     <span>查看</span>

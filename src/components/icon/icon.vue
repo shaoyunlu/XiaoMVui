@@ -26,11 +26,12 @@ import circleClose from './category/circleClose.vue'
 import vew from './category/view.vue'
 import hide from './category/hide.vue'
 import calendar from './category/calendar.vue'
+import clock from './category/clock.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
-                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar},
+                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar ,clock},
     props:{
         name : ''
     },

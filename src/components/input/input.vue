@@ -31,7 +31,7 @@ import {defineComponent ,ref ,computed ,onMounted} from 'vue'
 import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvInput",
-    emits:['blur'],
+    emits:['blur','clear'],
     props:{
         disabled : String,
         type : {type:String ,default:'text'},
@@ -118,6 +118,7 @@ export default defineComponent({
         const handleIconClearClick = ()=>{
             inputRef.value.value = ''
             handleInputInput()
+            context.emit('clear')
         }
 
         const initPrefix = ()=>{

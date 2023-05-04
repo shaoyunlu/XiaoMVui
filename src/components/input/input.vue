@@ -16,9 +16,9 @@
             <span class="xmv-input__suffix" v-if="isShowSuffix" ref="suffixRef" @click="handleSuffixClick">
                 <span class="xmv-input__suffix-inner">
                     <xmv-icon :name="pwdIconName" class="xmv-input__icon" v-if="pwdShow"
-                    @click="handleIconPwdClick"></xmv-icon>
+                    @mouseup="handleIconPwdClick"></xmv-icon>
                     <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
-                    @click="handleIconClearClick"></xmv-icon>
+                    @mouseup="handleIconClearClick"></xmv-icon>
                     <xmv-icon :name="suffixicon"  class="xmv-input__icon" v-if="suffixicon != undefined" ref="suffixiconRef"></xmv-icon>
                 </span>
             </span>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref ,computed} from 'vue'
+import {defineComponent ,ref ,computed ,onMounted} from 'vue'
 import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvInput",
@@ -141,6 +141,10 @@ export default defineComponent({
             handleInputInput()
         }
 
+        const setInputWidth = (width)=>{
+            inputRef.value.style.width = width + 'px'
+        }
+
         const enable = ()=>{
             removeClass(xmvInputRef.value ,'is-disabled')
         }
@@ -153,10 +157,14 @@ export default defineComponent({
 
         initSuffix()
 
+        onMounted(()=>{
+            //inputRef.value.style.width = '1px'
+        })
+
         return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,
                 inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,
                 handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconClearClick ,focus ,val ,enable ,disabled}
+                handleIconPwdClick ,handleIconClearClick ,focus ,val ,enable ,disabled ,setInputWidth}
     }
 })
 </script>

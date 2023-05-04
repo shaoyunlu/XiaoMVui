@@ -1,7 +1,9 @@
 <template>
     <xmv-popover placement="bottom" :ref="datePickerMode.popoverRef">
         <template #trigger>
-            <xmv-input prefixicon="calendar" clearable v-if="type == 'date'" ref="inputRef"></xmv-input>
+            <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date"
+                v-if="type == 'date'" 
+                prefixicon="calendar" clearable  ref="inputRef"></xmv-input>
             <div v-if="type == 'daterange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default"
@@ -12,7 +14,8 @@
                 <input type="text" class="xmv-range-input" ref="leftInputRef">
                 <span class="xmv-range-separator">到</span>
                 <input type="text" class="xmv-range-input" ref="rightInputRef">
-                <xmv-icon name="circleClose" class="xmv-input__icon xmv-range__close-icon"></xmv-icon>
+                <xmv-icon name="circleClose" @click.stop="handleDateRangeClose"
+                class="xmv-input__icon xmv-range__close-icon"></xmv-icon>
             </div>
         </template>
     </xmv-popover>
@@ -28,7 +31,7 @@
 </template>
 
 <script>
-import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject} from 'vue'
+import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject, nextTick} from 'vue'
 import DatePickerMode from './mode/datePickerMode'
 import StoreMode from './mode/storeMode'
 import xmvCalendar from './calendar.vue'
@@ -90,7 +93,15 @@ export default defineComponent({
                 if (storeMode.dateList.length != 2){
                     return false
                 }
-                let dateList = storeMode.dateList
+                let dateList = storeMode.dateList.sort((a, b) => {
+                    if (a.isBefore(b)) {
+                        return -1;
+                    } else if (a.isAfter(b)) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                })
                 leftInputRef.value.value = dateList[0].format(props.format)
                 rightInputRef.value.value = dateList[1].format(props.format)
                 datePickerMode.popoverRef.value.hide()
@@ -101,12 +112,23 @@ export default defineComponent({
             isActive.value = true
         }
 
+        const handleDateRangeClose = ()=>{
+            leftInputRef.value.value = ''
+            rightInputRef.value.value = ''
+            storeMode.dateList = []
+        }
+
         onMounted(()=>{
+            if (props.type == 'date'){
+                inputRef.value.setInputWidth(1)
+            }    
             $emit('change')
+            
         })
 
         return {datePickerMode ,datePickerRightMode ,computePanelClass ,
-                inputRef,leftInputRef,rightInputRef,daterangeRef,isActive,handleDateRangeMouseup}
+                inputRef,leftInputRef,rightInputRef,daterangeRef,isActive,
+                handleDateRangeMouseup,handleDateRangeClose}
     }
 })
 </script>

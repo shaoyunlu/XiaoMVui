@@ -167,7 +167,10 @@ export default defineComponent({
         const hanleScroll = ()=>{
             isScrollIng = true
             __conversion()
-            context.emit('scroll' ,{'hor' : scrollbarWrapRef.value.scrollLeft})
+            context.emit('scroll' ,{
+                'hor' : scrollbarWrapRef.value.scrollLeft,
+                'ver' : scrollbarWrapRef.value.scrollTop
+            })
         }
 
         const reset = ()=>{
@@ -184,6 +187,12 @@ export default defineComponent({
             parentHorThumbEl.style.display = 'none'
             parentVerThumEl.style.display = 'none'
             currentMouseDown = ''
+        }
+
+        const scroll = (val ,type='ver')=>{
+            if (type == 'ver'){
+                scrollbarWrapRef.value.scrollTop = val
+            }
         }
 
         const __judgeVisible = ()=>{
@@ -252,6 +261,7 @@ export default defineComponent({
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
+                scroll,
                 scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill ,isMargin ,scrollbarWrapStyle}
     }
 })

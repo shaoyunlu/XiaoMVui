@@ -17,7 +17,6 @@ export function resizeOB(el ,cbf){
             subtree: true  // 监测所有后代节点的变化
         });
     }
-    
 }
 
 export function createEventBus(eventBus){
@@ -36,4 +35,14 @@ export function createEventBus(eventBus){
     };
 
     return {$on ,$emit}
+}
+
+export function debounce(func, delay) {
+    let timeoutId
+    return function(...args) {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+            func.apply(this, args)
+        }, delay)
+    }
 }

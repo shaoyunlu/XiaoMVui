@@ -88,3 +88,13 @@
     width: 100%;
     height: 80px;
 }
+
+.xmv-time-spinner__item:hover:not(.is-disabled):not(.is-active) {
+    background: var(--xmv-fill-color-light);
+    cursor: pointer;
+}
+
+.xmv-time-spinner__item.is-active:not(.is-disabled) {
+    color: var(--xmv-text-color-primary);
+    font-weight: 700;
+}

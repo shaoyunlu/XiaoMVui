@@ -49,9 +49,14 @@ export default defineComponent({
             let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl)
             transition.placement = type
 
-            if (pEl.parentNode.tagName != 'BODY'){
-                left = triggerEl.offsetWidth + 5
-                top = triggerEl.offsetTop - 1
+            if (!props.beStripped){
+                if (props.placement == 'bottom'){
+                    left = 0
+                    top = triggerEl.offsetTop + triggerEl.clientHeight + 5
+                }else if(props.placement == 'right'){
+                    left = triggerEl.offsetWidth + 5
+                    top = triggerEl.offsetTop - 1
+                }
             }
             popperEl.style.left = left + 'px'
             popperEl.style.top = top + 'px'
@@ -95,8 +100,11 @@ export default defineComponent({
         const XmvEventOn = inject('Xmv-Event-On')
 
         XmvEventOn('mouseup' ,(e)=>{
-            if (isShow.value){
-                hide()
+            let parent = e.target.closest('.xmv-popper')
+            if (!parent){
+                if (isShow.value){
+                    hide()
+                }
             }
         })
 

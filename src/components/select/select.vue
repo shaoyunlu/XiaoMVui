@@ -15,7 +15,7 @@
                 </div>
             </div>
         </template>
-        <div class="xmv-select-dropdown" :class="computeClass" @mouseup.stop="()=>{}"
+        <div class="xmv-select-dropdown" :class="computeClass" 
             :style="{'min-width' : selectMode.rctData.dropdownWidth + 'px'}">
             <xmv-scrollbar :maxHeightFlag="true">
                 <ul class="xmv-select-dropdown__list">

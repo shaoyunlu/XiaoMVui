@@ -1,9 +1,9 @@
 <template>
-    <xmv-time-scroll :list="list"></xmv-time-scroll>
+    <xmv-time-scroll :list="list" @scrollNum="handleNum"></xmv-time-scroll>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {defineComponent ,inject} from 'vue'
 import xmvTimeScroll from './scroll.vue'
 export default defineComponent({
     name:"",
@@ -13,7 +13,14 @@ export default defineComponent({
         for(let i=0;i<60;i++){
             list.push(i)
         }
-        return {list}
+
+        const secondRef = inject('Second')
+
+        const handleNum = (num)=>{
+            secondRef.value = num
+        }
+
+        return {list ,handleNum}
     }
 })
 </script>

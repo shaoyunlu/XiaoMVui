@@ -1,0 +1,51 @@
+.xmv-tree {
+    position: relative;
+    cursor: default;
+    background: var(--xmv-fill-color-blank);
+    color: var(--xmv-tree-text-color);
+    font-size: var(--xmv-font-size-base);
+}
+
+.xmv-tree-node {
+    white-space: nowrap;
+    outline: none;
+}
+
+.xmv-tree-node__content {
+    display: flex;
+    align-items: center;
+    height: 26px;
+    cursor: pointer;
+    &:hover{
+        background-color: var(--xmv-tree-node-hover-bg-color);
+    }
+}
+
+.xmv-tree-node__expand-icon {
+    cursor: pointer;
+    color: var(--xmv-tree-expand-icon-color);
+    font-size: 12px;
+    transform: rotate(0);
+    transition: transform var(--xmv-transition-duration) ease-in-out;
+    &.expanded{
+        transform: rotate(90deg);
+    }
+    &.is-leaf {
+        color: transparent;
+        cursor: default;
+    }
+}
+
+.xmv-tree-node__content>.xmv-tree-node__expand-icon {
+    padding: 6px;
+    box-sizing: content-box;
+}
+
+.xmv-tree-node>.xmv-tree-node__children {
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.xmv-tree-node.is-expanded>.xmv-tree-node__children {
+    display: block;
+}

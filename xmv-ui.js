@@ -26,6 +26,8 @@ import xmvCheckboxGroup from 'comps/checkbox/checkboxGroup.vue'
 import xmvCheckboxButton from 'comps/checkbox/checkboxButton.vue'
 import xmvDatePicker from 'comps/datePicker/datePicker.vue'
 import xmvTimePicker from 'comps/timePicker/timePicker.vue'
+import xmvTree from 'comps/tree/tree.vue'
+import xmvTreeNode from 'comps/tree/treeNode.vue'
 
 import {createEventBus} from 'utils/event'
 
@@ -79,6 +81,8 @@ const register = (vue)=>{
     vue.component('xmvCheckboxButton', xmvCheckboxButton)
     vue.component('xmvDatePicker', xmvDatePicker)
     vue.component('xmvTimePicker', xmvTimePicker)
+    vue.component('xmvTree', xmvTree)
+    vue.component('xmvTreeNode', xmvTreeNode)
 }
 
 export default register

@@ -10,6 +10,11 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col>
+                <xmv-tree ref="treeRef"></xmv-tree>
+            </xmv-col>
+        </xmv-row>
+        <xmv-row>
+            <xmv-col>
                 <xmv-button>点击</xmv-button>
                 <xmv-button type="primary">primary</xmv-button>
                 <xmv-button plain>点击</xmv-button>
@@ -205,6 +210,66 @@ export default defineComponent({
         //     menuRef.value.expand()
         // }
 
+        const treeRef = ref(null)
+
+        const treeData = [
+            {
+                label: 'Level one 1',
+                children: [
+                {
+                    label: 'Level two 1-1',
+                    children: [
+                    {
+                        label: 'Level three 1-1-1',
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 2',
+                children: [
+                {
+                    label: 'Level two 2-1',
+                    children: [
+                    {
+                        label: 'Level three 2-1-1',
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 2-2',
+                    children: [
+                    {
+                        label: 'Level three 2-2-1',
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 3',
+                children: [
+                {
+                    label: 'Level two 3-1',
+                    children: [
+                    {
+                        label: 'Level three 3-1-1',
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 3-2',
+                    children: [
+                    {
+                        label: 'Level three 3-2-1',
+                    },
+                    ],
+                },
+                ],
+            },
+        ]
+
         const horizontalMenuData = [
             {name : '菜单一'},
             {name : '菜单二'},
@@ -274,10 +339,11 @@ export default defineComponent({
             horizontalMenuRef.value.loadData(horizontalMenuData)
             sideBarMenuRef.value.loadData(sideBarMenuData)
             tableRef.value.loadData(tableData)
+            treeRef.value.loadData(treeData)
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData
+            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef
         }
     }
 })

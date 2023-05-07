@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {defineComponent, provide ,ref, watch} from 'vue'
+import {defineComponent, onMounted, provide ,ref, watch} from 'vue'
 import xmvTimeHour from './hour.vue'
 import xmvTimeMinute from './minute.vue'
 import xmvTimeSecond from './second.vue'
@@ -59,6 +59,10 @@ export default defineComponent({
                     + zeroFill(minuteRef.value) + ":" 
                     + zeroFill(secondRef.value))
         }
+
+        onMounted(()=>{
+            inputRef.value.setInputWidth(1)
+        })
 
         return {hourRef ,minuteRef ,secondRef ,inputRef}
     }

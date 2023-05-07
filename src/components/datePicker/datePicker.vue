@@ -130,7 +130,7 @@ export default defineComponent({
         onMounted(()=>{
             if (props.type == 'date'){
                 inputRef.value.setInputWidth(1)
-            }    
+            }
             $emit('change')
         })
 

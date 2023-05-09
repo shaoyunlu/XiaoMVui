@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-tree-node__children" ref="childrenDivRef">
-        <xmv-tree-node v-for="tmp in node.children" :node="tmp"></xmv-tree-node>
+        <xmv-tree-node v-for="tmp in node.children" :node="tmp" :parent="node"></xmv-tree-node>
     </div>
 </template>
 
@@ -16,6 +16,10 @@ export default defineComponent({
         const childrenDivRef = ref(null)
 
         provide('Level' ,inject('Level') + 1)
+
+        onMounted((()=>{
+            
+        }))
 
         return {childrenDivRef}
     }

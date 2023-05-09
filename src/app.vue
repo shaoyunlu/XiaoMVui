@@ -10,7 +10,13 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col>
-                <xmv-tree ref="treeRef"></xmv-tree>
+                <xmv-tree ref="treeRef">
+                    <template #default="{node}">
+                        <span class="custom-tree-node">
+                            <span>{{node.label}}</span>
+                        </span>
+                    </template>
+                </xmv-tree>
             </xmv-col>
         </xmv-row>
         <xmv-row>
@@ -340,6 +346,10 @@ export default defineComponent({
             sideBarMenuRef.value.loadData(sideBarMenuData)
             tableRef.value.loadData(tableData)
             treeRef.value.loadData(treeData)
+
+            setTimeout(()=>{
+                treeRef.value.filter('Level two 1-1')
+            },3000)
         })
 
         return {

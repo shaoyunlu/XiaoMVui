@@ -4,6 +4,8 @@
 
 .xmv-place-span{display: none;}
 
+@keyframes rotating{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;
     --xmv-color-success-rgb: 103, 194, 58;

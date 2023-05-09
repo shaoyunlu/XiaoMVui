@@ -9,17 +9,27 @@ import {defineComponent ,provide} from 'vue'
 import TreeMode from './mode/treeMode';
 export default defineComponent({
     name:"xmvTree",
+    props:{
+        filterNodeMethod : {
+            type : Function
+        }
+    },
     setup(props ,context) {
-        const treeMode = new TreeMode()
+        const treeMode = new TreeMode(props)
 
         provide('Level' ,0)
         provide('TreeMode' ,treeMode)
+        provide('Slots' ,context.slots)
 
         const loadData = (data)=>{
             treeMode.loadData(data)
         }
 
-        return {treeMode ,loadData}
+        const filter = (label)=>{
+            treeMode.filter(label)
+        }
+
+        return {treeMode ,loadData ,filter}
     }
 })
 </script>

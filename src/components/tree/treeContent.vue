@@ -2,23 +2,25 @@
     <div class="xmv-tree-node__content" :style="computeStyle">
         <xmv-icon name="arrowRight" class="xmv-tree-node__expand-icon" 
         :class="computeIconClass"></xmv-icon>
-        <span class="xmv-tree-node__label">
-            {{node.label}}
-        </span>
+        <xmv-checkbox @check="handleCheck" :checkStatus="node.isChecked" :indeterminateStatus="node.isIndeterminate"></xmv-checkbox>
+        <xmv-tree-label :node="node"></xmv-tree-label>
     </div>
 </template>
 
 <script>
-import {computed, defineComponent ,inject} from 'vue'
+import {computed, defineComponent ,inject, onMounted} from 'vue'
 import {isEmpty} from 'utils/data'
+import xmvTreeLabel from './treeLabel.vue'
 export default defineComponent({
     name:"",
     props:{
         node:Object
     },
+    components:{xmvTreeLabel},
     setup({node} ,context) {
 
         const level = inject('Level')
+        const treeMode = inject('TreeMode')
 
         const computeIconClass = computed(()=>{
             let res = []
@@ -35,7 +37,13 @@ export default defineComponent({
             return {'padding-left' : level * 18 + 'px'}
         })
 
-        return {computeStyle ,computeIconClass}
+        const handleCheck = (checked)=>{
+            node.isChecked = checked
+            node.isIndeterminate = false
+            treeMode.handleNodeCheck(node ,checked)
+        }
+
+        return {computeStyle ,computeIconClass ,handleCheck}
     }
 })
 </script>

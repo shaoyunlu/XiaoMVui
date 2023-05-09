@@ -61,6 +61,22 @@
         transition: transform .15s ease-in .05s;
         transform-origin: center;
     }
+    &::before{
+        box-sizing: content-box;
+        content: "";
+        border: 1px solid var(--xmv-checkbox-checked-icon-color);
+        border-left: 0;
+        border-top: 0;
+        border-bottom: 0;
+        height: 7px;
+        left: 4px;
+        position: absolute;
+        top: 1px;
+        transform: rotate(90deg) scaleY(0);
+        width: 3px;
+        transition: transform .15s ease-in .05s;
+        transform-origin: center;
+    }
 }
 
 .xmv-checkbox__input.is-checked .xmv-checkbox__inner {
@@ -68,8 +84,17 @@
     border-color: var(--xmv-checkbox-checked-input-border-color);
 }
 
-.xmv-checkbox__input.is-checked .xmv-checkbox__inner:after {
+.xmv-checkbox__input.is-indeterminate .xmv-checkbox__inner {
+    background-color: var(--xmv-checkbox-checked-bg-color);
+    border-color: var(--xmv-checkbox-checked-input-border-color);
+}
+
+.xmv-checkbox__input.is-checked .xmv-checkbox__inner:after{
     transform: rotate(45deg) scaleY(1);
+}
+
+.xmv-checkbox__input.is-indeterminate .xmv-checkbox__inner:before {
+    transform: rotate(90deg) scaleY(1);
 }
 
 .xmv-checkbox__label {

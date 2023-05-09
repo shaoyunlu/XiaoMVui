@@ -4,8 +4,7 @@
             <div class="xmv-select" 
                 :class="computeClass" 
                 :ref="selectMode.selectRef" 
-                @click="handleActive"
-                @mouseup="()=>{}">
+                @click="handleActive">
                 <div class="select-trigger">
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
                     <xmv-input 
@@ -19,8 +18,11 @@
             :style="{'min-width' : selectMode.rctData.dropdownWidth + 'px'}">
             <xmv-scrollbar :maxHeightFlag="true">
                 <ul class="xmv-select-dropdown__list">
-                    <xmv-select-item v-for="tmp in selectMode.rctData.options" :data="tmp"></xmv-select-item>
+                    <xmv-select-item v-if="type == 'select'" 
+                        v-for="tmp in selectMode.rctData.options" :data="tmp"></xmv-select-item>
+                    <xmv-tree v-if="type == 'tree'" :ref="selectMode.treeRef"></xmv-tree>
                 </ul>
+
             </xmv-scrollbar>
         </div>
     </xmv-popover>
@@ -40,7 +42,8 @@ export default defineComponent({
         multiple : String,
         collapseTags : String,
         maxcollapseTags : Number,
-        filterable : String
+        filterable : String,
+        type:{type:String ,default:'select'}
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -94,6 +97,10 @@ export default defineComponent({
             }
         }
 
+        const loadTreeData = (data)=>{
+            selectMode.treeRef.value.loadData(data)
+        }
+
         onMounted(()=>{
             selectMode.rctData.dropdownWidth = selectMode.selectRef.value.clientWidth - 2
 
@@ -112,8 +119,8 @@ export default defineComponent({
             }
         })
 
-        return {selectMode ,computeClass ,computePlaceholder,
-            handleActive}
+        return {selectMode ,computeClass ,computePlaceholder,loadTreeData,
+                handleActive}
     }
 })
 </script>

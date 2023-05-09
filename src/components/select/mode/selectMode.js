@@ -10,6 +10,7 @@ class SelectMode{
         this.selectRef = ref(null)
         this.inputRef = ref(null)
         this.popoverRef = ref(null)
+        this.treeRef = ref(null)
         this.tagsRef
         this.disabled = ref(props.disabled != undefined)
         this.multiple = ref(props.multiple != undefined)

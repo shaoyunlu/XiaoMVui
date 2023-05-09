@@ -10,7 +10,7 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col>
-                <xmv-tree ref="treeRef">
+                <xmv-tree ref="treeRef" show-checkbox>
                     <template #default="{node}">
                         <span class="custom-tree-node">
                             <span>{{node.label}}</span>
@@ -100,6 +100,12 @@
         <xmv-row>
             <xmv-col>
                 <xmv-tag>Test Tag</xmv-tag>
+            </xmv-col>
+        </xmv-row>
+
+        <xmv-row>
+            <xmv-col :span="6">
+                <xmv-tree-select ref="treeSelectRef"></xmv-tree-select>
             </xmv-col>
         </xmv-row>
 
@@ -217,8 +223,67 @@ export default defineComponent({
         // }
 
         const treeRef = ref(null)
+        const treeSelectRef = ref(null)
 
         const treeData = [
+            {
+                label: 'Level one 1',
+                children: [
+                {
+                    label: 'Level two 1-1',
+                    children: [
+                    {
+                        label: 'Level three 1-1-1',
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 2',
+                children: [
+                {
+                    label: 'Level two 2-1',
+                    children: [
+                    {
+                        label: 'Level three 2-1-1',
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 2-2',
+                    children: [
+                    {
+                        label: 'Level three 2-2-1',
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 3',
+                children: [
+                {
+                    label: 'Level two 3-1',
+                    children: [
+                    {
+                        label: 'Level three 3-1-1',
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 3-2',
+                    children: [
+                    {
+                        label: 'Level three 3-2-1',
+                    },
+                    ],
+                },
+                ],
+            },
+        ]
+
+        const treeData1 = [
             {
                 label: 'Level one 1',
                 children: [
@@ -346,14 +411,13 @@ export default defineComponent({
             sideBarMenuRef.value.loadData(sideBarMenuData)
             tableRef.value.loadData(tableData)
             treeRef.value.loadData(treeData)
+            treeSelectRef.value.loadData(treeData1)
 
-            setTimeout(()=>{
-                treeRef.value.filter('Level two 1-1')
-            },3000)
+
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef
+            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef
         }
     }
 })

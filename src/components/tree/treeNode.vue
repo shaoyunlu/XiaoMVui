@@ -4,7 +4,7 @@
                  'is-current' : node.isCurrent ,
                  'is-focusable':node.isFocusable,
                  'is-hidden':node.isHidden}" @click.stop="handleClick">
-        <tree-content :node="node"></tree-content>
+        <tree-content :node="node" @expandIconClick="handleExpandIconClick"></tree-content>
         <tree-sub :node="node" v-show="node.isExpanded" ref="subRef"></tree-sub>
     </div>
 </template>
@@ -26,8 +26,16 @@ export default defineComponent({
         const subRef = ref(null)
 
         const handleClick = ()=>{
-            treeMode.handleNodeClick(node ,subRef)
+            treeMode.handleNodeClick(node)
         }
+
+        const handleExpandIconClick = ()=>{
+            treeMode.handleExpandIconClick(node ,subRef)
+        }
+
+        treeMode.$on('nodeClick' ,(tmpNode)=>{
+            node.isCurrent = (node === tmpNode)
+        })
 
         onMounted(()=>{
             if (parent != undefined){
@@ -35,7 +43,7 @@ export default defineComponent({
             }
         })
 
-        return {treeMode ,subRef ,handleClick}
+        return {treeMode ,subRef ,handleClick ,handleExpandIconClick}
     }
 })
 </script>

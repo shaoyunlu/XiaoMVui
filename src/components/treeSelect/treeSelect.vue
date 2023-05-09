@@ -1,13 +1,20 @@
 <template>
-    <div class=""></div>
+    <xmv-select type="tree" ref="xmvSelectRef"></xmv-select>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {defineComponent ,ref} from 'vue'
 export default defineComponent({
     name:"",
     setup(props ,context) {
-        return {}
+
+        const xmvSelectRef = ref(null)
+
+        const loadData = (data)=>{
+            xmvSelectRef.value.loadTreeData(data)
+        }
+
+        return {xmvSelectRef ,loadData}
     }
 })
 </script>

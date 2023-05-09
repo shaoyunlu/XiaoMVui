@@ -9,6 +9,9 @@ class TreeMode{
         })
         this.transition = new XmvTransition()
         this.filterNodeMethod = props.filterNodeMethod
+        this.showCheckbox = props.showCheckbox
+        this.$on = null
+        this.$emit = null
     }
 
     loadData(data){
@@ -41,7 +44,15 @@ class TreeMode{
         }
     }
 
-    handleNodeClick(node ,subRef){
+    handleNodeClick(node){
+        // 如果是单选模式，要有选中模式
+        if (this.showCheckbox != undefined){
+            return false
+        }
+        this.$emit('nodeClick' ,node)
+    }
+
+    handleExpandIconClick(node ,subRef){
         if (!isEmpty(node.children)){
             let childrenEl = subRef.value.childrenDivRef
             let {domHeight} = getHiddenDomWH(childrenEl)

@@ -223,7 +223,7 @@ export default defineComponent({
             let styleObj = new Object()
             if (isPolyfill){
                 styleObj['margin-right'] = '-17px'
-                styleObj['margin-bottom'] = '-17px'
+                styleObj['margin-bottom'] = '0px'
             }
             if (props.maxHeightFlag){
                 styleObj['max-height'] = props.maxHeight + 'px'
@@ -238,9 +238,9 @@ export default defineComponent({
             let viewHeight =  viewRef.value.scrollHeight
             if (props.maxHeightFlag){
                 if (viewHeight < props.maxHeight){
-                    scrollbarWrapRef.value.style['margin-bottom'] = '0px'
-                }else{
                     scrollbarWrapRef.value.style['margin-bottom'] = '-17px'
+                }else{
+                    scrollbarWrapRef.value.style['margin-bottom'] = '0px'
                 }
             }
         }
@@ -252,11 +252,11 @@ export default defineComponent({
             resizeOB(viewRef.value ,()=>{
                 reset()
                 init()
-                polyfillHeight()
+                //polyfillHeight()
             })
 
-            if (props.explicit){
-                viewRef.value.style.width = scrollbarRef.value.scrollWidth + 'px'
+            if (props.explicit && isPolyfill){
+                viewRef.value.style.width = scrollbarRef.value.scrollWidth - 17 + 'px'
             }
         })
 

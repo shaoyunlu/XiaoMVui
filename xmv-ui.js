@@ -29,6 +29,7 @@ import xmvTimePicker from 'comps/timePicker/timePicker.vue'
 import xmvTree from 'comps/tree/tree.vue'
 import xmvTreeNode from 'comps/tree/treeNode.vue'
 import xmvTreeSelect from 'comps/treeSelect/treeSelect.vue'
+import xmvDialog from 'comps/dialog/dialog.vue'
 
 import {createEventBus} from 'utils/event'
 
@@ -85,6 +86,7 @@ const register = (vue)=>{
     vue.component('xmvTree', xmvTree)
     vue.component('xmvTreeNode', xmvTreeNode)
     vue.component('xmvTreeSelect', xmvTreeSelect)
+    vue.component('xmvDialog', xmvDialog)
 }
 
 export default register

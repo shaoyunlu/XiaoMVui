@@ -5,11 +5,13 @@ import XmvTransition from 'comps/transition/transition'
 class TreeMode{
     constructor(props){
         this.rctData = reactive({
-            data : []
+            data : [],
+            sData : []
         })
         this.transition = new XmvTransition()
         this.filterNodeMethod = props.filterNodeMethod
         this.showCheckbox = props.showCheckbox
+        this.notAssociated = props.notAssociated
         this.$on = null
         this.$emit = null
     }
@@ -72,15 +74,45 @@ class TreeMode{
     }
 
     handleNodeCheck(node){
-        if (isEmpty(node.children)){
+        if (this.notAssociated != undefined){
 
-        }else{
-            // 所有子节点都跟着变
-            this.__handleChildrenNodeCheck(node ,node.isChecked)
+        }
+        else{
+            if (isEmpty(node.children)){
+
+            }else{
+                // 所有子节点都跟着变
+                this.__handleChildrenNodeCheck(node ,node.isChecked)
+            }
+    
+            // 需要改变父节点
+            this.__handleParentNodeCheck(node)
         }
 
-        // 需要改变父节点
-        this.__handleParentNodeCheck(node)
+        this.$emit('nodeCheck' ,this.getCheckedNode())
+
+    }
+
+    getCheckedNode(){
+        var self = this
+        this.rctData.sData = []
+        this.rctData.data.forEach(node =>{
+            loop(node)
+        })
+
+        function loop(node){
+            if (node.isChecked){
+                self.rctData.sData.push(node)
+            }
+            if (isEmpty(node.children)){
+                return false
+            }
+            node.children.forEach(tmp =>{
+                loop(tmp)
+            })
+        }
+
+        return this.rctData.sData
 
     }
 

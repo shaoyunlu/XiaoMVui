@@ -1,4 +1,14 @@
 <template>
+    <xmv-dialog title="标题" width="30%" v-model="dialogVisible">
+        <span>this is a message</span>
+        <template #footer>
+            <span class="dialog-footer">
+                <xmv-button type="primary">
+                    确认
+                </xmv-button>
+            </span>
+        </template>
+    </xmv-dialog>
     <header class="navbar has-sidebar">  
         <xmv-menu ref="horizontalMenuRef" :isVertical="false"></xmv-menu>
     </header>
@@ -10,7 +20,7 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col>
-                <xmv-tree ref="treeRef" show-checkbox>
+                <xmv-tree ref="treeRef" show-checkbox not-associated>
                     <template #default="{node}">
                         <span class="custom-tree-node">
                             <span>{{node.label}}</span>
@@ -21,7 +31,7 @@
         </xmv-row>
         <xmv-row>
             <xmv-col>
-                <xmv-button>点击</xmv-button>
+                <xmv-button @click="handleDialogClick">点击</xmv-button>
                 <xmv-button type="primary">primary</xmv-button>
                 <xmv-button plain>点击</xmv-button>
                 <xmv-button type="primary" plain>点击</xmv-button>
@@ -106,6 +116,10 @@
         <xmv-row>
             <xmv-col :span="6">
                 <xmv-tree-select ref="treeSelectRef"></xmv-tree-select>
+            </xmv-col>
+
+            <xmv-col :span="6" :offset="3">
+                <xmv-tree-select ref="treeSelect2Ref" multiple not-associated></xmv-tree-select>
             </xmv-col>
         </xmv-row>
 
@@ -222,18 +236,29 @@ export default defineComponent({
         //     menuRef.value.expand()
         // }
 
+        const dialogVisible = ref(false)
+
+        const handleDialogClick = ()=>{
+            dialogVisible.value = true
+        }
+        
+
         const treeRef = ref(null)
         const treeSelectRef = ref(null)
+        const treeSelect2Ref = ref(null)
 
         const treeData = [
             {
                 label: 'Level one 1',
+                value: 'Level one 1',
                 children: [
                 {
                     label: 'Level two 1-1',
+                    value: 'Level two 1-1',
                     children: [
                     {
                         label: 'Level three 1-1-1',
+                        value: 'Level three 1-1-1',
                     },
                     ],
                 },
@@ -241,20 +266,25 @@ export default defineComponent({
             },
             {
                 label: 'Level one 2',
+                value: 'Level one 2',
                 children: [
                 {
                     label: 'Level two 2-1',
+                    value: 'Level two 2-1',
                     children: [
                     {
                         label: 'Level three 2-1-1',
+                        value: 'Level three 2-1-1'
                     },
                     ],
                 },
                 {
                     label: 'Level two 2-2',
+                    value: 'Level two 2-2',
                     children: [
                     {
                         label: 'Level three 2-2-1',
+                        value: 'Level three 2-2-1'
                     },
                     ],
                 },
@@ -262,20 +292,25 @@ export default defineComponent({
             },
             {
                 label: 'Level one 3',
+                value: 'Level one 3',
                 children: [
                 {
                     label: 'Level two 3-1',
+                    value: 'Level two 3-1',
                     children: [
                     {
                         label: 'Level three 3-1-1',
+                        value: 'Level three 3-1-1'
                     },
                     ],
                 },
                 {
                     label: 'Level two 3-2',
+                    value: 'Level two 3-2',
                     children: [
                     {
                         label: 'Level three 3-2-1',
+                        value: 'Level three 3-2-1'
                     },
                     ],
                 },
@@ -286,12 +321,15 @@ export default defineComponent({
         const treeData1 = [
             {
                 label: 'Level one 1',
+                value: 'Level one 1',
                 children: [
                 {
                     label: 'Level two 1-1',
+                    value: 'Level two 1-1',
                     children: [
                     {
                         label: 'Level three 1-1-1',
+                        value: 'Level three 1-1-1',
                     },
                     ],
                 },
@@ -299,20 +337,25 @@ export default defineComponent({
             },
             {
                 label: 'Level one 2',
+                value: 'Level one 2',
                 children: [
                 {
                     label: 'Level two 2-1',
+                    value: 'Level two 2-1',
                     children: [
                     {
                         label: 'Level three 2-1-1',
+                        value: 'Level three 2-1-1'
                     },
                     ],
                 },
                 {
                     label: 'Level two 2-2',
+                    value: 'Level two 2-2',
                     children: [
                     {
                         label: 'Level three 2-2-1',
+                        value: 'Level three 2-2-1'
                     },
                     ],
                 },
@@ -320,20 +363,96 @@ export default defineComponent({
             },
             {
                 label: 'Level one 3',
+                value: 'Level one 3',
                 children: [
                 {
                     label: 'Level two 3-1',
+                    value: 'Level two 3-1',
                     children: [
                     {
                         label: 'Level three 3-1-1',
+                        value: 'Level three 3-1-1'
                     },
                     ],
                 },
                 {
                     label: 'Level two 3-2',
+                    value: 'Level two 3-2',
                     children: [
                     {
                         label: 'Level three 3-2-1',
+                        value: 'Level three 3-2-1'
+                    },
+                    ],
+                },
+                ],
+            },
+        ]
+
+        const treeData2 = [
+            {
+                label: 'Level one 1',
+                value: 'Level one 1',
+                children: [
+                {
+                    label: 'Level two 1-1',
+                    value: 'Level two 1-1',
+                    children: [
+                    {
+                        label: 'Level three 1-1-1',
+                        value: 'Level three 1-1-1',
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 2',
+                value: 'Level one 2',
+                children: [
+                {
+                    label: 'Level two 2-1',
+                    value: 'Level two 2-1',
+                    children: [
+                    {
+                        label: 'Level three 2-1-1',
+                        value: 'Level three 2-1-1'
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 2-2',
+                    value: 'Level two 2-2',
+                    children: [
+                    {
+                        label: 'Level three 2-2-1',
+                        value: 'Level three 2-2-1'
+                    },
+                    ],
+                },
+                ],
+            },
+            {
+                label: 'Level one 3',
+                value: 'Level one 3',
+                children: [
+                {
+                    label: 'Level two 3-1',
+                    value: 'Level two 3-1',
+                    children: [
+                    {
+                        label: 'Level three 3-1-1',
+                        value: 'Level three 3-1-1'
+                    },
+                    ],
+                },
+                {
+                    label: 'Level two 3-2',
+                    value: 'Level two 3-2',
+                    children: [
+                    {
+                        label: 'Level three 3-2-1',
+                        value: 'Level three 3-2-1'
                     },
                     ],
                 },
@@ -388,7 +507,19 @@ export default defineComponent({
         const tableRef = ref(null)
 
         const tableData = [
-            {name : '张三' ,age : '20' ,height : '180'}
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '180'},
+            {name : '张三' ,age : '20' ,height : '181'},
         ]
 
         const selectData = [
@@ -412,12 +543,12 @@ export default defineComponent({
             tableRef.value.loadData(tableData)
             treeRef.value.loadData(treeData)
             treeSelectRef.value.loadData(treeData1)
-
-
+            treeSelect2Ref.value.loadData(treeData2)
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef
+            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef ,treeSelect2Ref,
+            handleDialogClick ,dialogVisible
         }
     }
 })

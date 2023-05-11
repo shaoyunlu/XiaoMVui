@@ -29,6 +29,7 @@
 <script>
 import {defineComponent ,ref ,computed ,onMounted} from 'vue'
 import {addClass ,removeClass} from 'utils/dom'
+import {isFirefox} from 'utils/dict'
 export default defineComponent({
     name:"xmvInput",
     emits:['blur','clear'],
@@ -159,7 +160,10 @@ export default defineComponent({
         initSuffix()
 
         onMounted(()=>{
-            //inputRef.value.style.width = '1px'
+            // 前后都有图标的时候，需要显示设置inputRef的值
+            if (isFirefox && props.prefixicon != undefined && props.suffixicon != undefined){
+                inputRef.value.style.width = '1px'
+            }
         })
 
         return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, onMounted, ref} from 'vue'
+import {defineComponent, inject, onMounted, ref, watch} from 'vue'
 import treeContent from './treeContent.vue'
 import treeSub from './treeSub.vue'
 export default defineComponent({

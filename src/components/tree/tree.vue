@@ -10,11 +10,13 @@ import TreeMode from './mode/treeMode';
 import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"xmvTree",
+    emits:['nodeClick' ,'nodeCheck'],
     props:{
         showCheckbox : String,
         filterNodeMethod : {
             type : Function
-        }
+        },
+        notAssociated : String  // 父子节点是否相关联
     },
     setup(props ,context) {
         const treeMode = new TreeMode(props)
@@ -31,6 +33,14 @@ export default defineComponent({
         provide('Level' ,0)
         provide('TreeMode' ,treeMode)
         provide('Slots' ,context.slots)
+
+        $on('nodeClick' ,(node)=>{
+            context.emit('nodeClick' ,node)
+        })
+
+        $on('nodeCheck' ,(nodeList)=>{
+            context.emit('nodeCheck' ,nodeList)
+        })
 
         const loadData = (data)=>{
             treeMode.loadData(data)

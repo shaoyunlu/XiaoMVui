@@ -13,15 +13,11 @@ export default defineComponent({
 
         const slots = inject('Slots')
 
-        const handleClick = ()=>{
-            
-        }
-
         return ()=>{
             if (slots.default){
                 return slots.default.call(slots ,{node})
             }else{
-                return h('span', { class: 'xmv-tree-node__label' ,onClick : handleClick}, node.label)
+                return h('span', { class: 'xmv-tree-node__label'}, node.label)
             }
         }
     }

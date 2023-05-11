@@ -1,11 +1,15 @@
 <template>
-    <xmv-select type="tree" ref="xmvSelectRef"></xmv-select>
+    <xmv-select type="tree" ref="xmvSelectRef" :multiple="multiple" :notAssociated="notAssociated"></xmv-select>
 </template>
 
 <script>
 import {defineComponent ,ref} from 'vue'
 export default defineComponent({
     name:"",
+    props:{
+        multiple : String,
+        notAssociated : String
+    },
     setup(props ,context) {
 
         const xmvSelectRef = ref(null)

@@ -20,7 +20,12 @@
                 <ul class="xmv-select-dropdown__list">
                     <xmv-select-item v-if="type == 'select'" 
                         v-for="tmp in selectMode.rctData.options" :data="tmp"></xmv-select-item>
-                    <xmv-tree v-if="type == 'tree'" :ref="selectMode.treeRef"></xmv-tree>
+                    <xmv-tree v-if="type == 'tree'" 
+                        :ref="selectMode.treeRef"
+                        :showCheckbox="multiple"
+                        :notAssociated="notAssociated"
+                        @nodeClick="handleNodeClick"
+                        @nodeCheck="handleNodeCheck"></xmv-tree>
                 </ul>
 
             </xmv-scrollbar>
@@ -43,7 +48,8 @@ export default defineComponent({
         collapseTags : String,
         maxcollapseTags : Number,
         filterable : String,
-        type:{type:String ,default:'select'}
+        type:{type:String ,default:'select'},
+        notAssociated : String
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -78,7 +84,7 @@ export default defineComponent({
         provide('SelectMode' ,selectMode)
         provide('EventBus' ,{$on ,$emit})
 
-        $on('itemClick' ,()=>{
+        $on('itemClick' ,(data)=>{
             selectMode.inputRef.value.focus()
             if (selectMode.multiple.value){
                 nextTick(()=>{
@@ -87,6 +93,12 @@ export default defineComponent({
             }else{
                 selectMode.inputRef.value.val(selectMode.rctData.sData[0].label)
                 selectMode.popoverRef.value.hide()
+            }
+        })
+
+        $on('itemClose' ,data =>{
+            if (props.type == 'tree'){
+                data.isChecked = false
             }
         })
 
@@ -99,6 +111,20 @@ export default defineComponent({
 
         const loadTreeData = (data)=>{
             selectMode.treeRef.value.loadData(data)
+        }
+
+        const handleNodeClick = (node)=>{
+            selectMode.inputRef.value.val(node.label)
+            selectMode.popoverRef.value.hide()
+        }
+
+        const handleNodeCheck = (nodeList)=>{
+            selectMode.rctData.sData = nodeList
+
+            nextTick(()=>{
+                selectMode.adjustWH()
+            })
+
         }
 
         onMounted(()=>{
@@ -120,7 +146,7 @@ export default defineComponent({
         })
 
         return {selectMode ,computeClass ,computePlaceholder,loadTreeData,
-                handleActive}
+                handleActive ,handleNodeClick ,handleNodeCheck}
     }
 })
 </script>

@@ -9,6 +9,23 @@
             </span>
         </template>
     </xmv-dialog>
+    <xmv-dialog title="标题" v-model="dialogVisible2">
+        <template #default>
+            默认内容
+            <xmv-dialog
+                v-model="innerVisible"
+                width="30%"
+                title="Inner Dialog"
+            />
+        </template>
+        <template #footer>
+            <span class="dialog-footer">
+                <xmv-button type="primary" @click="handleDialogEnterClick">
+                    确认
+                </xmv-button>
+            </span>
+        </template>
+    </xmv-dialog>
     <header class="navbar has-sidebar">  
         <xmv-menu ref="horizontalMenuRef" :isVertical="false"></xmv-menu>
     </header>
@@ -204,7 +221,7 @@
 
         <xmv-row>
             <xmv-col>
-                <xmv-table ref="tableRef" height="300">
+                <xmv-table ref="tableRef" height="300" v-loading:fullscreen="tableLoading">
                     <xmv-table-column prop="name" label="姓名" width="400">
                         <template>
                             <xmv-button>点击1</xmv-button>
@@ -237,9 +254,17 @@ export default defineComponent({
         // }
 
         const dialogVisible = ref(false)
+        const dialogVisible2 = ref(false)
+        const innerVisible = ref(false)
+        const tableLoading = ref(false)
 
         const handleDialogClick = ()=>{
-            dialogVisible.value = true
+            //dialogVisible2.value = true
+            tableLoading.value = true
+        }
+
+        const handleDialogEnterClick = ()=>{
+            innerVisible.value = true
         }
         
 
@@ -548,7 +573,7 @@ export default defineComponent({
 
         return {
             horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef ,treeSelect2Ref,
-            handleDialogClick ,dialogVisible
+            handleDialogClick ,dialogVisible ,dialogVisible2 ,innerVisible ,handleDialogEnterClick,tableLoading
         }
     }
 })

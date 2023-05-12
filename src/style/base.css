@@ -5,6 +5,28 @@
 .xmv-place-span{display: none;}
 
 @keyframes rotating{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes loading-dash
+{
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes loading-dash
+{
+    0% {
+        stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90,150;
+        stroke-dashoffset: -40px;
+    }
+    100% {
+        stroke-dasharray: 90,150;
+        stroke-dashoffset: -120px;
+    }
+}
 
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;
@@ -126,6 +148,9 @@
     --xmv-border-color-hover: var(--xmv-text-color-disabled);
     --xmv-border: var(--xmv-border-width) var(--xmv-border-style) var(--xmv-border-color);
     --xmv-svg-monochrome-grey: var(--xmv-border-color);
+
+    --xmv-loading-spinner-size: 42px;
+    --xmv-loading-fullscreen-spinner-size: 50px;
 }
 
 [class*=" xmv-icon"], [class^=xmv-icon] {

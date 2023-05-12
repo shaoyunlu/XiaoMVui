@@ -31,6 +31,8 @@ import xmvTreeNode from 'comps/tree/treeNode.vue'
 import xmvTreeSelect from 'comps/treeSelect/treeSelect.vue'
 import xmvDialog from 'comps/dialog/dialog.vue'
 
+import loadingDirective from 'comps/loading/directive'
+
 import {createEventBus} from 'utils/event'
 
 const register = (vue)=>{
@@ -87,6 +89,8 @@ const register = (vue)=>{
     vue.component('xmvTreeNode', xmvTreeNode)
     vue.component('xmvTreeSelect', xmvTreeSelect)
     vue.component('xmvDialog', xmvDialog)
+
+    vue.directive('loading', loadingDirective);
 }
 
 export default register

@@ -12,7 +12,8 @@
                 ref="inputRef"
                 :placeholder="placeholder"
                 @focus="handleInputFocus" @blur="handleInputBlur"
-                @input="handleInputInput">
+                @input="handleInputInput"
+                :value="modelValue">
             <span class="xmv-input__suffix" v-if="isShowSuffix" ref="suffixRef" @click="handleSuffixClick">
                 <span class="xmv-input__suffix-inner">
                     <xmv-icon :name="pwdIconName" class="xmv-input__icon" v-if="pwdShow"
@@ -32,7 +33,7 @@ import {addClass ,removeClass} from 'utils/dom'
 import {isFirefox} from 'utils/dict'
 export default defineComponent({
     name:"xmvInput",
-    emits:['blur','clear'],
+    emits:['blur','clear','update:modelValue'],
     props:{
         disabled : String,
         type : {type:String ,default:'text'},
@@ -41,7 +42,8 @@ export default defineComponent({
         prefixicon : String,
         suffixicon : String,
         clearable : String,
-        size : String
+        size : String,
+        modelValue : String
     },
     setup(props ,context) {
 
@@ -96,6 +98,7 @@ export default defineComponent({
                     isShowSuffix.value = (props.suffixicon != undefined)
                 }
             }
+            context.emit('update:modelValue' ,inputRef.value.value)
         }
 
         const handlePrefixClick = ()=>{

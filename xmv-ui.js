@@ -30,6 +30,8 @@ import xmvTree from 'comps/tree/tree.vue'
 import xmvTreeNode from 'comps/tree/treeNode.vue'
 import xmvTreeSelect from 'comps/treeSelect/treeSelect.vue'
 import xmvDialog from 'comps/dialog/dialog.vue'
+import xmvForm from 'comps/form/form.vue'
+import xmvFormItem from 'comps/form/formItem.vue'
 
 import loadingDirective from 'comps/loading/directive'
 
@@ -89,6 +91,8 @@ const register = (vue)=>{
     vue.component('xmvTreeNode', xmvTreeNode)
     vue.component('xmvTreeSelect', xmvTreeSelect)
     vue.component('xmvDialog', xmvDialog)
+    vue.component('xmvForm', xmvForm)
+    vue.component('xmvFormItem', xmvFormItem)
 
     vue.directive('loading', loadingDirective);
 }

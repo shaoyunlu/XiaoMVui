@@ -1,0 +1,1 @@
+const validateKey = [required,min,max]

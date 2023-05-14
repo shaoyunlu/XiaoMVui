@@ -18,13 +18,18 @@ export function scaleIn(el ,cbf ,opt){
     var oriCssText = el.style.cssText
     el.style.cssText = oriCssText + `;transform-origin:${placeInfo.origin};transform:scale(${placeInfo.outVal});opacity:0;
                         transition:transform var(--xmv-transition-duration) ,opacity var(--xmv-transition-duration)`
-
     nextFrame(()=>{
-        el.style.opacity = 1
-        el.style.transform = `scale(${placeInfo.inVal})`
-    })
+        el.style.display = ''
 
+        nextFrame(()=>{
+            el.style.transform = `scale(${placeInfo.inVal})`
+            el.style.opacity = 1
+        })
+
+    })
+    
     return setTimeout(()=>{
+        oriCssText = oriCssText.replace('none' ,'')
         el.style.cssText = oriCssText + `;transform:scale(1);opacity:1;`
         cbf()
     },animateDuration)

@@ -69,7 +69,7 @@ export default defineComponent({
             currentEventName = 'mouseover'
             setPosition()
             transition.scaleIn(()=>{
-                popperEl.style.display = ''
+                //popperEl.style.display = ''
             })
             emit('mouseover')
             emit('show')

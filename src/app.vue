@@ -36,6 +36,18 @@
     </div>
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
+            <xmv-col :span="8">
+                <xmv-form :mode="form" :rules="rules">
+                    <xmv-form-item label="真实姓名" prop="name">
+                        <xmv-input v-model="form.name" />
+                    </xmv-form-item>
+                    <xmv-form-item label="年龄" prop="age">
+                        <xmv-input v-model="form.age" />
+                    </xmv-form-item>
+                </xmv-form>
+            </xmv-col>
+        </xmv-row>
+        <xmv-row>
             <xmv-col>
                 <xmv-tree ref="treeRef" show-checkbox not-associated>
                     <template #default="{node}">
@@ -237,7 +249,7 @@
 </template>
 
 <script>
-import {defineComponent,onMounted,ref} from 'vue'
+import {defineComponent,onMounted,reactive,ref} from 'vue'
 export default defineComponent({
     name:"",
     setup(props ,context) {
@@ -260,7 +272,8 @@ export default defineComponent({
 
         const handleDialogClick = ()=>{
             //dialogVisible2.value = true
-            tableLoading.value = true
+            //tableLoading.value = true
+            console.log(form)
         }
 
         const handleDialogEnterClick = ()=>{
@@ -562,6 +575,15 @@ export default defineComponent({
             {label : 'Label4' ,value : 'Value12'}
         ]
 
+        const form = reactive({
+            name : '张三',
+            age : '18'
+        })
+
+        const rules = reactive({
+            name : [{required : true}]
+        })
+
         onMounted(()=>{
             horizontalMenuRef.value.loadData(horizontalMenuData)
             sideBarMenuRef.value.loadData(sideBarMenuData)
@@ -572,7 +594,7 @@ export default defineComponent({
         })
 
         return {
-            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef ,treeSelect2Ref,
+            horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef ,treeSelect2Ref,form,rules,
             handleDialogClick ,dialogVisible ,dialogVisible2 ,innerVisible ,handleDialogEnterClick,tableLoading
         }
     }

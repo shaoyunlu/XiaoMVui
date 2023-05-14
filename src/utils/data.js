@@ -15,6 +15,7 @@ export function tranListToTreeDate(listData, rootValue, idKey, pIdKey) {
     return arr
 }
 
+// 判断数据是否为空
 export function isEmpty(obj){
     if (obj == undefined){
         return true

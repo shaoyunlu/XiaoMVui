@@ -1,3 +1,4 @@
+import 'style/app.less'
 import {reactive} from 'vue'
 import xmvLayout from 'comps/layout/layout.vue'
 import xmvButton from 'comps/button/button.vue'

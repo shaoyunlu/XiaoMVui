@@ -37,7 +37,7 @@
     <main id="page-content" class="page-content has-sidebar">
         <xmv-row>
             <xmv-col :span="8">
-                <xmv-form :mode="form" :rules="rules">
+                <xmv-form :mode="form" :rules="rules" label-width="160px" label-position="top">
                     <xmv-form-item label="真实姓名" prop="name">
                         <xmv-input v-model="form.name" />
                     </xmv-form-item>

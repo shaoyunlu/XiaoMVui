@@ -31,3 +31,69 @@ form {
     font-size: var(--font-size);
     min-width: 0;
 }
+
+.xmv-form-item__error {
+    color: var(--xmv-color-danger);
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 2px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.xmv-form-item--default .xmv-form-item__error {
+    padding-top: 2px;
+}
+
+.xmv-form-item.is-error .xmv-input__wrapper {
+    box-shadow: 0 0 0 1px var(--xmv-color-danger) inset;
+}
+
+.xmv-form-item.is-required .xmv-form-item__label::before {
+    content: "*";
+    color: var(--xmv-color-danger);
+    margin-right: 4px;
+}
+
+.xmv-form--label-left .xmv-form-item__label {
+    justify-content: flex-start;
+}
+
+.xmv-form--label-top .xmv-form-item {
+    display: block;
+}
+
+.xmv-form--label-top .xmv-form-item .xmv-form-item__label {
+    display: block;
+    height: auto;
+    text-align: left;
+    margin-bottom: 8px;
+    line-height: 22px;
+}
+
+.xmv-form--default.xmv-form--label-top .xmv-form-item .xmv-form-item__label {
+    margin-bottom: 8px;
+    line-height: 22px;
+}
+
+.form-enter-active ,.form-leave-active {
+    overflow: hidden;
+    transition: height var(--xmv-transition-duration) ,transform var(--xmv-transition-duration);
+}
+
+.form-enter-from {
+    height: 0;
+}
+
+.form-enter-to {
+    height: 100%;
+}
+
+.form-leave-from {
+    height: 100%;
+}
+
+.form-leave-to {
+    height: 0;
+}

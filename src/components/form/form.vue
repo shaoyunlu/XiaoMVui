@@ -1,26 +1,32 @@
 <template>
-    <form class="xmv-form xmv-form--default xmv-form--label-right">
+    <form class="xmv-form xmv-form--default" :class="computeFormClass">
         <slot></slot>
     </form>
 </template>
 
 <script>
-import {defineComponent, onMounted, provide} from 'vue'
+import {defineComponent, provide ,computed} from 'vue'
 export default defineComponent({
     name:"xmvForm",
     props:{
         mode : Object,
-        rules : Object
+        rules : Object,
+        labelWidth : String,
+        labelPosition : {type:String ,default:'right'}
     },
     setup(props ,context) {
-        provide('Mode' ,props.mode)
-        provide('Rules' ,props.rules)
 
-        onMounted(()=>{
-            console.log(context)
+        provide('Props' ,props)
+
+        const computeFormClass = computed(()=>{
+            let res = []
+            res.push('xmv-form--label-' + props.labelPosition)
+            return res 
         })
 
-        return {}
+
+
+        return {computeFormClass}
     }
 })
 </script>

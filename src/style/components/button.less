@@ -57,3 +57,55 @@
 .xmv-button+.xmv-button {
     margin-left: 12px;
 }
+
+.xmv-button-group {
+    display: inline-block;
+    vertical-align: middle;
+    &::before,&::after{
+        display: table;
+        content: "";
+    }
+    &::after{
+        clear: both;
+    }
+}
+
+.xmv-button-group>.xmv-button {
+    float: left;
+    position: relative;
+}
+
+.xmv-button-group>.xmv-button:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.xmv-button-group>.xmv-button:not(:last-child) {
+    margin-right: -1px;
+}
+
+.xmv-button-group>.xmv-button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.xmv-button-group .xmv-button--primary:not(:first-child):not(:last-child) {
+    border-left-color: var(--xmv-button-divide-border-color);
+    border-right-color: var(--xmv-button-divide-border-color);
+}
+
+.xmv-button-group .xmv-button--primary:first-child {
+    border-right-color: var(--xmv-button-divide-border-color);
+}
+
+.xmv-button-group>.xmv-button+.xmv-button {
+    margin-left: 0;
+}
+
+.xmv-button-group>.xmv-button:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.xmv-button-group .xmv-button--primary:last-child {
+    border-left-color: var(--xmv-button-divide-border-color);
+}

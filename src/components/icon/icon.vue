@@ -27,11 +27,14 @@ import vew from './category/view.vue'
 import hide from './category/hide.vue'
 import calendar from './category/calendar.vue'
 import clock from './category/clock.vue'
+import upload from './category/upload.vue'
+import download from './category/download.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
-                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar ,clock},
+                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar ,clock,
+            upload,download},
     props:{
         name : ''
     },

@@ -64,37 +64,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-    .xmv-layout{
-        display: flex;
-        flex-direction: column;
-        width : 100%;
-        height : 100%;
-    }
-
-    .xmv-layout-main{
-        display: flex;
-        flex : 1;
-        &.row{
-            flex-direction: row;
-        }
-        &.column{
-            flex-direction: column;
-        }
-    }
-
-    .xmv-layout-content{
-        display: flex;
-        flex : 1;
-        &.row{
-            flex-direction: row;
-        }
-        &.column{
-            flex-direction: column;
-        }
-    }
-
-    .xmv-layout-right{
-        flex : 1
-    }
-</style>
+<style lang="" scoped></style>

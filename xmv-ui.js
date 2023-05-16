@@ -2,6 +2,7 @@ import 'style/app.less'
 import {reactive} from 'vue'
 import xmvLayout from 'comps/layout/layout.vue'
 import xmvButton from 'comps/button/button.vue'
+import xmvButtonGroup from 'comps/button/buttonGroup.vue'
 import xmvMenu from 'comps/menu/menu.vue'
 import xmvMenuCore from 'comps/menu/menuCore.vue'
 import xmvMenuCoreCollapse from 'comps/menu/menuCoreCollapse.vue'
@@ -63,6 +64,7 @@ const register = (vue)=>{
 
     vue.component('xmvLayout', xmvLayout)
     vue.component('xmvButton', xmvButton)
+    vue.component('xmvButtonGroup', xmvButtonGroup)
     vue.component('xmvMenu', xmvMenu)
     vue.component('xmvMenuCore', xmvMenuCore)
     vue.component('xmvMenuCoreCollapse', xmvMenuCoreCollapse)

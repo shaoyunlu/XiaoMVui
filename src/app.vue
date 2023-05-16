@@ -59,9 +59,23 @@
             </xmv-col>
         </xmv-row>
         <xmv-row>
+            <xmv-col :span="6">
+                <xmv-button-group>
+                    <xmv-button  @click="handleDialogClick" icon="arrowLeft" icon-position="left">上一页</xmv-button>
+                    <xmv-button  icon="arrowRight">下一页</xmv-button>
+                </xmv-button-group>
+            </xmv-col>
+            <xmv-col :span="6" :offset="1">
+                <xmv-button-group>
+                    <xmv-button type="primary" icon="edit"></xmv-button>
+                    <xmv-button type="primary" icon="dlt"></xmv-button>
+                </xmv-button-group>
+            </xmv-col>
+        </xmv-row>
+        <xmv-row>
             <xmv-col>
                 <xmv-button @click="handleDialogClick">点击</xmv-button>
-                <xmv-button type="primary">primary</xmv-button>
+                <xmv-button type="primary" icon="loading" loading-button :loading="buttonLoadingRef" @click="handleButtonLoading">搜索</xmv-button>
                 <xmv-button plain>点击</xmv-button>
                 <xmv-button type="primary" plain>点击</xmv-button>
                 <xmv-button round>点击</xmv-button>
@@ -265,6 +279,8 @@ export default defineComponent({
         //     menuRef.value.expand()
         // }
 
+        const buttonLoadingRef = ref(false)
+
         const dialogVisible = ref(false)
         const dialogVisible2 = ref(false)
         const innerVisible = ref(false)
@@ -278,6 +294,10 @@ export default defineComponent({
 
         const handleDialogEnterClick = ()=>{
             innerVisible.value = true
+        }
+
+        const handleButtonLoading = ()=>{
+            buttonLoadingRef.value = !buttonLoadingRef.value
         }
         
 
@@ -595,7 +615,8 @@ export default defineComponent({
 
         return {
             horizontalMenuRef,sideBarMenuRef,tableRef ,selectData ,treeRef ,treeSelectRef ,treeSelect2Ref,form,rules,
-            handleDialogClick ,dialogVisible ,dialogVisible2 ,innerVisible ,handleDialogEnterClick,tableLoading
+            handleDialogClick ,dialogVisible ,dialogVisible2 ,innerVisible ,handleDialogEnterClick,tableLoading,
+            buttonLoadingRef,handleButtonLoading
         }
     }
 })

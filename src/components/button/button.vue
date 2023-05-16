@@ -1,37 +1,40 @@
 <template>
     <button class="xmv-button" :class="classList" type="button" @click.stop="handleClick">
-        <i class="xmv-icon" v-if="imgShow">
-            <component :is="icon"></component>
-        </i>
-        <span v-if="textShow">
+        <span>
+            <xmv-icon :name="icon" :class="{'xmv-icon--left':textShow}" v-if="iconPosition == 'left'"></xmv-icon>
             <slot></slot>
+            <xmv-icon :name="icon" :class="{'xmv-icon--right':textShow,'is-loading':isLoading}" v-if="iconRightShow"></xmv-icon>
         </span>
     </button>
 </template>
 
 <script>
-import {computed, defineComponent} from 'vue'
-import search from 'comps/icon/category/search.vue'
-import edit from 'comps/icon/category/edit.vue'
-import dlt from 'comps/icon/category/delete.vue'
-import plus from 'comps/icon/category/plus.vue'
+import {computed, defineComponent, watch ,ref} from 'vue'
 import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvButton",
     emits:['click'],
     props:{
         type : String,
-        icon : String
+        icon : String,
+        iconPosition : {type:String,default:'right'},
+        loading : Boolean,
+        loadingButton : Boolean
     },
-    components:{search ,edit ,dlt ,plus},
     setup(props ,context) {
+
+        const isLoading = ref(false)
 
         const handleClick = ()=>{
             context.emit('click')
         }
 
-        const imgShow = computed(()=>{
-            return !isEmpty(props.icon)
+        const iconRightShow = computed(()=>{
+            if (props.loadingButton){
+                return isLoading.value
+            }else{
+                return !isEmpty(props.icon) && props.iconPosition == 'right'
+            }
         })
 
         const textShow = computed(()=>{
@@ -54,8 +57,16 @@ export default defineComponent({
             return res
         })
 
+        const loadingWatch = computed(()=>{
+            return props.loading
+        })
+
+        watch(loadingWatch ,(newVal)=>{
+            isLoading.value = newVal
+        })
+
         return {
-            handleClick ,classList ,textShow ,imgShow
+            handleClick ,classList ,textShow ,iconRightShow ,loadingWatch ,isLoading
         }
     }
 })

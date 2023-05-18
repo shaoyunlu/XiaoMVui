@@ -48,7 +48,7 @@ class XmvTransition{
         },200)
     }
 
-    scaleIn(beforeCbf){
+    scaleIn(beforeCbf ,afterCbf){
         if (this.animateType == 'scaleIn' && this.isAnimating){
             return false
         }
@@ -56,12 +56,13 @@ class XmvTransition{
         this.animateType = 'scaleIn'
         this.isAnimating = true
         beforeCbf && beforeCbf()
-        const afterCbf = ()=>{
+        const afterCbfWrapper = ()=>{
             this.isAnimating = false
+            afterCbf && afterCbf()
         }
         clearTimeout(this.animateTimeOutMap['scaleOut'])
         clearTimeout(this.delayRunTimeout)
-        sIn(this.el ,afterCbf ,{
+        sIn(this.el ,afterCbfWrapper ,{
             placement : this.placement
         })
     }

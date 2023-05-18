@@ -38,6 +38,5 @@ export default {
         }
     },
     unmounted(el) {
-        console.log('unmounted')
     }
 }

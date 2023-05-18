@@ -70,9 +70,10 @@ export default defineComponent({
             setPosition()
             transition.scaleIn(()=>{
                 //popperEl.style.display = ''
+            } ,()=>{
+                emit('show')
             })
             emit('mouseover')
-            emit('show')
         }
 
         const handleMouseleave = (cbf)=>{

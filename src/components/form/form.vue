@@ -24,8 +24,6 @@ export default defineComponent({
             return res 
         })
 
-
-
         return {computeFormClass}
     }
 })

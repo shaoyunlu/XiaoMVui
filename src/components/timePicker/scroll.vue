@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref} from 'vue'
+import {defineComponent ,nextTick,ref} from 'vue'
 import {debounce} from 'utils/event'
 import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
@@ -36,15 +36,15 @@ export default defineComponent({
         }
 
         const setActive = (num)=>{
-
+            num = parseInt(num)
             let siblings = ulRef.value.querySelectorAll('li');
-
             siblings.forEach(sibling => {
                 removeClass(sibling ,'is-active')
             })
-
             let elLi = ulRef.value.querySelector('[val="'+num+'"]')
             addClass(elLi ,'is-active')
+            scrollbarRef.value.scroll(num * 32)
+            context.emit('scrollNum' ,num)
         }
 
         const findVer = (num)=>{
@@ -61,7 +61,7 @@ export default defineComponent({
             return result
         }
 
-        return {scrollbarRef ,ulRef ,handleScroll ,handleClick}
+        return {scrollbarRef ,ulRef ,handleScroll ,handleClick ,setActive}
     }
 })
 </script>

@@ -69,6 +69,13 @@ export default defineComponent({
             })
         })
 
+        aOn('change' ,()=>{
+            nextTick(()=>{
+                judgeToday()
+                judgeCurrent()
+            })
+        })
+
         aOn('removeCurrent' ,()=>{
             isCurrent.value = false
         })

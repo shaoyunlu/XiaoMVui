@@ -21,6 +21,11 @@ class DatePickerMode{
         this.initDayMode()
     }
 
+    setDayMode(dateStr){
+        this.dateObj = dayjs(dateStr)
+        this.initDayMode()
+    }
+
     initDayMode(){
         let dateObj = this.dateObj
         this.rctData.year = dateObj.format('YYYY')

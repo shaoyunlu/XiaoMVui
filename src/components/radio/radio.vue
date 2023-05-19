@@ -47,6 +47,10 @@ export default defineComponent({
             }
         })
 
+        $on('setVal' ,(label)=>{
+            isChecked.value = (props.label == label)
+        })
+
         watch(disabled ,(newVal ,oldVal)=>{
             if (disabled.value){
                 inputRef.value.setAttribute('disabled','disabled')

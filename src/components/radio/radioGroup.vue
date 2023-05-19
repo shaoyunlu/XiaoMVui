@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import {defineComponent, provide ,reactive} from 'vue'
+import {defineComponent, onMounted, provide ,reactive ,computed ,watch} from 'vue'
 import {createEventBus} from 'utils/event'
-import {generateId} from 'utils/data'
+import {generateId ,isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvRadioGroup",
     props:{
         size : String,
-        disabled : String
+        disabled : String,
+        modelValue : String
     },
     setup(props ,context) {
         
@@ -26,6 +27,28 @@ export default defineComponent({
 
         provide('EventBus' ,{$on ,$emit})
         provide('Name' ,'xmv-' + id)
+
+        $on('radioClick' ,(label)=>{
+            context.emit('update:modelValue' ,label)
+        })
+
+        const modelValueWatch = computed(()=>{
+            return props.modelValue
+        })
+
+        watch(modelValueWatch ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (val)=>{
+            $emit('setVal' ,val)
+        }
+
+        onMounted(()=>{
+            if (!isEmpty(props.modelValue)){
+                handleWatch(props.modelValue)
+            }
+        })
 
         return {}
     }

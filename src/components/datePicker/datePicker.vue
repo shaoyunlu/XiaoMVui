@@ -31,17 +31,20 @@
 </template>
 
 <script>
-import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject, nextTick} from 'vue'
+import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject,watch} from 'vue'
 import DatePickerMode from './mode/datePickerMode'
 import StoreMode from './mode/storeMode'
 import xmvCalendar from './calendar.vue'
 import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
+import dayjs from 'dayjs'
 export default defineComponent({
     name:"xmvDatePicker",
     components:{xmvCalendar},
     props:{
         type : {type:String,default:'date'}, //daterange
         format : {type:String,default:'YYYY-MM-DD'},
+        modelValue : String
     },
     setup(props ,context) {
         const storeMode = new StoreMode()
@@ -86,10 +89,15 @@ export default defineComponent({
         })
 
         $on('tdClick' ,(data)=>{
-            if (datePickerMode.type.value == 'date'){
-                inputRef.value.val(data.format(props.format))
+            if (datePickerMode.type.value == 'date')
+            {
+                let dateStr = data.format(props.format)
+                inputRef.value.val(dateStr)
                 datePickerMode.popoverRef.value.hide()
-            }else if (datePickerMode.type.value == 'daterange'){
+                context.emit('update:modelValue' ,dateStr)
+            }
+            else if (datePickerMode.type.value == 'daterange')
+            {
                 if (storeMode.dateList.length != 2){
                     return false
                 }
@@ -125,11 +133,29 @@ export default defineComponent({
             storeMode.dateObj['left'] = new Object()
             // 取消current
             $emit('removeCurrent')
+            context.emit('update:modelValue' ,'')
+        }
+
+        const modelValueWatch = computed(()=>{
+            return props.modelValue
+        })
+
+        watch(modelValueWatch ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (val)=>{
+            datePickerMode.setDayMode(val)
+            storeMode.dateObj.left = dayjs(val)
+            inputRef.value.val(val)
         }
 
         onMounted(()=>{
             if (props.type == 'date'){
                 inputRef.value.setInputWidth(1)
+            }
+            if (!isEmpty(props.modelValue)){
+                handleWatch(props.modelValue)
             }
             $emit('change')
         })

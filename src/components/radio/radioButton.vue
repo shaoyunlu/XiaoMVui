@@ -1,5 +1,5 @@
 <template>
-    <label class="xmv-radio-button" 
+    <label class="xmv-radio-button" @click="handleClick"
                 :class="{
                     'is-disabled':disabled,
                     'xmv-radio-button--small':size == 'small'
@@ -22,10 +22,30 @@ export default defineComponent({
         disabled : String
     },
     setup(props ,context) {
-
+        const {$on ,$emit} = inject('EventBus')
         const name = inject('Name')
+        const isChecked = ref(false)
         const inputRef = ref(null)
         const disabled = ref(props.disabled != undefined)
+
+        const handleClick = ()=>{
+            if (disabled.value){
+                return false
+            }
+            if (!isChecked.value){
+                isChecked.value = true
+                $emit('radioClick' ,props.label)
+            }
+        }
+
+        $on('setVal' ,(label)=>{
+            isChecked.value = (props.label == label)
+            if (isChecked.value){
+                inputRef.value.setAttribute('checked' ,'')
+            }else{
+                inputRef.value.removeAttribute('checked')
+            }
+        })
 
         watch(disabled ,(newVal ,oldVal)=>{
             if (disabled.value){
@@ -41,7 +61,7 @@ export default defineComponent({
             }
         })
 
-        return {name,inputRef,disabled}
+        return {name,inputRef,disabled ,handleClick}
     }
 })
 </script>

@@ -10,6 +10,7 @@
                 :type="inputType" 
                 autocomplete="off"
                 ref="inputRef"
+                :disabled="computeDisable"
                 :placeholder="placeholder"
                 @focus="handleInputFocus" @blur="handleInputBlur"
                 @input="handleInputInput"
@@ -42,7 +43,7 @@ export default defineComponent({
     name:"xmvInput",
     emits:['blur','clear','update:modelValue'],
     props:{
-        disabled : String,
+        disabled : Boolean,
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
         showpassword : String,
@@ -69,13 +70,17 @@ export default defineComponent({
 
         const computeClass = computed(()=>{
             let res = []
-            if (props.disabled != undefined){
+            if (props.disabled){
                 res.push('is-disabled')
             }
             if (props.size != undefined){
                 res.push('xmv-input--' + props.size)
             }
             return res
+        })
+
+        const computeDisable = computed(()=>{
+            return props.disabled
         })
 
         const handleInputFocus = ()=>{
@@ -163,14 +168,6 @@ export default defineComponent({
             inputRef.value.style.width = width + 'px'
         }
 
-        const enable = ()=>{
-            removeClass(xmvInputRef.value ,'is-disabled')
-        }
-
-        const disabled = ()=>{
-            addClass(xmvInputRef.value ,'is-disabled')
-        }
-
         initPrefix()
 
         initSuffix()
@@ -183,9 +180,9 @@ export default defineComponent({
         })
 
         return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,
-                inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,
+                inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,computeDisable,
                 handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconClearClick ,focus ,val ,enable ,disabled ,setInputWidth ,getVal}
+                handleIconPwdClick ,handleIconClearClick ,focus ,val ,setInputWidth ,getVal}
     }
 })
 </script>

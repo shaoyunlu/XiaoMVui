@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref ,computed, watch} from 'vue'
+import {defineComponent ,ref ,computed, watch ,inject} from 'vue'
 export default defineComponent({
     name:"xmvCheckbox",
     emits:['check'],
@@ -27,6 +27,7 @@ export default defineComponent({
         const isChecked = ref(false)
         const isIndeterminate = ref(false)
         const disabled = ref(props.disabled != undefined)
+        const {$on ,$emit} = inject('EventBus')
 
         const handleClick = ()=>{
             if (disabled.value){
@@ -34,10 +35,15 @@ export default defineComponent({
             }
             isChecked.value = !isChecked.value
             context.emit('check' , isChecked.value)
+            $emit('checkClick' ,{status:isChecked.value ,label:props.label})
         }
 
         const computeLabelShow = computed(()=>{
             return props.label != undefined
+        })
+
+        $on('setVal' ,(list)=>{
+            isChecked.value = list.includes(props.label)
         })
 
         watch(isChecked ,(newVal)=>{

@@ -33,6 +33,7 @@ export default defineComponent({
         provide('Level' ,0)
         provide('TreeMode' ,treeMode)
         provide('Slots' ,context.slots)
+        provide('EventBus' ,{$on ,$emit})
 
         $on('nodeClick' ,(node)=>{
             context.emit('nodeClick' ,node)

@@ -1,7 +1,7 @@
 <template>
     <xmv-row>
         <xmv-col :span="12">
-            <xmv-form :mode="formData" :rules="rules" label-width="120px">
+            <xmv-form :mode="formData" :rules="rules" label-width="120px" style="margin-top:100px">
                 <xmv-form-item prop="name" label="姓名">
                     <xmv-input v-model="formData.name"></xmv-input>
                 </xmv-form-item>
@@ -23,6 +23,13 @@
                         <xmv-radio-button label="person">个人</xmv-radio-button>
                     </xmv-radio-group>
                 </xmv-form-item>
+                <xmv-form-item label="爱好">
+                    <xmv-checkbox-group v-model="formData.interest">
+                        <xmv-checkbox label="basketball">篮球</xmv-checkbox>
+                        <xmv-checkbox label="sing">唱歌</xmv-checkbox>
+                        <xmv-checkbox label="game">游戏</xmv-checkbox>
+                    </xmv-checkbox-group>
+                </xmv-form-item>
             </xmv-form>
         </xmv-col>
     </xmv-row>
@@ -34,34 +41,37 @@
 </template>
 
 <script>
-import {defineComponent ,onMounted,reactive} from 'vue'
+import {defineComponent ,onMounted,reactive, ref ,toRaw} from 'vue'
 export default defineComponent({
     name:"",
     setup(props ,context) {
 
         const formData = reactive({
-            name : "",
-            time : "",
+            name : "张三",
             date : "2023-05-01",
-            gender : "male",
-            type : ''
+            time : "06:30:10",
+            gender : "female",
+            type : 'person',
+            interest : 'sing'
         })
+
+        const disableRef = ref(true)
 
         const rules = reactive({
 
         })
 
         const handleSubmit = ()=>{
-            console.log(formData)
+            console.log(toRaw(formData))
         }
 
         onMounted(()=>{
-            // setTimeout(()=>{
-            //     formData.gender = 'female'
-            // } ,3000)
+            setTimeout(()=>{
+
+            } ,3000)
         })
 
-        return {formData ,rules ,handleSubmit}
+        return {formData ,rules ,handleSubmit ,disableRef}
     }
 })
 </script>

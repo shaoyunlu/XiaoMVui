@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref} from 'vue'
+import {defineComponent ,ref ,inject ,watch} from 'vue'
 export default defineComponent({
     name:"xmvCheckboxButton",
     props:{
@@ -24,6 +24,7 @@ export default defineComponent({
         const inputRef = ref(null)
         const isChecked = ref(false)
         const disabled = ref(props.disabled != undefined)
+        const {$on ,$emit} = inject('EventBus')
 
         const handleClick = ()=>{
             if (disabled.value){
@@ -34,7 +35,21 @@ export default defineComponent({
                 inputRef.value.setAttribute('checked','')
             else
                 inputRef.value.removeAttribute('checked')
+
+            $emit('checkClick' ,{status:isChecked.value ,label:props.label})
         }
+
+        $on('setVal' ,(list)=>{
+            isChecked.value = list.includes(props.label)
+        })
+
+        watch(isChecked ,(newVal)=>{
+            if (isChecked.value)
+                inputRef.value.setAttribute('checked','')
+            else
+                inputRef.value.removeAttribute('checked')
+        })
+
         return {isChecked ,disabled ,inputRef ,handleClick}
     }
 })

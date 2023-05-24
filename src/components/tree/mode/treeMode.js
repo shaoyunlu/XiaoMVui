@@ -116,6 +116,40 @@ class TreeMode{
 
     }
 
+    findNodeByParam(nestedArray, value ,type = 'value'){
+        for (let item of nestedArray) {
+            if (item[type] === value) {
+              return item;
+            }
+        
+            if (item.children && item.children.length > 0) {
+              let found = this.findNodeByParam(item.children, value ,type);
+              if (found) {
+                return found;
+              }
+            }
+          }
+        
+          return null;
+    }
+
+    findParents(nestedArray, value, parents = [] ,type = 'value') {
+        for (let item of nestedArray) {
+          if (item[type] === value) {
+            return parents;
+          }
+      
+          if (item.children && item.children.length > 0) {
+            let newParents = parents.concat(item);
+            let foundParents = this.findParents(item.children, value, newParents);
+            if (foundParents) {
+              return foundParents;
+            }
+          }
+        }
+        return null;
+    }
+
     __handleParentNodeCheck(node){
         if (!node.parent){
             return false

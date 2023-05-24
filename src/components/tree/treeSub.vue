@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-tree-node__children" ref="childrenDivRef">
-        <xmv-tree-node v-for="tmp in node.children" :node="tmp" :parent="node"></xmv-tree-node>
+        <xmv-tree-node v-for="tmp in node.children" :node="tmp" :parent="node" :key="tmp.value"></xmv-tree-node>
     </div>
 </template>
 

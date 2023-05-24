@@ -152,6 +152,9 @@ export default defineComponent({
         }
 
         const hide = ()=>{
+            if (isShow.value == false){
+                return false
+            }
             isShow.value = false
             handleMouseleave()
         }

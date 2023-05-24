@@ -19,7 +19,15 @@ export default defineComponent({
         const {$on ,$emit} = inject('EventBus')
         const isHover = ref(false)
         const isSelect = ref(false)
+
         $on('itemClick' ,()=>{
+            let res = find(selectMode.rctData.sData ,(tmp)=>{
+                return tmp.value == props.data.value
+            })
+            isSelect.value = (res != undefined)
+        })
+
+        $on('setVal' ,()=>{
             let res = find(selectMode.rctData.sData ,(tmp)=>{
                 return tmp.value == props.data.value
             })

@@ -25,6 +25,14 @@ class SelectMode{
         // 调整popover的位置
         this.popoverRef.value.setPosition()
     }
+
+    getSelectedValList(){
+        let res = []
+        this.rctData.sData.forEach(tmp =>{
+            res.push(tmp.value)
+        })
+        return res
+    }
 }
 
 export default SelectMode

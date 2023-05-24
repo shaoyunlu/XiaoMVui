@@ -15,6 +15,30 @@ export function tranListToTreeDate(listData, rootValue, idKey, pIdKey) {
     return arr
 }
 
+/** 深拷贝一个数组 */
+export function deepClone(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj;
+    }
+  
+    let clone;
+    if (Array.isArray(obj)) {
+      clone = [];
+      for (let i = 0; i < obj.length; i++) {
+        clone[i] = deepClone(obj[i]);
+      }
+    } else {
+      clone = {};
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          clone[key] = deepClone(obj[key]);
+        }
+      }
+    }
+  
+    return clone;
+  }
+
 // 判断数据是否为空
 export function isEmpty(obj){
     if (obj == undefined){
@@ -30,7 +54,6 @@ export function isEmpty(obj){
             return !obj
     }
 }
-
 
 /**
  * 显示层级数据

@@ -3,7 +3,7 @@
         <template #trigger>
             <div class="xmv-select" 
                 :class="computeClass" 
-                :ref="selectMode.selectRef" 
+                :ref="selectMode.selectRef"
                 @click="handleActive">
                 <div class="select-trigger">
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
@@ -27,7 +27,6 @@
                         @nodeClick="handleNodeClick"
                         @nodeCheck="handleNodeCheck"></xmv-tree>
                 </ul>
-
             </xmv-scrollbar>
         </div>
     </xmv-popover>
@@ -35,13 +34,16 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide, reactive ,computed, nextTick ,inject} from 'vue'
+import {defineComponent, onMounted, provide, reactive ,computed, nextTick ,watch} from 'vue'
 import SelectMode from './mode/selectMode'
 import xmvSelectItem from './item.vue'
 import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
+import {find ,filter} from 'utils/data'
 export default defineComponent({
     name:"xmvSelect",
     components:{xmvSelectItem},
+    emits : ['nodeClick' ,'nodeCheck'],
     props:{
         disabled : String,
         multiple : String,
@@ -49,7 +51,8 @@ export default defineComponent({
         maxcollapseTags : Number,
         filterable : String,
         type:{type:String ,default:'select'},
-        notAssociated : String
+        notAssociated : String,
+        modelValue : String
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -90,9 +93,12 @@ export default defineComponent({
                 nextTick(()=>{
                     selectMode.adjustWH()
                 })
+                context.emit('update:modelValue' ,selectMode.getSelectedValList().join(','))
             }else{
-                selectMode.inputRef.value.val(selectMode.rctData.sData[0].label)
+                let selectData = selectMode.rctData.sData[0]
+                selectMode.inputRef.value.val(selectData.label)
                 selectMode.popoverRef.value.hide()
+                context.emit('update:modelValue' ,selectData.value)
             }
         })
 
@@ -116,15 +122,51 @@ export default defineComponent({
         const handleNodeClick = (node)=>{
             selectMode.inputRef.value.val(node.label)
             selectMode.popoverRef.value.hide()
+            context.emit('nodeClick' ,node)
         }
 
         const handleNodeCheck = (nodeList)=>{
             selectMode.rctData.sData = nodeList
-
             nextTick(()=>{
                 selectMode.adjustWH()
             })
+            context.emit('nodeCheck' ,node)
+        }
 
+        const setTreeValue = (value)=>{
+            let node = selectMode.treeRef.value.setValue(value)
+        }
+
+        const modelValueWatch = computed(()=>{
+            return props.modelValue
+        })
+
+        watch(modelValueWatch ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (val)=>{
+            if (props.multiple != undefined){
+                let list = val.split(',')
+                selectMode.rctData.sData = []
+                list.forEach(item =>{
+                    let __data = filter(selectMode.rctData.options ,tmp=>{
+                        return tmp.value == item
+                    })
+                    if (!isEmpty(__data)){
+                        selectMode.rctData.sData.push(__data[0])
+                    }
+                })
+            }else{
+                selectMode.rctData.sData = filter(selectMode.rctData.options ,tmp=>{
+                    return tmp.value == val
+                })
+                selectMode.inputRef.value.val(selectMode.rctData.sData[0].label) 
+            }
+            
+            nextTick(()=>{
+                $emit('setVal')
+            })
         }
 
         onMounted(()=>{
@@ -143,10 +185,14 @@ export default defineComponent({
             if (!selectMode.filterable){
                 selectMode.inputRef.value.inputRef.setAttribute('readonly' ,'')
             }
+
+            if (!isEmpty(props.modelValue)){
+                handleWatch(props.modelValue)
+            }
         })
 
         return {selectMode ,computeClass ,computePlaceholder,loadTreeData,
-                handleActive ,handleNodeClick ,handleNodeCheck}
+                handleActive ,handleNodeClick ,handleNodeCheck ,setTreeValue}
     }
 })
 </script>

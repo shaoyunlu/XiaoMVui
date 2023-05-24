@@ -1,13 +1,14 @@
 <template>
     <div class="xmv-tree">
-        <xmv-tree-node v-for="node in treeMode.rctData.data" :node="node"></xmv-tree-node>
+        <xmv-tree-node v-for="node in treeMode.rctData.data" :node="node" :key="node.value"></xmv-tree-node>
     </div>
 </template>
 
 <script>
-import {defineComponent ,provide ,reactive} from 'vue'
+import {defineComponent ,nextTick,provide ,reactive} from 'vue'
 import TreeMode from './mode/treeMode';
 import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvTree",
     emits:['nodeClick' ,'nodeCheck'],
@@ -51,7 +52,19 @@ export default defineComponent({
             treeMode.filter(label)
         }
 
-        return {treeMode ,loadData ,filter}
+        const setValue = (val)=>{
+            let node = treeMode.findNodeByParam(treeMode.rctData.data ,val)
+            let parentNodes = treeMode.findParents(treeMode.rctData.data ,val)
+            parentNodes.forEach(parentNode =>{
+                parentNode.isExpanded = true
+            })
+
+            nextTick(()=>{
+                treeMode.handleNodeClick(node)
+            })
+        }
+
+        return {treeMode ,loadData ,filter ,setValue}
     }
 })
 </script>

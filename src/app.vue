@@ -62,6 +62,9 @@
                 <xmv-form-item label="节点池">
                     <xmv-tree-select v-model="formData.nodeStr" :data="treeSelectData.data" multiple notAssociated></xmv-tree-select>
                 </xmv-form-item>
+                <xmv-form-item label="颜色">
+                    <xmv-color-picker></xmv-color-picker>
+                </xmv-form-item>
             </xmv-form>
         </xmv-col>
     </xmv-row>

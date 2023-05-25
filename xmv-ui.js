@@ -34,6 +34,7 @@ import xmvTreeSelect from 'comps/treeSelect/treeSelect.vue'
 import xmvDialog from 'comps/dialog/dialog.vue'
 import xmvForm from 'comps/form/form.vue'
 import xmvFormItem from 'comps/form/formItem.vue'
+import xmvColorPicker from 'comps/colorPicker/colorPicker.vue'
 
 import loadingDirective from 'comps/loading/directive'
 
@@ -96,6 +97,7 @@ const register = (vue)=>{
     vue.component('xmvDialog', xmvDialog)
     vue.component('xmvForm', xmvForm)
     vue.component('xmvFormItem', xmvFormItem)
+    vue.component('xmvColorPicker', xmvColorPicker)
 
     vue.directive('loading', loadingDirective);
 }

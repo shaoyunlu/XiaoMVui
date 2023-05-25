@@ -59,6 +59,9 @@
                 <xmv-form-item label="节点">
                     <xmv-tree-select v-model="formData.node" :data="treeSelectData.data"></xmv-tree-select>
                 </xmv-form-item>
+                <xmv-form-item label="节点池">
+                    <xmv-tree-select v-model="formData.nodeStr" :data="treeSelectData.data" multiple notAssociated></xmv-tree-select>
+                </xmv-form-item>
             </xmv-form>
         </xmv-col>
     </xmv-row>
@@ -106,7 +109,8 @@ export default defineComponent({
             speciality : 'rust,c++',
             region : 'shenhe',
             pos : 'top,middle',
-            node : 'node3-2-1-1'
+            node : '',
+            nodeStr : 'node1-1'
         })
 
         const disableRef = ref(true)

@@ -52,6 +52,28 @@ export default defineComponent({
             treeMode.filter(label)
         }
 
+        const setMultipleValue = (val ,cbf)=>{
+            treeMode.rctData.sData = []
+            let list = val.split(',')
+            nextTick(()=>{
+                list.forEach(tmp =>{
+                    let node = treeMode.findNodeByParam(treeMode.rctData.data ,tmp)
+                    if (!isEmpty(node)){
+                        node.isChecked = true
+                        treeMode.rctData.sData.push(node)
+                    }
+                })
+                cbf(treeMode.rctData.sData)
+                if (props.notAssociated == undefined){
+                    nextTick(()=>{
+                        treeMode.rctData.sData.forEach(tmp =>{
+                            treeMode.__handleParentNodeCheck(tmp)
+                        })
+                    })
+                }
+            })
+        }
+
         const setValue = (val)=>{
             let node = treeMode.findNodeByParam(treeMode.rctData.data ,val)
             let parentNodes = treeMode.findParents(treeMode.rctData.data ,val)
@@ -64,7 +86,7 @@ export default defineComponent({
             })
         }
 
-        return {treeMode ,loadData ,filter ,setValue}
+        return {treeMode ,loadData ,filter ,setValue ,setMultipleValue}
     }
 })
 </script>

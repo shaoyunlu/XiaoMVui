@@ -40,8 +40,9 @@ export default defineComponent({
             selectMode.rctData.sData = filter(selectMode.rctData.sData ,(tmp)=>{
                 return tmp.value != cData.value
             })
-            $emit('itemClick' ,cData)
             $emit('itemClose' ,cData)
+            $emit('itemClick' ,cData)
+            
         }
 
         watch(selectMode.rctData ,(newValue, oldValue)=>{

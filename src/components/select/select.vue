@@ -93,7 +93,10 @@ export default defineComponent({
                 nextTick(()=>{
                     selectMode.adjustWH()
                 })
-                context.emit('update:modelValue' ,selectMode.getSelectedValList().join(','))
+                if (props.modelValue != undefined){
+                    context.emit('update:modelValue' ,selectMode.getSelectedValList().join(','))
+                }
+                context.emit('nodeCheck' ,selectMode.rctData.sData)
             }else{
                 let selectData = selectMode.rctData.sData[0]
                 selectMode.inputRef.value.val(selectData.label)
@@ -130,11 +133,17 @@ export default defineComponent({
             nextTick(()=>{
                 selectMode.adjustWH()
             })
-            context.emit('nodeCheck' ,node)
+            context.emit('nodeCheck' ,nodeList)
+        }
+
+        const setTreeMultipleValue = (value)=>{
+            selectMode.treeRef.value.setMultipleValue(value ,(list)=>{
+                selectMode.rctData.sData = list
+            })
         }
 
         const setTreeValue = (value)=>{
-            let node = selectMode.treeRef.value.setValue(value)
+            selectMode.treeRef.value.setValue(value)
         }
 
         const modelValueWatch = computed(()=>{
@@ -192,7 +201,7 @@ export default defineComponent({
         })
 
         return {selectMode ,computeClass ,computePlaceholder,loadTreeData,
-                handleActive ,handleNodeClick ,handleNodeCheck ,setTreeValue}
+                handleActive ,handleNodeClick ,handleNodeCheck ,setTreeValue ,setTreeMultipleValue}
     }
 })
 </script>

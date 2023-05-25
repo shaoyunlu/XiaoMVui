@@ -1,7 +1,7 @@
 <template>
     <xmv-select type="tree" ref="xmvSelectRef" 
     :multiple="multiple" :notAssociated="notAssociated"
-    @nodeClick="handleNodeClick"></xmv-select>
+    @nodeClick="handleNodeClick" @nodeCheck="handleNodeCheck"></xmv-select>
 </template>
 
 <script>
@@ -27,6 +27,14 @@ export default defineComponent({
             context.emit('update:modelValue' ,node.value)
         }
 
+        const handleNodeCheck = (nodeList)=>{
+            let res = []
+            nodeList.forEach(node =>{
+                res.push(node.value)
+            })
+            context.emit('update:modelValue' ,res.join(","))
+        }
+
         watch(()=>props.data ,(newVal)=>{
             xmvSelectRef.value.loadTreeData(newVal)
         })
@@ -36,7 +44,12 @@ export default defineComponent({
         })
 
         const handleWatch = (val)=>{
-            xmvSelectRef.value.setTreeValue(val)
+            if (props.multiple != undefined){
+                xmvSelectRef.value.setTreeMultipleValue(val)
+            }else{
+                xmvSelectRef.value.setTreeValue(val)
+            }
+            
         }
 
         onMounted(()=>{
@@ -48,7 +61,7 @@ export default defineComponent({
             }
         })
 
-        return {xmvSelectRef ,loadData ,handleNodeClick}
+        return {xmvSelectRef ,loadData ,handleNodeClick ,handleNodeCheck}
     }
 })
 </script>

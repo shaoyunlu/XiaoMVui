@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover>
+    <xmv-popover ref="popoverRef" @hide="handlePopoverHide">
         <template #trigger>
             <div class="xmv-color-picker xmv-tooltip__trigger">
                 <div class="xmv-color-picker__trigger">
@@ -12,7 +12,7 @@
             </div>
         </template>
     </xmv-popover>
-    <div style="width:310px;padding:10px 10px 0 0">
+    <div style="width:320px;padding:10px 10px 0 10px">
         <div class="xmv-color-dropdown__main-wrapper">
             <div class="xmv-color-hue-slider is-vertical hue-slider">
                 <div class="xmv-color-hue-slider__bar"></div>
@@ -31,27 +31,44 @@
             </div>
         </div>
         <div class="xmv-color-dropdown__btns">
-
+            <span class="xmv-color-dropdown__value">
+                <xmv-input size="small" ref="inputRef"></xmv-input>
+            </span>
+            <xmv-button size="small" text @click="handleClear">清除</xmv-button>
+            <xmv-button size="small" plain @click="handleEnter">确认</xmv-button>
         </div>
     </div>
 </template>
 
 <script>
-import {computed, defineComponent ,ref} from 'vue'
+import {computed, defineComponent ,onMounted,ref, watch} from 'vue'
 export default defineComponent({
     name:"xmvColorPicker",
+    props:{
+        modelValue : String
+    },
     setup(props ,context) {
-
         const sliderTop = ref(0)
         const sliderRGB = ref('rgb(255,0,0)')
-        const selectedRGB = ref('rgb(255,255,255)')
+        const selectedRGB = ref('')
         const cursorX = ref(0)
         const cursorY = ref(0)
+        const inputRef = ref(null)
+        const popoverRef = ref(null)
+        const svgPanelWidth = 280
+        const svgPanelHeight = 180
         let mousePageX
         let mousePageY
         let currentCursorX = 0
         let currentCursorY = 0
         let currentSliderTop
+
+        let tempCursorX = 0
+        let tempCursorY = 0
+        let tempSliderTop = 0
+        let tempSelectedRGB = ''
+        let tempSliderRGB = 'rgb(255,0,0)'
+    
         let sliderRate = 8.6932
 
         const handleSliderMousedown = (e)=>{
@@ -74,7 +91,7 @@ export default defineComponent({
             }
 
             calcSliderRGB(Math.floor(sliderTop.value * sliderRate))
-            calcMouseRGB(currentCursorX/280 ,currentCursorY/180)
+            calcMouseRGB(currentCursorX/svgPanelWidth ,currentCursorY/svgPanelHeight)
         }
 
         const handleSliderMouseup = (e)=>{
@@ -97,13 +114,27 @@ export default defineComponent({
         const handleCursorMousemove = (e)=>{
             let {pageX ,pageY} = e
 
-            let xSubtract = pageX - mousePageX
-            let ySubtract = pageY - mousePageY
+            let xSubtract = pageX - mousePageX + currentCursorX
+            let ySubtract = pageY - mousePageY + currentCursorY
 
-            cursorX.value = currentCursorX + xSubtract
-            cursorY.value = currentCursorY + ySubtract
+            if (xSubtract <= 0){
+                xSubtract = 0
+            }
+            if (xSubtract >= svgPanelWidth){
+                xSubtract = svgPanelWidth
+            }
 
-            calcMouseRGB(cursorX.value/280 ,cursorY.value/180)
+            if (ySubtract <= 0){
+                ySubtract = 0
+            }
+            if (ySubtract >= svgPanelHeight){
+                ySubtract = svgPanelHeight
+            }
+
+            cursorX.value = xSubtract
+            cursorY.value = ySubtract
+
+            calcMouseRGB(cursorX.value/svgPanelWidth ,cursorY.value/svgPanelHeight)
         }
 
         const handleCursorMouseup = (e)=>{
@@ -154,10 +185,74 @@ export default defineComponent({
             let b = (1 - y) * ((1 - x) * white[2] + x * spec[2]) + y * ((1 - x) * black[2] + x * black[2])
 
             selectedRGB.value = `rgb(${Math.floor(r)} ,${Math.floor(g)} ,${Math.floor(b)})`
+            inputRef.value.val(selectedRGB.value)
         }
 
-        return {sliderRGB ,selectedRGB ,sliderTop ,cursorX ,cursorY ,
-            handleSliderMousedown,handleCursorMousedown}
+        const handleClear = ()=>{
+            popoverRef.value.hide()
+            inputRef.value.val('')
+            selectedRGB.value = ''
+            context.emit('update:modelValue' ,'')
+        }
+
+        const handleEnter = ()=>{
+            cache()
+            context.emit('update:modelValue' ,selectedRGB.value)
+            popoverRef.value.hide()
+
+        }
+
+        const handlePopoverHide = ()=>{
+            reset()
+        }
+
+        const cache = ()=>{
+            tempCursorX = cursorX.value
+            tempCursorY = cursorY.value
+            tempSliderTop = sliderTop.value
+            tempSelectedRGB = selectedRGB.value
+            tempSliderRGB = sliderRGB.value
+        }
+
+        const reset = ()=>{
+            cursorX.value = tempCursorX
+            cursorY.value = tempCursorY
+            sliderTop.value = tempSliderTop
+            selectedRGB.value = tempSelectedRGB
+            sliderRGB.value = tempSliderRGB
+            inputRef.value.val(selectedRGB.value)
+        }
+
+        watch(()=>props.modelValue ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (newVal)=>{
+            selectedRGB.value = newVal
+            tempSelectedRGB = newVal
+            inputRef.value.val(selectedRGB.value)
+        }
+
+        const rgbTobinary = (str)=>{
+            const arr = str.slice(4, -1).split(',').map(Number);
+            const hex = '#' + arr.map(c => c.toString(16).padStart(2, '0')).join('');
+            return hex.toUpperCase()
+        }
+
+        const binaryToRgb = (hex)=>{
+            const arr = hex.slice(1).match(/.{2}/g).map(h => parseInt(h, 16));
+            const rgb = `rgb(${arr[0]},${arr[1]},${arr[2]})`;
+            return rgb
+        }
+
+        onMounted(()=>{
+            if (props.modelValue != undefined){
+                handleWatch(props.modelValue)
+            }
+        })
+
+        return {sliderRGB ,selectedRGB ,sliderTop ,cursorX ,cursorY ,inputRef,popoverRef,
+            handleSliderMousedown,handleCursorMousedown,handleClear,handleEnter ,handlePopoverHide}
     }
 })
 </script>

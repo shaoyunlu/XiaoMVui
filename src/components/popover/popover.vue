@@ -76,13 +76,15 @@ export default defineComponent({
             emit('mouseover')
         }
 
-        const handleMouseleave = (cbf)=>{
+        const handleMouseleave = (withEmit = true)=>{
             currentEventName = 'mouseleave'
             transition.scaleOut(()=>{
                 popperEl.style.display = 'none'
             })
-            emit('mouseleave')
-            emit('hide')
+            if (withEmit){
+                emit('mouseleave')
+                emit('hide')
+            }
         }
 
         const handleMouseclick = ()=>{
@@ -104,10 +106,31 @@ export default defineComponent({
             let parent = e.target.closest('.xmv-popper')
             if (!parent){
                 if (isShow.value){
-                    hide()
+                    hide(true)
                 }
             }
         })
+
+        const show = ()=>{
+            isShow.value = true
+            handleMouseover()
+        }
+
+        const hide = (withEmit = false)=>{
+            if (isShow.value == false){
+                return false
+            }
+            isShow.value = false
+            handleMouseleave(withEmit)
+        }
+
+        const enable = ()=>{
+            enableRef.value = true
+        }
+
+        const disabled = ()=>{
+            enableRef.value = false
+        }
 
         onMounted(()=>{
             triggerEl = placeSpan.value.nextElementSibling
@@ -145,27 +168,6 @@ export default defineComponent({
                 })
             }
         })
-
-        const show = ()=>{
-            isShow.value = true
-            handleMouseover()
-        }
-
-        const hide = ()=>{
-            if (isShow.value == false){
-                return false
-            }
-            isShow.value = false
-            handleMouseleave()
-        }
-
-        const enable = ()=>{
-            enableRef.value = true
-        }
-
-        const disabled = ()=>{
-            enableRef.value = false
-        }
 
         return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}
 

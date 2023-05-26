@@ -41,6 +41,14 @@
     }
 }
 
+.xmv-button--small {
+    --xmv-button-size: 24px;
+    height: var(--xmv-button-size);
+    padding: 5px 11px;
+    font-size: 12px;
+    border-radius: calc(var(--xmv-border-radius-base) - 1px);
+}
+
 .xmv-button.is-round {
     border-radius: var(--xmv-border-radius-round);
 }
@@ -52,6 +60,12 @@
 .xmv-button.is-circle {
     border-radius: 50%;
     padding: 8px;
+}
+
+.xmv-button.is-text {
+    color: var(--xmv-button-text-color);
+    border: 0 solid transparent;
+    background-color: transparent;
 }
 
 .xmv-button+.xmv-button {

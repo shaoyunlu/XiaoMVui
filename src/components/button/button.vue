@@ -16,6 +16,7 @@ export default defineComponent({
     emits:['click'],
     props:{
         type : String,
+        size : String,
         icon : String,
         iconPosition : {type:String,default:'right'},
         loading : Boolean,
@@ -46,6 +47,9 @@ export default defineComponent({
             if (props.type){
                 res.push('xmv-button--' + props.type)
             }
+            if (props.size){
+                res.push('xmv-button--' + props.size)
+            }
             let attrs = context.attrs
             if (attrs.plain != null){
                 res.push('is-plain')
@@ -53,6 +57,8 @@ export default defineComponent({
                 res.push('is-round')
             }else if (attrs.circle != null){
                 res.push('is-circle')
+            }else if (attrs.text != null){
+                res.push('is-text')
             }
             return res
         })

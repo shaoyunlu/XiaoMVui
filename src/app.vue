@@ -63,7 +63,7 @@
                     <xmv-tree-select v-model="formData.nodeStr" :data="treeSelectData.data" multiple notAssociated></xmv-tree-select>
                 </xmv-form-item>
                 <xmv-form-item label="颜色">
-                    <xmv-color-picker></xmv-color-picker>
+                    <xmv-color-picker v-model="formData.color"></xmv-color-picker>
                 </xmv-form-item>
             </xmv-form>
         </xmv-col>
@@ -113,7 +113,8 @@ export default defineComponent({
             region : 'shenhe',
             pos : 'top,middle',
             node : '',
-            nodeStr : 'node1-1'
+            nodeStr : 'node1-1',
+            color : 'rgb(108 ,170 ,112)'
         })
 
         const disableRef = ref(true)

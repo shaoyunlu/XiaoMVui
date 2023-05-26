@@ -57,6 +57,7 @@ const register = (vue)=>{
 
     provide('Xmv-Dom-PopperContainer' ,popperContainerDiv)
     provide('Xmv-Event-On' ,$on)
+    provide('Xmv-Bubbling' ,{status : true})
 
     // 分发各种事件
     window.addEventListener('mouseup' ,(e)=>{

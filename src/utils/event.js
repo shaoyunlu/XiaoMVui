@@ -1,3 +1,7 @@
+import {inject} from 'vue'
+
+
+
 // 检测元素高度变化
 export function resizeOB(el ,cbf){
     if (window.ResizeObserver){

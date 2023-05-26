@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {computed, defineComponent ,nextTick,onMounted,ref} from 'vue'
+import {computed, defineComponent ,inject,onMounted,ref} from 'vue'
 import {getDomMartix ,setDomMartix ,removeTextSelected} from 'utils/dom'
 import {isLowVersionFirefox} from 'utils/dict'
 import {resizeOB} from 'utils/event'
@@ -45,6 +45,7 @@ export default defineComponent({
         const verThumRef = ref(null)
         const isPolyfill = isLowVersionFirefox('64.0.0')
         const isMargin = ref(false)
+        const XmvBubbling = inject('Xmv-Bubbling')
         var parentHorThumbEl
         var parentVerThumEl
         var currentMouseStatus
@@ -101,6 +102,7 @@ export default defineComponent({
         }
 
         const handleMousedown = (type ,e)=>{
+            XmvBubbling.status = false
             currentMouseDown = type
             removeTextSelected()
             isScrollIng = true
@@ -158,6 +160,7 @@ export default defineComponent({
         }
 
         const handleMouseup = ()=>{
+            XmvBubbling.status = true
             isMousedown = false
             reset()
             window.removeEventListener('mouseup' ,handleMouseup)

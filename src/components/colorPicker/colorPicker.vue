@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {computed, defineComponent ,onMounted,ref, watch} from 'vue'
+import {computed, defineComponent ,onMounted,ref, watch ,inject} from 'vue'
 export default defineComponent({
     name:"xmvColorPicker",
     props:{
@@ -71,10 +71,12 @@ export default defineComponent({
     
         let sliderRate = 8.6932
 
+        const XmvBubbling = inject('Xmv-Bubbling')
+
         const handleSliderMousedown = (e)=>{
+            XmvBubbling.status = false
             mousePageY = e.pageY
             currentSliderTop = sliderTop.value
-
             window.addEventListener('mouseup' ,handleSliderMouseup)
             window.addEventListener('mousemove' ,handleSliderMousemove)
         }
@@ -95,12 +97,13 @@ export default defineComponent({
         }
 
         const handleSliderMouseup = (e)=>{
-            e.stopPropagation()
+            XmvBubbling.status = true
             window.removeEventListener('mouseup' ,handleSliderMouseup)
             window.removeEventListener('mousemove' ,handleSliderMousemove)
         }
 
         const handleCursorMousedown = (e)=>{
+            XmvBubbling.status = false
             mousePageX = e.pageX
             mousePageY = e.pageY
 
@@ -138,6 +141,7 @@ export default defineComponent({
         }
 
         const handleCursorMouseup = (e)=>{
+            XmvBubbling.status = true
             currentCursorX = cursorX.value
             currentCursorY = cursorY.value
             e.stopPropagation()

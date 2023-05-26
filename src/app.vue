@@ -45,6 +45,11 @@
                         <xmv-option label="和平区" value="heping"></xmv-option>
                         <xmv-option label="铁西区" value="tiexi"></xmv-option>
                         <xmv-option label="沈北区" value="shenbei"></xmv-option>
+                        <xmv-option label="大东区" value="dadong"></xmv-option>
+                        <xmv-option label="皇姑区" value="huanggu"></xmv-option>
+                        <xmv-option label="苏家屯区" value="sujiatun"></xmv-option>
+                        <xmv-option label="新民" value="xinmin"></xmv-option>
+                        <xmv-option label="沈抚新区" value="shenfu"></xmv-option>
                     </xmv-select>
                 </xmv-form-item>
                 <xmv-form-item label="擅长位置">

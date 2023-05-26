@@ -26,6 +26,7 @@ export default defineComponent({
         const enableRef = ref(true)
         const placeSpan = ref(null)
         const transition = new XmvTransition({})
+        const XmvBubbling = inject('Xmv-Bubbling')
         var pEl = inject('Xmv-Dom-PopperContainer')
         var triggerEl
         var popperEl
@@ -103,6 +104,9 @@ export default defineComponent({
         const XmvEventOn = inject('Xmv-Event-On')
 
         XmvEventOn('mouseup' ,(e)=>{
+            if (!XmvBubbling.status){
+                return false
+            }
             let parent = e.target.closest('.xmv-popper')
             if (!parent){
                 if (isShow.value){

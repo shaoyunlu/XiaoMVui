@@ -43,7 +43,7 @@ import {find ,filter} from 'utils/data'
 export default defineComponent({
     name:"xmvSelect",
     components:{xmvSelectItem},
-    emits : ['nodeClick' ,'nodeCheck'],
+    emits : ['nodeClick' ,'nodeCheck' ,'update:modelValue'],
     props:{
         disabled : String,
         multiple : String,

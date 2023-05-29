@@ -74,17 +74,40 @@
         </xmv-col>
     </xmv-row>
     <xmv-row>
-        <xmv-col :offset="6">
+        <xmv-col :span="18" :offset="6">
             <xmv-button @click="handleSubmit">提交</xmv-button>
+            <xmv-button @click="handleLoading">加载</xmv-button>
+            <xmv-button @click="handleDialog">Dialog</xmv-button>
+            <xmv-button @click="handleDrawer">抽屉</xmv-button>
         </xmv-col>
     </xmv-row>
+
+    <xmv-dialog title="标题" width="30%" v-model="dialogVisible">
+        <span>this is a message</span>
+        <template #footer>
+            <span class="dialog-footer">
+                <xmv-button type="primary">
+                    确认
+                </xmv-button>
+            </span>
+        </template>
+    </xmv-dialog>
+
+    <xmv-drawer title="标题" v-model="drawerVisible">
+        <span>this is a drawer</span>
+    </xmv-drawer>
+
 </template>
 
 <script>
-import {defineComponent ,onMounted,reactive, ref ,toRaw} from 'vue'
+import {defineComponent ,getCurrentInstance,onMounted,reactive, ref ,toRaw} from 'vue'
+import XmvLoading from 'comps/loading/loading'
 export default defineComponent({
     name:"",
     setup(props ,context) {
+
+        const dialogVisible = ref(false)
+        const drawerVisible = ref(false)
 
         const treeSelectData = reactive({
             data : [
@@ -132,6 +155,18 @@ export default defineComponent({
             console.log(toRaw(formData))
         }
 
+        const handleLoading = ()=>{
+            let loadingInstance = XmvLoading.service()
+        }
+
+        const handleDialog = ()=>{
+            dialogVisible.value = true
+        }
+
+        const handleDrawer = ()=>{
+            drawerVisible.value = true
+        }
+
         onMounted(()=>{
             setTimeout(()=>{
                 //treeSelectData.data = [{label:'111' ,value:'222'}]
@@ -139,7 +174,8 @@ export default defineComponent({
             } ,3000)
         })
 
-        return {formData ,rules ,treeSelectData ,handleSubmit ,disableRef}
+        return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,
+                handleSubmit ,handleLoading ,handleDialog ,handleDrawer}
     }
 })
 </script>

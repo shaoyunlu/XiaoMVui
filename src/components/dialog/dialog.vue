@@ -1,5 +1,5 @@
 <template>
-    <transition name="dialog">
+    <transition name="xmv-dialog">
         <div class="xmv-overlay" v-show="modelValue">
             <div class="xmv-overlay-dialog">
                 <div class="xmv-dialog" :style="computeStyle" ref="dialogRef">

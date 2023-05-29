@@ -69,29 +69,29 @@
     box-sizing: border-box;
 }
 
-.dialog-enter-active ,.dialog-leave-active {
+.xmv-dialog-enter-active ,.xmv-dialog-leave-active {
     transition: opacity var(--xmv-transition-duration) ,transform var(--xmv-transition-duration);
     .xmv-dialog{
         transition: opacity var(--xmv-transition-duration) ,transform var(--xmv-transition-duration);
     }
 }
 
-.dialog-enter-from {
+.xmv-dialog-enter-from {
     opacity: 0;
     .xmv-dialog{
         transform: translateY(-30px);
     }
 }
 
-.dialog-enter-to {
+.xmv-dialog-enter-to {
     opacity: 1;
 }
 
-.dialog-leave-from {
+.xmv-dialog-leave-from {
     opacity: 1;
 }
 
-.dialog-leave-to {
+.xmv-dialog-leave-to {
     opacity: 0;
     .xmv-dialog{
         transform: translateY(-30px);

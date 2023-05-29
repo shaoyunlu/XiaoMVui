@@ -1,6 +1,10 @@
-export default {
-    mounted(el, binding){
+let loadingInstance = null
+
+class XmvLoading{
+    constructor(options){
         const container = document.createElement('div')
+        this.container = container
+
         container.className = 'xmv-loading-mask'
 
         const spinner = document.createElement('div')
@@ -19,23 +23,32 @@ export default {
         circle.setAttribute('fill', 'none');
         svg.appendChild(circle)
         spinner.appendChild(svg)
-        el.appendChild(container)
+        document.body.appendChild(container)
+        container.style.display = 'block'
+    }
 
-        el._loadingContainer = container
+    loadingOptions(options){
 
-        if (binding.value){
-            el._loadingContainer.style.display = 'block'
-        }else{
-            el._loadingContainer.style.display = 'none'
-        }
-    },
-    updated(el, binding) {
-        if (binding.value){
-            el._loadingContainer.style.display = 'block'
-        }else{
-            el._loadingContainer.style.display = 'none'
-        }
-    },
-    unmounted(el) {
+    }
+
+    loading(){
+        this.container.style.display = 'block'
+    }
+
+    close(){
+        this.container.style.display = 'none'
     }
 }
+
+XmvLoading.service = (options)=>{
+    if (loadingInstance){
+        loadingInstance.loadingOptions(options)
+    }
+    else{
+        loadingInstance = new XmvLoading(options)
+    }
+    loadingInstance.loading()
+    return loadingInstance
+}
+
+export default XmvLoading

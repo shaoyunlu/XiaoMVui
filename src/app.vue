@@ -74,11 +74,14 @@
         </xmv-col>
     </xmv-row>
     <xmv-row>
-        <xmv-col :span="18" :offset="6">
+        <xmv-col :span="18" :offset="1">
             <xmv-button @click="handleSubmit">提交</xmv-button>
             <xmv-button @click="handleLoading">加载</xmv-button>
             <xmv-button @click="handleDialog">Dialog</xmv-button>
             <xmv-button @click="handleDrawer">抽屉</xmv-button>
+            <xmv-button @click="handleAlert">提示</xmv-button>
+            <xmv-button @click="handleConfirm">确认</xmv-button>
+            <xmv-button @click="handleMessage">message</xmv-button>
         </xmv-col>
     </xmv-row>
 
@@ -93,15 +96,23 @@
         </template>
     </xmv-dialog>
 
-    <xmv-drawer title="标题" v-model="drawerVisible">
+    <xmv-drawer title="标题" v-model="drawerVisible" direction="ltr">
         <span>this is a drawer</span>
+        <template #footer>
+            <div style="flex: auto">
+                <xmv-button @click="cancelClick">cancel</xmv-button>
+                <xmv-button type="primary" @click="confirmClick">confirm</xmv-button>
+            </div>
+        </template>
     </xmv-drawer>
 
 </template>
 
 <script>
-import {defineComponent ,getCurrentInstance,onMounted,reactive, ref ,toRaw} from 'vue'
+import {defineComponent,onMounted,reactive, ref ,toRaw} from 'vue'
 import XmvLoading from 'comps/loading/loading'
+import XmvMessageBox from 'comps/messageBox/messageBox'
+import XmvMessage from './components/message/message.js'
 export default defineComponent({
     name:"",
     setup(props ,context) {
@@ -167,6 +178,30 @@ export default defineComponent({
             drawerVisible.value = true
         }
 
+        const cancelClick = ()=>{
+            drawerVisible.value = false
+        }
+
+        const confirmClick = ()=>{
+            console.log('confirmClick')
+        }
+
+        const handleAlert = ()=>{
+            XmvMessageBox.alert('操作成功' ,'提示')
+        }
+
+        const handleConfirm = ()=>{
+            XmvMessageBox.confirm('是否这样操作' ,'修改').then(()=>{
+                console.log(1)
+            }).catch(()=>{
+                console.log(2)
+            })
+        }
+        let i = 0
+        const handleMessage = ()=>{
+            XmvMessage({message : '操作成功' + (i++)})
+        }
+
         onMounted(()=>{
             setTimeout(()=>{
                 //treeSelectData.data = [{label:'111' ,value:'222'}]
@@ -175,7 +210,8 @@ export default defineComponent({
         })
 
         return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,
-                handleSubmit ,handleLoading ,handleDialog ,handleDrawer}
+                handleSubmit ,handleLoading ,handleDialog ,handleDrawer ,cancelClick ,confirmClick,
+                handleAlert ,handleConfirm ,handleMessage}
     }
 })
 </script>

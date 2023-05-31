@@ -11,6 +11,9 @@
                 <div class="xmv-drawer__body">
                     <slot></slot>
                 </div>
+                <div class="xmv-drawer__footer">
+                    <slot name="footer"></slot>
+                </div>
             </div>
         </div>
     </transition>

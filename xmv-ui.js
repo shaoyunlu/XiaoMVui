@@ -39,6 +39,8 @@ import xmvDrawer from 'comps/drawer/drawer.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
+import XmvMessageBox from 'comps/messageBox/messageBox.js'
+import XmvMessage from 'comps/message/message.js'
 
 import {createEventBus} from 'utils/event'
 
@@ -106,5 +108,5 @@ const register = (vue)=>{
     vue.directive('loading', loadingDirective);
 }
 
-export {XmvLoading}
+export {XmvLoading ,XmvMessageBox ,XmvMessage}
 export default register

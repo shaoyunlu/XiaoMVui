@@ -3,15 +3,18 @@ import MessageConstructor from "./message.vue"
 
 const instances = reactive([])
 
-function XmvMessage({message}){
+function XmvMessage({message ,type}){
     let vm
     let container = document.createElement('div')
     document.body.appendChild(container)
     let vnode = createVNode(MessageConstructor ,{
+        top : 20 + instances.length * 64,
         instances : instances,
         message : message,
-        onLeave : ()=>{
-            //instances.delete(vm)
+        type : type,
+        onDestroy:()=>{
+            let index = instances.findIndex(obj => obj === vm)
+            instances.splice(index, 1)
             render(null ,container)
             container.remove()
         }

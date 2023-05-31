@@ -85,16 +85,6 @@ export default defineComponent({
             context.emit('leave')
         }
 
-        onBeforeUnmount(()=>{
-        })
-
-        onUnmounted(()=>{
-        })
-
-        onMounted(()=>{
-            
-        })
-
         return {isShow , isDisplay ,isShowCloseButton ,messageBoxRef ,
                 show ,handleClose ,handleLeave ,handleEnter ,setAlert ,setConfirm}
     }

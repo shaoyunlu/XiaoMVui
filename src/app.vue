@@ -199,7 +199,7 @@ export default defineComponent({
         }
         let i = 0
         const handleMessage = ()=>{
-            XmvMessage({message : '操作成功' + (i++)})
+            XmvMessage({message : '操作成功' + (i++) ,type:'success'})
         }
 
         onMounted(()=>{

@@ -1,8 +1,8 @@
 <template>
     <transition name="xmv-message" v-show="isShow" v-if="isDisplay" @after-leave="handleLeave">
         <div>
-            <div class="xmv-message xmv-message--info">
-                <xmv-icon name="close" class="xmv-message__icon xmv-message-icon--info"></xmv-icon>
+            <div class="xmv-message" :class="computeClass" :style="{top:top+'px'}">
+                <xmv-icon :name="type + 'Filled'" class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
             </div>
         </div>
@@ -10,14 +10,16 @@
 </template>
 
 <script>
-import {defineComponent ,ref, onMounted, watch ,nextTick} from 'vue'
+import {defineComponent ,ref, onMounted, watch ,nextTick, computed} from 'vue'
 import xmvIcon  from 'comps/icon/icon.vue'
 export default defineComponent({
     name:"xmvMessage",
     components:{xmvIcon},
     props:{
+        top : {type:String ,default:'20'},
         message : String,
-        instances : Array
+        instances : Array,
+        type : {type:String ,default : 'info'}
     },
     setup(props ,context) {
 
@@ -28,8 +30,17 @@ export default defineComponent({
             console.log(newVal)
         })
 
-        const handleLeave = ()=>{
+        const computeClass = computed(()=>{
+            return ['xmv-message--' + props.type]
+        })
 
+        const computeIconClass = computed(()=>{
+            return ['xmv-message-icon--' + props.type]
+        })
+
+        const handleLeave = ()=>{
+            isDisplay.value = false
+            context.emit('destroy')
         }
 
         onMounted(()=>{
@@ -37,9 +48,13 @@ export default defineComponent({
             nextTick(()=>{
                 isShow.value = true
             })
+
+            setTimeout(()=>{
+                isShow.value = false
+            } ,3000)
         })
 
-        return {isShow ,isDisplay, handleLeave}
+        return {isShow ,isDisplay, computeClass , computeIconClass,handleLeave}
     }
 })
 </script>

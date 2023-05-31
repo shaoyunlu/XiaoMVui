@@ -29,12 +29,15 @@ import calendar from './category/calendar.vue'
 import clock from './category/clock.vue'
 import upload from './category/upload.vue'
 import download from './category/download.vue'
+import infoFilled from './category/infoFilled.vue'
+import successFilled from './category/successFilled.vue'
+import warningFilled from './category/warningFilled.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar ,clock,
-            upload,download},
+            upload,download,infoFilled,successFilled,warningFilled},
     props:{
         name : ''
     },

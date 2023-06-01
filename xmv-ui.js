@@ -36,6 +36,8 @@ import xmvForm from 'comps/form/form.vue'
 import xmvFormItem from 'comps/form/formItem.vue'
 import xmvColorPicker from 'comps/colorPicker/colorPicker.vue'
 import xmvDrawer from 'comps/drawer/drawer.vue'
+import xmvTabs from 'comps/tabs/tabs.vue'
+import xmvTabPanel from 'comps/tabs/panel.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -104,6 +106,8 @@ const register = (vue)=>{
     vue.component('xmvFormItem', xmvFormItem)
     vue.component('xmvColorPicker', xmvColorPicker)
     vue.component('xmvDrawer' ,xmvDrawer)
+    vue.component('xmvTabs' ,xmvTabs)
+    vue.component('xmvTabPanel' ,xmvTabPanel)
 
     vue.directive('loading', loadingDirective);
 }

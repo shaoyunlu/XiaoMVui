@@ -14,7 +14,7 @@ export default defineComponent({
         const tableMode = inject('TableMode')
         const slots = props.header.slots || {}
         const handleClick = ()=>{
-            alert(1)
+            console.log('tdClick')
         }
 
         return ()=>{

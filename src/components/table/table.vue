@@ -24,12 +24,13 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide ,ref} from 'vue'
-import TableMode from './mode/tableMode';
+import {defineComponent, onMounted, provide ,ref ,reactive} from 'vue'
+import TableMode from './mode/tableMode'
 
 import XmvTableHeader from './tableHeader.vue'
 import XmvTableBody from './tableBody.vue'
 
+import {createEventBus} from 'utils/event'
 
 export default defineComponent({
     name:"xmvTable",
@@ -43,9 +44,16 @@ export default defineComponent({
         const tableHeaderWrapperRef = ref(null)
         const tableRef = ref(null)
 
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
         tableMode.tableRef = tableRef
 
         provide('TableMode' ,tableMode)
+        provide('EventBus' ,{$on ,$emit})
 
         const loadData = (data)=>{
             tableMode.rctData.data = data

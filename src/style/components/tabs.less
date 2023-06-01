@@ -1,0 +1,81 @@
+.xmv-tabs__header {
+    padding: 0;
+    position: relative;
+    margin: 0 0 15px;
+}
+
+.xmv-tabs__nav-wrap {
+    overflow: hidden;
+    margin-bottom: -1px;
+    position: relative;
+    &::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--xmv-border-color-light);
+        z-index: var(--xmv-index-normal);
+    }
+}
+
+.xmv-tabs__nav-scroll {
+    overflow: hidden;
+}
+
+.xmv-tabs__nav {
+    display: flex;
+    white-space: nowrap;
+    position: relative;
+    transition: transform var(--xmv-transition-duration);
+    float: left;
+    z-index: calc(var(--xmv-index-normal) + 1);
+}
+
+.xmv-tabs__active-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: var(--xmv-color-primary);
+    z-index: 1;
+    transition: width var(--xmv-transition-duration) var(--xmv-transition-function-ease-in-out-bezier),transform var(--xmv-transition-duration) var(--xmv-transition-function-ease-in-out-bezier);
+    list-style: none;
+}
+
+.xmv-tabs__item {
+    padding: 0 20px;
+    height: var(--xmv-tabs-header-height);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    font-size: var(--xmv-font-size-base);
+    font-weight: 500;
+    color: var(--xmv-text-color-primary);
+    position: relative;
+    &.is-active {
+        color: var(--xmv-color-primary);
+    }
+    &:hover{
+        color: var(--xmv-color-primary);
+        cursor: pointer;
+    }
+}
+
+.xmv-tabs--top .xmv-tabs__item.is-top:nth-child(2), .xmv-tabs--top .xmv-tabs__item.is-bottom:nth-child(2), 
+.xmv-tabs--bottom .xmv-tabs__item.is-top:nth-child(2), .xmv-tabs--bottom .xmv-tabs__item.is-bottom:nth-child(2) {
+    padding-left: 0;
+}
+
+.xmv-tabs--top .xmv-tabs__item.is-top:last-child, .xmv-tabs--top .xmv-tabs__item.is-bottom:last-child, 
+.xmv-tabs--bottom .xmv-tabs__item.is-top:last-child, .xmv-tabs--bottom .xmv-tabs__item.is-bottom:last-child {
+    padding-right: 0;
+}
+
+.xmv-tabs__content {
+    overflow: hidden;
+    position: relative;
+}

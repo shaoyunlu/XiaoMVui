@@ -1,101 +1,101 @@
 <template>
 
+    <xmv-row style="display:none">
+        <xmv-col>
+            <xmv-form :mode="formData" :rules="rules" label-width="100px" style="margin-top:10px">
+                <xmv-form-item prop="name" label="姓名">
+                    <xmv-input v-model="formData.name"></xmv-input>
+                </xmv-form-item>
+                <xmv-form-item label="日期">
+                    <xmv-date-picker v-model="formData.date"></xmv-date-picker>
+                </xmv-form-item>
+                <xmv-form-item label="时间">
+                    <xmv-time-picker v-model="formData.time"></xmv-time-picker>
+                </xmv-form-item>
+                <xmv-form-item label="性别">
+                    <xmv-radio-group v-model="formData.gender">
+                        <xmv-radio label="male">男</xmv-radio>
+                        <xmv-radio label="female">女</xmv-radio>
+                    </xmv-radio-group>
+                </xmv-form-item>
+                <xmv-form-item label="类型">
+                    <xmv-radio-group v-model="formData.type">
+                        <xmv-radio-button label="company">公司</xmv-radio-button>
+                        <xmv-radio-button label="person">个人</xmv-radio-button>
+                    </xmv-radio-group>
+                </xmv-form-item>
+                <xmv-form-item label="爱好">
+                    <xmv-checkbox-group v-model="formData.interest">
+                        <xmv-checkbox label="basketball">篮球</xmv-checkbox>
+                        <xmv-checkbox label="sing">唱歌</xmv-checkbox>
+                        <xmv-checkbox label="game">游戏</xmv-checkbox>
+                    </xmv-checkbox-group>
+                </xmv-form-item>
+                <xmv-form-item label="特长">
+                    <xmv-checkbox-group v-model="formData.speciality">
+                        <xmv-checkbox-button label="java">JAVA</xmv-checkbox-button>
+                        <xmv-checkbox-button label="rust">RUST</xmv-checkbox-button>
+                        <xmv-checkbox-button label="c++">C++</xmv-checkbox-button>
+                        <xmv-checkbox-button label="phtyon">PHTYON</xmv-checkbox-button>
+                    </xmv-checkbox-group>
+                </xmv-form-item>
+                <xmv-form-item label="地区">
+                    <xmv-select v-model="formData.region">
+                        <xmv-option label="浑南区" value="hunnan"></xmv-option>
+                        <xmv-option label="沈河区" value="shenhe"></xmv-option>
+                        <xmv-option label="和平区" value="heping"></xmv-option>
+                        <xmv-option label="铁西区" value="tiexi"></xmv-option>
+                        <xmv-option label="沈北区" value="shenbei"></xmv-option>
+                        <xmv-option label="大东区" value="dadong"></xmv-option>
+                        <xmv-option label="皇姑区" value="huanggu"></xmv-option>
+                        <xmv-option label="苏家屯区" value="sujiatun"></xmv-option>
+                        <xmv-option label="新民" value="xinmin"></xmv-option>
+                        <xmv-option label="沈抚新区" value="shenfu"></xmv-option>
+                    </xmv-select>
+                </xmv-form-item>
+                <xmv-form-item label="擅长位置">
+                    <xmv-select v-model="formData.pos" multiple>
+                        <xmv-option label="上路" value="top"></xmv-option>
+                        <xmv-option label="中单" value="middle"></xmv-option>
+                        <xmv-option label="下路" value="bottom"></xmv-option>
+                        <xmv-option label="打野" value="jungle"></xmv-option>
+                        <xmv-option label="辅助" value="support"></xmv-option>
+                    </xmv-select>
+                </xmv-form-item>
+                <xmv-form-item label="节点">
+                    <xmv-tree-select v-model="formData.node" :data="treeSelectData"></xmv-tree-select>
+                </xmv-form-item>
+                <xmv-form-item label="节点池">
+                    <xmv-tree-select v-model="formData.nodeStr" :data="treeSelectData" multiple notAssociated></xmv-tree-select>
+                </xmv-form-item>
+                <xmv-form-item label="颜色">
+                    <xmv-color-picker v-model="formData.color"></xmv-color-picker>
+                </xmv-form-item>
+            </xmv-form>
+        </xmv-col>
+    </xmv-row>
+
     <xmv-row>
         <xmv-col :span="12" :offset="3">
             <xmv-tabs @buildDone="handleTabsBuildDone">
                 <xmv-tab-panel label="表格" name="Tab2">
-                    <xmv-table ref="tableRef" height="300">
-                        <xmv-table-column prop="name" label="姓名">
+                    <xmv-table ref="tableRef"  border stripe max-height="300">
+                        <xmv-table-column prop="name" label="姓名" sortable></xmv-table-column>
+                        <xmv-table-column prop="age" label="年龄" sortable></xmv-table-column>
+                        <xmv-table-column prop="height" label="身高" sortable></xmv-table-column>
+                        <xmv-table-column prop="" label="">
                             <template>
-                                <xmv-button>点击</xmv-button>
+                                <xmv-button type="primary" size="small" link>编辑</xmv-button>
+                                <xmv-button type="primary" size="small" link>删除</xmv-button>
                             </template>
                         </xmv-table-column>
-                        <xmv-table-column prop="age" label="年龄"></xmv-table-column>
-                        <xmv-table-column prop="height" label="身高"></xmv-table-column>
                     </xmv-table>
                 </xmv-tab-panel>
 
                 <xmv-tab-panel label="表单" name="Tab1">
-                    <xmv-row>
-                        <xmv-col>
-                            <xmv-form :mode="formData" :rules="rules" label-width="100px" style="margin-top:10px">
-                                <xmv-form-item prop="name" label="姓名">
-                                    <xmv-input v-model="formData.name"></xmv-input>
-                                </xmv-form-item>
-                                <xmv-form-item label="日期">
-                                    <xmv-date-picker v-model="formData.date"></xmv-date-picker>
-                                </xmv-form-item>
-                                <xmv-form-item label="时间">
-                                    <xmv-time-picker v-model="formData.time"></xmv-time-picker>
-                                </xmv-form-item>
-                                <xmv-form-item label="性别">
-                                    <xmv-radio-group v-model="formData.gender">
-                                        <xmv-radio label="male">男</xmv-radio>
-                                        <xmv-radio label="female">女</xmv-radio>
-                                    </xmv-radio-group>
-                                </xmv-form-item>
-                                <xmv-form-item label="类型">
-                                    <xmv-radio-group v-model="formData.type">
-                                        <xmv-radio-button label="company">公司</xmv-radio-button>
-                                        <xmv-radio-button label="person">个人</xmv-radio-button>
-                                    </xmv-radio-group>
-                                </xmv-form-item>
-                                <xmv-form-item label="爱好">
-                                    <xmv-checkbox-group v-model="formData.interest">
-                                        <xmv-checkbox label="basketball">篮球</xmv-checkbox>
-                                        <xmv-checkbox label="sing">唱歌</xmv-checkbox>
-                                        <xmv-checkbox label="game">游戏</xmv-checkbox>
-                                    </xmv-checkbox-group>
-                                </xmv-form-item>
-                                <xmv-form-item label="特长">
-                                    <xmv-checkbox-group v-model="formData.speciality">
-                                        <xmv-checkbox-button label="java">JAVA</xmv-checkbox-button>
-                                        <xmv-checkbox-button label="rust">RUST</xmv-checkbox-button>
-                                        <xmv-checkbox-button label="c++">C++</xmv-checkbox-button>
-                                        <xmv-checkbox-button label="phtyon">PHTYON</xmv-checkbox-button>
-                                    </xmv-checkbox-group>
-                                </xmv-form-item>
-                                <xmv-form-item label="地区">
-                                    <xmv-select v-model="formData.region">
-                                        <xmv-option label="浑南区" value="hunnan"></xmv-option>
-                                        <xmv-option label="沈河区" value="shenhe"></xmv-option>
-                                        <xmv-option label="和平区" value="heping"></xmv-option>
-                                        <xmv-option label="铁西区" value="tiexi"></xmv-option>
-                                        <xmv-option label="沈北区" value="shenbei"></xmv-option>
-                                        <xmv-option label="大东区" value="dadong"></xmv-option>
-                                        <xmv-option label="皇姑区" value="huanggu"></xmv-option>
-                                        <xmv-option label="苏家屯区" value="sujiatun"></xmv-option>
-                                        <xmv-option label="新民" value="xinmin"></xmv-option>
-                                        <xmv-option label="沈抚新区" value="shenfu"></xmv-option>
-                                    </xmv-select>
-                                </xmv-form-item>
-                                <xmv-form-item label="擅长位置">
-                                    <xmv-select v-model="formData.pos" multiple>
-                                        <xmv-option label="上路" value="top"></xmv-option>
-                                        <xmv-option label="中单" value="middle"></xmv-option>
-                                        <xmv-option label="下路" value="bottom"></xmv-option>
-                                        <xmv-option label="打野" value="jungle"></xmv-option>
-                                        <xmv-option label="辅助" value="support"></xmv-option>
-                                    </xmv-select>
-                                </xmv-form-item>
-                                <xmv-form-item label="节点">
-                                    <xmv-tree-select v-model="formData.node" :data="treeSelectData.data"></xmv-tree-select>
-                                </xmv-form-item>
-                                <xmv-form-item label="节点池">
-                                    <xmv-tree-select v-model="formData.nodeStr" :data="treeSelectData.data" multiple notAssociated></xmv-tree-select>
-                                </xmv-form-item>
-                                <xmv-form-item label="颜色">
-                                    <xmv-color-picker v-model="formData.color"></xmv-color-picker>
-                                </xmv-form-item>
-                            </xmv-form>
-                        </xmv-col>
-                    </xmv-row>
+                    
                 </xmv-tab-panel>
 
-                <xmv-tab-panel label="Tabdsfsdfsdfdsfs" name="Tab3">
-                    <xmv-button>按钮一</xmv-button>
-                    <xmv-button>按钮二</xmv-button>
-                </xmv-tab-panel>
             </xmv-tabs>
         </xmv-col>
     </xmv-row>
@@ -109,6 +109,7 @@
             <xmv-button @click="handleAlert">提示</xmv-button>
             <xmv-button @click="handleConfirm">确认</xmv-button>
             <xmv-button @click="handleMessage">message</xmv-button>
+            <xmv-button @click="handleAddData">添加数据</xmv-button>
         </xmv-col>
     </xmv-row>
 
@@ -146,8 +147,8 @@ export default defineComponent({
         const dialogVisible = ref(false)
         const drawerVisible = ref(false)
 
-        const treeSelectData = reactive({
-            data : [
+        const treeSelectData = reactive(
+            [
                 {label : '节点1' ,value:'node1' ,children : [
                     {label : '节点1-1' ,value:'node1-1'},
                     {label : '节点1-2' ,value:'node1-2'}
@@ -165,7 +166,7 @@ export default defineComponent({
                     ]}
                 ]}
             ]
-        })
+        )
 
         const formData = reactive({
             name : "张三",
@@ -190,22 +191,13 @@ export default defineComponent({
 
         const tableRef = ref(null)
 
-        const tableData = [
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '180'},
-            {name : '张三' ,age : '20' ,height : '181'},
-        ]
-
+        const tableData = ref(
+            [
+                {name : '阿一' ,age : 30 ,height : 'BBC' },
+                {name : '白二' ,age : 20000 ,height : 'Abc'},
+                {name : '陈三' ,age : 40 ,height : 'CCB' }
+            ]
+        )
 
         const handleSubmit = ()=>{
             console.log(toRaw(formData))
@@ -251,6 +243,10 @@ export default defineComponent({
             tableRef.value.loadData(tableData)
         }
 
+        const handleAddData = ()=>{
+            tableData.value.push({name : '张三' ,age : 20 ,height : '180' })
+        }
+
         onMounted(()=>{
             setTimeout(()=>{
                 //treeSelectData.data = [{label:'111' ,value:'222'}]
@@ -261,7 +257,7 @@ export default defineComponent({
 
         return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,tableRef,
                 handleSubmit ,handleLoading ,handleDialog ,handleDrawer ,cancelClick ,confirmClick,
-                handleAlert ,handleConfirm ,handleMessage ,handleTabsBuildDone}
+                handleAlert ,handleConfirm ,handleMessage ,handleTabsBuildDone ,handleAddData}
     }
 })
 </script>

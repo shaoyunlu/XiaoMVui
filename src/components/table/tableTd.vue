@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {defineComponent, h, inject} from 'vue'
+import {defineComponent, h, inject, watch} from 'vue'
 export default defineComponent({
     name:"xmvTableTd",
     props:{
@@ -17,7 +17,7 @@ export default defineComponent({
             console.log('tdClick')
         }
 
-        return ()=>{
+        const render = ()=>{
             let renderSlot = []
             let defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots)
             if (defaultSlot){
@@ -34,6 +34,10 @@ export default defineComponent({
                             h('div', { class: 'cell' } ,props.data[props.header.prop])
                         ]);
             }
+        }
+
+        return ()=>{
+            return render()
         }
     }
 })

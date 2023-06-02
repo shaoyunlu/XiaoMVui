@@ -3,7 +3,7 @@
         <col v-for="head in tableMode.rctData.header" :width="head.width">
     </colgroup>
     <tbody>
-        <xmv-table-tr v-for="trData in tableMode.rctData.data" :data="trData"></xmv-table-tr>
+        <xmv-table-tr v-for="(trData,index) in tableMode.rctData.data" :data="trData" :key="index" :index="index"></xmv-table-tr>
     </tbody>
 </template>
 

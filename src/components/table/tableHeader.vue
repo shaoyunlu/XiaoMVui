@@ -4,23 +4,25 @@
     </colgroup>
     <thead class>
         <tr class>
-            <th v-for="head in tableMode.rctData.header"
-                class="xmv-table__cell">
-                <div class="cell">
-                    {{head.label}}
-                </div>
-            </th>
+            <xmv-table-th v-for="head in tableMode.rctData.header" :data="head"></xmv-table-th>
         </tr>
     </thead>
 </template>
 
 <script>
 import {defineComponent, inject} from 'vue'
+import xmvTableTh from './tableTh.vue'
 export default defineComponent({
     name:"xmvTableHeader",
+    components:{xmvTableTh},
     setup(props ,context) {
         const tableMode = inject('TableMode')
-        return {tableMode}
+
+        const handleThClick = ()=>{
+
+        }
+
+        return {tableMode ,handleThClick}
     }
 })
 </script>

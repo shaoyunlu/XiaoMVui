@@ -59,6 +59,8 @@ export default defineComponent({
                 res.push('is-circle')
             }else if (attrs.text != null){
                 res.push('is-text')
+            }else if (attrs.link != null){
+                res.push('is-link')
             }
             return res
         })

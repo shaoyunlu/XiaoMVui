@@ -26,9 +26,9 @@ export default defineComponent({
         const isShow = ref(false)
         const isDisplay = ref(false)
 
-        watch(props.instances ,(newVal)=>{
-            console.log(newVal)
-        })
+        // watch(props.instances ,(newVal)=>{
+
+        // })
 
         const computeClass = computed(()=>{
             return ['xmv-message--' + props.type]

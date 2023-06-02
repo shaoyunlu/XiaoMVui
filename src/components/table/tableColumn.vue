@@ -9,7 +9,8 @@ export default defineComponent({
     props:{
         prop : String,
         label : String,
-        width : String
+        width : String,
+        sortable : String
     },
     setup(props ,context) {
         const tableMode = inject('TableMode')
@@ -19,6 +20,7 @@ export default defineComponent({
             label : props.label,
             prop : props.prop,
             width : props.width,
+            sortable : props.sortable,
             slots : instance.slots
         })
 

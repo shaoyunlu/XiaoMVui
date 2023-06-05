@@ -113,6 +113,16 @@
         </xmv-col>
     </xmv-row>
 
+    <xmv-row>
+        <xmv-pagination :total="500" :pageSize="parseInt(pageSize)" background></xmv-pagination>
+
+        <xmv-select v-model="pageSize">
+            <xmv-option label="10/页" value="10"></xmv-option>
+            <xmv-option label="50/页" value="50"></xmv-option>
+            <xmv-option label="100/页" value="100"></xmv-option>
+        </xmv-select>
+    </xmv-row>
+
     <xmv-dialog title="标题" width="30%" v-model="dialogVisible">
         <span>this is a message</span>
         <template #footer>
@@ -146,6 +156,8 @@ export default defineComponent({
     setup(props ,context) {
         const dialogVisible = ref(false)
         const drawerVisible = ref(false)
+
+        const pageSize = ref("100")
 
         const treeSelectData = reactive(
             [
@@ -255,7 +267,7 @@ export default defineComponent({
             } ,1000)
         })
 
-        return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,tableRef,
+        return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,tableRef,pageSize,
                 handleSubmit ,handleLoading ,handleDialog ,handleDrawer ,cancelClick ,confirmClick,
                 handleAlert ,handleConfirm ,handleMessage ,handleTabsBuildDone ,handleAddData}
     }

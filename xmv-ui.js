@@ -38,6 +38,7 @@ import xmvColorPicker from 'comps/colorPicker/colorPicker.vue'
 import xmvDrawer from 'comps/drawer/drawer.vue'
 import xmvTabs from 'comps/tabs/tabs.vue'
 import xmvTabPanel from 'comps/tabs/panel.vue'
+import xmvPagination from 'comps/pagination/pagination.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -108,6 +109,7 @@ const register = (vue)=>{
     vue.component('xmvDrawer' ,xmvDrawer)
     vue.component('xmvTabs' ,xmvTabs)
     vue.component('xmvTabPanel' ,xmvTabPanel)
+    vue.component('xmvPagination' ,xmvPagination)
 
     vue.directive('loading', loadingDirective);
 }

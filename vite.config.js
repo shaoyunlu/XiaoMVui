@@ -18,7 +18,7 @@ export default defineConfig({
     plugins : [
                 vue(),
                 legacy({
-                    targets : ['firefox 44']
+                    targets : ['firefox 43']
                 }),
               ],
     server: {

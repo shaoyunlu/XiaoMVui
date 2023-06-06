@@ -11,7 +11,6 @@ class PaginationMode{
     }
 
     set(){
-
         let totalPage
         let prevCriticalValue
         let nextCriticalValue
@@ -22,7 +21,6 @@ class PaginationMode{
         this.quickprevShow.value = (this.currentPage.value >= prevCriticalValue)
         
         nextCriticalValue = Math.ceil((this.props.pageCount - 2)/2)
-        console.log(totalPage , this.currentPage.value ,nextCriticalValue)
         this.quicknextShow.value = ((totalPage - this.currentPage.value) > nextCriticalValue)
 
         if (totalPage <= this.props.pageCount){
@@ -32,7 +30,6 @@ class PaginationMode{
         for(let i=2;i<totalPage;i++){
             this.list.value.push(i)
         }
-        console.log(this.list)
 
         this.generateArray(this.currentPage.value,Math.ceil((this.props.pageCount-4)/2),totalPage)
     }

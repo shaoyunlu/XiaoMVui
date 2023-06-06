@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {defineComponent ,nextTick,provide ,reactive} from 'vue'
+import {defineComponent ,nextTick,provide ,reactive ,onMounted ,watch} from 'vue'
 import TreeMode from './mode/treeMode';
 import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
@@ -17,7 +17,8 @@ export default defineComponent({
         filterNodeMethod : {
             type : Function
         },
-        notAssociated : String  // 父子节点是否相关联
+        notAssociated : String,  // 父子节点是否相关联
+        data : Array
     },
     setup(props ,context) {
         const treeMode = new TreeMode(props)
@@ -85,6 +86,16 @@ export default defineComponent({
                 treeMode.handleNodeClick(node)
             })
         }
+
+        watch(()=>props.data ,(newVal)=>{
+            loadData(newVal)
+        })
+
+        onMounted(()=>{
+            if (!isEmpty(props.data)){
+                loadData(props.data)
+            }
+        })
 
         return {treeMode ,loadData ,filter ,setValue ,setMultipleValue}
     }

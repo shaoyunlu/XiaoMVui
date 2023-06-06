@@ -1,6 +1,6 @@
 <template>
 
-    <xmv-row style="display:none">
+    <xmv-row>
         <xmv-col>
             <xmv-form :mode="formData" :rules="rules" label-width="100px" style="margin-top:10px">
                 <xmv-form-item prop="name" label="姓名">
@@ -115,12 +115,19 @@
 
     <xmv-row>
         <xmv-pagination :total="500" :pageSize="parseInt(pageSize)" background></xmv-pagination>
+        <div class="test">
+            <xmv-select v-model="pageSize">
+                <xmv-option label="10/页" value="10"></xmv-option>
+                <xmv-option label="50/页" value="50"></xmv-option>
+                <xmv-option label="100/页" value="100"></xmv-option>
+            </xmv-select>
+        </div>
+    </xmv-row>
 
-        <xmv-select v-model="pageSize">
-            <xmv-option label="10/页" value="10"></xmv-option>
-            <xmv-option label="50/页" value="50"></xmv-option>
-            <xmv-option label="100/页" value="100"></xmv-option>
-        </xmv-select>
+    <xmv-row>
+        <xmv-col :span="12">
+            <xmv-tree :data="treeSelectData"></xmv-tree>
+        </xmv-col>
     </xmv-row>
 
     <xmv-dialog title="标题" width="30%" v-model="dialogVisible">
@@ -159,7 +166,7 @@ export default defineComponent({
 
         const pageSize = ref("100")
 
-        const treeSelectData = reactive(
+        const treeSelectData = ref(
             [
                 {label : '节点1' ,value:'node1' ,children : [
                     {label : '节点1-1' ,value:'node1-1'},
@@ -274,4 +281,6 @@ export default defineComponent({
 })
 </script>
 
-<style lang="" scoped></style>
+<style lang="" scoped>
+
+</style>

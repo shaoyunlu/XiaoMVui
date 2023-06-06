@@ -103,7 +103,6 @@ export default defineComponent({
             if (tmp < 1){
                 tmp = 1
             }
-            console.log(tmp)
             paginationMode.currentPage.value = tmp
             paginationMode.set()
             nextTick(()=>{

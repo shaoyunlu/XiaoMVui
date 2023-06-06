@@ -49,7 +49,6 @@ export default defineComponent({
             }else{
                 xmvSelectRef.value.setTreeValue(val)
             }
-            
         }
 
         onMounted(()=>{

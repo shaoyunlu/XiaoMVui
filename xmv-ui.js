@@ -39,6 +39,7 @@ import xmvDrawer from 'comps/drawer/drawer.vue'
 import xmvTabs from 'comps/tabs/tabs.vue'
 import xmvTabPanel from 'comps/tabs/panel.vue'
 import xmvPagination from 'comps/pagination/pagination.vue'
+import xmvDivider from 'comps/divider/divider.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -110,6 +111,7 @@ const register = (vue)=>{
     vue.component('xmvTabs' ,xmvTabs)
     vue.component('xmvTabPanel' ,xmvTabPanel)
     vue.component('xmvPagination' ,xmvPagination)
+    vue.component('xmvDivider' ,xmvDivider)
 
     vue.directive('loading', loadingDirective);
 }

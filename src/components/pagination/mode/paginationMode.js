@@ -14,11 +14,11 @@ class PaginationMode{
         let totalPage
         let prevCriticalValue
         let nextCriticalValue
-        
+
         totalPage = Math.ceil(this.props.total/this.props.pageSize)
         this.maxPageCount.value = totalPage
         prevCriticalValue = (3 + (this.props.pageCount))/2
-        this.quickprevShow.value = (this.currentPage.value >= prevCriticalValue)
+        this.quickprevShow.value = ( (this.currentPage.value >= prevCriticalValue))
         
         nextCriticalValue = Math.ceil((this.props.pageCount - 2)/2)
         this.quicknextShow.value = ((totalPage - this.currentPage.value) > nextCriticalValue)
@@ -77,6 +77,10 @@ class PaginationMode{
 
         if (m != 1 && m != max){
             left.push(m)
+        }
+
+        if (left.length > 0 && left[0] == 2){
+            this.quickprevShow.value = false
         }
 
         result = left.concat(right);

@@ -114,7 +114,7 @@
     </xmv-row>
 
     <xmv-row>
-        <xmv-pagination :total="total" :pageSize="parseInt(pageSize)" background @changeNumber="handleChangeNumber" ref="paginationRef"></xmv-pagination>
+        <xmv-pagination :total="total" :pageSize="10" :pageCount="5" background @changeNumber="handleChangeNumber" ref="paginationRef"></xmv-pagination>
         <div class="test">
             <xmv-select v-model="pageSize">
                 <xmv-option label="10/页" value="10"></xmv-option>
@@ -265,7 +265,7 @@ export default defineComponent({
             tableData.value.push({name : '张三' ,age : 20 ,height : '180' })
         }
 
-        const total = ref(1000)
+        const total = ref(56)
 
         const paginationRef = ref(null)
 
@@ -277,10 +277,10 @@ export default defineComponent({
             setTimeout(()=>{
                 //treeSelectData.data = [{label:'111' ,value:'222'}]
                 //formData.node = 'node3-2'
-                total.value = 1000
-                setTimeout(()=>{
-                    paginationRef.value.reset()
-                } ,2000)
+                // total.value = 1000
+                // setTimeout(()=>{
+                //     paginationRef.value.reset()
+                // } ,2000)
             } ,500)
         })
 

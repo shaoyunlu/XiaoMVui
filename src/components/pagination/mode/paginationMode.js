@@ -14,7 +14,7 @@ class PaginationMode{
         let totalPage
         let prevCriticalValue
         let nextCriticalValue
-
+        
         totalPage = Math.ceil(this.props.total/this.props.pageSize)
         this.maxPageCount.value = totalPage
         prevCriticalValue = (3 + (this.props.pageCount))/2

@@ -25,13 +25,14 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide ,ref ,reactive, computed} from 'vue'
+import {defineComponent, onMounted, provide ,ref ,reactive, computed ,watch} from 'vue'
 import TableMode from './mode/tableMode'
 
 import XmvTableHeader from './tableHeader.vue'
 import XmvTableBody from './tableBody.vue'
 
 import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
 
 export default defineComponent({
     name:"xmvTable",
@@ -40,7 +41,8 @@ export default defineComponent({
         height : {type : String},
         border : String,
         stripe : String,
-        maxHeight : String
+        maxHeight : String,
+        data : Array
     },
     setup(props ,context) {
 
@@ -100,8 +102,15 @@ export default defineComponent({
             return res
         })
         
+        watch(()=>props.data ,(newVal)=>{
+            loadData(newVal)
+        })
+
         onMounted(()=>{
             tableMode.init()
+            if (!isEmpty(props.data)){
+                loadData(props.data)
+            }
         })
 
         return {tableHeaderWrapperRef , tableRef ,tableMode ,computeTableClass,

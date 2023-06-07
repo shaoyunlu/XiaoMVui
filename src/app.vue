@@ -1,6 +1,6 @@
 <template>
 
-    <xmv-row>
+    <xmv-row style="display:none">
         <xmv-col>
             <xmv-form :mode="formData" :rules="rules" label-width="100px" style="margin-top:10px">
                 <xmv-form-item prop="name" label="姓名">
@@ -79,7 +79,7 @@
         <xmv-col :span="12" :offset="3">
             <xmv-tabs @buildDone="handleTabsBuildDone">
                 <xmv-tab-panel label="表格" name="Tab2">
-                    <xmv-table ref="tableRef"  border stripe max-height="300">
+                    <xmv-table ref="tableRef"  border stripe max-height="300" :data="tableData">
                         <xmv-table-column prop="name" label="姓名" sortable></xmv-table-column>
                         <xmv-table-column prop="age" label="年龄" sortable></xmv-table-column>
                         <xmv-table-column prop="height" label="身高" sortable></xmv-table-column>
@@ -114,7 +114,7 @@
     </xmv-row>
 
     <xmv-row>
-        <xmv-pagination :total="500" :pageSize="parseInt(pageSize)" background></xmv-pagination>
+        <xmv-pagination :total="total" :pageSize="parseInt(pageSize)" background @changeNumber="handleChangeNumber" ref="paginationRef"></xmv-pagination>
         <div class="test">
             <xmv-select v-model="pageSize">
                 <xmv-option label="10/页" value="10"></xmv-option>
@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import {defineComponent,onMounted,reactive, ref ,toRaw} from 'vue'
+import {defineComponent,nextTick,onMounted,reactive, ref ,toRaw} from 'vue'
 import XmvLoading from 'comps/loading/loading'
 import XmvMessageBox from 'comps/messageBox/messageBox'
 import XmvMessage from './components/message/message.js'
@@ -210,13 +210,7 @@ export default defineComponent({
 
         const tableRef = ref(null)
 
-        const tableData = ref(
-            [
-                {name : '阿一' ,age : 30 ,height : 'BBC' },
-                {name : '白二' ,age : 20000 ,height : 'Abc'},
-                {name : '陈三' ,age : 40 ,height : 'CCB' }
-            ]
-        )
+        const tableData = ref([])
 
         const handleSubmit = ()=>{
             console.log(toRaw(formData))
@@ -259,24 +253,42 @@ export default defineComponent({
         }
 
         const handleTabsBuildDone = ()=>{
-            tableRef.value.loadData(tableData)
+            //tableRef.value.loadData(tableData)
+            tableData.value = [
+                                {name : '阿一' ,age : 30 ,height : 'BBC' },
+                                {name : '白二' ,age : 20000 ,height : 'Abc'},
+                                {name : '陈三' ,age : 40 ,height : 'CCB' }
+                              ]
         }
 
         const handleAddData = ()=>{
             tableData.value.push({name : '张三' ,age : 20 ,height : '180' })
         }
 
+        const total = ref(1000)
+
+        const paginationRef = ref(null)
+
+        const handleChangeNumber = ()=>{
+            console.log(paginationRef.value.getPageInfo())
+        }
+
         onMounted(()=>{
             setTimeout(()=>{
                 //treeSelectData.data = [{label:'111' ,value:'222'}]
                 //formData.node = 'node3-2'
-                   
-            } ,1000)
+                total.value = 1000
+                setTimeout(()=>{
+                    paginationRef.value.reset()
+                } ,2000)
+            } ,500)
         })
 
-        return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,tableRef,pageSize,
+        return {formData ,rules ,treeSelectData ,disableRef ,dialogVisible,drawerVisible,tableRef,pageSize,tableData,
+                total,paginationRef,
                 handleSubmit ,handleLoading ,handleDialog ,handleDrawer ,cancelClick ,confirmClick,
-                handleAlert ,handleConfirm ,handleMessage ,handleTabsBuildDone ,handleAddData}
+                handleAlert ,handleConfirm ,handleMessage ,handleTabsBuildDone ,handleAddData ,handleChangeNumber
+                }
     }
 })
 </script>

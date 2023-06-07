@@ -25,7 +25,9 @@
                 <xmv-icon name="moreFilled"></xmv-icon>
             </li>
 
-            <li class="number" @click="()=>handleNumClick(paginationMode.maxPageCount.value)"
+            <li class="number"
+                v-if="paginationMode.maxPageCount.value != 0 && paginationMode.maxPageCount.value != 1"
+                @click="()=>handleNumClick(paginationMode.maxPageCount.value)"
                 :class="{'is-active':paginationMode.currentPage.value == paginationMode.maxPageCount.value}"> {{paginationMode.maxPageCount}} </li>
         </ul>
         <button type="button" class="btn-next" @click="handleNextClick">
@@ -42,9 +44,10 @@ import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"xmvPagination",
     components:{xmvPaginationItem},
+    emits:['changeNumber'],
     props:{
         total : {type:Number ,default:0},
-        pageSize : {type:Number ,default:20},
+        pageSize : {type:Number ,default:10},
         pageCount : {type:Number ,default:7},
         background : String,
         small : String
@@ -66,35 +69,41 @@ export default defineComponent({
             paginationMode.currentPage.value = num
             paginationMode.set()
             nextTick(()=>{
-                $emit('changeNum' ,num)
+                //$emit('changeNum' ,num)
+                emitChangeNumber()
             })
         }
 
         const handleNumClick = (num)=>{
             paginationMode.currentPage.value = num
             paginationMode.set()
-            $emit('changeNum' ,num)
+            //$emit('changeNum' ,num)
+            emitChangeNumber()
         }
 
         const handlePrevClick = ()=>{
-            if (paginationMode.currentPage.value == 1){
+            if (paginationMode.currentPage.value == 1 
+                || paginationMode.maxPageCount.value == 0){
                 return false
             }
             paginationMode.currentPage.value = paginationMode.currentPage.value - 1
             paginationMode.set()
             nextTick(()=>{
-                $emit('changeNum' ,paginationMode.currentPage.value)
+                //$emit('changeNum' ,paginationMode.currentPage.value)
+                emitChangeNumber()
             })
         }
 
         const handleNextClick = ()=>{
-            if (paginationMode.currentPage.value == paginationMode.maxPageCount.value){
+            if (paginationMode.currentPage.value == paginationMode.maxPageCount.value
+                ||paginationMode.maxPageCount.value == 0){
                 return false
             }
             paginationMode.currentPage.value = paginationMode.currentPage.value + 1
             paginationMode.set()
             nextTick(()=>{
-                $emit('changeNum' ,paginationMode.currentPage.value)
+                //$emit('changeNum' ,paginationMode.currentPage.value)
+                emitChangeNumber()
             })
         }
 
@@ -106,7 +115,8 @@ export default defineComponent({
             paginationMode.currentPage.value = tmp
             paginationMode.set()
             nextTick(()=>{
-                $emit('changeNum' ,paginationMode.currentPage.value)
+                //$emit('changeNum' ,paginationMode.currentPage.value)
+                emitChangeNumber()
             })
         }
 
@@ -118,9 +128,36 @@ export default defineComponent({
             paginationMode.currentPage.value = tmp
             paginationMode.set()
             nextTick(()=>{
-                $emit('changeNum' ,paginationMode.currentPage.value)
+                //$emit('changeNum' ,paginationMode.currentPage.value)
+                emitChangeNumber()
             })
         }
+
+        const emitChangeNumber = ()=>{
+            $emit('changeNum' ,paginationMode.currentPage.value)
+            context.emit('changeNumber')
+        }
+
+        const getPageInfo = ()=>{
+            return {
+                pageNum : paginationMode.currentPage.value,
+                pageSize : props.pageSize
+            }
+        }
+
+        const set = ()=>{
+            paginationMode.set()
+        }
+
+        const reset = ()=>{
+            paginationMode.currentPage.value = 1
+            $emit('changeNum' ,1)
+            set()
+        }
+
+        watch(()=>props.total ,(newVal)=>{
+            set()
+        })
 
         watch(()=>props.pageSize ,(newVal)=>{
             paginationMode.set()
@@ -131,7 +168,7 @@ export default defineComponent({
         })
 
         return {paginationMode ,handleChangeNum ,handleNumClick ,handlePrevClick ,handleNextClick,
-            handleQuickPrevClick ,handleQuickNextClick}
+            handleQuickPrevClick ,handleQuickNextClick ,getPageInfo ,reset ,set}
     }
 })
 </script>

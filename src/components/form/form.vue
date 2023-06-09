@@ -12,7 +12,8 @@ export default defineComponent({
         mode : Object,
         rules : Object,
         labelWidth : String,
-        labelPosition : {type:String ,default:'right'}
+        labelPosition : {type:String ,default:'right'},
+        inline:{type:Boolean,default:false}
     },
     setup(props ,context) {
 
@@ -21,6 +22,9 @@ export default defineComponent({
         const computeFormClass = computed(()=>{
             let res = []
             res.push('xmv-form--label-' + props.labelPosition)
+            if (props.inline){
+                res.push('xmv-form--inline')
+            }
             return res 
         })
 

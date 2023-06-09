@@ -30,7 +30,7 @@ export default defineComponent({
 
         const isError = ref(false)
         const errorInfo = ref('')
-        const isRequired = ref(true)
+        const isRequired = ref(false)
 
         const computeLabelStyle = computed(()=>{
             if (formProps.labelWidth != undefined){

@@ -16,7 +16,6 @@ export default defineComponent({
         return ()=>{
             let renderSlot = []
             let defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots)
-            console.log(defaultSlot)
             defaultSlot.forEach(slot =>{
                 renderSlot.push(h('div' ,{class:'xmv-space__item',style:{
                     'padding-bottom':size + 'px',

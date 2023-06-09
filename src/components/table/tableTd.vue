@@ -11,18 +11,15 @@ export default defineComponent({
         data : Object
     },
     setup(props ,context) {
-        const tableMode = inject('TableMode')
+        let propsData = props.data
         const slots = props.header.slots || {}
-        const handleClick = ()=>{
-            console.log('tdClick')
-        }
 
         const render = ()=>{
             let renderSlot = []
             let defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots)
             if (defaultSlot){
                 defaultSlot[0].children.forEach((__slot)=>{
-                    renderSlot.push(h(__slot ,{onClick : handleClick}))
+                    renderSlot.push(h(__slot))
                 })
                 return h('td', { class: 'xmv-table__cell' }, [
                             h('div', { class: 'cell' } ,

@@ -138,3 +138,38 @@
         --xmv-input-inner-height: calc(var(--xmv-input-height, 24px) - 2px);
     }
 }
+
+.xmv-textarea {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: bottom;
+    font-size: var(--xmv-font-size-base);
+}
+
+.xmv-textarea__inner {
+    position: relative;
+    display: block;
+    resize: vertical;
+    padding: 5px 11px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    color: var(--xmv-input-text-color, var(--xmv-text-color-regular));
+    background-color: var(--xmv-input-bg-color, var(--xmv-fill-color-blank));
+    background-image: none;
+    box-shadow: 0 0 0 1px var(--xmv-input-border-color, var(--xmv-border-color)) inset;
+    border-radius: var(--xmv-input-border-radius, var(--xmv-border-radius-base));
+    transition: var(--xmv-transition-box-shadow);
+    border: none;
+
+    &:hover {
+        box-shadow: 0 0 0 1px var(--xmv-input-hover-border-color) inset;
+    }
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px var(--xmv-input-focus-border-color) inset;
+    }
+}

@@ -2,6 +2,21 @@
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #0003;
+    border-radius: 10px;
+    transition: all .2s ease-in-out;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+
 .xmv-place-span{display: none;}
 
 @keyframes rotating{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

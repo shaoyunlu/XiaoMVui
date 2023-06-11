@@ -1,6 +1,6 @@
 <template>
-    <div class="xmv-input" :class="computeClass" ref="xmvInputRef">
-        <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}">
+    <div :class="computeClass" ref="xmvInputRef">
+        <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}" v-if="type != 'textarea'">
             <span class="xmv-input__prefix" v-if="isShowPrefix" @click="handlePrefixClick">
                 <span class="xmv-input__prefix-inner">
                     <xmv-icon :name="prefixicon" class="xmv-input__icon"></xmv-icon>
@@ -32,13 +32,18 @@
                 </span>
             </span>
         </div>
+        <textarea class="xmv-textarea__inner"  
+            :placeholder="placeholder"  :rows="rows"
+            :style="computeTextareaStyle"
+            :value="modelValue" ref="inputRef" @input="handleInputInput" v-else></textarea>
     </div>
 </template>
 
 <script>
-import {defineComponent ,ref ,computed ,onMounted} from 'vue'
+import {defineComponent ,ref ,computed ,onMounted, nextTick, watch} from 'vue'
 import {addClass ,removeClass} from 'utils/dom'
 import {isFirefox} from 'utils/dict'
+import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvInput",
     emits:['blur','clear','update:modelValue'],
@@ -51,7 +56,9 @@ export default defineComponent({
         suffixicon : String,
         clearable : String,
         size : String,
-        modelValue : String
+        modelValue : String,
+        rows:Number,
+        autosize:Object
     },
     setup(props ,context) {
 
@@ -68,14 +75,33 @@ export default defineComponent({
         const pwdShow = ref(false)
         const clearShow = ref(false)
 
+        const minRowsRef = ref(1)
+        const textareaHeightRef = ref(null)
+        const maxTextareaHeightRef = ref(9999)
+
         const computeClass = computed(()=>{
             let res = []
+            if (props.type != 'textarea'){
+                res.push('xmv-input')
+            }else{
+                res.push('xmv-textarea')
+            }
             if (props.disabled){
                 res.push('is-disabled')
             }
             if (props.size != undefined){
                 res.push('xmv-input--' + props.size)
             }
+            return res
+        })
+
+        const computeTextareaStyle = computed(()=>{
+            if (props.type != 'textarea' || props.autosize == undefined){
+                return false
+            }
+            let res = {}
+            res['min-height'] = 31 + (minRowsRef.value - 1) * 21 + 'px'
+            res['height'] = textareaHeightRef.value + 'px'
             return res
         })
 
@@ -111,6 +137,9 @@ export default defineComponent({
                 }
             }
             if (props.modelValue != undefined){
+                if (props.type == 'textarea' && props.autosize != undefined){
+                    aujustTextareaHeight()
+                }
                 context.emit('update:modelValue' ,inputRef.value.value)
             }
         }
@@ -172,15 +201,40 @@ export default defineComponent({
 
         initSuffix()
 
+        const aujustTextareaHeight = ()=>{
+            inputRef.value.style.height = 'auto'
+            let scrollHeight = inputRef.value.scrollHeight
+            if (scrollHeight >= maxTextareaHeightRef.value){
+                scrollHeight = maxTextareaHeightRef.value
+            }
+            textareaHeightRef.value = scrollHeight
+        }
+
+        watch(()=>props.modelValue ,()=>{
+            if (props.type == 'textarea' && props.autosize != undefined){
+                aujustTextareaHeight()
+            }
+        })
+
         onMounted(()=>{
             // 前后都有图标的时候，需要显示设置inputRef的值
             if (isFirefox && props.prefixicon != undefined && props.suffixicon != undefined){
                 inputRef.value.style.width = '1px'
             }
+
+            if (props.type == 'textarea' && props.autosize != undefined){
+                if (typeof props.autosize === 'object'){
+                    let {minRows ,maxRows} = props.autosize
+                    minRowsRef.value = minRows
+                    maxTextareaHeightRef.value = 31 + (maxRows-1)*21
+                }
+                aujustTextareaHeight()
+            }
         })
 
         return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,
                 inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,computeDisable,
+                computeTextareaStyle,minRowsRef,textareaHeightRef,
                 handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
                 handleIconPwdClick ,handleIconClearClick ,focus ,val ,setInputWidth ,getVal}
     }

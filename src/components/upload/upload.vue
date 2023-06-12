@@ -7,9 +7,11 @@
         <slot name="tip" v-if="listType == 'text'"></slot>
         
         <ul class="xmv-upload-list" :class="['xmv-upload-list--'+listType]">
-            <transition-group name="xmv-list">
-                <xmv-upload-item v-for="(item,index) in fileList" :data="item" :key="index" :listType="listType"></xmv-upload-item>
-            </transition-group>
+            <xmv-upload-item v-for="(item,index) in fileList" 
+            :data="item" 
+            :key="index" 
+            :listType="listType"
+            :index="index"></xmv-upload-item>
             <div class="xmv-upload xmv-upload--picture-card" v-if="listType == 'picture-card'"
                 @mouseup="handleUploadClick">
                 <slot></slot>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import {defineComponent, h ,onMounted,ref} from 'vue'
+import {defineComponent, h ,onMounted,provide,ref} from 'vue'
 import xmvUploadItem from './item.vue'
 export default defineComponent({
     name:"",
@@ -39,6 +41,8 @@ export default defineComponent({
         const handleUploadClick = ()=>{
             uploadInpRef.value.click()
         }
+
+        provide('FileList' ,props.fileList)
 
         const handleLimit = (file ,imgSrc)=>{
             let fileObj = {name : file.name ,imgSrc : imgSrc}

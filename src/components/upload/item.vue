@@ -7,9 +7,9 @@
                     <span class="xmv-upload-list__item-file-name">{{data.name}}</span>
                 </a>
             </div>
-            <img class="xmv-upload-list__item-thumbnail" src="" alt="" v-if="listType == 'picture-card'"/>
+            <img class="xmv-upload-list__item-thumbnail" :src="data.imgSrc" alt="" v-if="listType == 'picture-card'"/>
             <label class="xmv-upload-list__item-status-label">
-                <xmv-icon class="xmv-icon--upload-success xmv-icon--check" name="circleCheck"></xmv-icon>
+                <xmv-icon class="xmv-icon--upload-success xmv-icon--check" :name="checkType"></xmv-icon>
             </label>
             <xmv-icon name="close" class="xmv-icon--close" @click="handleClose" v-if="listType == 'text'"></xmv-icon>
             <span class="xmv-upload-list__item-actions" v-if="listType == 'picture-card'">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted} from 'vue'
+import {defineComponent, onMounted ,ref} from 'vue'
 export default defineComponent({
     name:"",
     props : {
@@ -34,15 +34,22 @@ export default defineComponent({
     },
     setup({data ,listType} ,context) {
 
+        const checkType = ref('')
+
         const handleClose = ()=>{
             data.isShow = false
         }
 
         onMounted(()=>{
             data.isShow = true
+            if (listType == 'text'){
+                checkType.value = 'circleCheck'
+            }else{
+                checkType.value = 'check'
+            }
         })
 
-        return {handleClose}
+        return {checkType ,handleClose}
     }
 })
 </script>

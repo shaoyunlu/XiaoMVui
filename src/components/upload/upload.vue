@@ -40,13 +40,14 @@ export default defineComponent({
             uploadInpRef.value.click()
         }
 
-        const handleLimit = (file)=>{
+        const handleLimit = (file ,imgSrc)=>{
+            let fileObj = {name : file.name ,imgSrc : imgSrc}
             let limit = props.limit
             if (limit == undefined){
-                props.fileList.push({name : file.name})
+                props.fileList.push(fileObj)
             }else if (limit == 1){
                 if (props.fileList.length == 0)
-                    props.fileList.push({name : file.name})
+                    props.fileList.push(fileObj)
                 else
                     props.fileList[0].name = file.name
             }
@@ -59,9 +60,9 @@ export default defineComponent({
                 const reader = new FileReader()
 
                 reader.addEventListener('load' ,event =>{
-                    handleLimit(file)
+                    handleLimit(file ,event.target.result)
                 })
-                reader.readAsArrayBuffer(file)
+                reader.readAsDataURL(file)
             })
         })
 

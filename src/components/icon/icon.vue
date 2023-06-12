@@ -35,12 +35,14 @@ import successFilled from './category/successFilled.vue'
 import warningFilled from './category/warningFilled.vue'
 import moreFilled from './category/moreFilled.vue'
 import document from './category/document.vue'
+import zoomIn from './category/zoomIn.vue'
+import zoomOut from './category/zoomOut.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,vew ,hide ,calendar ,clock,
-            upload,download,infoFilled,successFilled,warningFilled,moreFilled,document},
+            upload,download,infoFilled,successFilled,warningFilled,moreFilled,document,zoomIn,zoomOut},
     props:{
         name : ''
     },

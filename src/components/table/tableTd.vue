@@ -25,7 +25,7 @@ export default defineComponent({
                 if (defaultSlot && defaultSlot.length > 0)
                 {
                     defaultSlot.forEach((__slot) => {
-                            renderSlot.push(h(__slot));
+                        renderSlot.push(h(__slot));
                     });
 
                     return h('td', { class: 'xmv-table__cell' }, [

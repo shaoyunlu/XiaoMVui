@@ -43,6 +43,19 @@
     }
 }
 
+.xmv-list-enter-active, .xmv-list-leave-active {
+    transition: all 1s;
+}
+
+.xmv-list-enter-from, .xmv-list-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.xmv-list-leave-active {
+    position: absolute!important;
+}
+
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;
     --xmv-color-success-rgb: 103, 194, 58;

@@ -22,6 +22,7 @@ import dlt from './category/delete.vue'
 import sort from './category/sort.vue'
 import setting from './category/setting.vue'
 import refresh from './category/refresh.vue'
+import circleCheck from './category/circleCheck.vue'
 import circleClose from './category/circleClose.vue'
 import vew from './category/view.vue'
 import hide from './category/hide.vue'
@@ -33,12 +34,13 @@ import infoFilled from './category/infoFilled.vue'
 import successFilled from './category/successFilled.vue'
 import warningFilled from './category/warningFilled.vue'
 import moreFilled from './category/moreFilled.vue'
+import document from './category/document.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
-                edit ,dlt ,sort ,setting ,refresh ,circleClose ,vew ,hide ,calendar ,clock,
-            upload,download,infoFilled,successFilled,warningFilled,moreFilled},
+                edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,vew ,hide ,calendar ,clock,
+            upload,download,infoFilled,successFilled,warningFilled,moreFilled,document},
     props:{
         name : ''
     },

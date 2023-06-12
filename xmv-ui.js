@@ -44,6 +44,7 @@ import xmvCard from 'comps/card/card.vue'
 import xmvSpace from 'comps/space/space.vue'
 import xmvSwitch from 'comps/switch/switch.vue'
 import xmvEmpty from 'comps/empty/empty.vue'
+import xmvUpload from 'comps/upload/upload.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -120,6 +121,7 @@ const register = (vue)=>{
     vue.component('xmvSpace' ,xmvSpace)
     vue.component('xmvSwitch' ,xmvSwitch)
     vue.component('xmvEmpty' ,xmvEmpty)
+    vue.component('xmvUpload' ,xmvUpload)
 
     vue.directive('loading', loadingDirective);
 }

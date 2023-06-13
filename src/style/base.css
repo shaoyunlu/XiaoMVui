@@ -52,9 +52,9 @@
     transform: translateY(-30px);
 }
 
-.xmv-list-leave-active {
+/* .xmv-list-leave-active {
     position: absolute!important;
-}
+} */
 
 :root{
     --xmv-color-primary-rgb: 64, 158, 255;

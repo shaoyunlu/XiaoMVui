@@ -1,6 +1,6 @@
 <template>
 
-    <li class="xmv-upload-list__item is-success">
+    <li class="xmv-upload-list__item is-success" v-show="data.isShow">
         <div class="xmv-upload-list__item-info" v-if="listType == 'text'">
             <a class="xmv-upload-list__item-name">
                 <xmv-icon name="document"></xmv-icon>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted ,ref ,inject} from 'vue'
+import {defineComponent, onMounted ,ref ,inject, onBeforeMount, onBeforeUnmount} from 'vue'
 export default defineComponent({
     name:"",
     props : {
@@ -40,8 +40,13 @@ export default defineComponent({
         const fileList = inject('FileList')
 
         const handleClose = ()=>{
-            fileList.splice(index, 1);
+            data.isShow = false
+            //fileList.splice(index, 1);
         }
+
+        onBeforeUnmount(()=>{
+            console.log(1)
+        })
 
         onMounted(()=>{
             data.isShow = true

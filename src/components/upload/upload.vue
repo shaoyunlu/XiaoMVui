@@ -6,7 +6,7 @@
         </div>
         <slot name="tip" v-if="listType == 'text'"></slot>
         
-        <ul class="xmv-upload-list" :class="['xmv-upload-list--'+listType]">
+        <xmv-transition-group class="xmv-upload-list" :class="['xmv-upload-list--'+listType]">
             <xmv-upload-item v-for="(item,index) in fileList" 
             :data="item" 
             :key="index" 
@@ -17,8 +17,7 @@
                 <slot></slot>
                 <input class="xmv-upload__input" name="file" multiple="" accept="" type="file" ref="uploadInpRef"/>
             </div>
-        </ul>
-        
+        </xmv-transition-group>
     </div>
 </template>
 

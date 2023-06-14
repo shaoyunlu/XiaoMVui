@@ -6,7 +6,10 @@
         </div>
         <slot name="tip" v-if="listType == 'text'"></slot>
         
-        <xmv-transition-group class="xmv-upload-list" :class="['xmv-upload-list--'+listType]" name="xmv-list">
+        <xmv-transition-group name="xmv-list"
+            class="xmv-upload-list" 
+            :class="['xmv-upload-list--'+listType]" 
+            @after-leave="handleAfterLeave">
             <xmv-upload-item v-for="(item,index) in fileList" 
             :data="item" 
             :key="index" 
@@ -22,8 +25,9 @@
 </template>
 
 <script>
-import {defineComponent, h ,onMounted,provide,ref} from 'vue'
+import {defineComponent, h ,onMounted,provide,ref ,reactive} from 'vue'
 import xmvUploadItem from './item.vue'
+import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"",
     components:{xmvUploadItem},
@@ -36,6 +40,14 @@ export default defineComponent({
     setup(props ,{slots}) {
 
         const uploadInpRef = ref(null)
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
+        provide('EventBus' ,{$on ,$emit})
 
         const handleUploadClick = ()=>{
             uploadInpRef.value.click()
@@ -56,6 +68,10 @@ export default defineComponent({
             }
         }
 
+        const handleAfterLeave = ()=>{
+            $emit('after-leave')
+        }
+
         onMounted(()=>{
             uploadInpRef.value.addEventListener('change' ,event =>{
                 let file = event.target.files[0];
@@ -69,7 +85,7 @@ export default defineComponent({
             })
         })
 
-        return {uploadInpRef ,handleUploadClick}
+        return {uploadInpRef ,handleUploadClick ,handleAfterLeave}
     }
 })
 </script>

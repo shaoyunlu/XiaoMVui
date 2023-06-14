@@ -11,7 +11,8 @@ export default defineComponent({
         tag : {type:String ,default:'ul'},
         name : {type:String ,default:'xmv'}
     },
-    setup({name ,tag} ,{slots}) {
+    emits:['after-leave'],
+    setup({name ,tag} ,{slots ,emit}) {
 
         const elRef = ref(null)
 
@@ -46,9 +47,16 @@ export default defineComponent({
         }
 
         const findLastChild = (el)=>{
-            let children = el.querySelectorAll(':not(.xmv-filter):scope > *')
-            let lastChild = children[children.length-1]
-            return lastChild
+            let resNode
+            let children = el.children
+            for (let i = children.length -1; i>=0;i--){
+                let childNode = children[i]
+                if (!childNode.classList.contains('xmv-filter')){
+                    resNode = childNode
+                    break;
+                }
+            }
+            return resNode
         }
 
         onMounted(()=>{
@@ -90,7 +98,9 @@ export default defineComponent({
                     },10)
 
                     setTimeout(()=>{
-                        item.target.remove()
+                        //item.target.style.opacity = '0'
+                        //item.target.remove()
+                        emit('after-leave')
                     } ,transitionDuration)
                 }
             })

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted ,ref ,inject, onBeforeMount, onBeforeUnmount} from 'vue'
+import {defineComponent, onMounted ,ref ,inject} from 'vue'
 export default defineComponent({
     name:"",
     props : {
@@ -37,15 +37,19 @@ export default defineComponent({
 
         const checkType = ref('check')
 
+        const {$on ,$emit} = inject('EventBus')
+
         const fileList = inject('FileList')
 
         const handleClose = ()=>{
             data.isShow = false
-            //fileList.splice(index, 1);
         }
 
-        onBeforeUnmount(()=>{
-            console.log(1)
+        $on('after-leave' ,()=>{
+            if (!data.isShow){
+                console.log(fileList ,index)
+                //fileList.splice(index, 1);
+            }
         })
 
         onMounted(()=>{

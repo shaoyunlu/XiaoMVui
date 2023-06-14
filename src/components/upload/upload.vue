@@ -6,13 +6,13 @@
         </div>
         <slot name="tip" v-if="listType == 'text'"></slot>
         
-        <xmv-transition-group class="xmv-upload-list" :class="['xmv-upload-list--'+listType]">
+        <xmv-transition-group class="xmv-upload-list" :class="['xmv-upload-list--'+listType]" name="xmv-list">
             <xmv-upload-item v-for="(item,index) in fileList" 
             :data="item" 
             :key="index" 
             :listType="listType"
             :index="index"></xmv-upload-item>
-            <div class="xmv-upload xmv-upload--picture-card" v-if="listType == 'picture-card'"
+            <div class="xmv-upload xmv-upload--picture-card xmv-filter" v-if="listType == 'picture-card'"
                 @mouseup="handleUploadClick">
                 <slot></slot>
                 <input class="xmv-upload__input" name="file" multiple="" accept="" type="file" ref="uploadInpRef"/>

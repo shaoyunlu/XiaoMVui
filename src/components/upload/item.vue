@@ -1,6 +1,6 @@
 <template>
 
-    <li class="xmv-upload-list__item is-success" v-show="data.isShow">
+    <li class="xmv-upload-list__item is-success" v-show="data.isShow" :key="index">
         <div class="xmv-upload-list__item-info" v-if="listType == 'text'">
             <a class="xmv-upload-list__item-name">
                 <xmv-icon name="document"></xmv-icon>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted ,ref ,inject} from 'vue'
+import {defineComponent, onMounted ,ref ,inject ,toRaw} from 'vue'
 export default defineComponent({
     name:"",
     props : {
@@ -47,8 +47,9 @@ export default defineComponent({
 
         $on('after-leave' ,()=>{
             if (!data.isShow){
-                console.log(fileList ,index)
-                //fileList.splice(index, 1);
+                //console.log(toRaw(fileList))
+                toRaw(fileList).splice(index, 1);
+                console.log(fileList)
             }
         })
 

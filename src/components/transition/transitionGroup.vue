@@ -84,8 +84,6 @@ export default defineComponent({
                         cNode = cNode.nextElementSibling
                     }
 
-                    let bcr = item.target.getBoundingClientRect();
-
                     item.target.style.left = item.target.offsetLeft + 'px'
                     item.target.style.top = item.target.offsetTop + 'px'
                     item.target.classList.add(name + '-leave-active' ,name + '-leave-to');
@@ -95,11 +93,16 @@ export default defineComponent({
                             node.style.removeProperty('transition');
                             node.style.transform = `translate(0px ,0px)`
                         })
+
+                        nextTick(()=>{
+                            siblingList.forEach(node =>{
+                                node.removeAttribute('style')
+                            })
+                        })
                     },10)
 
                     setTimeout(()=>{
-                        //item.target.style.opacity = '0'
-                        //item.target.remove()
+                        item.target.remove()
                         emit('after-leave')
                     } ,transitionDuration)
                 }

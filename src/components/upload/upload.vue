@@ -12,7 +12,7 @@
             @after-leave="handleAfterLeave">
             <xmv-upload-item v-for="(item,index) in fileList" 
             :data="item" 
-            :key="index" 
+            :key="index"
             :listType="listType"
             :index="index"></xmv-upload-item>
             <div class="xmv-upload xmv-upload--picture-card xmv-filter" v-if="listType == 'picture-card'"

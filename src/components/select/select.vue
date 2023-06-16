@@ -52,7 +52,7 @@ export default defineComponent({
         filterable : String,
         type:{type:String ,default:'select'},
         notAssociated : String,
-        modelValue : String
+        modelValue : [String,Number]
     },
     components:{xmvSelectItem},
     setup(props ,context) {
@@ -155,6 +155,7 @@ export default defineComponent({
         })
 
         const handleWatch = (val)=>{
+            val = (val == null ? '': val)
             if (props.multiple != undefined){
                 let list = val.split(',')
                 selectMode.rctData.sData = []

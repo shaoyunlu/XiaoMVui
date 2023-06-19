@@ -8,6 +8,7 @@
             </span>
             <input class="xmv-input__inner" 
                 :type="inputType" 
+                :step="step"
                 autocomplete="off"
                 ref="inputRef"
                 :disabled="computeDisable"
@@ -16,7 +17,8 @@
                 @input="handleInputInput"
                 :value="modelValue" v-if="modelValue != undefined">
             <input class="xmv-input__inner" 
-                :type="inputType" 
+                :type="inputType"
+                :step="step"
                 autocomplete="off"
                 ref="inputRef"
                 :placeholder="placeholder"
@@ -41,12 +43,10 @@
 
 <script>
 import {defineComponent ,ref ,computed ,onMounted, nextTick, watch} from 'vue'
-import {addClass ,removeClass} from 'utils/dom'
 import {isFirefox} from 'utils/dict'
-import {resizeOB} from 'utils/event'
 export default defineComponent({
     name:"xmvInput",
-    emits:['blur','clear','update:modelValue'],
+    emits:['blur','input','clear','update:modelValue'],
     props:{
         disabled : Boolean,
         type : {type:String ,default:'text'},
@@ -58,7 +58,8 @@ export default defineComponent({
         size : String,
         modelValue : String,
         rows:Number,
-        autosize:Object
+        autosize:Object,
+        step:Number
     },
     setup(props ,context) {
 
@@ -119,6 +120,17 @@ export default defineComponent({
         }
 
         const handleInputInput = ()=>{
+
+            if (props.type == 'number'){
+                // 验证是不是数字
+                let regex = /^-?\d+(?:\.\d+)?$/;;
+                let isNumber = regex.test(inputRef.value.value);
+                if (!isNumber){
+                    inputRef.value.value = ''
+                    context.emit('input' ,'')
+                }
+            }
+
             if (props.clearable != undefined || props.showpassword != undefined){
                 // 判断输入框里是否有值
                 if (inputRef.value.value){
@@ -136,12 +148,14 @@ export default defineComponent({
                     isShowSuffix.value = (props.suffixicon != undefined)
                 }
             }
+
             if (props.modelValue != undefined){
                 if (props.type == 'textarea' && props.autosize != undefined){
                     aujustTextareaHeight()
                 }
                 context.emit('update:modelValue' ,inputRef.value.value)
             }
+            context.emit('input' ,inputRef.value.value)
         }
 
         const handlePrefixClick = ()=>{
@@ -216,6 +230,14 @@ export default defineComponent({
             }
         })
 
+        watch(()=>props.disabled ,(newVal)=>{
+            if (newVal){
+                inputRef.value.setAttribute('disabled' ,'')
+            }else{
+                inputRef.value.removeAttribute('disabled')
+            }
+        })
+
         onMounted(()=>{
             // 前后都有图标的时候，需要显示设置inputRef的值
             if (isFirefox && props.prefixicon != undefined && props.suffixicon != undefined){
@@ -229,6 +251,10 @@ export default defineComponent({
                     maxTextareaHeightRef.value = 31 + (maxRows-1)*21
                 }
                 aujustTextareaHeight()
+            }
+            
+            if (props.disabled){
+                inputRef.value.setAttribute('disabled' ,'')
             }
         })
 

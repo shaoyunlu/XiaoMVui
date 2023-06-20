@@ -47,6 +47,8 @@ import xmvSwitch from 'comps/switch/switch.vue'
 import xmvEmpty from 'comps/empty/empty.vue'
 import xmvUpload from 'comps/upload/upload.vue'
 import xmvTransitionGroup from 'comps/transition/transitionGroup.vue'
+import xmvCollapse from 'comps/collapse/collapse.vue'
+import xmvCollapseItem from 'comps/collapse/collapseItem.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -126,6 +128,8 @@ const register = (vue)=>{
     vue.component('xmvEmpty' ,xmvEmpty)
     vue.component('xmvUpload' ,xmvUpload)
     vue.component('xmvTransitionGroup' ,xmvTransitionGroup)
+    vue.component('xmvCollapse' ,xmvCollapse)
+    vue.component('xmvCollapseItem' ,xmvCollapseItem)
 
     vue.directive('loading', loadingDirective);
 }

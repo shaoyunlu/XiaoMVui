@@ -1,4 +1,4 @@
-import { nextTick, reactive } from "vue"
+import {reactive } from "vue"
 import {addStyle ,removeStyle ,addClass ,removeClass} from 'utils/dom'
 
 class CarouselMode{
@@ -13,6 +13,9 @@ class CarouselMode{
         this.wrapperRef = wrapperRef
         this.currentAnimateIndex = 0
         this.position = 'right'
+        this.interval
+        this.cache = []
+        this.isExcute = false
     }
 
     reset(){
@@ -20,7 +23,6 @@ class CarouselMode{
         this.itemLength = this.rctData.itemList.length
         this.clientWidth = this.wrapperRef.value.clientWidth
         this.beforeAnimate()
-        
     }
 
     beforeAnimate(){  
@@ -32,8 +34,16 @@ class CarouselMode{
         })
     }
 
+    run(){
+        this.beforeAnimate()
+        setTimeout(()=>{
+            this.animateOnce()
+        },10)
+    }
+
     animate(){
-        setInterval(()=>{
+        clearInterval(this.interval)
+        this.interval = setInterval(()=>{
             this.position = 'right'
             this.run()
         } ,5000)
@@ -44,7 +54,6 @@ class CarouselMode{
             let itemEl = instance.proxy.itemRef
             removeClass(itemEl ,'is-animating')
         })
-        this.beforeAnimate()
     }
 
     animateOnce(){
@@ -79,23 +88,46 @@ class CarouselMode{
             if (this.currentAnimateIndex == -1)
                 this.currentAnimateIndex = this.itemLength - 1
         }
+        setTimeout(()=>{
+            this.afterAnimate()
+        } ,500)
     }
 
-    run(){
-        this.beforeAnimate()
-        setTimeout(()=>{
-            this.animateOnce()
-        },10)
+    stop(){
+        clearInterval(this.interval)
     }
 
     left(){
-        this.position = 'left'
-        this.run()
+        this.cache.push('left')
+        if (!this.isExcute){
+            this.isExcute = true
+            this.excuteCache()
+        }
     }
 
     right(){
-        this.position = 'right'
-        this.run()
+        this.cache.push('right')
+        if (!this.isExcute){
+            this.isExcute = true
+            this.excuteCache()
+        }
+    }
+
+    excuteCache(){
+        if (this.cache[0]){
+            this.position = this.cache[0]
+            this.run()
+        }
+    
+        setTimeout(()=>{
+            this.cache.shift()
+            if (this.cache[0] != undefined){
+                this.excuteCache()
+            }else{
+                // 缓存已播放完毕
+                this.isExcute = false
+            }
+        } ,500)
     }
 }
 

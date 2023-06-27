@@ -1,5 +1,6 @@
 <template>
-    <div class="xmv-carousel xmv-carousel--horizontal">
+    <div class="xmv-carousel xmv-carousel--horizontal"
+        @mouseover="handleMouseover" @mouseleave="handleMouseleave">
         <div class="xmv-carousel__container" ref="containerRef">
             <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--left" @click="handleLeft">
                 <xmv-icon name="arrowLeft"></xmv-icon>
@@ -35,12 +36,20 @@ export default defineComponent({
             carouselMode.right()
         }
 
+        const handleMouseover = ()=>{
+            carouselMode.stop()
+        }
+
+        const handleMouseleave = ()=>{
+            carouselMode.animate()
+        }
+
         onMounted(()=>{
             carouselMode.reset()
             carouselMode.animate()
         })
 
-        return {containerRef ,handleLeft ,handleRight}
+        return {containerRef ,handleLeft ,handleRight ,handleMouseover ,handleMouseleave}
     }
 })
 </script>

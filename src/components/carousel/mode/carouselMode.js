@@ -34,21 +34,6 @@ class CarouselMode{
         })
     }
 
-    run(){
-        this.beforeAnimate()
-        setTimeout(()=>{
-            this.animateOnce()
-        },10)
-    }
-
-    animate(){
-        clearInterval(this.interval)
-        this.interval = setInterval(()=>{
-            this.position = 'right'
-            this.run()
-        } ,5000)
-    }
-
     afterAnimate(){
         this.rctData.itemList.forEach((instance ,i) =>{
             let itemEl = instance.proxy.itemRef
@@ -90,7 +75,7 @@ class CarouselMode{
         }
         setTimeout(()=>{
             this.afterAnimate()
-        } ,500)
+        } ,450)
     }
 
     stop(){
@@ -111,6 +96,21 @@ class CarouselMode{
             this.isExcute = true
             this.excuteCache()
         }
+    }
+
+    run(){
+        this.beforeAnimate()
+        setTimeout(()=>{
+            this.animateOnce()
+        },10)
+    }
+
+    animate(){
+        clearInterval(this.interval)
+        this.interval = setInterval(()=>{
+            this.position = 'right'
+            this.run()
+        } ,5000)
     }
 
     excuteCache(){
@@ -150,7 +150,6 @@ function shiftArray(length, num ,position) {
             }
             num --
         }
-        console.log(shiftedArr)
         return shiftedArr;
     }
 }

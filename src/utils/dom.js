@@ -23,6 +23,16 @@ export function removeClass(el ,className){
     el.className = el.className.replace(className,"").trim()
 }
 
+// 添加样式
+export function addStyle(el ,styleName ,styleVal){
+    el.style.setProperty(styleName, styleVal)
+}
+
+// 删除样式
+export function removeStyle(el ,styleName){
+    el.style.removeProperty(styleName)
+}
+
 // 获取一个隐藏元素的实际宽高
 export function getHiddenDomWH(el){
     let oriCssText = el.style.cssText

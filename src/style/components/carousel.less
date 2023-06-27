@@ -1,0 +1,71 @@
+.xmv-carousel--horizontal, .xmv-carousel--vertical {
+    overflow: hidden;
+}
+
+.xmv-carousel__container {
+    position: relative;
+    height: 300px;
+}
+
+.xmv-carousel__item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    overflow: hidden;
+    z-index: calc(var(--xmv-index-normal) - 1);
+}
+
+.xmv-carousel__item.is-animating {
+    transition: transform .4s ease-in-out;
+}
+
+.xmv-carousel__arrow {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    height: var(--xmv-carousel-arrow-size);
+    width: var(--xmv-carousel-arrow-size);
+    cursor: pointer;
+    transition: var(--xmv-transition-duration);
+    border-radius: 50%;
+    background-color: var(--xmv-carousel-arrow-background);
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    transform: translateY(-50%);
+    text-align: center;
+    font-size: var(--xmv-carousel-arrow-font-size);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.xmv-carousel__arrow--left {
+    left: 16px;
+}
+
+.xmv-carousel__arrow i {
+    cursor: pointer;
+}
+
+.xmv-carousel__arrow--right {
+    right: 16px;
+}
+
+
+.xmv-carousel__item:nth-child(3) {
+    background-color: #d3dce6;
+}
+
+.xmv-carousel__item:nth-child(4) {
+    background-color: pink;
+}
+
+.xmv-carousel__item:nth-child(5) {
+    background-color: green;
+}

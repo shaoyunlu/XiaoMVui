@@ -11,9 +11,11 @@ import {computed, defineComponent, inject, onMounted, reactive, ref} from 'vue'
 export default defineComponent({
     name:"",
     props:{
-        offset : Number
+        offset : Number,
+        position : {type:String ,default:'top'},
+        zIndex : {type:Number ,default:100}
     },
-    setup({offset} ,context) {
+    setup({offset,position,zIndex} ,context) {
 
         const affixRef = ref(null)
         const isFixed = ref(false)
@@ -33,8 +35,8 @@ export default defineComponent({
             if (isFixed.value){
                 res.width = oriWidth + 'px'
                 res.height = oriHeight + 'px'
-                res.top = offset + 'px'
-                res.index = '100'
+                res[position] = offset + 'px'
+                res['z-index'] = zIndex
             }
             return res
         })
@@ -43,16 +45,26 @@ export default defineComponent({
         let oriHeight
 
         XmvEventOn('scroll' ,(e)=>{
-            let rect = affixRef.value.getBoundingClientRect();
-            let distanceFromTop = rect.top;
-
-            isFixed.value = (distanceFromTop < offset)
-            
+            setFix()
         })
+
+        const setFix = ()=>{
+            let rect = affixRef.value.getBoundingClientRect();
+            if (position == 'top'){
+                let distanceFromTop = rect.top;
+                isFixed.value = (distanceFromTop < offset)
+            }else{
+                let documentHeight = document.documentElement.clientHeight
+                let distanceFromBottom = rect.bottom
+
+                isFixed.value = ((documentHeight-distanceFromBottom) < offset)
+            }
+        }
 
         onMounted(()=>{
             oriWidth = affixRef.value.clientWidth
             oriHeight = affixRef.value.clientHeight
+            setFix()
         })
 
         return {affixRef ,isFixed ,computedAffixStyle ,computedFixedStyle}

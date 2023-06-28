@@ -1,5 +1,5 @@
 <template>
-    <div class="xmv-form-item" :class="{'is-error':isError ,'is-required':isRequired}">
+    <div class="xmv-form-item" :class="{'is-error':isError ,'is-required':computeRequired}">
         <label class="xmv-form-item__label" :style="computeLabelStyle">
             {{label}}
         </label>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent, inject, watch ,computed ,ref} from 'vue'
+import {defineComponent, inject, watch ,computed ,ref, getCurrentInstance} from 'vue'
 import {validate} from './mode/validate'
 export default defineComponent({
     name:"xmvFormItem",
@@ -24,6 +24,7 @@ export default defineComponent({
     setup({label ,prop} ,context) {
 
         const formProps = inject('Props')
+        const formItemCollector = inject('Collector')
 
         const mode = formProps.mode
         const rules = formProps.rules
@@ -32,15 +33,13 @@ export default defineComponent({
         const errorInfo = ref('')
         const isRequired = ref(false)
 
+        formItemCollector.push(getCurrentInstance())
+
         const computeLabelStyle = computed(()=>{
             if (formProps.labelWidth != undefined){
                 return {'width' : formProps.labelWidth}
             }
         })
-
-        const handleBlur = ()=>{
-            console.log('blur')
-        }
 
         const propWatch = computed(()=>{
             return mode[prop]
@@ -48,11 +47,15 @@ export default defineComponent({
 
         if (prop != undefined){
             watch(propWatch,(newVal)=>{
-                validateByRules(newVal)
+                validateByRules()
             })
         }
 
-        const validateByRules = (val)=>{
+        const validateByRules = ()=>{
+            if (prop == undefined){
+                return false
+            }
+            let val = mode[prop]
             let ruleList = rules[prop]
             let info = validate(val ,ruleList)
             if (info){
@@ -62,9 +65,31 @@ export default defineComponent({
                 isError.value = false
                 errorInfo.value = ''
             }
+            return isError.value
         }
 
-        return {isError,errorInfo,isRequired,handleBlur,computeLabelStyle}
+        const computeRequired = computed(()=>{
+            if (prop == undefined){
+                return false
+            }
+            let val = mode[prop]
+            let ruleList = rules[prop]
+            if (!ruleList){
+                return false
+            }
+            let flag = false
+            ruleList.forEach(rule =>{
+                let keys = Object.keys(rule)
+                keys.forEach(key=>{
+                    if (key == 'required'){
+                        flag = true
+                    }
+                })
+            })
+            return flag
+        })
+
+        return {isError,errorInfo,isRequired,computeLabelStyle,computeRequired,validateByRules}
     }
 })
 </script>

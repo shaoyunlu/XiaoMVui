@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import {defineComponent, provide ,computed} from 'vue'
+import {defineComponent, provide ,computed ,reactive} from 'vue'
+import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"xmvForm",
     props:{
@@ -17,7 +18,18 @@ export default defineComponent({
     },
     setup(props ,context) {
 
+        const formItemCollector = []
+
         provide('Props' ,props)
+        provide('Collector' ,formItemCollector)
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
+        provide('EventBus' ,{$on ,$emit})
 
         const computeFormClass = computed(()=>{
             let res = []
@@ -28,7 +40,17 @@ export default defineComponent({
             return res 
         })
 
-        return {computeFormClass}
+        const validate = ()=>{
+            let flag = true
+            formItemCollector.forEach(formItemInstance =>{
+                if (formItemInstance.proxy.validateByRules()){
+                    flag = false
+                }
+            })
+            return flag
+        }
+
+        return {computeFormClass ,validate}
     }
 })
 </script>

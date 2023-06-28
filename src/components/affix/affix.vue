@@ -61,7 +61,6 @@ export default defineComponent({
             if (target != undefined){
                 let targetEl = document.querySelector(target)
                 let targetRect = targetEl.getBoundingClientRect()
-                console.log(targetRect , rect)
 
                 if (targetRect.bottom <= 0){
                     isFixed.value = false

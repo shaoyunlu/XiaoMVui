@@ -51,25 +51,30 @@ export default defineComponent({
         let oriWidth
         let oriHeight
 
+        let oriAffixRectTop
+        let oriAffixRectBottom
+
+        let hasFirstTrigger = false
+
+        let targetRectBottom
+
         XmvEventOn('scroll' ,(e)=>{
             setFix()
         })
 
         const setFix = ()=>{
-            let rect = affixRef.value.getBoundingClientRect();
+            let scrollTop = document.documentElement.scrollTop
 
             if (target != undefined){
-                let targetEl = document.querySelector(target)
-                let targetRect = targetEl.getBoundingClientRect()
-
-                if (targetRect.bottom <= 0){
+                let globalDiff = document.documentElement.clientHeight + scrollTop - targetRectBottom
+                if (globalDiff <= 0){
                     isFixed.value = false
                     translateYRef.value = 0
                     return false
                 }else{
-                    let tmp = rect.height + offset - targetRect.bottom
-                    if (tmp > 0 ){
-                        translateYRef.value = 0 - tmp
+                    let innerDiff = (oriHeight + offset) - (targetRectBottom - scrollTop)
+                    if (innerDiff > 0 ){
+                        translateYRef.value = 0 - innerDiff
                     }else{
                         translateYRef.value = 0
                     }
@@ -77,18 +82,38 @@ export default defineComponent({
             }
 
             if (position == 'top'){
-                let distanceFromTop = rect.top;
+                let distanceFromTop = oriAffixRectTop - scrollTop;
                 isFixed.value = (distanceFromTop < offset)
             }else{
-                let documentHeight = document.documentElement.clientHeight
-                let distanceFromBottom = rect.bottom
-                isFixed.value = ((documentHeight-distanceFromBottom) < offset)
+                let documentHeight = document.documentElement.clientHeight + scrollTop
+                let distanceFromBottom = oriAffixRectBottom
+                let tmp = documentHeight - distanceFromBottom
+
+                if (tmp > 0){
+                    hasFirstTrigger = true
+                }
+                if (tmp < offset && hasFirstTrigger){
+                    isFixed.value = true
+                }else{
+                    isFixed.value = false
+                }
             }
         }
 
         onMounted(()=>{
-            oriWidth = affixRef.value.clientWidth
-            oriHeight = affixRef.value.clientHeight
+            let scrollTop = document.documentElement.scrollTop
+            if (target != undefined){
+                let targetEl = document.querySelector(target)
+                let targetRect = targetEl.getBoundingClientRect()
+                targetRectTop = targetRect.top + scrollTop
+                targetRectBottom = targetRect.top + scrollTop + targetRect.height
+            }
+            let affixRect = affixRef.value.getBoundingClientRect();
+            
+            oriWidth = affixRect.width
+            oriHeight = affixRect.height
+            oriAffixRectTop = affixRect.top + scrollTop
+            oriAffixRectBottom = affixRect.top + scrollTop + affixRect.height
             setFix()
         })
 

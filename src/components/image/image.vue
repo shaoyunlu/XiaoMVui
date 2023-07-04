@@ -7,7 +7,7 @@
 <script>
 import {computed, defineComponent} from 'vue'
 export default defineComponent({
-    name:"",
+    name:"xmvImage",
     props:{
         src : String,
         fit : {type:String ,default:'none'} //'fill', 'contain', 'cover', 'none', 'scale-down'

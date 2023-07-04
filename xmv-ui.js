@@ -52,6 +52,7 @@ import xmvCollapseItem from 'comps/collapse/collapseItem.vue'
 import xmvCarousel from 'comps/carousel/carousel.vue'
 import xmvCarouselItem from 'comps/carousel/carouselItem.vue'
 import xmvAffix from 'comps/affix/affix.vue'
+import xmvImage from 'comps/image/image.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -140,6 +141,7 @@ const register = (vue)=>{
     vue.component('xmvCarousel' ,xmvCarousel)
     vue.component('xmvCarouselItem' ,xmvCarouselItem)
     vue.component('xmvAffix' ,xmvAffix)
+    vue.component('xmvImage' ,xmvImage)
 
     vue.directive('loading', loadingDirective);
 }

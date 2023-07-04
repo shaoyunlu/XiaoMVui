@@ -16,6 +16,11 @@
     width: 6px;
 }
 
+img {
+    border-style: none;
+    max-width: 100%;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;

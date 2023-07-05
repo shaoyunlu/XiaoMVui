@@ -55,6 +55,7 @@ import xmvAffix from 'comps/affix/affix.vue'
 import xmvImage from 'comps/image/image.vue'
 import xmvBreadcrumb from 'comps/breadcrumb/breadcrumb.vue'
 import xmvBreadcrumbItem from 'comps/breadcrumb/breadcrumbItem.vue'
+import xmvBacktop from 'comps/backtop/backtop.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -146,6 +147,7 @@ const register = (vue)=>{
     vue.component('xmvImage' ,xmvImage)
     vue.component('xmvBreadcrumb' ,xmvBreadcrumb)
     vue.component('xmvBreadcrumbItem' ,xmvBreadcrumbItem)
+    vue.component('xmvBacktop' ,xmvBacktop)
 
     vue.directive('loading', loadingDirective);
 }

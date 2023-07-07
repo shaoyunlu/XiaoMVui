@@ -17,6 +17,8 @@ export default defineComponent({
 
         const cascaderMode = inject('CascaderMode')
 
+        const {$on ,$emit} = inject('EventBus')
+
         const isActive = ref(false)
 
         const computeClass = computed(()=>{
@@ -36,16 +38,30 @@ export default defineComponent({
 
         const handleClick = ()=>{
             cascaderMode.rctData.menuComps.splice(index+1)
+            let length = cascaderMode.rctData.menuComps.length - 1
+            cascaderMode.selectedLabel.splice(length)
+            cascaderMode.selectedValue.splice(length)
+            cascaderMode.selectedLabel.push(node.label)
+            cascaderMode.selectedValue.push(node.value)
+            mEmit('itemClick' ,node)
             if (node.children != undefined){
                 nextTick(()=>{
                     cascaderMode.rctData.menuComps.push({list : node.children})
                 })
             }
-            mEmit('itemClick' ,node)
+            else{
+                $emit('emitModelValue')
+            }
         }
 
         mOn('itemClick',tmp =>{
             isActive.value = (node.value == tmp.value)
+        })
+
+        $on('setVal' ,payLoad =>{
+            if (payLoad.value == node.value && payLoad.index == index){
+                handleClick()
+            }
         })
 
         return {computeClass ,handleClick}

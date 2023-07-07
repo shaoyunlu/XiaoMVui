@@ -1,44 +1,71 @@
 <template>
 
-    <xmv-popover>
+    <xmv-popover ref="popoverRef">
         <template #trigger>
             <div class="xmv-cascader">
-                <xmv-input suffixicon="arrowDown"></xmv-input>
+                <xmv-input suffixicon="arrowDown" ref="inputRef"></xmv-input>
             </div>
         </template>
-
         <div class="xmv-cascader-panel">
             <xmv-cascader-menu v-for="tmp,index in cascaderMode.rctData.menuComps" 
                 :list="tmp.list" :index="index"></xmv-cascader-menu>
         </div>
-
-    </xmv-popover>
-
-    
+    </xmv-popover> 
 </template>
 
 <script>
-import {defineComponent, nextTick, onMounted, provide, watch} from 'vue'
+import {defineComponent, nextTick, onMounted, provide, watch ,reactive ,ref} from 'vue'
 import xmvCascaderMenu from './cascaderMenu.vue'
 import CascaderMode from './mode/cascaderMode'
+import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvCascader",
     components:{xmvCascaderMenu},
     props:{
-        options : Array
+        options : Array,
+        modelValue : String
     },
     setup(props ,context) {
 
         const cascaderMode = new CascaderMode()
+        const popoverRef = ref(false)
+        const inputRef = ref(false)
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
+        provide('EventBus' ,{$on ,$emit})
 
         provide('CascaderMode' ,cascaderMode)
 
         watch(()=>props.options ,(newVal)=>{
-            cascaderMode.rctData.menuComps = []
             cascaderMode.rctData.options = {children : props.options}
             nextTick(()=>{
                 cascaderMode.init()
             })
+        })
+
+        watch(()=>props.modelValue ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (val)=>{
+            let list = val.split(',')
+            list.forEach((tmp,i) =>{
+                setTimeout(()=>{
+                    $emit('setVal' ,{value:tmp,index:i})
+                },10)
+            })
+        }
+
+        $on('emitModelValue' ,()=>{
+            popoverRef.value.hide()
+            inputRef.value.val(cascaderMode.selectedLabel.join(' / '))
+            context.emit('update:modelValue' ,cascaderMode.selectedValue.join(','))
         })
 
         onMounted(()=>{
@@ -46,7 +73,7 @@ export default defineComponent({
             cascaderMode.init()
         })
 
-        return {cascaderMode}
+        return {cascaderMode ,popoverRef ,inputRef}
     }
 })
 </script>

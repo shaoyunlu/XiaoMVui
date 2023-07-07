@@ -4,12 +4,15 @@ class CascaderMode{
     constructor(){
         this.rctData = reactive({
             options : new Object(),
-            menuComps : []
+            menuComps : [],
         })
-        this.currentList
+        this.selectedValue = []
+        this.selectedLabel = []
     }
 
     init(){
+        this.rctData.menuComps = []
+        this.selected = []
         this.rctData.menuComps.push({list : this.rctData.options.children})
     }
 

@@ -63,6 +63,9 @@ export default defineComponent({
         var currentMouseDown /* 判断横轴动还是纵轴动 */
 
         const init = ()=>{
+            if (!scrollbarRef.value){
+                return false
+            }
             sWh = __getWH(scrollbarRef.value)
             vWh = __getWH(viewRef.value)
 

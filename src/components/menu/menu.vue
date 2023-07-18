@@ -13,21 +13,24 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide ,ref} from 'vue'
+import {defineComponent, onMounted, provide ,ref ,watch} from 'vue'
 import MenuMode from './mode/menuMode'
+import {isEmpty} from 'utils/data'
 
 export default defineComponent({
     name:"xmvMenu",
+    emits:['nodeClick'],
     props:{
         isVertical : {
             type : Boolean,
-            default : true
-        }
+            default : true,
+        },
+        data : Array
     },
     setup(props ,context) {
 
         const menuElRef = ref(null)
-        const menuMode = new MenuMode()
+        const menuMode = new MenuMode(context)
         
         const loadData = (menuData)=>{
             menuMode.loadData(menuData)
@@ -49,6 +52,16 @@ export default defineComponent({
         provide('MenuMode' ,menuMode)
         provide('Level' ,0)
         provide('IsVertical' ,props.isVertical)
+
+        watch(()=>props.data ,(newVal)=>{
+            loadData(newVal)
+        })
+
+        onMounted(()=>{
+            if (!isEmpty(props.data)){
+                loadData(props.data)
+            }
+        })
 
         return {
             loadData,menuMode,collapse,expand,menuElRef

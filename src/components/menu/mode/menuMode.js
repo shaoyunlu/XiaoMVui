@@ -4,12 +4,12 @@ import {addClass,removeClass,hasClass} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 class MenuMode{
 
-    constructor(){
+    constructor(ctx){
         this.rctMenu = reactive({
             data : [],
             isCollapse : false
         })
-
+        this.ctx = ctx
         this.menuElRef = null
         this.curSelNode = null
         this.transition = new XmvTransition()
@@ -58,6 +58,7 @@ class MenuMode{
         }
         node.active = !node.active
         this.curSelNode = node
+        this.ctx.emit('nodeClick' ,node)
     }
 
     subClick(node ,subXmvMenuEl){

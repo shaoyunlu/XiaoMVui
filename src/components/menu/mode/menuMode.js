@@ -1,6 +1,7 @@
 import { nextTick, reactive } from "vue"
 import {getHiddenDomWH} from 'utils/dom'
 import {addClass,removeClass,hasClass} from 'utils/dom'
+import {isEmpty ,findNode ,findParentNodeByChildNode} from 'utils/data'
 import XmvTransition from 'comps/transition/transition'
 class MenuMode{
 
@@ -13,6 +14,8 @@ class MenuMode{
         this.menuElRef = null
         this.curSelNode = null
         this.transition = new XmvTransition()
+        this.$on = null
+        this.$emit = null
     }
 
     init(){
@@ -34,7 +37,7 @@ class MenuMode{
             ()=>{
                 this.rctMenu.isCollapse = true
                 this.rctMenu.data.forEach(node =>{
-                    node.childNodesVisible = false
+                    node.childrenVisible = false
                 })
         })
     }
@@ -52,6 +55,24 @@ class MenuMode{
         })
     }
 
+    activeNode(value ,type){
+        let node = findNode(this.rctMenu.data ,value)
+        node.active = true
+        let parents = findParentNodeByChildNode(this.rctMenu.data ,value ,[] ,type)
+
+        if (!isEmpty(parents)){
+            if (parents.length > 1){
+                for (let i=1;i<parents.length;i++){
+                    parents[i].isExpand = true
+                    parents[i].childrenVisible = true
+                }
+            }
+            nextTick(()=>{
+                this.$emit('triggerSubClick' ,{tmp : parents[0] ,type : type})
+            })
+        }
+    }
+
     itemClick(node){
         if (this.curSelNode){
             this.curSelNode.active = false
@@ -62,27 +83,28 @@ class MenuMode{
     }
 
     subClick(node ,subXmvMenuEl){
-        if (this.rctMenu.isCollapse){
-            return false
-        }
-        let {domHeight} = getHiddenDomWH(subXmvMenuEl)
-        const cbf = ()=>{
-            node.childNodesVisible = !node.childNodesVisible
-        }
 
-        if (node.childNodesVisible){
-            this.transition.heightCollapse(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
-        }else{
-            this.transition.heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
-        }
-
-        node.isExpand = !node.isExpand
+        return new Promise((resolve ,reject)=>{
+            if (this.rctMenu.isCollapse){
+                return false
+            }
+            let {domHeight} = getHiddenDomWH(subXmvMenuEl)
+            const cbf = ()=>{
+                node.childrenVisible = !node.childrenVisible
+            }
+    
+            if (node.childrenVisible){
+                this.transition.heightCollapse(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
+            }else{
+                this.transition.heightExpand(subXmvMenuEl ,domHeight + 'px' ,0 ,cbf)
+            }
+    
+            node.isExpand = !node.isExpand
+        })
     }
 
     onMounted(){
-        nextTick(()=>{
 
-        })
     }
 
     __getExpandWidth(){

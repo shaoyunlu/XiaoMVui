@@ -13,9 +13,10 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide ,ref ,watch} from 'vue'
+import {defineComponent, onMounted, provide ,ref ,watch ,reactive} from 'vue'
 import MenuMode from './mode/menuMode'
 import {isEmpty} from 'utils/data'
+import {createEventBus} from 'utils/event'
 
 export default defineComponent({
     name:"xmvMenu",
@@ -31,17 +32,32 @@ export default defineComponent({
 
         const menuElRef = ref(null)
         const menuMode = new MenuMode(context)
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
+        menuMode.$on = $on
+        menuMode.$emit = $emit
         
         const loadData = (menuData)=>{
             menuMode.loadData(menuData)
         }
 
+        // 缩略图模式
         const collapse = ()=>{
             menuMode.collapse()
         }
 
+        // 正常模式
         const expand = ()=>{
             menuMode.expand()
+        }
+
+        const activeNode = (value ,type = 'value')=>{
+            menuMode.activeNode(value , type)
         }
 
         onMounted(()=>{
@@ -52,6 +68,7 @@ export default defineComponent({
         provide('MenuMode' ,menuMode)
         provide('Level' ,0)
         provide('IsVertical' ,props.isVertical)
+        provide('EventBus' ,{$on ,$emit})
 
         watch(()=>props.data ,(newVal)=>{
             loadData(newVal)
@@ -64,7 +81,7 @@ export default defineComponent({
         })
 
         return {
-            loadData,menuMode,collapse,expand,menuElRef
+            loadData,activeNode,collapse,expand,menuMode,menuElRef
         }
     }
 })

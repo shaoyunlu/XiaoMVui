@@ -96,6 +96,43 @@ export function filter(array ,fn){
     })
 }
 
+export function findNode(nestedArray, value ,type = 'value'){
+  for (let item of nestedArray) {
+    if (item[type] === value) {
+      return item;
+    }
+
+    if (item.children && item.children.length > 0) {
+      let found = findNode(item.children, value ,type);
+      if (found) {
+        return found;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * 通过子节点查询父节点
+ */
+export function findParentNodeByChildNode(nestedArray, value, parents = [] ,type = 'value'){
+    for (let item of nestedArray) {
+      if (item[type] === value) {
+        return parents;
+      }
+
+      if (item.children && item.children.length > 0) {
+        let newParents = parents.concat(item);
+        let foundParents = findParentNodeByChildNode(item.children, value, newParents);
+        if (foundParents) {
+          return foundParents;
+        }
+      }
+    }
+    return null;
+}
+
 let uuid = 0
 export function generateId(){
     return uuid++

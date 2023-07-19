@@ -10,7 +10,7 @@
 
             <ul class="xmv-menu"  ref="subXmvMenuRef"
                 :style="{'--xmv-menu-level':level}">
-                <xmv-menu-core-collapse v-for="child in node.childNodes" :node="child"></xmv-menu-core-collapse>
+                <xmv-menu-core-collapse v-for="child in node.children" :node="child"></xmv-menu-core-collapse>
             </ul>
         </xmv-popover>
     </li>

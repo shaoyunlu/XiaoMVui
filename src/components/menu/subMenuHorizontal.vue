@@ -12,7 +12,7 @@
 
             <ul class="xmv-menu xmv-menu-popop"  ref="subXmvMenuRef"
                 :style="{'--xmv-menu-level':level}">
-                <xmv-menu-core-horizontal v-for="child in node.childNodes" :node="child"></xmv-menu-core-horizontal>
+                <xmv-menu-core-horizontal v-for="child in node.children" :node="child"></xmv-menu-core-horizontal>
             </ul>
 
         </xmv-popover>

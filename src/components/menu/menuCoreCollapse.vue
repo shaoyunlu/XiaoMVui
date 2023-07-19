@@ -20,7 +20,7 @@ export default defineComponent({
         provide('Level' ,inject('Level') + 1)
 
         const isLeaf = computed(()=>{
-            return isEmpty(props.node.childNodes)
+            return isEmpty(props.node.children)
         })
 
         return {

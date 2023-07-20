@@ -1,11 +1,12 @@
 <template>
     <i class="xmv-icon">
-        <component :is="name"></component>
+        <component :is="oriIcon" v-if="oriIcon != undefined"></component>
+        <component :is="name" v-else></component>
     </i>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {defineComponent, onMounted, toRaw} from 'vue'
 import plus from './category/plus.vue'
 import minus from './category/minus.vue'
 import search from './category/search.vue'
@@ -44,10 +45,14 @@ export default defineComponent({
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,vew ,hide ,calendar ,clock,
             upload,download,infoFilled,successFilled,warningFilled,moreFilled,document,zoomIn,zoomOut},
     props:{
-        name : ''
+        name : '',
+        icon : Object
     },
     setup(props ,context) {
-        return {}
+
+        const oriIcon = toRaw(props.icon)
+
+        return {oriIcon}
     }
 })
 </script>

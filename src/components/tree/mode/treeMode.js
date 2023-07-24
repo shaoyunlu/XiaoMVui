@@ -1,6 +1,6 @@
-import { reactive } from "vue"
+import { reactive ,ref} from "vue"
 import {getHiddenDomWH} from 'utils/dom'
-import {isEmpty} from 'utils/data'
+import {isEmpty ,deleteObjectByKey ,deleteObjectFromArray} from 'utils/data'
 import XmvTransition from 'comps/transition/transition'
 class TreeMode{
     constructor(props){
@@ -14,6 +14,11 @@ class TreeMode{
         this.notAssociated = props.notAssociated
         this.$on = null
         this.$emit = null
+        this.dropIndicatorTop = ref(0)
+        this.dropIndicatorLeft = ref(0)
+        this.dropIndicatorDisplay = ref(false)
+        this.currentDragNode = null
+        this.currentDropEnterNode = null
     }
 
     loadData(data){
@@ -202,6 +207,25 @@ class TreeMode{
             node.isChecked = false
             node.isIndeterminate = false
         }
+
+    }
+    
+    insertNode(node){
+        if (!node.children){
+            node.children = []
+        }
+        deleteObjectFromArray('label' ,this.currentDragNode.label ,this.rctData.data)
+        if (!node.children){
+            node.children = []
+        }
+        node.children.push(this.currentDragNode)
+    }
+
+    beforeNode(){
+
+    }
+
+    afterNode(){
 
     }
 }

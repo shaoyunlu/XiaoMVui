@@ -1,23 +1,26 @@
 <template>
     <div class="xmv-tree">
         <xmv-tree-node v-for="node in treeMode.rctData.data" :node="node" :key="node.value"></xmv-tree-node>
+        <div v-if="draggable != undefined" class="xmv-tree__drop-indicator" :style="computeDropIndicatorStyle"></div>
     </div>
 </template>
 
 <script>
-import {defineComponent ,nextTick,provide ,reactive ,onMounted ,watch} from 'vue'
+import {defineComponent ,nextTick,provide ,reactive ,onMounted ,watch, computed} from 'vue'
 import TreeMode from './mode/treeMode';
 import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvTree",
-    emits:['nodeClick' ,'nodeCheck'],
+    emits:['nodeClick' ,'nodeCheck' ,'node-drag-start' ,
+            'node-drag-over' ,'node-drag-enter' ,'node-drag-leave' ,'node-drop'],
     props:{
         showCheckbox : String,
         filterNodeMethod : {
             type : Function
         },
-        notAssociated : String,  // 父子节点是否相关联
+        notAssociated : String,  // 父子节点是否相关联,
+        draggable : String,
         data : Array
     },
     setup(props ,context) {
@@ -37,12 +40,47 @@ export default defineComponent({
         provide('Slots' ,context.slots)
         provide('EventBus' ,{$on ,$emit})
 
+        const computeDropIndicatorStyle = computed(()=>{
+            let res =  {left : treeMode.dropIndicatorLeft.value + 'px',
+                        top : treeMode.dropIndicatorTop.value + 'px'}
+
+            if (!treeMode.dropIndicatorDisplay.value){
+                res.display = 'none'
+            }
+
+            return res
+        })
+
         $on('nodeClick' ,(node)=>{
             context.emit('nodeClick' ,node)
         })
 
         $on('nodeCheck' ,(nodeList)=>{
             context.emit('nodeCheck' ,nodeList)
+        })
+
+        $on('node-drag-start' ,(node)=>{
+            treeMode.currentDragNode = node
+            context.emit('node-drag-start' ,node)
+        })
+
+        $on('node-drag-over' ,(node)=>{
+            context.emit('node-drag-over' ,node)
+        })
+
+        $on('node-drag-enter' ,(node)=>{
+            context.emit('node-drag-enter' ,node)
+        })
+
+        $on('node-drag-leave' ,(node)=>{
+            context.emit('node-drag-leave' ,node)
+        })
+
+        $on('node-drop' ,(node)=>{
+            if (treeMode.currentDragNode !== node){
+                context.emit('node-drop' ,node)
+                treeMode.insertNode(node)
+            }
         })
 
         const loadData = (data)=>{
@@ -97,7 +135,7 @@ export default defineComponent({
             }
         })
 
-        return {treeMode ,loadData ,filter ,setValue ,setMultipleValue}
+        return {treeMode ,computeDropIndicatorStyle ,loadData ,filter ,setValue ,setMultipleValue}
     }
 })
 </script>

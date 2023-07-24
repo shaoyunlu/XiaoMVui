@@ -112,6 +112,39 @@ export function findNode(nestedArray, value ,type = 'value'){
 
   return null;
 }
+/**
+ * 删除对象中的某个属性对象
+ */
+export function deleteObjectByKey(key='value' ,value, obj){
+  if (obj[key] === value){
+    return null
+  }
+
+  if (obj.children){
+    obj.children = obj.children.filter(child => deleteObjectByKey(key ,value ,child) !== null)
+    if (obj.children.length === 0){
+      delete obj.children
+    }
+  }
+
+  return obj
+}
+
+export function deleteObjectFromArray(key='value' ,value, arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][key] === value) {
+      arr.splice(i, 1); // 使用splice方法删除匹配的对象
+      break; // 找到并删除对象后，跳出循环
+    }
+    if (arr[i].children) {
+      deleteObjectFromArray(key ,value, arr[i].children); // 递归地在子对象中查找并删除
+      if (arr[i].children.length === 0) {
+        delete arr[i].children; // 如果子对象为空数组，则删除children属性
+      }
+    }
+  }
+  return arr;
+}
 
 /**
  * 通过子节点查询父节点

@@ -1,7 +1,7 @@
 <template>
     <div class="xmv-tree-node"
         ref="nodeRef"
-        draggable="true"
+        :draggable="treeMode.draggable"
         @dragstart.stop="handleDragStart"
         @dragenter.stop="handleDragEnter"
         @dragleave.stop="handleDragLeave"
@@ -37,6 +37,8 @@ export default defineComponent({
         const nodeRef = ref(null)
         const isDropInner = ref(false)
 
+        const level = inject('Level')
+
         let tmpNodeLabelOffsetLeft
         let tmpNodeContentClientHeight
         let tmpNodeDragPos
@@ -51,6 +53,26 @@ export default defineComponent({
 
         treeMode.$on('nodeClick' ,(tmpNode)=>{
             node.isCurrent = (node === tmpNode)
+        })
+
+        treeMode.$on('nodeActive' ,({node : tmpNode ,type})=>{
+            if (tmpNode[type] != node[type]){
+                node.isCurrent = false
+            }
+        })
+
+        treeMode.$on('triggerExpandClick' ,({tmp ,type})=>{
+            if (tmp[type] === node[type]){
+                if (!node.isExpanded){
+                    handleExpandIconClick()
+                }
+            }
+        })
+
+        treeMode.$on('expandNodeByLevel' ,(tmpLevel)=>{
+            if (tmpLevel >= level){
+                node.isExpanded = true
+            }
         })
 
         const handleDragStart = (e)=>{
@@ -125,6 +147,9 @@ export default defineComponent({
         onMounted(()=>{
             if (parent != undefined){
                 node.parent = parent
+            }
+            if (treeMode.draggable != undefined){
+
             }
         })
 

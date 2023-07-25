@@ -1,6 +1,7 @@
-import { reactive ,ref} from "vue"
+import { nextTick, reactive ,ref} from "vue"
 import {getHiddenDomWH} from 'utils/dom'
-import {isEmpty ,deleteObjectByKey ,deleteObjectFromArray ,addObjectAfter ,addObjectBefore} from 'utils/data'
+import {isEmpty ,findNode ,deleteObjectFromArray ,
+        addObjectAfter ,addObjectBefore ,findParentNodeByChildNode} from 'utils/data'
 import XmvTransition from 'comps/transition/transition'
 class TreeMode{
     constructor(props){
@@ -223,15 +224,30 @@ class TreeMode{
     beforeNode(node){
         deleteObjectFromArray('value' ,this.currentDragNode.value ,this.rctData.data)
         addObjectBefore('value' ,node.value ,this.currentDragNode ,this.rctData.data)
-
-        console.log(this.rctData.data)
     }
 
     afterNode(node){
         deleteObjectFromArray('value' ,this.currentDragNode.value ,this.rctData.data)
         addObjectAfter('value' ,node.value ,this.currentDragNode ,this.rctData.data)
+    }
 
-        console.log(this.rctData.data)
+    activeNode(value ,type){
+        let node = findNode(this.rctData.data ,value)
+        node.isCurrent = true
+        this.$emit('nodeActive' ,{node ,type})
+        let parents = findParentNodeByChildNode(this.rctData.data ,value ,[] ,type)
+
+        if (!isEmpty(parents)){
+            if (parents.length > 1){
+                for (let i=1;i<parents.length;i++){
+                    parents[i].isExpanded = true
+                }
+            }
+
+            nextTick(()=>{
+                this.$emit('triggerExpandClick' ,{tmp : parents[0] ,type : type})
+            })
+        }
     }
 }
 

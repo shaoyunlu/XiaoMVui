@@ -36,6 +36,7 @@ export default defineComponent({
         treeMode.$on = $on
         treeMode.$emit = $emit
         treeMode.treeRef = treeRef
+        treeMode.draggable = (props.draggable == undefined ? false : true)
 
         provide('Level' ,0)
         provide('TreeMode' ,treeMode)
@@ -80,7 +81,6 @@ export default defineComponent({
 
         $on('node-drop' ,({node ,pos})=>{
             if (treeMode.currentDragNode !== node){
-                console.log(node.label ,pos)
                 context.emit('node-drop' ,node)
                 if (pos == 'center'){
                     treeMode.insertNode(node)
@@ -138,6 +138,16 @@ export default defineComponent({
             })
         }
 
+        const activeNode = (value ,type = 'value')=>{
+            treeMode.activeNode(value ,type)
+        }
+
+        const expandNodeByLevel = (level)=>{
+            nextTick(()=>{
+                $emit('expandNodeByLevel' ,level)
+            })
+        }
+
         watch(()=>props.data ,(newVal)=>{
             loadData(newVal)
         })
@@ -149,7 +159,7 @@ export default defineComponent({
         })
 
         return {treeMode ,computeDropIndicatorStyle , treeRef,
-                loadData ,filter ,setValue ,setMultipleValue}
+                loadData ,filter ,setValue ,setMultipleValue ,activeNode ,expandNodeByLevel}
     }
 })
 </script>

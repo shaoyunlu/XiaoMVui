@@ -130,6 +130,36 @@ export function deleteObjectByKey(key='value' ,value, obj){
   return obj
 }
 
+export function addObjectBefore(key='value' ,value, newObject, arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][key] === value) {
+    arr.splice(i, 0, newObject);
+    if (arr[i].children) {
+      addObjectBefore(key, value, newObject ,arr[i].children);
+    }
+    break;
+    } else if (arr[i].children) {
+      addObjectBefore(key, value, newObject ,arr[i].children);
+    }
+    }
+    return arr;
+}
+
+export function addObjectAfter(key ,value, newObject ,arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][key] === value) {
+    arr.splice(i + 1, 0, newObject);
+    if (arr[i].children) {
+      addObjectAfter(key, value, newObject ,arr[i].children);
+    }
+    break;
+    } else if (arr[i].children) {
+      addObjectAfter(key, value, newObject ,arr[i].children);
+    }
+    }
+    return arr;
+}
+
 export function deleteObjectFromArray(key='value' ,value, arr) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i][key] === value) {

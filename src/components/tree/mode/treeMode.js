@@ -1,6 +1,6 @@
 import { reactive ,ref} from "vue"
 import {getHiddenDomWH} from 'utils/dom'
-import {isEmpty ,deleteObjectByKey ,deleteObjectFromArray} from 'utils/data'
+import {isEmpty ,deleteObjectByKey ,deleteObjectFromArray ,addObjectAfter ,addObjectBefore} from 'utils/data'
 import XmvTransition from 'comps/transition/transition'
 class TreeMode{
     constructor(props){
@@ -8,6 +8,7 @@ class TreeMode{
             data : [],
             sData : []
         })
+        this.treeRef = null
         this.transition = new XmvTransition()
         this.filterNodeMethod = props.filterNodeMethod
         this.showCheckbox = props.showCheckbox
@@ -19,6 +20,7 @@ class TreeMode{
         this.dropIndicatorDisplay = ref(false)
         this.currentDragNode = null
         this.currentDropEnterNode = null
+        this.tmpTreeBoundInfo
     }
 
     loadData(data){
@@ -211,22 +213,25 @@ class TreeMode{
     }
     
     insertNode(node){
-        if (!node.children){
-            node.children = []
-        }
-        deleteObjectFromArray('label' ,this.currentDragNode.label ,this.rctData.data)
+        deleteObjectFromArray('value' ,this.currentDragNode.value ,this.rctData.data)
         if (!node.children){
             node.children = []
         }
         node.children.push(this.currentDragNode)
     }
 
-    beforeNode(){
+    beforeNode(node){
+        deleteObjectFromArray('value' ,this.currentDragNode.value ,this.rctData.data)
+        addObjectBefore('value' ,node.value ,this.currentDragNode ,this.rctData.data)
 
+        console.log(this.rctData.data)
     }
 
-    afterNode(){
+    afterNode(node){
+        deleteObjectFromArray('value' ,this.currentDragNode.value ,this.rctData.data)
+        addObjectAfter('value' ,node.value ,this.currentDragNode ,this.rctData.data)
 
+        console.log(this.rctData.data)
     }
 }
 

@@ -6,11 +6,13 @@
         @dragenter.stop="handleDragEnter"
         @dragleave.stop="handleDragLeave"
         @dragover.stop="handleDragOver"
+        @dragend.stop="handleDragEnd"
         @drop.stop="handleDrop"
         :class="{'is-expanded' : node.isExpanded ,
                  'is-current' : node.isCurrent ,
                  'is-focusable':node.isFocusable,
-                 'is-hidden':node.isHidden}" @click.stop="handleClick">
+                 'is-hidden':node.isHidden,
+                 'is-drop-inner':isDropInner}" @click.stop="handleClick">
         <tree-content :node="node" @expandIconClick="handleExpandIconClick"></tree-content>
         <tree-sub :node="node" v-show="node.isExpanded" ref="subRef"></tree-sub>
     </div>
@@ -33,6 +35,11 @@ export default defineComponent({
         const subRef = ref(null)
 
         const nodeRef = ref(null)
+        const isDropInner = ref(false)
+
+        let tmpNodeLabelOffsetLeft
+        let tmpNodeContentClientHeight
+        let tmpNodeDragPos
 
         const handleClick = ()=>{
             treeMode.handleNodeClick(node)
@@ -56,17 +63,46 @@ export default defineComponent({
 
             }else{
                 treeMode.currentDropEnterNode = node
+                treeMode.tmpTreeBoundInfo = treeMode.treeRef.value.getBoundingClientRect()
                 treeMode.$emit('node-drag-enter' ,node)
+                tmpNodeLabelOffsetLeft = nodeRef.value.querySelector('.xmv-tree-node__label').offsetLeft
+                tmpNodeContentClientHeight = nodeRef.value.querySelector('.xmv-tree-node__content').clientHeight
             }     
         }
 
         const handleDragOver = (e)=>{
             e.preventDefault()
+            if (treeMode.currentDragNode === node){
+                return false
+            }
+            let nodeClientHeight = tmpNodeContentClientHeight
+            let midPoint = nodeRef.value.offsetTop + nodeClientHeight/2
+            let cursorPoint = e.clientY - treeMode.tmpTreeBoundInfo.top
+            let minus = cursorPoint - midPoint
+            if (minus > 5){
+                tmpNodeDragPos = 'bottom'
+                treeMode.dropIndicatorDisplay.value = true
+                treeMode.dropIndicatorLeft.value = tmpNodeLabelOffsetLeft
+                treeMode.dropIndicatorTop.value = midPoint + nodeClientHeight/2
+                isDropInner.value = false
+            }else if (minus < -5){
+                tmpNodeDragPos = 'top'
+                treeMode.dropIndicatorDisplay.value = true
+                treeMode.dropIndicatorLeft.value = tmpNodeLabelOffsetLeft
+                treeMode.dropIndicatorTop.value = midPoint - nodeClientHeight/2
+                isDropInner.value = false
+            }else{
+                tmpNodeDragPos = 'center'
+                treeMode.dropIndicatorDisplay.value = false
+                isDropInner.value = true
+            }
             treeMode.$emit('node-drag-over' ,node)
         }
 
         const handleDragLeave = (e)=>{
             e.preventDefault()
+            isDropInner.value = false
+            treeMode.dropIndicatorDisplay.value = false
             if (treeMode.currentDropEnterNode !== node){
                 treeMode.$emit('node-drag-leave' ,node)
             }
@@ -74,7 +110,16 @@ export default defineComponent({
 
         const handleDrop = (e)=>{
             e.preventDefault()
-            treeMode.$emit('node-drop' ,node)
+            isDropInner.value = false
+            treeMode.dropIndicatorDisplay.value = false
+            treeMode.$emit('node-drop' ,{node : node ,pos : tmpNodeDragPos})
+        }
+
+        const handleDragEnd = (e)=>{
+            e.preventDefault()
+            isDropInner.value = false
+            treeMode.dropIndicatorDisplay.value = false
+            treeMode.$emit('node-drag-end')
         }
 
         onMounted(()=>{
@@ -83,8 +128,8 @@ export default defineComponent({
             }
         })
 
-        return {treeMode ,subRef , nodeRef,handleClick ,handleExpandIconClick ,
-                handleDragStart ,handleDragOver ,handleDragEnter ,handleDragLeave ,handleDrop}
+        return {treeMode ,subRef , nodeRef ,isDropInner ,handleClick ,handleExpandIconClick ,
+                handleDragStart ,handleDragOver ,handleDragEnter ,handleDragLeave ,handleDrop ,handleDragEnd}
     }
 })
 </script>

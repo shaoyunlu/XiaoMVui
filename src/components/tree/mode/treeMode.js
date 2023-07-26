@@ -14,6 +14,8 @@ class TreeMode{
         this.filterNodeMethod = props.filterNodeMethod
         this.showCheckbox = props.showCheckbox
         this.notAssociated = props.notAssociated
+        this.lazy
+        this.load
         this.$on = null
         this.$emit = null
         this.dropIndicatorTop = ref(0)
@@ -63,21 +65,39 @@ class TreeMode{
     }
 
     handleExpandIconClick(node ,subRef){
-        if (!isEmpty(node.children)){
-            let childrenEl = subRef.value.childrenDivRef
-            let {domHeight} = getHiddenDomWH(childrenEl)
-            
-            node.iconExpanded = !node.iconExpanded
 
-            const cbf = ()=>{
-                node.isExpanded = !node.isExpanded
+        const __innerMethod = ()=>{
+            if (!isEmpty(node.children)){
+                let childrenEl = subRef.value.childrenDivRef
+                let {domHeight} = getHiddenDomWH(childrenEl)
+                
+                node.iconExpanded = !node.iconExpanded
+    
+                const cbf = ()=>{
+                    node.isExpanded = !node.isExpanded
+                }
+    
+                if (node.isExpanded){
+                    this.transition.heightCollapse(childrenEl ,domHeight + 'px' ,0 ,cbf)
+                }else{
+                    this.transition.heightExpand(childrenEl ,domHeight + 'px' ,0 ,cbf)
+                }
             }
+        }
 
-            if (node.isExpanded){
-                this.transition.heightCollapse(childrenEl ,domHeight + 'px' ,0 ,cbf)
-            }else{
-                this.transition.heightExpand(childrenEl ,domHeight + 'px' ,0 ,cbf)
-            }
+        if (this.lazy && !node.isLoaded){
+            node.isLoading = true
+            this.load(node).then(children =>{
+                node.isLoading = false
+                node.children = children
+                node.isLoaded = true
+                nextTick(()=>{
+                    __innerMethod()
+                })
+                
+            })
+        }else{
+            __innerMethod()
         }
     }
 

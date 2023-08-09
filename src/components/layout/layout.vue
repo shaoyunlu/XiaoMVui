@@ -15,12 +15,14 @@
                 </div>
             </div>
         </div>
-        <div class="xmv-layout-foot"></div>
+        <div class="xmv-layout-foot" :style="computeFootStyle">
+            <slot name="foot"></slot>
+        </div>
     </div>
 </template>
 
 <script>
-import {defineComponent,reactive,ref} from 'vue'
+import {computed, defineComponent,reactive,ref} from 'vue'
 export default defineComponent({
     name:"xmvLayout",
     props:{
@@ -31,6 +33,10 @@ export default defineComponent({
         headHval : {
             type : String,
             default : '100px'
+        },
+        footHval : {
+            type : String,
+            default : 'auto'
         },
         lWval : {
             type : String,
@@ -57,8 +63,12 @@ export default defineComponent({
             lOrTop2SlotName.value = 'left'
         }
 
+        const computeFootStyle = computed(()=>{
+            return {height : props.footHval}
+        })
+
         return {
-            lOrTop1Style,lOrTop2Style,lOrTop1SlotName,lOrTop2SlotName
+            lOrTop1Style,lOrTop2Style,lOrTop1SlotName,lOrTop2SlotName,computeFootStyle
         }
     }
 })

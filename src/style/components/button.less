@@ -41,6 +41,14 @@
     }
 }
 
+.xmv-button--large {
+    --xmv-button-size: 40px;
+    height: var(--xmv-button-size);
+    padding: 12px 19px;
+    font-size: var(--xmv-font-size-base);
+    border-radius: var(--xmv-border-radius-base);
+}
+
 .xmv-button--small {
     --xmv-button-size: 24px;
     height: var(--xmv-button-size);
@@ -57,9 +65,27 @@
     padding: 8px 15px;
 }
 
+.xmv-button--large.is-round {
+    padding: 12px 19px;
+}
+
+.xmv-button--small.is-round {
+    padding: 5px 11px;
+}
+
 .xmv-button.is-circle {
     border-radius: 50%;
     padding: 8px;
+}
+
+.xmv-button--large.is-circle {
+    width: var(--xmv-button-size);
+    padding: 12px;
+}
+
+.xmv-button--small.is-circle {
+    width: var(--xmv-button-size);
+    padding: 5px;
 }
 
 .xmv-button.is-text {

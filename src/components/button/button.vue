@@ -20,7 +20,8 @@ export default defineComponent({
         icon : String,
         iconPosition : {type:String,default:'right'},
         loading : Boolean,
-        loadingButton : Boolean
+        loadingButton : Boolean,
+        disabled : Boolean
     },
     setup(props ,context) {
 
@@ -49,6 +50,9 @@ export default defineComponent({
             }
             if (props.size){
                 res.push('xmv-button--' + props.size)
+            }
+            if (props.disabled){
+                res.push('is-disabled')
             }
             let attrs = context.attrs
             if (attrs.plain != null){

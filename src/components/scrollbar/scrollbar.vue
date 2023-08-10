@@ -1,5 +1,6 @@
 <template>
     <div class="xmv-scrollbar"
+        :style="computedScrollbarStyle"
         @mouseover="handleMouseover"
         @mouseleave="handleMouseleave" ref="scrollbarRef">
         <div class="xmv-scrollbar__wrap xmv-scrollbar__wrap--hidden-default"
@@ -33,7 +34,8 @@ export default defineComponent({
     props:{
         explicit : {type:Boolean ,default:false},
         maxHeightFlag : {type:Boolean ,default:false},
-        maxHeight : {type:Number ,default:274}
+        maxHeight : {type:Number ,default:274},
+        height : {type:Number}
     },
     emits:['scroll'],
     setup(props ,context) {
@@ -61,6 +63,14 @@ export default defineComponent({
         var sWh
         var vWh
         var currentMouseDown /* 判断横轴动还是纵轴动 */
+
+        const computedScrollbarStyle = computed(()=>{
+            let res = {}
+            if (props.height != undefined){
+                res['height'] = props.height + 'px'
+            }
+            return res
+        })
 
         const init = ()=>{
             if (!scrollbarRef.value){
@@ -267,7 +277,7 @@ export default defineComponent({
         })
 
         return {handleMouseover ,handleMouseleave ,hanleScroll, handleMousedown, handleWrapMousedown, handleWrapMouseup,
-                scroll,
+                scroll,computedScrollbarStyle,
                 scrollbarRef ,viewRef ,horThumbRef ,verThumRef ,scrollbarWrapRef ,isPolyfill ,isMargin ,scrollbarWrapStyle}
     }
 })

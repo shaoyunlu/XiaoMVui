@@ -10,6 +10,7 @@ import {defineComponent, onMounted, toRaw} from 'vue'
 import arrowDown from './category/arrowDown.vue'
 import arrowLeft from './category/arrowLeft.vue'
 import arrowRight from './category/arrowRight.vue'
+import arrowUp from './category/arrowUp.vue'
 import check from './category/check.vue'
 import close from './category/close.vue'
 import circleCheck from './category/circleCheck.vue'
@@ -43,7 +44,7 @@ import zoomOut from './category/zoomOut.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{
-                plus ,minus ,search ,close ,arrowLeft ,arrowRight ,
+                plus ,minus ,search ,close ,arrowLeft ,arrowRight ,arrowUp ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
                 vew ,hide ,calendar ,clock,upload,download,infoFilled,successFilled,

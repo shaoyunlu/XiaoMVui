@@ -11,6 +11,7 @@ import arrowDown from './category/arrowDown.vue'
 import arrowLeft from './category/arrowLeft.vue'
 import arrowRight from './category/arrowRight.vue'
 import arrowUp from './category/arrowUp.vue'
+import barChart from './category/barChart.vue'
 import check from './category/check.vue'
 import close from './category/close.vue'
 import circleCheck from './category/circleCheck.vue'
@@ -26,9 +27,11 @@ import edit from './category/edit.vue'
 import hide from './category/hide.vue'
 import infoFilled from './category/infoFilled.vue'
 import loading from './category/loading.vue'
+import lineChart from './category/lineChart.vue'
 import moreFilled from './category/moreFilled.vue'
 import message from './category/message.vue'
 import minus from './category/minus.vue'
+import pieChart from './category/pieChart.vue'
 import plus from './category/plus.vue'
 import refresh from './category/refresh.vue'
 import search from './category/search.vue'
@@ -48,7 +51,8 @@ export default defineComponent({
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
                 edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
                 vew ,hide ,calendar ,clock,upload,download,infoFilled,successFilled,
-                warningFilled,moreFilled,document,zoomIn,zoomOut,message,star
+                warningFilled,moreFilled,document,zoomIn,zoomOut,message,star,
+                pieChart,lineChart,barChart
               },
     props:{
         name : '',

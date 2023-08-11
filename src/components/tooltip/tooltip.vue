@@ -4,14 +4,14 @@
 </template>
 
 <script>
-import {defineComponent, onMounted  ,onUnmounted, ref ,inject} from 'vue'
+import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch, nextTick} from 'vue'
 import {addClass ,getPagePosition ,getAlignPosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 
 export default defineComponent({
     name:"xmvTooltip",
     props:{
-        content : String,
+        content : String | Number,
         placement : {
             type : String,
             default : 'top'
@@ -31,6 +31,7 @@ export default defineComponent({
         var pEl = inject('Xmv-Dom-PopperContainer')
         var triggerEl
         var popperEl
+        const keepShow = ref(false)
         var defaultSlot
 
         const createPopperEl = ()=>{
@@ -71,13 +72,27 @@ export default defineComponent({
                 setPosition()
             })
         }
-        
 
         const handleMouseleave = ()=>{
+            if (!keepShow.value){
+                transition.opacityOut(()=>{
+                    pEl.removeChild(popperEl)
+                })
+            }
+        }
+
+        const hide = ()=>{
             transition.opacityOut(()=>{
                 pEl.removeChild(popperEl)
             })
         }
+
+        watch(()=>props.content ,(newVal)=>{
+            popperEl.innerHTML = newVal
+            nextTick(()=>{
+                setPosition()
+            })
+        })
 
         onMounted(()=>{
             //triggerEl = defaultSlot[0].el
@@ -109,7 +124,7 @@ export default defineComponent({
             }
         })
 
-        return {placeSpan}
+        return {placeSpan ,keepShow ,hide}
 
         // return ()=>{
         //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)

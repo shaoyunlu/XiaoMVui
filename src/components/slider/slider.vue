@@ -13,7 +13,9 @@
                 <div v-for="tmp in stepList" class="xmv-slider__stop" :style="{left:tmp + '%'}"></div>
             </div>
         </div>
-        <xmv-input-number class="xmv-slider__input" v-model="sliderVal" :step="step" :size="size"></xmv-input-number>
+        <xmv-input-number class="xmv-slider__input" 
+            v-model="sliderVal" :step="step" :size="size" :min="0" :max="100"
+            @inputChange="handleInputChange"></xmv-input-number>
     </div>
 </template>
 
@@ -98,6 +100,10 @@ export default defineComponent({
             return Math.round(num / step) * step;
         }
 
+        const handleInputChange = (val)=>{
+            context.emit('update:modelValue' ,val)
+        }
+
         const handleWatch = (val)=>{
             let __val = __nearestStep(val ,props.step)
             sliderVal.value = __val
@@ -132,7 +138,7 @@ export default defineComponent({
         
         return {sliderVal ,toolTipContent ,sliderRef , computeSliderClass, isDragging, tooltipRef,
                 stepList,
-                handleSliderClick ,handleSliderButtonMousedown ,handleWindowMousemove}
+                handleSliderClick ,handleSliderButtonMousedown ,handleWindowMousemove ,handleInputChange}
     }
 })
 </script>

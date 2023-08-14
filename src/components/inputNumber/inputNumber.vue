@@ -15,6 +15,7 @@ import {defineComponent, onMounted, watch ,ref, computed} from 'vue'
 import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvInputNumber",
+    emits:['inputChange' ,'update:modelValue'],
     props:{
         modelValue : [Number,String],
         step:{type:Number ,default:1},
@@ -69,6 +70,7 @@ export default defineComponent({
                     inputRef.value.val(val)
                 }
                 context.emit('update:modelValue' ,val)
+                context.emit('inputChange' ,val)
             }
         }
 

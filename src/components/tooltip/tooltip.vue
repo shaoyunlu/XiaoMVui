@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch, nextTick} from 'vue'
+import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch} from 'vue'
 import {addClass ,getPagePosition ,getAlignPosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 
@@ -32,7 +32,6 @@ export default defineComponent({
         var triggerEl
         var popperEl
         const keepShow = ref(false)
-        var defaultSlot
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -67,6 +66,9 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
+            if (pEl.contains(popperEl)){
+                return false
+            }
             transition.opacityIn(()=>{
                 pEl.appendChild(popperEl)
                 setPosition()
@@ -89,13 +91,13 @@ export default defineComponent({
 
         watch(()=>props.content ,(newVal)=>{
             popperEl.innerHTML = newVal
-            nextTick(()=>{
+            setTimeout(()=>{
                 setPosition()
-            })
+            } ,10)
+            
         })
 
         onMounted(()=>{
-            //triggerEl = defaultSlot[0].el
             triggerEl = placeSpan.value.nextElementSibling
             placeSpan.value.remove()
             createPopperEl()
@@ -125,11 +127,6 @@ export default defineComponent({
         })
 
         return {placeSpan ,keepShow ,hide}
-
-        // return ()=>{
-        //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)
-        //     return defaultSlot
-        // }
     }
 })
 </script>

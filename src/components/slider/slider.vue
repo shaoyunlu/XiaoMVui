@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {computed, defineComponent ,nextTick,onMounted,ref} from 'vue'
+import {computed, defineComponent,onMounted,ref} from 'vue'
 export default defineComponent({
     name:"xmvSlider",
     setup(props ,context) {
@@ -35,7 +35,14 @@ export default defineComponent({
 
         const handleSliderClick = (e)=>{
             let offsetX = parseInt(e.clientX) - sliderBound.left
-            sliderVal.value = parseInt((offsetX/sliderBound.width)*100)
+            let val = parseInt((offsetX/sliderBound.width)*100)
+
+            if (val <= 0)
+                val = 0
+            if (val >= 100)
+                val = 100
+
+            sliderVal.value = val
         }
 
         const handleSliderMousedown = ()=>{
@@ -56,9 +63,13 @@ export default defineComponent({
         const handleWindowMousemove = (e)=>{
             let offsetX = parseInt(e.clientX) - sliderBound.left
             let val = parseInt((offsetX/sliderBound.width)*100)
-            if (val >=0 && val <= 100){
-                sliderVal.value = val
-            }
+
+            if (val <= 0)
+                val = 0
+            if (val >= 100)
+                val = 100
+
+            sliderVal.value = val
         }
 
         onMounted(()=>{

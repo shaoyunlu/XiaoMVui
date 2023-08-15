@@ -1,7 +1,7 @@
 <template>
     <div class="xmv-slider" :class="computeSliderClass">
         <div class="xmv-slider__runway" @click.stop="handleSliderClick" ref="sliderRef">
-            <div class="xmv-slider__bar"></div>
+            <div class="xmv-slider__bar" :style="{width : sliderVal + '%'}"></div>
             <div class="xmv-slider__button-wrapper" 
                 :style="{left : sliderVal + '%'}"
                 >
@@ -13,7 +13,7 @@
                 <div v-for="tmp in stepList" class="xmv-slider__stop" :style="{left:tmp + '%'}"></div>
             </div>
         </div>
-        <xmv-input-number class="xmv-slider__input" 
+        <xmv-input-number class="xmv-slider__input" v-if="showInput != undefined"
             v-model="sliderVal" :step="step" :size="size" :min="0" :max="100"
             @inputChange="handleInputChange"></xmv-input-number>
     </div>

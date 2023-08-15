@@ -80,13 +80,6 @@ export default defineComponent({
                 parseVNode(__vNode)
             })
 
-
-            // if (defaultSlot[0] && defaultSlot[0].children){
-            //     defaultSlot[0].children.forEach(slot =>{
-            //         renderSlot.push(h('div' ,{class:'xmv-space__item',style:computeSpaceItemStyle.value} ,slot))
-            //     })
-            // }
-            
             return h('div' ,{class:computeClass.value ,style:computeSpaceStyle.value},renderSlot)
         }
     }

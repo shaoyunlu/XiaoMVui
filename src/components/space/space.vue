@@ -3,34 +3,90 @@
 </template>
 
 <script>
-import {computed, defineComponent, h} from 'vue'
+import {computed, defineComponent, h, watch} from 'vue'
 export default defineComponent({
     name:"xmvSpace",
     props:{
-        size : {type:Number ,default : 8},
+        size : {type:[Number,String] ,default : 8},
         fill : {type:Boolean ,default : false},
-        wrap : {type:Boolean ,default : true}
+        wrap : {type:Boolean ,default : true},
+        direction : {type:String ,default : 'horizontal'}
     },
-    setup({size ,fill ,wrap} ,{slots}) {
+    setup(props ,{slots}) {
+
+        const computeClass = computed(()=>{
+            let res = []
+            res.push('xmv-space')
+            if (props.direction == 'vertical'){
+                res.push('xmv-space--vertical')
+            }
+            return res
+        })
+
+        const computeSpaceItemStyle = computed(()=>{
+            let res = {}
+            let __size = props.size
+            if (props.size == 'small'){
+                __size = 8
+            }else if (props.size == 'default'){
+                __size = 12
+            }else if (props.size == 'large'){
+                __size = 16
+            }
+  
+            res['padding-bottom'] = __size + 'px'
+            res['margin-right'] = __size + 'px'
+            res['min-width'] = props.fill?'100%':''
+            return res
+        })
+
+        const computeSpaceStyle = computed(()=>{
+            let res = {}
+            let __size = props.size
+            if (props.size == 'small'){
+                __size = 8
+            }else if (props.size == 'default'){
+                __size = 12
+            }else if (props.size == 'large'){
+                __size = 16
+            }
+            res['flex-wrap'] = props.wrap?'wrap':''
+            res['margin-bottom'] = '-' + __size + 'px'
+            res['align-items'] = 'center'
+            return res
+        })
 
         return ()=>{
             let renderSlot = []
             let defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots)
-            if (defaultSlot[0] && defaultSlot[0].children){
-                defaultSlot[0].children.forEach(slot =>{
-                    renderSlot.push(h('div' ,{class:'xmv-space__item',style:{
-                        'padding-bottom':size + 'px',
-                        'margin-right':size + 'px',
-                        'min-width':fill?'100%':''
-                    }} ,slot))
-                })
-            }
             
-            return h('div' ,{class:'xmv-space' ,style:{
-                'flex-wrap' : wrap?'wrap':'',
-                'margin-bottom' : '-' + size + 'px',
-                'align-items' : 'center'
-            }},renderSlot)
+            const parseVNode = (vNode)=>{
+                if (vNode.children){
+                    if (vNode.children instanceof Array){
+                        vNode.children.forEach(__vNode=>{
+                            parseVNode(__vNode)
+                        })
+                    }else{
+                        renderSlot.push(h('div' ,{class:'xmv-space__item',style:computeSpaceItemStyle.value} ,vNode)) 
+                    }
+                    
+                }else{
+                    renderSlot.push(h('div' ,{class:'xmv-space__item',style:computeSpaceItemStyle.value} ,vNode))
+                }
+            }
+
+            defaultSlot.forEach(__vNode =>{
+                parseVNode(__vNode)
+            })
+
+
+            // if (defaultSlot[0] && defaultSlot[0].children){
+            //     defaultSlot[0].children.forEach(slot =>{
+            //         renderSlot.push(h('div' ,{class:'xmv-space__item',style:computeSpaceItemStyle.value} ,slot))
+            //     })
+            // }
+            
+            return h('div' ,{class:computeClass.value ,style:computeSpaceStyle.value},renderSlot)
         }
     }
 })

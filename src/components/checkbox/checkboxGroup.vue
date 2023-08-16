@@ -11,7 +11,7 @@ import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvCheckGroup",
     props:{
-        modelValue : String
+        modelValue : Array
     },
     setup(props ,context) {
 
@@ -34,7 +34,7 @@ export default defineComponent({
         })
 
         const handleWatch = (val)=>{
-            let list = val.split(',')
+            let list = val
             checkList = list
             $emit('setVal' ,list)
         }
@@ -45,7 +45,7 @@ export default defineComponent({
             }else{
                 checkList = checkList.filter(tmp => {return tmp != info.label})
             }
-            context.emit('update:modelValue' ,checkList.join(','))
+            context.emit('update:modelValue' ,checkList)
         })
 
         onMounted(()=>{

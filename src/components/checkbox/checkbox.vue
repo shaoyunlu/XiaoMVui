@@ -1,7 +1,15 @@
 <template>
-    <div class="xmv-checkbox" :class="{'is-checked':isChecked ,'is-disabled':disabled}" @click.stop="handleClick">
+    <div class="xmv-checkbox" 
+        :class="{'is-checked':isChecked ,
+                 'is-disabled':disabled ,
+                 'xmv-checkbox--large':size == 'large',
+                 'xmv-checkbox--small':size == 'small'}" @click.stop="handleClick">
         <span class="xmv-checkbox__input" 
-            :class="{'is-checked':isChecked ,'is-disabled':disabled ,'is-indeterminate':isIndeterminate}">
+            :class="{
+                        'is-checked':isChecked ,
+                        'is-disabled':disabled ,
+                        'is-indeterminate':isIndeterminate
+                    }">
             <input type="checkbox" class="xmv-checkbox__original" :value="label" ref="inputRef">
             <span class="xmv-checkbox__inner"></span>
         </span>
@@ -12,22 +20,24 @@
 </template>
 
 <script>
-import {defineComponent ,ref ,computed, watch ,inject} from 'vue'
+import {defineComponent ,ref ,computed, watch ,inject, onMounted} from 'vue'
 export default defineComponent({
     name:"xmvCheckbox",
-    emits:['check'],
+    emits:['check' ,'update:modelValue'],
     props:{
         disabled:String,
         label:String,
         checkStatus:Boolean,
-        indeterminateStatus:Boolean
+        indeterminateStatus:Boolean,
+        modelValue:Boolean,
+        size:String
     },
     setup(props ,context) {
         const inputRef = ref(null)
         const isChecked = ref(false)
         const isIndeterminate = ref(false)
         const disabled = ref(props.disabled != undefined)
-        const {$on ,$emit} = inject('EventBus')
+        const {$on ,$emit} = inject('EventBus') || {$on:()=>{} ,$emit:()=>{}}
 
         const handleClick = ()=>{
             if (disabled.value){
@@ -35,6 +45,7 @@ export default defineComponent({
             }
             isChecked.value = !isChecked.value
             context.emit('check' , isChecked.value)
+            context.emit('update:modelValue' ,isChecked.value)
             $emit('checkClick' ,{status:isChecked.value ,label:props.label})
         }
 
@@ -59,6 +70,16 @@ export default defineComponent({
 
         watch(()=>props.indeterminateStatus ,val =>{
             isIndeterminate.value = val
+        })
+
+        watch(()=>props.modelValue ,newVal =>{
+            isChecked.value = newVal
+        })
+
+        onMounted(()=>{
+            if (props.modelValue != undefined){
+                isChecked.value = props.modelValue
+            }
         })
 
         return {isChecked,isIndeterminate,disabled,inputRef,handleClick,computeLabelShow}

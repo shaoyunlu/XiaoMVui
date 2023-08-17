@@ -30,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <xmv-alpha-slider v-if="showAlpha != undefined" ref="alphaSliderRef"></xmv-alpha-slider>
         <div class="xmv-color-dropdown__btns">
             <span class="xmv-color-dropdown__value">
                 <xmv-input size="small" ref="inputRef"></xmv-input>
@@ -41,11 +42,16 @@
 </template>
 
 <script>
-import {computed, defineComponent ,onMounted,ref, watch ,inject} from 'vue'
+import {computed, defineComponent ,onMounted,ref, watch ,inject ,reactive ,provide} from 'vue'
+import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
+import xmvAlphaSlider from './alphaSlider.vue'
 export default defineComponent({
     name:"xmvColorPicker",
+    components:{xmvAlphaSlider},
     props:{
-        modelValue : String
+        modelValue : String,
+        showAlpha : String
     },
     setup(props ,context) {
         const sliderTop = ref(0)
@@ -57,6 +63,9 @@ export default defineComponent({
         const popoverRef = ref(null)
         const svgPanelWidth = 280
         const svgPanelHeight = 180
+
+        const alphaSliderRef = ref(null)
+
         let mousePageX
         let mousePageY
         let currentCursorX = 0
@@ -70,6 +79,14 @@ export default defineComponent({
         let tempSliderRGB = 'rgb(255,0,0)'
     
         let sliderRate = 8.6932
+
+        const eventBus = reactive({
+            listeners : {}
+        })
+
+        const {$on ,$emit} = createEventBus(eventBus)
+
+        provide('EventBus' ,{$on ,$emit})
 
         const XmvBubbling = inject('Xmv-Bubbling')
 
@@ -189,19 +206,19 @@ export default defineComponent({
             let b = (1 - y) * ((1 - x) * white[2] + x * spec[2]) + y * ((1 - x) * black[2] + x * black[2])
 
             selectedRGB.value = `rgb(${Math.floor(r)} ,${Math.floor(g)} ,${Math.floor(b)})`
-            inputRef.value.val(selectedRGB.value)
+            inputVal(rgba())
         }
 
         const handleClear = ()=>{
             popoverRef.value.hide()
-            inputRef.value.val('')
+            inputVal('')
             selectedRGB.value = ''
             context.emit('update:modelValue' ,'')
         }
 
         const handleEnter = ()=>{
             cache()
-            context.emit('update:modelValue' ,selectedRGB.value)
+            context.emit('update:modelValue' ,rgba())
             popoverRef.value.hide()
 
         }
@@ -224,7 +241,40 @@ export default defineComponent({
             sliderTop.value = tempSliderTop
             selectedRGB.value = tempSelectedRGB
             sliderRGB.value = tempSliderRGB
-            inputRef.value.val(selectedRGB.value)
+            inputVal(rgba())
+        }
+
+        const inputVal = (val)=>{
+            $emit('colorVal' ,val)
+            inputRef.value.val(val)
+        }
+
+        function __changeAlpha(color, alpha) {
+            if (color.startsWith("rgba")) {
+                return color.replace(/[\d.]+\)$/, alpha + ")");
+            } else if (color.startsWith("rgb")) {
+                return color.replace("rgb", "rgba").replace(")", `, ${alpha})`);
+            } else {
+                return color;
+            }
+        }
+
+        function __getAlpha(color) {
+            const rgbaArray = color.match(/\d+(\.\d+)?/g);
+            if (rgbaArray && rgbaArray.length === 4) {
+                return parseFloat(rgbaArray[3]);
+            } else {
+                return null;
+            }
+        }
+
+        const rgba = ()=>{
+            if (props.showAlpha != undefined){
+                if (!isEmpty(selectedRGB.value)){             
+                    return __changeAlpha(selectedRGB.value ,alphaSliderRef.value.thumbLeft)
+                }
+            }
+            return selectedRGB.value
         }
 
         watch(()=>props.modelValue ,(newVal)=>{
@@ -232,9 +282,15 @@ export default defineComponent({
         })
 
         const handleWatch = (newVal)=>{
+            if (props.showAlpha != undefined){
+                let alpha = __getAlpha(newVal)
+                if (alpha){
+                    alphaSliderRef.value.thumbLeft = alpha
+                }
+            }
             selectedRGB.value = newVal
             tempSelectedRGB = newVal
-            inputRef.value.val(selectedRGB.value)
+            inputVal(rgba())
         }
 
         const rgbTobinary = (str)=>{
@@ -255,8 +311,10 @@ export default defineComponent({
             }
         })
 
-        return {sliderRGB ,selectedRGB ,sliderTop ,cursorX ,cursorY ,inputRef,popoverRef,
-            handleSliderMousedown,handleCursorMousedown,handleClear,handleEnter ,handlePopoverHide}
+        return {sliderRGB ,selectedRGB ,sliderTop ,
+                cursorX ,cursorY ,inputRef,popoverRef,alphaSliderRef,
+                handleSliderMousedown,handleCursorMousedown,
+                handleClear,handleEnter ,handlePopoverHide}
     }
 })
 </script>

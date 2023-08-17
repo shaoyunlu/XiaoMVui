@@ -152,3 +152,46 @@
     color: #000;
     width: 160px;
 }
+
+.xmv-color-alpha-slider {
+    --xmv-color-picker-alpha-bg-a: #ccc;
+    --xmv-color-picker-alpha-bg-b: transparent;
+}
+
+.xmv-color-alpha-slider {
+    position: relative;
+    box-sizing: border-box;
+    width: 280px;
+    height: 12px;
+    margin: 10px 0;
+    background-image: linear-gradient(45deg,var(--xmv-color-picker-alpha-bg-a) 25%,
+                        var(--xmv-color-picker-alpha-bg-b) 25%),
+                        linear-gradient(135deg,var(--xmv-color-picker-alpha-bg-a) 25%,
+                        var(--xmv-color-picker-alpha-bg-b) 25%),linear-gradient(45deg,
+                        var(--xmv-color-picker-alpha-bg-b) 75%,var(--xmv-color-picker-alpha-bg-a) 75%),
+                        linear-gradient(135deg,var(--xmv-color-picker-alpha-bg-b) 75%,
+                        var(--xmv-color-picker-alpha-bg-a) 75%);
+    background-size: 12px 12px;
+    background-position: 0 0,6px 0,6px -6px,0 6px;
+}
+
+.xmv-color-alpha-slider__bar {
+    position: relative;
+    background: linear-gradient(to right,rgba(255,255,255,0) 0%,var(--xmv-bg-color) 100%);
+    height: 100%;
+}
+
+.xmv-color-alpha-slider__thumb {
+    position: absolute;
+    cursor: pointer;
+    box-sizing: border-box;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 1px;
+    background: #fff;
+    border: 1px solid var(--xmv-border-color-lighter);
+    box-shadow: 0 0 2px #0009;
+    z-index: 1;
+}

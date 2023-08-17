@@ -37,16 +37,17 @@ export default defineComponent({
         const isChecked = ref(false)
         const isIndeterminate = ref(false)
         const disabled = ref(props.disabled != undefined)
-        const {$on ,$emit} = inject('EventBus') || {$on:()=>{} ,$emit:()=>{}}
+
+        const {$on ,$emit} = inject('EventBus' ,{$on:()=>{} ,$emit:()=>{}})
 
         const handleClick = ()=>{
             if (disabled.value){
                 return false
             }
             isChecked.value = !isChecked.value
-            context.emit('check' , isChecked.value)
-            context.emit('update:modelValue' ,isChecked.value)
             $emit('checkClick' ,{status:isChecked.value ,label:props.label})
+            context.emit('update:modelValue' ,isChecked.value)
+            context.emit('check' , isChecked.value)
         }
 
         const computeLabelShow = computed(()=>{
@@ -55,6 +56,12 @@ export default defineComponent({
 
         $on('setVal' ,(list)=>{
             isChecked.value = list.includes(props.label)
+        })
+
+        $on('setDisabled' ,val=>{
+            if (!isChecked.value){
+                disabled.value = val
+            }
         })
 
         watch(isChecked ,(newVal)=>{

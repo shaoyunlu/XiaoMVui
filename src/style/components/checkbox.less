@@ -199,9 +199,8 @@
     box-shadow: none!important;
 }
 
-.xmv-checkbox-button:last-child .xmv-checkbox-button__inner {
-    border-top-right-radius: var(--xmv-border-radius-base);
-    border-bottom-right-radius: var(--xmv-border-radius-base);
+.xmv-checkbox-button.is-disabled:first-child .xmv-checkbox-button__inner {
+    border-left-color: var(--xmv-button-disabled-border-color, var(--xmv-border-color-light)) !important;
 }
 
 .xmv-checkbox-button.is-checked .xmv-checkbox-button__inner {

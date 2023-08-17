@@ -1,10 +1,10 @@
 <template>
-    <xmv-popover ref="popoverRef" @hide="handlePopoverHide">
+    <xmv-popover ref="popoverRef" @hide="handlePopoverHide" @show="handlePopoverShow">
         <template #trigger>
             <div class="xmv-color-picker xmv-tooltip__trigger">
                 <div class="xmv-color-picker__trigger">
                     <span class="xmv-color-picker__color">
-                        <span class="xmv-color-picker__color-inner" :style="{'background-color' : selectedRGB}">
+                        <span class="xmv-color-picker__color-inner" :style="{'background-color' : computeSelectedRGB}">
                             <xmv-icon name="arrowDown" class="xmv-color-picker__icon"></xmv-icon>
                         </span>
                     </span>
@@ -89,6 +89,10 @@ export default defineComponent({
         provide('EventBus' ,{$on ,$emit})
 
         const XmvBubbling = inject('Xmv-Bubbling')
+
+        $on('alphaChange' ,()=>{
+            inputVal(rgba())
+        })
 
         const handleSliderMousedown = (e)=>{
             XmvBubbling.status = false
@@ -223,6 +227,10 @@ export default defineComponent({
 
         }
 
+        const handlePopoverShow = ()=>{
+            alphaSliderRef.value.calcSliderBound()
+        }
+
         const handlePopoverHide = ()=>{
             reset()
         }
@@ -293,17 +301,14 @@ export default defineComponent({
             inputVal(rgba())
         }
 
-        const rgbTobinary = (str)=>{
-            const arr = str.slice(4, -1).split(',').map(Number);
-            const hex = '#' + arr.map(c => c.toString(16).padStart(2, '0')).join('');
-            return hex.toUpperCase()
-        }
-
-        const binaryToRgb = (hex)=>{
-            const arr = hex.slice(1).match(/.{2}/g).map(h => parseInt(h, 16));
-            const rgb = `rgb(${arr[0]},${arr[1]},${arr[2]})`;
-            return rgb
-        }
+        const computeSelectedRGB = computed(()=>{
+            if (props.showAlpha != undefined){
+                if (!isEmpty(selectedRGB.value)){             
+                    return __changeAlpha(selectedRGB.value ,alphaSliderRef.value.thumbLeft)
+                }
+            }
+            return selectedRGB.value
+        })
 
         onMounted(()=>{
             if (props.modelValue != undefined){
@@ -312,9 +317,9 @@ export default defineComponent({
         })
 
         return {sliderRGB ,selectedRGB ,sliderTop ,
-                cursorX ,cursorY ,inputRef,popoverRef,alphaSliderRef,
+                cursorX ,cursorY ,inputRef,popoverRef,alphaSliderRef,computeSelectedRGB,
                 handleSliderMousedown,handleCursorMousedown,
-                handleClear,handleEnter ,handlePopoverHide}
+                handleClear,handleEnter ,handlePopoverHide ,handlePopoverShow}
     }
 })
 </script>

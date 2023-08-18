@@ -20,6 +20,24 @@
     cursor: pointer;
 }
 
+.xmv-color-picker--large {
+    height: 40px;
+}
+
+.xmv-color-picker--large .xmv-color-picker__trigger {
+    height: 40px;
+    width: 40px;
+}
+
+.xmv-color-picker--small {
+    height: 24px;
+}
+
+.xmv-color-picker--small .xmv-color-picker__trigger {
+    height: 24px;
+    width: 24px;
+}
+
 .xmv-color-picker__color {
     position: relative;
     display: block;
@@ -45,6 +63,11 @@
     align-items: center;
     color: #fff;
     font-size: 12px;
+}
+
+.xmv-color-picker--small .xmv-color-picker__icon,
+.xmv-color-picker--small .xmv-color-picker__empty {
+    transform: scale(.8);
 }
 
 .xmv-color-dropdown__main-wrapper {

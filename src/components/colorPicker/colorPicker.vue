@@ -1,7 +1,7 @@
 <template>
     <xmv-popover ref="popoverRef" @hide="handlePopoverHide" @show="handlePopoverShow">
         <template #trigger>
-            <div class="xmv-color-picker xmv-tooltip__trigger">
+            <div class="xmv-color-picker xmv-tooltip__trigger" :class="computeColorPickerClass">
                 <div class="xmv-color-picker__trigger">
                     <span class="xmv-color-picker__color">
                         <span class="xmv-color-picker__color-inner" :style="{'background-color' : computeSelectedRGB}">
@@ -51,7 +51,8 @@ export default defineComponent({
     components:{xmvAlphaSlider},
     props:{
         modelValue : String,
-        showAlpha : String
+        showAlpha : String,
+        size : String
     },
     setup(props ,context) {
         const sliderTop = ref(0)
@@ -92,6 +93,14 @@ export default defineComponent({
 
         $on('alphaChange' ,()=>{
             inputVal(rgba())
+        })
+
+        const computeColorPickerClass = computed(()=>{
+            let res = []
+            if (props.size != undefined){
+                res.push('xmv-color-picker--' + props.size)
+            }
+            return res
         })
 
         const handleSliderMousedown = (e)=>{
@@ -228,7 +237,9 @@ export default defineComponent({
         }
 
         const handlePopoverShow = ()=>{
-            alphaSliderRef.value.calcSliderBound()
+            if (props.showAlpha != undefined){
+                alphaSliderRef.value.calcSliderBound()
+            }
         }
 
         const handlePopoverHide = ()=>{
@@ -318,6 +329,7 @@ export default defineComponent({
 
         return {sliderRGB ,selectedRGB ,sliderTop ,
                 cursorX ,cursorY ,inputRef,popoverRef,alphaSliderRef,computeSelectedRGB,
+                computeColorPickerClass,
                 handleSliderMousedown,handleCursorMousedown,
                 handleClear,handleEnter ,handlePopoverHide ,handlePopoverShow}
     }

@@ -1,8 +1,8 @@
 <template>
     <xmv-popover placement="bottom" :ref="datePickerMode.popoverRef">
         <template #trigger>
-            <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date"
-                v-if="type == 'date'" 
+            <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date" :size="size"
+                v-if="type != 'daterange'" 
                 prefixicon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
             <div v-if="type == 'daterange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
@@ -44,7 +44,8 @@ export default defineComponent({
     props:{
         type : {type:String,default:'date'}, //daterange
         format : {type:String,default:'YYYY-MM-DD'},
-        modelValue : String
+        modelValue : String | Array,
+        size : String
     },
     setup(props ,context) {
         const storeMode = new StoreMode()
@@ -80,7 +81,7 @@ export default defineComponent({
 
         const computePanelClass = computed(()=>{
             let res = []
-            if (datePickerMode.type.value == 'date'){
+            if (datePickerMode.type.value == 'date' || datePickerMode.type.value == 'month'){
                 res.push('xmv-date-picker')
             }else if(datePickerMode.type.value == 'daterange'){
                 res.push('xmv-date-range-picker')
@@ -89,9 +90,9 @@ export default defineComponent({
         })
 
         $on('tdClick' ,(data)=>{
-            if (datePickerMode.type.value == 'date')
+            if (datePickerMode.type.value == 'date' || datePickerMode.type.value == 'month')
             {
-                let dateStr = data.format(props.format)
+                let dateStr = data.format(datePickerMode.format)
                 inputRef.value.val(dateStr)
                 datePickerMode.popoverRef.value.hide()
                 context.emit('update:modelValue' ,dateStr)
@@ -110,8 +111,8 @@ export default defineComponent({
                         return 0;
                     }
                 })
-                leftInputRef.value.value = dateList[0].format(props.format)
-                rightInputRef.value.value = dateList[1].format(props.format)
+                leftInputRef.value.value = dateList[0].format(datePickerMode.format)
+                rightInputRef.value.value = dateList[1].format(datePickerMode.format)
                 datePickerMode.popoverRef.value.hide()
             }
         })
@@ -145,17 +146,21 @@ export default defineComponent({
         })
 
         const handleWatch = (val)=>{
-            datePickerMode.setDayMode(val)
+            if (isEmpty(val)){
+                return false
+            }
+            datePickerMode.setMode(val)
             storeMode.dateObj.left = dayjs(val)
             inputRef.value.val(val)
+            $emit('change')
         }
 
         onMounted(()=>{
-            if (props.type == 'date'){
+            if (props.type == 'date' || props.type == 'month'){
                 inputRef.value.setInputWidth(1)
             }
             if (!isEmpty(props.modelValue)){
-                handleWatch(props.modelValue)
+               handleWatch(props.modelValue)
             }
             $emit('change')
         })

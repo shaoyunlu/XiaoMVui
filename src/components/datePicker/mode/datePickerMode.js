@@ -13,17 +13,50 @@ class DatePickerMode{
         this.weekHeader = ['一','二','三','四','五','六','日']
 
         this.pos = 'left'
+        this.format = 'YYYY-MM-DD'
 
         this.todayObj = dayjs()
         this.type = ref(props.type)
         this.popoverRef = ref(null)
 
-        this.initDayMode()
+        this.initMode()
+    }
+
+    initMode(){
+        switch (this.type.value) {
+            case 'date':
+                this.format = 'YYYY-MM-DD'
+                this.initDayMode()
+                break;
+            case 'month':
+                this.format = 'YYYY-MM'
+                this.initMonthMode()
+                break;
+            default:
+                break;
+        }
+    }
+
+    setMode(dateStr){
+        switch (this.type.value) {
+            case 'date':
+                this.setDayMode(dateStr)
+                break;
+            case 'month':
+                this.setMonthMode(dateStr)
+            default:
+                break;
+        }
     }
 
     setDayMode(dateStr){
         this.dateObj = dayjs(dateStr)
         this.initDayMode()
+    }
+
+    setMonthMode(dateStr){
+        this.dateObj = dayjs(dateStr)
+        this.initMonthMode()
     }
 
     initDayMode(){
@@ -113,7 +146,19 @@ class DatePickerMode{
     }
     
     initMonthMode(){
-
+        let dateObj = this.dateObj
+        this.rctData.year = dateObj.format('YYYY')
+        this.rctData.month = dateObj.format('MM') + '月'
+        this.rctData.dayList = []
+        this.rctData.dayList.push([
+            {value : '一月' ,num : 0},{value : '二月' ,num : 1},{value : '三月' ,num : 2},{value : '四月' ,num : 3}
+        ])
+        this.rctData.dayList.push([
+            {value : '五月' ,num : 4},{value : '六月' ,num : 5},{value : '七月' ,num : 6},{value : '八月' ,num : 7}
+        ])
+        this.rctData.dayList.push([
+            {value : '九月' ,num : 8},{value : '十月' ,num :9},{value : '十一月' ,num : 10},{value : '十二月' ,num : 11}
+        ])
     }
 
     initYearMode(){

@@ -48,7 +48,7 @@ export default defineComponent({
 
         const getDate = ()=>{
             let dateObj = dMode.dateObj
-            if (dMode.type.value == 'date'){
+            if (dMode.type.value == 'date' || dMode.type.value == 'daterange'){
                 if (hasClass(tdRef.value ,'prev-month')){
                     dateObj = dMode.dateObj.subtract(1,'month')
                 }else if(hasClass(tdRef.value ,'next-month')){
@@ -89,11 +89,6 @@ export default defineComponent({
 
         const judgeToday = ()=>{
             let dateObj = getDate()
-            // if (dateObj.isSame(dMode.todayObj,'day')){
-            //     isToday.value = true
-            // }else{
-            //     isToday.value = false
-            // }
             if (dMode.type.value == 'date'){
                 isToday.value = dateObj.isSame(dMode.todayObj,'day')
             }else if (dMode.type.value == 'month'){
@@ -114,7 +109,15 @@ export default defineComponent({
             else if(dMode.type.value == 'daterange')
             {
                 storeMode.dateList.forEach((__dateObj)=>{
-                    if (dateObj.isSame(__dateObj)){
+                    if (__dateObj.format('YYYY-MM-DD') == dateObj.format('YYYY-MM-DD')){
+                        isCurrent.value = true
+                    }
+                })
+            }
+            else if(dMode.type.value == 'monthrange')
+            {
+                storeMode.dateList.forEach((__dateObj)=>{
+                    if (dateObj.isSame(__dateObj) ,'month'){
                         isCurrent.value = true
                     }
                 })

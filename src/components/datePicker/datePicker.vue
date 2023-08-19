@@ -2,9 +2,9 @@
     <xmv-popover placement="bottom" :ref="datePickerMode.popoverRef">
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date" :size="size"
-                v-if="type != 'daterange'" 
+                v-if="type != 'daterange' && type != 'monthrange'" 
                 prefixicon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
-            <div v-if="type == 'daterange'" 
+            <div v-if="type == 'daterange' || type == 'monthrange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default"
                 :class="{'is-active' : isActive}"
@@ -23,7 +23,7 @@
         <div class="xmv-picker-panel__body-wrapper">
             <div class="xmv-picker-panel__body">
                 <xmv-calendar :dMode="datePickerMode"></xmv-calendar>
-                <xmv-calendar v-if="type == 'daterange'" :dMode="datePickerRightMode"></xmv-calendar>
+                <xmv-calendar v-if="type == 'daterange' || type == 'monthrange'" :dMode="datePickerRightMode"></xmv-calendar>
             </div>
         </div>
         <div class="xmv-picker-panel__footer"></div>
@@ -52,7 +52,7 @@ export default defineComponent({
         const datePickerMode = new DatePickerMode(props)
         const datePickerRightMode = new DatePickerMode(props)
         datePickerRightMode.dateObj = datePickerRightMode.dateObj.add(1 ,'month')
-        datePickerRightMode.initDayMode()
+        datePickerRightMode.initMode()
         datePickerRightMode.pos = 'right'
         storeMode.leftDMode = datePickerMode
         storeMode.rightDMode = datePickerRightMode
@@ -83,7 +83,7 @@ export default defineComponent({
             let res = []
             if (datePickerMode.type.value == 'date' || datePickerMode.type.value == 'month'){
                 res.push('xmv-date-picker')
-            }else if(datePickerMode.type.value == 'daterange'){
+            }else if(datePickerMode.type.value == 'daterange' || datePickerMode.type.value == 'monthrange'){
                 res.push('xmv-date-range-picker')
             }
             return res
@@ -102,6 +102,7 @@ export default defineComponent({
                 if (storeMode.dateList.length != 2){
                     return false
                 }
+                
                 let dateList = storeMode.dateList.sort((a, b) => {
                     if (a.isBefore(b)) {
                         return -1;
@@ -113,7 +114,8 @@ export default defineComponent({
                 })
                 leftInputRef.value.value = dateList[0].format(datePickerMode.format)
                 rightInputRef.value.value = dateList[1].format(datePickerMode.format)
-                datePickerMode.popoverRef.value.hide()
+                context.emit('update:modelValue' ,[leftInputRef.value.value ,rightInputRef.value.value])
+                //datePickerMode.popoverRef.value.hide()
             }
         })
 
@@ -149,9 +151,19 @@ export default defineComponent({
             if (isEmpty(val)){
                 return false
             }
-            datePickerMode.setMode(val)
-            storeMode.dateObj.left = dayjs(val)
-            inputRef.value.val(val)
+            if (props.type == 'date' || props.type == 'month'){
+                datePickerMode.setMode(val)
+                storeMode.dateObj.left = dayjs(val)
+                inputRef.value.val(val)
+            }else if (props.type == 'daterange'){
+                datePickerMode.setMode(val[0])
+                datePickerRightMode.setMode(val[1])
+                storeMode.dateObj.left = dayjs(val[0])
+                storeMode.dateObj.right = dayjs(val[1])
+                leftInputRef.value.value = val[0]
+                rightInputRef.value.value = val[1]
+            }
+            
             $emit('change')
         }
 

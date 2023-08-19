@@ -28,7 +28,15 @@ class DatePickerMode{
                 this.format = 'YYYY-MM-DD'
                 this.initDayMode()
                 break;
+            case 'daterange':
+                this.format = 'YYYY-MM-DD'
+                this.initDayMode()
+                break;
             case 'month':
+                this.format = 'YYYY-MM'
+                this.initMonthMode()
+                break;
+            case 'monthrange':
                 this.format = 'YYYY-MM'
                 this.initMonthMode()
                 break;
@@ -40,6 +48,9 @@ class DatePickerMode{
     setMode(dateStr){
         switch (this.type.value) {
             case 'date':
+                this.setDayMode(dateStr)
+                break;
+            case 'daterange':
                 this.setDayMode(dateStr)
                 break;
             case 'month':

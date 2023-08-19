@@ -1,55 +1,57 @@
 <template>
-    <div :class="computeHeaderClass">
-        <span class="xmv-date-picker__prev-btn" >
-            <button type="button" class="d-arrow-left xmv-picker-panel__icon-btn"
-                v-if="leftSideDButton"
-                @mouseup.stop="handleDArrowLeft">
-                <xmv-icon name="dArrowLeft"></xmv-icon>
-            </button>
-            <button type="button" class="xmv-picker-panel__icon-btn arrow-left"
-                v-if="leftSideButton"
-                @mouseup.stop="handleArrowLeft">
-                <xmv-icon name="arrowLeft"></xmv-icon>
-            </button>
-        </span>
-        <span v-if="dMode.type.value == 'date' || dMode.type.value == 'month'"  class="xmv-date-picker__header-label">
-            {{dMode.rctData.year}}
-        </span>
-        <span v-if="dMode.type.value == 'date'"  class="xmv-date-picker__header-label">
-            {{dMode.rctData.month}}
-        </span>
-        <span class="xmv-date-picker__next-btn">
-            <button type="button" class="xmv-picker-panel__icon-btn arrow-right"
-                    v-if="rightSideButton"
-                    @mouseup.stop="handleArrowRight">
-                <xmv-icon name="arrowRight"></xmv-icon>
-            </button>
-            <button type="button" class="xmv-picker-panel__icon-btn d-arrow-right"
-                v-if="rightSideDButton"
-                @mouseup.stop="handleDArrowRight">
-                <xmv-icon name="dArrowRight"></xmv-icon>
-            </button>
-        </span>
-        <div v-if="dMode.type.value == 'daterange'">{{dMode.rctData.year}} {{dMode.rctData.month}}</div>
-    </div>
-    <div class="xmv-picker-panel__content">
-        <table class="xmv-date-table" v-if="datePickerMode.type.value == 'date'">
-            <tbody>
-                <tr>
-                    <th v-for="tmp in dMode.weekHeader">{{tmp}}</th>
-                </tr>
-                <tr class="xmv-date-table__row" v-for="rowList in dMode.rctData.dayList">
-                    <xmv-calendar-td v-for="tmp in rowList" :data="tmp" :dMode="dMode"></xmv-calendar-td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="xmv-month-table" v-if="datePickerMode.type.value == 'month'">
-            <tbody>
-                <tr v-for="rowList in dMode.rctData.dayList">
-                    <xmv-calendar-td v-for="tmp in rowList" :data="tmp" :dMode="dMode"></xmv-calendar-td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="xmv-picker-calendar">
+        <div :class="computeHeaderClass">
+            <span class="xmv-date-picker__prev-btn" >
+                <button type="button" class="d-arrow-left xmv-picker-panel__icon-btn"
+                    v-if="leftSideDButton"
+                    @mouseup.stop="handleDArrowLeft">
+                    <xmv-icon name="dArrowLeft"></xmv-icon>
+                </button>
+                <button type="button" class="xmv-picker-panel__icon-btn arrow-left"
+                    v-if="leftSideButton"
+                    @mouseup.stop="handleArrowLeft">
+                    <xmv-icon name="arrowLeft"></xmv-icon>
+                </button>
+            </span>
+            <span v-if="dMode.type.value == 'date' || dMode.type.value == 'month'"  class="xmv-date-picker__header-label">
+                {{dMode.rctData.year}}
+            </span>
+            <span v-if="dMode.type.value == 'date'"  class="xmv-date-picker__header-label">
+                {{dMode.rctData.month}}
+            </span>
+            <span class="xmv-date-picker__next-btn">
+                <button type="button" class="xmv-picker-panel__icon-btn arrow-right"
+                        v-if="rightSideButton"
+                        @mouseup.stop="handleArrowRight">
+                    <xmv-icon name="arrowRight"></xmv-icon>
+                </button>
+                <button type="button" class="xmv-picker-panel__icon-btn d-arrow-right"
+                    v-if="rightSideDButton"
+                    @mouseup.stop="handleDArrowRight">
+                    <xmv-icon name="dArrowRight"></xmv-icon>
+                </button>
+            </span>
+            <div v-if="dMode.type.value == 'daterange'">{{dMode.rctData.year}} {{dMode.rctData.month}}</div>
+        </div>
+        <div class="xmv-picker-panel__content">
+            <table class="xmv-date-table" v-if="dMode.type.value == 'date' || dMode.type.value == 'daterange'">
+                <tbody>
+                    <tr>
+                        <th v-for="tmp in dMode.weekHeader">{{tmp}}</th>
+                    </tr>
+                    <tr class="xmv-date-table__row" v-for="rowList in dMode.rctData.dayList">
+                        <xmv-calendar-td v-for="tmp in rowList" :data="tmp" :dMode="dMode"></xmv-calendar-td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="xmv-month-table" v-if="dMode.type.value == 'month' || dMode.type.value == 'monthrange'">
+                <tbody>
+                    <tr v-for="rowList in dMode.rctData.dayList">
+                        <xmv-calendar-td v-for="tmp in rowList" :data="tmp" :dMode="dMode"></xmv-calendar-td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -64,8 +66,6 @@ export default defineComponent({
     },
     components:{xmvCalendarTd},
     setup({dMode} ,context) {
-
-        const datePickerMode = inject('DatePickerMode')
         const storeMode = inject('StoreMode')
         const leftSideDButton = ref(true)
         const leftSideButton = ref(true)
@@ -158,24 +158,10 @@ export default defineComponent({
             }
         }
 
-        const computeClass = computed(()=>{
-            let res = []
-            if (dMode.type.value == 'daterange'){
-                res.push('xmv-date-range-picker__content')
-                if (dMode.pos == 'left'){
-                    res.push('is-left')
-                }else{
-                    res.push('is-right')
-                }
-                
-            }
-            return res
-        })
-
         const computeHeaderClass = computed(()=>{
             let res = []
 
-            if (dMode.type.value == 'daterange'){
+            if (dMode.type.value == 'daterange' || dMode.type.value == 'monthrange'){
                 res.push('xmv-date-range-picker__header')
             }else if (dMode.type.value == 'date' || dMode.type.value == 'month'){
                 res.push('xmv-date-picker__header')
@@ -185,8 +171,8 @@ export default defineComponent({
         })
 
         return {handleDArrowLeft ,handleArrowLeft ,
-                handleDArrowRight ,handleArrowRight ,judgeButtonShow,datePickerMode,
-                computeClass ,computeHeaderClass ,leftSideButton ,rightSideButton,
+                handleDArrowRight ,handleArrowRight ,judgeButtonShow,
+                computeHeaderClass ,leftSideButton ,rightSideButton,
                 leftSideDButton ,rightSideDButton}
     }
 })

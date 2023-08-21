@@ -17,6 +17,7 @@
 <script>
 import {defineComponent ,ref ,inject, onMounted, nextTick} from 'vue'
 import {hasClass ,removeClass} from 'utils/dom'
+import dayjs from 'dayjs'
 export default defineComponent({
     name:"",
     props:{
@@ -38,7 +39,7 @@ export default defineComponent({
             let dateObj = getDate()
             if (dMode.type.value == 'date' || dMode.type.value == 'month'){
                 storeMode.dateObj[dMode.pos] = dateObj
-            }else if(dMode.type.value == 'daterange'){
+            }else if(dMode.type.value == 'daterange' || dMode.type.value == 'monthrange'){
                 storeMode.handleList(dateObj)
             }
             
@@ -56,7 +57,7 @@ export default defineComponent({
                 }
             }
 
-            if (dMode.type.value == 'month'){
+            if (dMode.type.value == 'month' || dMode.type.value == 'monthrange'){
                 return dateObj.month(spanRef.value.getAttribute('num'))
             }
 
@@ -110,15 +111,36 @@ export default defineComponent({
             {
                 storeMode.dateList.forEach((__dateObj)=>{
                     if (__dateObj.format('YYYY-MM-DD') == dateObj.format('YYYY-MM-DD')){
-                        isCurrent.value = true
+                        // 两边相差一个月
+                        let diff = storeMode.rightDMode.dateObj.diff(storeMode.leftDMode.dateObj, "month")
+                        if (diff == 1){
+                            if (dMode.pos == 'left' && !hasClass(tdRef.value ,'next-month')){
+                                isCurrent.value = true
+                            }
+                            else if (dMode.pos == 'right' && !hasClass(tdRef.value ,'prev-month')){
+                                isCurrent.value = true
+                            }
+                        }else{
+                            isCurrent.value = true
+                        }
+                        
                     }
                 })
             }
             else if(dMode.type.value == 'monthrange')
             {
+                
                 storeMode.dateList.forEach((__dateObj)=>{
-                    if (dateObj.isSame(__dateObj) ,'month'){
-                        isCurrent.value = true
+                    if (__dateObj.format('YYYY-MM') == dateObj.format('YYYY-MM')){
+                        let diff = storeMode.rightDMode.dateObj.diff(storeMode.leftDMode.dateObj, "year")
+                        if (diff == 0){
+                            if (dMode.pos == 'left'){
+                                isCurrent.value = true
+                            }
+                        }else{
+                            isCurrent.value = true
+                        }
+                        
                     }
                 })
             }

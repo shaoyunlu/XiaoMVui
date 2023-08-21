@@ -32,6 +32,7 @@
                 </button>
             </span>
             <div v-if="dMode.type.value == 'daterange'">{{dMode.rctData.year}} {{dMode.rctData.month}}</div>
+            <div v-if="dMode.type.value == 'monthrange'">{{dMode.rctData.year}}</div>
         </div>
         <div class="xmv-picker-panel__content">
             <table class="xmv-date-table" v-if="dMode.type.value == 'date' || dMode.type.value == 'daterange'">
@@ -155,6 +156,12 @@ export default defineComponent({
                     leftSideDButton.value = false
                     rightSideDButton.value = true
                 }
+            }
+
+            if (dMode.type.value == 'monthrange'){
+                
+                leftSideButton.value = false
+                rightSideButton.value = false
             }
         }
 

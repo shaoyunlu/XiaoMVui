@@ -97,7 +97,7 @@ export default defineComponent({
                 datePickerMode.popoverRef.value.hide()
                 context.emit('update:modelValue' ,dateStr)
             }
-            else if (datePickerMode.type.value == 'daterange')
+            else if (datePickerMode.type.value == 'daterange' || datePickerMode.type.value == 'monthrange')
             {
                 if (storeMode.dateList.length != 2){
                     return false
@@ -115,7 +115,7 @@ export default defineComponent({
                 leftInputRef.value.value = dateList[0].format(datePickerMode.format)
                 rightInputRef.value.value = dateList[1].format(datePickerMode.format)
                 context.emit('update:modelValue' ,[leftInputRef.value.value ,rightInputRef.value.value])
-                //datePickerMode.popoverRef.value.hide()
+                datePickerMode.popoverRef.value.hide()
             }
         })
 
@@ -156,10 +156,28 @@ export default defineComponent({
                 storeMode.dateObj.left = dayjs(val)
                 inputRef.value.val(val)
             }else if (props.type == 'daterange'){
-                datePickerMode.setMode(val[0])
-                datePickerRightMode.setMode(val[1])
+                
                 storeMode.dateObj.left = dayjs(val[0])
                 storeMode.dateObj.right = dayjs(val[1])
+                storeMode.handleList(dayjs(val[0]))
+                storeMode.handleList(dayjs(val[1]))
+                // 如果两个月份是同月的话
+                if (storeMode.dateObj.left.diff(storeMode.dateObj.right ,'month') == 0){
+                    datePickerMode.setMode(val[0])
+                    datePickerRightMode.setMode(storeMode.dateObj.left.add(1 ,'month').format(datePickerMode.format))
+                }else{
+                    datePickerMode.setMode(val[0])
+                    datePickerRightMode.setMode(val[1])
+                }
+                leftInputRef.value.value = val[0]
+                rightInputRef.value.value = val[1]
+            }else if (props.type == 'monthrange'){
+                storeMode.dateObj.left = dayjs(val[0])
+                storeMode.dateObj.right = dayjs(val[1])
+                storeMode.handleList(dayjs(val[0]))
+                storeMode.handleList(dayjs(val[1]))
+                datePickerMode.setMode(val[0])
+                datePickerRightMode.setMode(val[1])
                 leftInputRef.value.value = val[0]
                 rightInputRef.value.value = val[1]
             }

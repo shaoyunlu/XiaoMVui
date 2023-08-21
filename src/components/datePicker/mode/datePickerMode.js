@@ -55,6 +55,8 @@ class DatePickerMode{
                 break;
             case 'month':
                 this.setMonthMode(dateStr)
+            case 'monthrange':
+                this.setMonthMode(dateStr)
             default:
                 break;
         }

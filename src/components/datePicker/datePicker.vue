@@ -7,7 +7,7 @@
             <div v-if="type == 'daterange' || type == 'monthrange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default"
-                :class="{'is-active' : isActive}"
+                :class="{'is-active' : isActive ,'xmv-date-time-range-picker':withTime != undefined}"
                 @click="handleDateRangeMouseup"
                 ref="daterangeRef">
                 <xmv-icon name="calendar" class="xmv-input__icon xmv-range__icon"></xmv-icon>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject,watch} from 'vue'
+import {computed, defineComponent, onMounted, provide ,reactive ,ref ,inject,watch, nextTick} from 'vue'
 import DatePickerMode from './mode/datePickerMode'
 import StoreMode from './mode/storeMode'
 import xmvCalendar from './calendar.vue'
@@ -45,6 +45,7 @@ export default defineComponent({
         type : {type:String,default:'date'}, //daterange
         format : {type:String,default:'YYYY-MM-DD'},
         modelValue : String | Array,
+        withTime : String,
         size : String
     },
     setup(props ,context) {
@@ -56,6 +57,8 @@ export default defineComponent({
         datePickerRightMode.pos = 'right'
         storeMode.leftDMode = datePickerMode
         storeMode.rightDMode = datePickerRightMode
+        datePickerMode.storeMode = storeMode
+        datePickerRightMode.storeMode = storeMode
         const inputRef = ref(null)
         const leftInputRef = ref(null)
         const rightInputRef = ref(null)
@@ -92,10 +95,9 @@ export default defineComponent({
         $on('tdClick' ,(data)=>{
             if (datePickerMode.type.value == 'date' || datePickerMode.type.value == 'month')
             {
-                let dateStr = data.format(datePickerMode.format)
-                inputRef.value.val(dateStr)
+                //let dateStr = data.format(datePickerMode.format)
+                context.emit('update:modelValue' ,datePickerMode.getVal())
                 datePickerMode.popoverRef.value.hide()
-                context.emit('update:modelValue' ,dateStr)
             }
             else if (datePickerMode.type.value == 'daterange' || datePickerMode.type.value == 'monthrange')
             {
@@ -112,9 +114,10 @@ export default defineComponent({
                         return 0;
                     }
                 })
-                leftInputRef.value.value = dateList[0].format(datePickerMode.format)
-                rightInputRef.value.value = dateList[1].format(datePickerMode.format)
-                context.emit('update:modelValue' ,[leftInputRef.value.value ,rightInputRef.value.value])
+                storeMode.dateObj.left = dateList[0]
+                storeMode.dateObj.right = dateList[1]
+                //context.emit('update:modelValue' ,[dateList[0].format(datePickerMode.format) ,dateList[1].format(datePickerMode.format)])
+                context.emit('update:modelValue' ,[datePickerMode.getVal() ,datePickerRightMode.getVal()])
                 datePickerMode.popoverRef.value.hide()
             }
         })
@@ -140,11 +143,7 @@ export default defineComponent({
             context.emit('update:modelValue' ,'')
         }
 
-        const modelValueWatch = computed(()=>{
-            return props.modelValue
-        })
-
-        watch(modelValueWatch ,(newVal)=>{
+        watch(()=>props.modelValue ,(newVal)=>{
             handleWatch(newVal)
         })
 
@@ -152,12 +151,15 @@ export default defineComponent({
             if (isEmpty(val)){
                 return false
             }
-            if (props.type == 'date' || props.type == 'month'){
+            if (props.type == 'date' || props.type == 'month')
+            {
                 datePickerMode.setMode(val)
                 storeMode.dateObj.left = dayjs(val)
-                inputRef.value.val(val)
-            }else if (props.type == 'daterange'){
-                
+                //inputRef.value.val(val + (props.withTime != undefined?" " + datePickerMode.timeModel.value:'') )
+                datePickerMode.setInput()
+            }
+            else if (props.type == 'daterange')
+            {
                 storeMode.dateObj.left = dayjs(val[0])
                 storeMode.dateObj.right = dayjs(val[1])
                 storeMode.handleList(dayjs(val[0]))
@@ -170,17 +172,23 @@ export default defineComponent({
                     datePickerMode.setMode(val[0])
                     datePickerRightMode.setMode(val[1])
                 }
-                leftInputRef.value.value = val[0]
-                rightInputRef.value.value = val[1]
-            }else if (props.type == 'monthrange'){
+                //leftInputRef.value.value = val[0]
+                //rightInputRef.value.value = val[1]
+                datePickerMode.setInput()
+                datePickerRightMode.setInput()
+            }
+            else if (props.type == 'monthrange')
+            {
                 storeMode.dateObj.left = dayjs(val[0])
                 storeMode.dateObj.right = dayjs(val[1])
                 storeMode.handleList(dayjs(val[0]))
                 storeMode.handleList(dayjs(val[1]))
                 datePickerMode.setMode(val[0])
                 datePickerRightMode.setMode(val[1])
-                leftInputRef.value.value = val[0]
-                rightInputRef.value.value = val[1]
+                // leftInputRef.value.value = val[0]
+                // rightInputRef.value.value = val[1]
+                datePickerMode.setInput()
+                datePickerRightMode.setInput()
             }
             
             $emit('change')
@@ -189,6 +197,10 @@ export default defineComponent({
         onMounted(()=>{
             if (props.type == 'date' || props.type == 'month'){
                 inputRef.value.setInputWidth(1)
+                datePickerMode.inputEl = inputRef.value.inputRef
+            } else if(props.type == 'daterange' || props.type == 'monthrange'){
+                datePickerMode.inputEl = leftInputRef.value
+                datePickerRightMode.inputEl = rightInputRef.value
             }
             if (!isEmpty(props.modelValue)){
                handleWatch(props.modelValue)

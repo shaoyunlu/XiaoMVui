@@ -1,5 +1,8 @@
 <template>
     <div class="xmv-picker-calendar">
+        <div class="xmv-date-picker__time-header" v-if="dMode.withTime">
+            <xmv-time-picker v-model="timeMode"></xmv-time-picker>
+        </div>
         <div :class="computeHeaderClass">
             <span class="xmv-date-picker__prev-btn" >
                 <button type="button" class="d-arrow-left xmv-picker-panel__icon-btn"
@@ -57,7 +60,7 @@
 </template>
 
 <script>
-import {computed, defineComponent, inject ,nextTick,provide,reactive ,ref} from 'vue'
+import {computed, defineComponent, inject ,nextTick,onMounted,provide,reactive ,ref, watch} from 'vue'
 import xmvCalendarTd from './calendarTd.vue'
 import {createEventBus} from 'utils/event'
 export default defineComponent({
@@ -67,6 +70,7 @@ export default defineComponent({
     },
     components:{xmvCalendarTd},
     setup({dMode} ,context) {
+        const timeMode = ref('00:00:00')
         const storeMode = inject('StoreMode')
         const leftSideDButton = ref(true)
         const leftSideButton = ref(true)
@@ -177,10 +181,18 @@ export default defineComponent({
             return res
         })
 
+        watch(timeMode ,(newVal)=>{
+            dMode.setInput()
+        })
+
+        onMounted(()=>{
+            dMode.timeModel = timeMode
+        })
+
         return {handleDArrowLeft ,handleArrowLeft ,
                 handleDArrowRight ,handleArrowRight ,judgeButtonShow,
                 computeHeaderClass ,leftSideButton ,rightSideButton,
-                leftSideDButton ,rightSideDButton}
+                leftSideDButton ,rightSideDButton ,timeMode}
     }
 })
 </script>

@@ -12,11 +12,18 @@ class DatePickerMode{
         })
         this.weekHeader = ['一','二','三','四','五','六','日']
 
+
+        this.inputEl
         this.pos = 'left'
         this.format = 'YYYY-MM-DD'
 
+        this.storeMode
+
+        this.timeModel
+
         this.todayObj = dayjs()
         this.type = ref(props.type)
+        this.withTime = (props.withTime != undefined)
         this.popoverRef = ref(null)
 
         this.initMode()
@@ -176,6 +183,26 @@ class DatePickerMode{
 
     initYearMode(){
 
+    }
+
+    getVal(){
+        let res = ''
+        let dateObj = (this.pos == 'left' ? this.storeMode.dateObj.left : this.storeMode.dateObj.right)
+        if (dateObj){
+            res = dateObj.format(this.format) 
+                            + (this.withTime?" " + this.timeModel.value:'' )
+        }
+        return res
+    }
+
+    setInput(){
+        let dateObj = (this.pos == 'left' ? this.storeMode.dateObj.left : this.storeMode.dateObj.right)
+        if (dateObj){
+            this.inputEl.value = dateObj.format(this.format) 
+                            + (this.withTime?" " + this.timeModel.value:'' )
+        }
+        //inputRef.value.val(val + (props.withTime != undefined?" " + datePickerMode.timeModel.value:'') )
+        
     }
 
 }

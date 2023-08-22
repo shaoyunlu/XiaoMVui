@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover :beStripped="false" @show="handlePopoverShow">
+    <xmv-popover :beStripped="true" @show="handlePopoverShow">
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor--time" :size="size" v-if="isRange == undefined"
             prefixicon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
@@ -91,7 +91,6 @@ export default defineComponent({
                 val[0] && panelRef.value.dispatchVal(val[0])
                 val[1] && panleRightRef.value.dispatchVal(val[1])
 
-
                 $emit('disabled' ,{flag : false})
 
                 if ( (val[0] && !val[1]) || (!val[0] && val[1]) ){
@@ -100,7 +99,6 @@ export default defineComponent({
                     $emit('range' ,{pos:'left' ,val : list1[0] ,type:'hour'})
                     $emit('range' ,{pos:'right' ,val : list2[0] ,type:'hour'})
                 }else if(val[0] && val[1]){
-                    
                     let list1 = val[0].split(":")
                     let list2 = val[1].split(":")
 

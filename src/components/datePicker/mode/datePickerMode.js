@@ -12,7 +12,7 @@ class DatePickerMode{
         })
         this.weekHeader = ['一','二','三','四','五','六','日']
 
-
+        this.inputRef
         this.inputEl
         this.pos = 'left'
         this.format = 'YYYY-MM-DD'
@@ -201,7 +201,9 @@ class DatePickerMode{
             this.inputEl.value = dateObj.format(this.format) 
                             + (this.withTime?" " + this.timeModel.value:'' )
         }
-        //inputRef.value.val(val + (props.withTime != undefined?" " + datePickerMode.timeModel.value:'') )
+        if (this.inputRef){
+            this.inputRef.value.handleInputInput()
+        }
         
     }
 

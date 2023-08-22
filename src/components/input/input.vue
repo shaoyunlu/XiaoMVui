@@ -44,6 +44,7 @@
 <script>
 import {defineComponent ,ref ,computed ,onMounted, nextTick, watch} from 'vue'
 import {isFirefox} from 'utils/dict'
+import { isEmpty } from 'utils/data'
 export default defineComponent({
     name:"xmvInput",
     emits:['blur','input','clear','update:modelValue'],
@@ -120,7 +121,6 @@ export default defineComponent({
         }
 
         const handleInputInput = ()=>{
-
             if (props.type == 'number'){
                 // 验证是不是数字
                 let regex = /^-?\d+(?:\.\d+)?$/;;
@@ -224,7 +224,7 @@ export default defineComponent({
             textareaHeightRef.value = scrollHeight
         }
 
-        watch(()=>props.modelValue ,()=>{
+        watch(()=>props.modelValue ,(newVal)=>{
             if (props.type == 'textarea' && props.autosize != undefined){
                 aujustTextareaHeight()
             }

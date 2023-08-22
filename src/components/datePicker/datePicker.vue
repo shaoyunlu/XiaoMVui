@@ -95,7 +95,6 @@ export default defineComponent({
         $on('tdClick' ,(data)=>{
             if (datePickerMode.type.value == 'date' || datePickerMode.type.value == 'month')
             {
-                //let dateStr = data.format(datePickerMode.format)
                 context.emit('update:modelValue' ,datePickerMode.getVal())
                 datePickerMode.popoverRef.value.hide()
             }
@@ -116,7 +115,6 @@ export default defineComponent({
                 })
                 storeMode.dateObj.left = dateList[0]
                 storeMode.dateObj.right = dateList[1]
-                //context.emit('update:modelValue' ,[dateList[0].format(datePickerMode.format) ,dateList[1].format(datePickerMode.format)])
                 context.emit('update:modelValue' ,[datePickerMode.getVal() ,datePickerRightMode.getVal()])
                 datePickerMode.popoverRef.value.hide()
             }
@@ -155,7 +153,6 @@ export default defineComponent({
             {
                 datePickerMode.setMode(val)
                 storeMode.dateObj.left = dayjs(val)
-                //inputRef.value.val(val + (props.withTime != undefined?" " + datePickerMode.timeModel.value:'') )
                 datePickerMode.setInput()
             }
             else if (props.type == 'daterange')
@@ -172,8 +169,6 @@ export default defineComponent({
                     datePickerMode.setMode(val[0])
                     datePickerRightMode.setMode(val[1])
                 }
-                //leftInputRef.value.value = val[0]
-                //rightInputRef.value.value = val[1]
                 datePickerMode.setInput()
                 datePickerRightMode.setInput()
             }
@@ -185,8 +180,6 @@ export default defineComponent({
                 storeMode.handleList(dayjs(val[1]))
                 datePickerMode.setMode(val[0])
                 datePickerRightMode.setMode(val[1])
-                // leftInputRef.value.value = val[0]
-                // rightInputRef.value.value = val[1]
                 datePickerMode.setInput()
                 datePickerRightMode.setInput()
             }
@@ -197,6 +190,7 @@ export default defineComponent({
         onMounted(()=>{
             if (props.type == 'date' || props.type == 'month'){
                 inputRef.value.setInputWidth(1)
+                datePickerMode.inputRef = inputRef
                 datePickerMode.inputEl = inputRef.value.inputRef
             } else if(props.type == 'daterange' || props.type == 'monthrange'){
                 datePickerMode.inputEl = leftInputRef.value

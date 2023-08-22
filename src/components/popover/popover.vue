@@ -137,7 +137,6 @@ export default defineComponent({
         }
 
         onUnmounted(()=>{
-            console.log('onUnmounted' ,popperEl)
             popperEl && popperEl.remove()
         })
 

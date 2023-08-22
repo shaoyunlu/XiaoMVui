@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {defineComponent,  inject,  onMounted ,ref} from 'vue'
+import {defineComponent,inject,onBeforeUnmount,onUnmounted,onMounted,ref} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -135,6 +135,11 @@ export default defineComponent({
         const disabled = ()=>{
             enableRef.value = false
         }
+
+        onUnmounted(()=>{
+            console.log('onUnmounted' ,popperEl)
+            popperEl && popperEl.remove()
+        })
 
         onMounted(()=>{
             triggerEl = placeSpan.value.nextElementSibling

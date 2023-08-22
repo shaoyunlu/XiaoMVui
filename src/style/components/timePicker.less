@@ -75,6 +75,11 @@
     color: var(--xmv-text-color-regular);
 }
 
+.xmv-time-spinner__item.is-disabled {
+    color: var(--xmv-text-color-placeholder);
+    cursor: not-allowed;
+}
+
 .xmv-time-spinner__list {
     padding: 0;
     margin: 0;
@@ -97,4 +102,23 @@
 .xmv-time-spinner__item.is-active:not(.is-disabled) {
     color: var(--xmv-text-color-primary);
     font-weight: 700;
+}
+
+.xmv-time-panel-range{
+    display: flex;
+    width: 340px;
+    margin: 10px;
+}
+
+.xmv-time-panel-range .cell{
+    border-radius: 2px;
+    border: 1px solid var(--xmv-disabled-border-color);
+}
+
+.xmv-time-panel-range .cell:first-child{
+    margin-right: 20px;
+}
+
+.xmv-time-panel-range .cell{
+    width: 155px;;
 }

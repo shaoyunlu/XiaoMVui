@@ -129,6 +129,7 @@ export default defineComponent({
             storeMode.dateList = []
             // 取消current
             $emit('removeCurrent')
+            context.emit('update:modelValue' ,[])
         }
 
         const handleDateClear = ()=>{

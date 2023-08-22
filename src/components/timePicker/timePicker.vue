@@ -1,123 +1,166 @@
 <template>
     <xmv-popover :beStripped="false" @show="handlePopoverShow">
         <template #trigger>
-            <xmv-input class="xmv-date-editor xmv-date-editor--time" 
+            <xmv-input class="xmv-date-editor xmv-date-editor--time" :size="size" v-if="isRange == undefined"
             prefixicon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
+
+            <div v-else
+                class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
+                        xmv-range-editor xmv-range-editor--default"
+                :class="{'is-active' : isActive}"
+                @click="handleTimeRangeMouseup"
+                ref="daterangeRef">
+                <xmv-icon name="clock" class="xmv-input__icon xmv-range__icon"></xmv-icon>
+                <input type="text" class="xmv-range-input" ref="leftInputRef">
+                <span class="xmv-range-separator">到</span>
+                <input type="text" class="xmv-range-input" ref="rightInputRef">
+                <xmv-icon name="circleClose" @click.stop="handleTimeRangeClose"
+                class="xmv-input__icon xmv-range__close-icon"></xmv-icon>
+            </div>
         </template>
     </xmv-popover>
-    <div class="xmv-time-panel">
-        <div class="xmv-time-panel__content has-seconds">
-            <div class="xmv-time-spinner has-seconds">
-                <xmv-time-hour @val="handleHourVal" ref="timeHourRef"></xmv-time-hour>
-                <xmv-time-minute @val="handleMinuteVal" ref="timeMinuteRef"></xmv-time-minute>
-                <xmv-time-second @val="handleSecondVal" ref="timeSecondRef"></xmv-time-second>
+    <div class="xmv-time-panel" :class="{'xmv-time-panel-range' : isRange != undefined}">
+            <div class="cell">
+                <xmv-time-panel @val="handleVal" :tMode="timePickerMode" ref="panelRef" pos="left"></xmv-time-panel>
             </div>
-        </div>
+            <div class="cell">
+                <xmv-time-panel v-if="isRange != undefined" 
+                    @val="handleVal" ref="panleRightRef" :tMode="timePickerRightMode" pos="right"></xmv-time-panel>
+            </div>
         <div class="xmv-time-panel__footer"></div>
     </div>
 </template>
 
 <script>
-import {computed, defineComponent, onMounted, provide ,ref, watch} from 'vue'
+import {reactive, defineComponent, onMounted, provide ,ref, watch ,inject, toRaw} from 'vue'
+import TimePickerMode from './mode/timePicker'
+import xmvTimePanel from './panel.vue'
 import xmvTimeHour from './hour.vue'
 import xmvTimeMinute from './minute.vue'
 import xmvTimeSecond from './second.vue'
+import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvTimePicker",
     props:{
-        modelValue : String
+        modelValue : String | Array,
+        isRange : String,
+        splitSymbol : {type : String ,default : ":"},
+        size : String
     },
-    components:{xmvTimeHour ,xmvTimeMinute ,xmvTimeSecond},
+    components:{xmvTimePanel ,xmvTimeHour ,xmvTimeMinute ,xmvTimeSecond},
     setup(props ,context) {
+
+        const panelRef = ref(null)
+        const panleRightRef = ref(null)
         const inputRef = ref(null)
-        const hourRef = ref('0')
-        const minuteRef = ref('0')
-        const secondRef = ref('0')
+        const leftInputRef = ref(null)
+        const rightInputRef = ref(null)
 
-        const timeHourRef = ref(null)
-        const timeMinuteRef = ref(null)
-        const timeSecondRef = ref(null)
+        const timePickerMode = new TimePickerMode()
+        const timePickerRightMode = new TimePickerMode()
+        
+        const XmvEventOn = inject('Xmv-Event-On')
+        const isActive = ref(false)
 
-        provide('Hour' ,hourRef)
-        provide('Minute' ,minuteRef)
-        provide('Second' ,secondRef)
+        const eventBus = reactive({
+            listeners : {}
+        })
 
-        const handleHourVal = ()=>{
-            setVal()
-        }
+        const {$on ,$emit} = createEventBus(eventBus)
+        provide('EventBus' ,{$on ,$emit})
+        provide('IsRange' ,props.isRange != undefined)
 
-        const handleMinuteVal = ()=>{
-            setVal()
-        }
-
-        const handleSecondVal = ()=>{
-            setVal()
-        }
+        XmvEventOn('mouseup' ,(e)=>{
+            isActive.value = false
+        })
 
         const handleClear = ()=>{
             context.emit('update:modelValue' ,'')
         }
 
-        const zeroFill = (val)=>{
-            if (val < 10){
-                return '0' + val
-            }
-            return val
-        }
-
-        const modelValueWatch = computed(()=>{
-            return props.modelValue
-        })
-
-        watch(modelValueWatch ,(newVal)=>{
+        watch(()=>props.modelValue ,(newVal)=>{
             decomposeVal(newVal)
         })
-
-        const dispatchVal = ()=>{
-            timeHourRef.value.setVal(hourRef.value)
-            timeMinuteRef.value.setVal(minuteRef.value)
-            timeSecondRef.value.setVal(secondRef.value)
-        }
 
         const decomposeVal = (val)=>{
             if (isEmpty(val)){
                 return false
             }
-            let list = val.split(':')
-            hourRef.value = parseInt(list[0])
-            minuteRef.value = parseInt(list[1])
-            secondRef.value = parseInt(list[2])
-            dispatchVal()
+            if (props.isRange != undefined){
+                val[0] && panelRef.value.dispatchVal(val[0])
+                val[1] && panleRightRef.value.dispatchVal(val[1])
+
+
+                $emit('disabled' ,{flag : false})
+
+                if ( (val[0] && !val[1]) || (!val[0] && val[1]) ){
+                    let list1 = val[0].split(":")
+                    let list2 = val[1].split(":")
+                    $emit('range' ,{pos:'left' ,val : list1[0] ,type:'hour'})
+                    $emit('range' ,{pos:'right' ,val : list2[0] ,type:'hour'})
+                }else if(val[0] && val[1]){
+                    
+                    let list1 = val[0].split(":")
+                    let list2 = val[1].split(":")
+
+                    $emit('range' ,{pos:'left' ,val : list1[0] ,type:'hour'})
+                    $emit('range' ,{pos:'right' ,val : list2[0] ,type:'hour'})
+                    if (list1[0] == list2[0]){
+                        $emit('range' ,{pos:'left' ,val : list1[1] ,type:'minute'})
+                        $emit('range' ,{pos:'right' ,val : list2[1] ,type:'minute'})
+                        if ( list1[1] == list2[1] ){
+                            $emit('range' ,{pos:'left' ,val : list1[2] ,type:'second'})
+                            $emit('range' ,{pos:'right' ,val : list2[2] ,type:'second'})
+                        }
+                    }
+                }
+            }else{
+                panelRef.value.dispatchVal(val)
+            }
         }
 
-        const setVal = ()=>{
-            inputRef.value.val(
-                    zeroFill(hourRef.value) + ":" 
-                    + zeroFill(minuteRef.value) + ":" 
-                    + zeroFill(secondRef.value))
-            if (props.modelValue != undefined){
-                context.emit('update:modelValue' ,inputRef.value.getVal())
+        const handleVal = (info)=>{
+            if (props.isRange != undefined){
+                context.emit('update:modelValue' ,[
+                    timePickerMode.inputEl.value,
+                    timePickerRightMode.inputEl.value
+                ])
+            }else{
+                context.emit('update:modelValue' ,info.value)
             }
         }
 
         const handlePopoverShow = ()=>{
-            dispatchVal()
+            decomposeVal(props.modelValue)
+        }
+
+        const handleTimeRangeMouseup = ()=>{
+            isActive.value = true
+        }
+
+        const handleTimeRangeClose = ()=>{
+            leftInputRef.value.value = ''
+            rightInputRef.value.value = ''
+            $emit('disabled' ,{flag : false})
+            context.emit('update:modelValue' ,[])
         }
 
         onMounted(()=>{
-            inputRef.value.setInputWidth(1)
-            if (!isEmpty(props.modelValue)){
-                decomposeVal(props.modelValue)
-                inputRef.value.val(
-                        zeroFill(hourRef.value) + ":" 
-                        + zeroFill(minuteRef.value) + ":" 
-                        + zeroFill(secondRef.value))
+            if (props.isRange != undefined){
+                timePickerMode.inputEl = leftInputRef.value
+                timePickerRightMode.inputEl = rightInputRef.value
+            }else{
+                timePickerMode.inputEl = inputRef.value.inputRef
             }
+
+            inputRef.value && inputRef.value.setInputWidth(1)
+            decomposeVal(props.modelValue)
         })
 
-        return {hourRef ,minuteRef ,secondRef , timeHourRef,timeMinuteRef,timeSecondRef,
-                 inputRef ,handleHourVal ,handleMinuteVal ,handleSecondVal ,handlePopoverShow ,handleClear}
+        return {panelRef,panleRightRef,inputRef,timePickerMode,timePickerRightMode,isActive,
+                leftInputRef ,rightInputRef ,
+                handlePopoverShow ,handleClear ,handleVal ,handleTimeRangeMouseup ,handleTimeRangeClose}
     }
 })
 </script>

@@ -134,7 +134,7 @@
     box-sizing: border-box;
 }
 
-.xmv-month-table td .cell {
+.xmv-month-table td .xmv-date-table-cell__text {
     width: 60px;
     height: 36px;
     display: block;
@@ -153,8 +153,9 @@
     font-weight: 700;
 }
 
-.xmv-month-table td.current:not(.disabled) .xmv-date-table-cell__text {
-    color: var(--xmv-datepicker-active-color);
+.xmv-month-table td.current:not(.disabled):not(.today) .xmv-date-table-cell__text {
+    color: var(--xmv-color-white);
+    background-color: var(--xmv-datepicker-active-color);
 }
 
 .xmv-date-editor.xmv-input__wrapper {

@@ -1,7 +1,7 @@
 <template>
     <i class="xmv-icon">
-        <component :is="oriIcon" v-if="oriIcon != undefined"></component>
-        <component :is="name" v-else></component>
+        <component :is="name" v-if="typeof name == 'string'"></component>
+        <component :is="tRaw(name)" v-else></component>
     </i>
 </template>
 
@@ -55,14 +55,18 @@ export default defineComponent({
                 pieChart,lineChart,barChart
               },
     props:{
-        name : '',
+        name : String | Object,
         icon : Object
     },
     setup(props ,context) {
 
         const oriIcon = toRaw(props.icon)
 
-        return {oriIcon}
+        const tRaw = (val)=>{
+            return toRaw(val)
+        }
+
+        return {oriIcon ,tRaw}
     }
 })
 </script>

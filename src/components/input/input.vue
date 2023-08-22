@@ -3,7 +3,7 @@
         <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}" v-if="type != 'textarea'">
             <span class="xmv-input__prefix" v-if="isShowPrefix" @click="handlePrefixClick">
                 <span class="xmv-input__prefix-inner">
-                    <xmv-icon :name="prefixicon" class="xmv-input__icon"></xmv-icon>
+                    <xmv-icon :name="prefixIcon" class="xmv-input__icon"></xmv-icon>
                 </span>
             </span>
             <input class="xmv-input__inner" 
@@ -30,7 +30,7 @@
                     @mouseup="handleIconPwdClick"></xmv-icon>
                     <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
                     @mouseup="handleIconClearClick"></xmv-icon>
-                    <xmv-icon :name="suffixicon"  class="xmv-input__icon" v-if="suffixicon != undefined" ref="suffixiconRef"></xmv-icon>
+                    <xmv-icon :name="suffixIcon"  class="xmv-input__icon" v-if="suffixIcon != undefined" ref="suffixiconRef"></xmv-icon>
                 </span>
             </span>
         </div>
@@ -51,9 +51,9 @@ export default defineComponent({
         disabled : Boolean,
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
-        showpassword : String,
-        prefixicon : String,
-        suffixicon : String,
+        showPassword : String,
+        prefixIcon : String | Object,
+        suffixIcon : String | Object,
         clearable : String,
         size : String,
         modelValue : String,
@@ -131,10 +131,10 @@ export default defineComponent({
                 }
             }
 
-            if (props.clearable != undefined || props.showpassword != undefined){
+            if (props.clearable != undefined || props.showPassword != undefined){
                 // 判断输入框里是否有值
                 if (inputRef.value.value){
-                    if (props.showpassword != undefined){
+                    if (props.showPassword != undefined){
                         isShowSuffix.value = true
                         pwdShow.value = true
                     }
@@ -145,7 +145,7 @@ export default defineComponent({
                 }else{
                     pwdShow.value = false
                     clearShow.value = false
-                    isShowSuffix.value = (props.suffixicon != undefined)
+                    isShowSuffix.value = (props.suffixIcon != undefined)
                 }
             }
 
@@ -183,13 +183,13 @@ export default defineComponent({
         }
 
         const initPrefix = ()=>{
-            if (props.prefixicon != undefined){
+            if (props.prefixIcon != undefined){
                 isShowPrefix.value = true
             }
         }
 
         const initSuffix = ()=>{
-            if (props.suffixicon != undefined){
+            if (props.suffixIcon != undefined){
                 isShowSuffix.value = true
             }
         }
@@ -240,7 +240,7 @@ export default defineComponent({
 
         onMounted(()=>{
             // 前后都有图标的时候，需要显示设置inputRef的值
-            if (isFirefox && props.prefixicon != undefined && props.suffixicon != undefined){
+            if (isFirefox && props.prefixIcon != undefined && props.suffixIcon != undefined){
                 inputRef.value.style.width = '1px'
             }
 

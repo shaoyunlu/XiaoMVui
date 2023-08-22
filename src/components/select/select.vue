@@ -9,7 +9,7 @@
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
                     <xmv-input 
                         :placeholder="computePlaceholder" 
-                        suffixicon="arrowDown" 
+                        suffix-icon="arrowDown" 
                         :ref="selectMode.inputRef"></xmv-input>
                 </div>
             </div>

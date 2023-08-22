@@ -2,7 +2,7 @@
     <xmv-popover :beStripped="true" @show="handlePopoverShow">
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor--time" :size="size" v-if="isRange == undefined"
-            prefixicon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
+            prefix-icon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
 
             <div v-else
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 

@@ -3,7 +3,7 @@
     <xmv-popover ref="popoverRef">
         <template #trigger>
             <div class="xmv-cascader">
-                <xmv-input suffixicon="arrowDown" ref="inputRef"></xmv-input>
+                <xmv-input suffix-icon="arrowDown" ref="inputRef"></xmv-input>
             </div>
         </template>
         <div class="xmv-cascader-panel">

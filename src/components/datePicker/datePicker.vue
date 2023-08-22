@@ -3,7 +3,7 @@
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date" :size="size"
                 v-if="type != 'daterange' && type != 'monthrange'" 
-                prefixicon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
+                prefix-icon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
             <div v-if="type == 'daterange' || type == 'monthrange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
                         xmv-range-editor xmv-range-editor--default"

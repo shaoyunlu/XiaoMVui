@@ -2,8 +2,10 @@
     <label class="xmv-radio" @click="handleClick"
         :class="{
                     'xmv-radio--large':size == 'large',
+                    'xmv-radio--small':size == 'small',
                     'is-checked':isChecked,
-                    'is-disabled':disabled
+                    'is-disabled':disabled,
+                    'is-bordered':border
                 }">
         <span class="xmv-radio__input" :class="{'is-checked':isChecked,'is-disabled':disabled}" >
             <input type="radio" class="xmv-radio__original" :value="label" :name="name" ref="inputRef">
@@ -22,7 +24,8 @@ export default defineComponent({
     props:{
         label : String,
         size : String,
-        disabled : Boolean
+        disabled : Boolean,
+        border : {type : Boolean ,default : false}
     },
     setup(props ,context) {
         const {$on ,$emit} = inject('EventBus')

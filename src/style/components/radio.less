@@ -25,6 +25,28 @@
     &:last-child{
         margin-right: 0;
     }
+    &.is-bordered {
+        padding: 0 15px 0 9px;
+        border-radius: var(--xmv-border-radius-base);
+        border: var(--xmv-border);
+        box-sizing: border-box;
+    }
+
+    &.is-bordered.is-checked {
+        border-color: var(--xmv-color-primary);
+    }
+    &.is-bordered.xmv-radio--large {
+        padding: 0 19px 0 11px;
+        border-radius: var(--xmv-border-radius-base);
+    }
+    &.is-bordered.xmv-radio--small {
+        padding: 0 11px 0 7px;
+        border-radius: var(--xmv-border-radius-base);
+    }
+    &.is-bordered.is-disabled {
+        cursor: not-allowed;
+        border-color: var(--xmv-border-color-lighter);
+    }
 }
 
 .xmv-radio__input {
@@ -90,17 +112,26 @@
     color: var(--xmv-color-primary);
 }
 
-.xmv-radio.xmv-radio--large .xmv-radio__inner {
-    width: 14px;
-    height: 14px;
-}
-
 .xmv-radio.xmv-radio--large {
     height: 40px;
+    .xmv-radio__inner {
+        width: 16px;
+        height: 16px;
+    }
+    .xmv-radio__label {
+        font-size: 16px;
+    }
 }
 
-.xmv-radio.xmv-radio--large .xmv-radio__label {
-    font-size: 14px;
+.xmv-radio.xmv-radio--small {
+    height: 24px;
+    .xmv-radio__inner {
+        width: 12px;
+        height: 12px;
+    }
+    .xmv-radio__label {
+        font-size: 12px;
+    }
 }
 
 .xmv-radio__input.is-disabled .xmv-radio__inner {

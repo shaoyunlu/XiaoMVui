@@ -19,17 +19,16 @@ export default defineComponent({
     props:{
         label : String,
         size : String,
-        disabled : String
+        disabled : Boolean
     },
     setup(props ,context) {
         const {$on ,$emit} = inject('EventBus')
         const name = inject('Name')
         const isChecked = ref(false)
         const inputRef = ref(null)
-        const disabled = ref(props.disabled != undefined)
 
         const handleClick = ()=>{
-            if (disabled.value){
+            if (props.disabled){
                 return false
             }
             if (!isChecked.value){
@@ -47,8 +46,8 @@ export default defineComponent({
             }
         })
 
-        watch(disabled ,(newVal ,oldVal)=>{
-            if (disabled.value){
+        watch(()=>props.disabled ,(newVal ,oldVal)=>{
+            if (newVal){
                 inputRef.value.setAttribute('disabled','disabled')
             }else{
                 inputRef.value.removeAttribute('disabled')
@@ -56,12 +55,12 @@ export default defineComponent({
         })
 
         onMounted(()=>{
-            if (disabled.value){
+            if (props.disabled){
                 inputRef.value.setAttribute('disabled','disabled')
             }
         })
 
-        return {name,inputRef,disabled ,handleClick}
+        return {name,inputRef ,handleClick}
     }
 })
 </script>

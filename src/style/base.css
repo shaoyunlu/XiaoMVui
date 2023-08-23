@@ -31,7 +31,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .xmv-place-span{display: none;}
 
-@keyframes rotating
+@keyframes xmv-rotating
 {
     0% {
         transform:rotate(0)
@@ -41,13 +41,13 @@ input[type=number]::-webkit-outer-spin-button {
         transform:rotate(360deg)
     }
 }
-@keyframes loading-dash
+@keyframes xmv-loading-dash
 {
     100% {
         transform: rotate(360deg);
     }
 }
-@keyframes loading-dash
+@keyframes xmv-loading-dash
 {
     0% {
         stroke-dasharray: 1,200;

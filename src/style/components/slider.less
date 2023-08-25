@@ -20,6 +20,15 @@
     border-radius: var(--xmv-slider-border-radius);
     position: relative;
     cursor: pointer;
+    &.is-disabled {
+        cursor: default;
+        .xmv-slider__button {
+            border-color: var(--xmv-slider-disabled-color);
+        }
+        .xmv-slider__bar{
+            background-color: var(--xmv-slider-disabled-color);
+        }
+    }
 }
 
 .xmv-slider--with-input .xmv-slider__runway {
@@ -71,7 +80,7 @@
 .xmv-slider__button:hover, 
 .xmv-slider.dragging .xmv-slider__button
 {
-    transform: scale(1.2);
+    transform: scale(1);
 }
 
 .xmv-slider__button:hover, .xmv-slider__button.hover {

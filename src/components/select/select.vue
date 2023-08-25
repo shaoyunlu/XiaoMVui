@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover :ref="selectMode.popoverRef">
+    <xmv-popover :ref="selectMode.popoverRef" @hide="handlePopoverHide">
         <template #trigger>
             <div class="xmv-select" 
                 :class="computeClass" 
@@ -7,10 +7,15 @@
                 @click="handleActive">
                 <div class="select-trigger">
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
-                    <xmv-input 
-                        :placeholder="computePlaceholder" 
+                    <xmv-input
+                        :size="size"
+                        :placeholder="inputPlaceholder" 
                         suffix-icon="arrowDown" 
-                        :ref="selectMode.inputRef"></xmv-input>
+                        :ref="selectMode.inputRef"
+                        :disabled="disabled"
+                        :clearable="clearable"
+                        @input="handleInputInput"
+                        @clear="handleInputClear"></xmv-input>
                 </div>
             </div>
         </template>
@@ -26,6 +31,7 @@
                         :notAssociated="notAssociated"
                         @nodeClick="handleNodeClick"
                         @nodeCheck="handleNodeCheck"></xmv-tree>
+                    <div class="xmv-select-empty" v-if="selectMode.isEmpty.value">没有查找到相关数据</div>
                 </ul>
             </xmv-scrollbar>
         </div>
@@ -34,7 +40,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, provide, reactive ,computed, nextTick ,watch} from 'vue'
+import {defineComponent, onMounted, provide, reactive ,computed, nextTick ,watch ,ref} from 'vue'
 import SelectMode from './mode/selectMode'
 import xmvSelectItem from './item.vue'
 import {createEventBus} from 'utils/event'
@@ -45,43 +51,41 @@ export default defineComponent({
     components:{xmvSelectItem},
     emits : ['nodeClick' ,'nodeCheck' ,'update:modelValue'],
     props:{
-        disabled : String,
+        disabled : Boolean,
+        clearable : Boolean,
         multiple : String,
+        size : String,
         collapseTags : String,
         maxcollapseTags : Number,
         filterable : String,
         type:{type:String ,default:'select'},
         notAssociated : String,
-        modelValue : [String,Number]
+        modelValue : [String,Number,Array]
     },
     components:{xmvSelectItem},
     setup(props ,context) {
 
         const selectMode = new SelectMode(props)
-
+        const placeholderMsg = '请选择'
         const eventBus = reactive({
             listeners : {}
         })
 
         const {$on ,$emit} = createEventBus(eventBus)
+        const inputPlaceholder = ref(placeholderMsg)
 
         const computeClass = computed(()=>{
             let res = []
-            if (selectMode.disabled.value){
+            if (props.disabled){
                 res.push('xmv-select--disabled')
             }
             if (selectMode.multiple.value){
                 res.push('is-multiple')
             }
-            return res
-        })
-
-        const computePlaceholder = computed(()=>{
-            if (selectMode.rctData.sData.length == 0){
-                return '请选择'
-            }else{
-                return ''
+            if (props.size != undefined){
+                res.push('xmv-select--' + props.size)
             }
+            return res
         })
 
         provide('SelectMode' ,selectMode)
@@ -94,7 +98,7 @@ export default defineComponent({
                     selectMode.adjustWH()
                 })
                 if (props.modelValue != undefined){
-                    context.emit('update:modelValue' ,selectMode.getSelectedValList().join(','))
+                    context.emit('update:modelValue' ,selectMode.getSelectedValList())
                 }
                 context.emit('nodeCheck' ,selectMode.rctData.sData)
             }else{
@@ -112,10 +116,23 @@ export default defineComponent({
         })
 
         const handleActive = ()=>{
-            if (!selectMode.disabled.value){
+            selectMode.isEmpty.value = false
+            if (!props.disabled){
                 selectMode.inputRef.value.focus()
                 selectMode.popoverRef.value.enable()
             }
+
+            if (selectMode.filterable.value){
+                selectMode.showAll()
+                let sData = selectMode.rctData.sData
+                selectMode.inputRef.value.inputRef.value = ''
+                if (isEmpty(sData)){
+                    inputPlaceholder.value = placeholderMsg
+                }else{
+                    let label = sData[0].label  
+                    inputPlaceholder.value = label
+                }
+            }   
         }
 
         const loadTreeData = (data)=>{
@@ -146,6 +163,30 @@ export default defineComponent({
             selectMode.treeRef.value.setValue(value)
         }
 
+        const handleInputInput = ()=>{
+            if (selectMode.filterable.value){
+                selectMode.filter(selectMode.inputRef.value.getVal())
+            }
+        }
+
+        const handleInputClear = ()=>{
+            inputPlaceholder.value = placeholderMsg
+            context.emit('update:modelValue' ,"")
+        }
+
+        const handlePopoverHide = ()=>{
+            if (selectMode.filterable){
+                let sData = selectMode.rctData.sData
+                if (isEmpty(sData)){
+                    selectMode.inputRef.value.inputRef.value = ''
+                    inputPlaceholder.value = placeholderMsg
+                }else{
+                    let label = sData[0].label  
+                    selectMode.inputRef.value.inputRef.value = label
+                }
+            }
+        }
+
         const modelValueWatch = computed(()=>{
             return props.modelValue
         })
@@ -155,9 +196,8 @@ export default defineComponent({
         })
 
         const handleWatch = (val)=>{
-            val = (val == null ? '': val)
             if (props.multiple != undefined){
-                let list = val.split(',')
+                let list = val
                 selectMode.rctData.sData = []
                 list.forEach(item =>{
                     let __data = filter(selectMode.rctData.options ,tmp=>{
@@ -171,7 +211,11 @@ export default defineComponent({
                 selectMode.rctData.sData = filter(selectMode.rctData.options ,tmp=>{
                     return tmp.value == val
                 })
-                selectMode.inputRef.value.val(selectMode.rctData.sData[0].label) 
+                if (!isEmpty(selectMode.rctData.sData)){
+                    selectMode.inputRef.value.val(selectMode.rctData.sData[0].label)
+                }else{
+                    selectMode.inputRef.value.val("")
+                }
             }
             
             nextTick(()=>{
@@ -181,28 +225,24 @@ export default defineComponent({
 
         onMounted(()=>{
             selectMode.rctData.dropdownWidth = selectMode.selectRef.value.clientWidth - 2
-
-            if (selectMode.disabled.value){
-                selectMode.inputRef.value.disabled()
+            if (props.disabled){
                 selectMode.popoverRef.value.disabled()
             }
-
             if (selectMode.multiple.value){
                 // 需要设置最小高度
                 selectMode.inputRef.value.inputRef.style['min-height'] = '30px'
             }
-
-            if (!selectMode.filterable){
+            if (!selectMode.filterable.value){
                 selectMode.inputRef.value.inputRef.setAttribute('readonly' ,'')
             }
-
             if (!isEmpty(props.modelValue)){
                 handleWatch(props.modelValue)
             }
         })
 
-        return {selectMode ,computeClass ,computePlaceholder,loadTreeData,
-                handleActive ,handleNodeClick ,handleNodeCheck ,setTreeValue ,setTreeMultipleValue}
+        return {selectMode ,computeClass ,inputPlaceholder,loadTreeData,
+                handleActive ,handleNodeClick ,handleNodeCheck ,setTreeValue ,
+                setTreeMultipleValue,handleInputClear,handleInputInput,handlePopoverHide}
     }
 })
 </script>

@@ -7,14 +7,14 @@ export default defineComponent({
     name:"xmvOption",
     props:{
         label : String,
-        value : String
+        value : String,
+        disabled : {type : Boolean,default : false},
+        hide : {type : Boolean,default : false}
     },
-    setup(props ,context) {
+    setup({label ,value,disabled ,hide} ,context) {
 
         const selectMode = inject('SelectMode')
-
-        selectMode.rctData.options.push(props)
-
+        selectMode.rctData.options.push({label ,value,disabled ,hide})
         return {}
     }
 })

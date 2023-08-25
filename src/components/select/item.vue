@@ -1,6 +1,6 @@
 <template>
-    <li class="xmv-select-dropdown__item" @mouseover="handleMouseover" @click="handleClick"
-        :class="{'hover' : isHover  ,'selected' : isSelect}">
+    <li class="xmv-select-dropdown__item" @mouseover="handleMouseover" @click="handleClick" v-show="!data.hide"
+        :class="{'hover' : isHover  ,'selected' : isSelect ,'disabled' : data.disabled}">
         <span>{{data.label}}</span>
     </li>
 </template>
@@ -14,7 +14,6 @@ export default defineComponent({
         data : Object
     },
     setup(props ,context) {
-
         const selectMode = inject('SelectMode')
         const {$on ,$emit} = inject('EventBus')
         const isHover = ref(false)
@@ -39,6 +38,9 @@ export default defineComponent({
         }
 
         const handleClick = ()=>{
+            if (props.data.disabled){
+                return false
+            }
             if (selectMode.multiple.value){
                 // 切换
                 let pData = props.data

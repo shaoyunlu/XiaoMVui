@@ -24,6 +24,7 @@ import dArrowRight from './category/dArrowRight.vue'
 import dlt from './category/delete.vue'
 import download from './category/download.vue'
 import edit from './category/edit.vue'
+import empty from './category/empty.vue'
 import hide from './category/hide.vue'
 import infoFilled from './category/infoFilled.vue'
 import loading from './category/loading.vue'
@@ -49,7 +50,7 @@ export default defineComponent({
     components:{
                 plus ,minus ,search ,close ,arrowLeft ,arrowRight ,arrowUp ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
-                edit ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
+                edit ,empty ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
                 vew ,hide ,calendar ,clock,upload,download,infoFilled,successFilled,
                 warningFilled,moreFilled,document,zoomIn,zoomOut,message,star,
                 pieChart,lineChart,barChart

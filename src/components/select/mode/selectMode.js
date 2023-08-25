@@ -1,4 +1,4 @@
-import { reactive, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 
 class SelectMode{
     constructor(props){
@@ -11,8 +11,8 @@ class SelectMode{
         this.inputRef = ref(null)
         this.popoverRef = ref(null)
         this.treeRef = ref(null)
+        this.isEmpty = ref(false)
         this.tagsRef
-        this.disabled = ref(props.disabled != undefined)
         this.multiple = ref(props.multiple != undefined)
         this.collapseTags = ref(props.collapseTags != undefined)
         this.filterable = ref(props.filterable != undefined)
@@ -32,6 +32,27 @@ class SelectMode{
             res.push(tmp.value)
         })
         return res
+    }
+
+    filter(label){
+        let flag = true
+        this.rctData.options.forEach(option =>{
+            option.hide = (!option.label.includes(label))
+            if (!option.hide){
+                flag = false
+            }
+        })
+        this.isEmpty.value = flag
+        nextTick(()=>{
+            this.popoverRef.value.setPosition()
+        })
+        
+    }
+
+    showAll(){
+        this.rctData.options.forEach(option =>{
+            option.hide = false
+        })
     }
 }
 

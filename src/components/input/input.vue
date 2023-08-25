@@ -1,6 +1,8 @@
 <template>
     <div :class="computeClass" ref="xmvInputRef">
-        <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}" v-if="type != 'textarea'">
+        <div class="xmv-input__wrapper" :class="{'is-focus' : isFocus}" 
+            @mouseover="handleMouseover" 
+            @mouseleave="handleMouseleave" v-if="type != 'textarea'">
             <span class="xmv-input__prefix" v-if="isShowPrefix" @click="handlePrefixClick">
                 <span class="xmv-input__prefix-inner">
                     <xmv-icon :name="prefixIcon" class="xmv-input__icon"></xmv-icon>
@@ -24,13 +26,12 @@
                 :placeholder="placeholder"
                 @focus="handleInputFocus" @blur="handleInputBlur"
                 @input="handleInputInput" v-else>
-            <span class="xmv-input__suffix" v-if="isShowSuffix" ref="suffixRef" @click="handleSuffixClick">
+            <span class="xmv-input__suffix" v-if="computeShowSuffix" @click="handleSuffixClick">
                 <span class="xmv-input__suffix-inner">
                     <xmv-icon :name="pwdIconName" class="xmv-input__icon" v-if="pwdShow"
                     @mouseup="handleIconPwdClick"></xmv-icon>
-                    <xmv-icon name="circleClose" class="xmv-input__icon" v-if="clearShow"
-                    @mouseup="handleIconClearClick"></xmv-icon>
-                    <xmv-icon :name="suffixIcon"  class="xmv-input__icon" v-if="suffixIcon != undefined" ref="suffixiconRef"></xmv-icon>
+                    <xmv-icon :name="rightIconName"  class="xmv-input__icon" v-if="suffixIcon != undefined || clearable" 
+                    ref="suffixiconRef" @mouseup="handleRightIconClick"></xmv-icon>
                 </span>
             </span>
         </div>
@@ -47,15 +48,15 @@ import {isFirefox} from 'utils/dict'
 import { isEmpty } from 'utils/data'
 export default defineComponent({
     name:"xmvInput",
-    emits:['blur','input','clear','update:modelValue'],
+    emits:['blur','input','clear','update:modelValue','iconClick','focus'],
     props:{
         disabled : Boolean,
         type : {type:String ,default:'text'},
         placeholder : {type:String ,default:'请输入'},
-        showPassword : String,
+        showPassword : Boolean,
         prefixIcon : String | Object,
         suffixIcon : String | Object,
-        clearable : String,
+        clearable : Boolean,
         size : String,
         modelValue : String,
         rows:Number,
@@ -68,18 +69,20 @@ export default defineComponent({
         const isFocus = ref(false)
         const inputRef = ref(null)
         const isShowPrefix = ref(false)
-        const isShowSuffix = ref(false)
-        const iconName = ref('')
         const suffixiconRef = ref(null)
         const pwdIconName = ref('hide')
-        const suffixRef = ref(null)
         const inputType = ref(props.type)
         const pwdShow = ref(false)
         const clearShow = ref(false)
+        const rightIconName = ref(props.suffixIcon)
 
         const minRowsRef = ref(1)
         const textareaHeightRef = ref(null)
         const maxTextareaHeightRef = ref(9999)
+
+        const computeShowSuffix = computed(()=>{
+            return (props.suffixIcon != undefined || props.clearable || props.showPassword)
+        })
 
         const computeClass = computed(()=>{
             let res = []
@@ -112,12 +115,29 @@ export default defineComponent({
         })
 
         const handleInputFocus = ()=>{
+            if (inputRef.value.value && props.clearable){
+                showClearable()
+            }
             isFocus.value = true
+            context.emit('focus')
         }
 
         const handleInputBlur = (e)=>{
+            hideClearable()
             isFocus.value = false
             context.emit('blur' ,e)
+        }
+
+        const handleMouseover = ()=>{
+            if (inputRef.value.value && props.clearable){
+                showClearable()
+            }
+        }
+
+        const handleMouseleave = ()=>{
+            if (!isFocus.value){
+                hideClearable()
+            }
         }
 
         const handleInputInput = ()=>{
@@ -131,21 +151,18 @@ export default defineComponent({
                 }
             }
 
-            if (props.clearable != undefined || props.showPassword != undefined){
+            if (props.clearable || props.showPassword){
                 // 判断输入框里是否有值
                 if (inputRef.value.value){
-                    if (props.showPassword != undefined){
-                        isShowSuffix.value = true
+                    if (props.showPassword){
                         pwdShow.value = true
                     }
-                    if (props.clearable != undefined){
-                        isShowSuffix.value = true
-                        clearShow.value = true
+                    if (props.clearable && isFocus.value){
+                        showClearable()
                     }
                 }else{
                     pwdShow.value = false
-                    clearShow.value = false
-                    isShowSuffix.value = (props.suffixIcon != undefined)
+                    hideClearable()
                 }
             }
 
@@ -156,6 +173,18 @@ export default defineComponent({
                 context.emit('update:modelValue' ,inputRef.value.value)
             }
             context.emit('input' ,inputRef.value.value)
+        }
+
+        const showClearable = ()=>{
+            rightIconName.value = 'circleClose'
+        }
+
+        const hideClearable = ()=>{
+            if (props.suffixIcon != undefined){
+                rightIconName.value = props.suffixIcon
+            }else{
+                rightIconName.value = 'empty'
+            }
         }
 
         const handlePrefixClick = ()=>{
@@ -180,17 +209,21 @@ export default defineComponent({
             inputRef.value.value = ''
             handleInputInput()
             context.emit('clear')
+            focus()
+        }
+
+        const handleRightIconClick = ()=>{
+            if (props.clearable){
+                handleIconClearClick()
+            }else{
+                context.emit('iconClick' ,inputRef.value.value)
+            }
+
         }
 
         const initPrefix = ()=>{
             if (props.prefixIcon != undefined){
                 isShowPrefix.value = true
-            }
-        }
-
-        const initSuffix = ()=>{
-            if (props.suffixIcon != undefined){
-                isShowSuffix.value = true
             }
         }
 
@@ -212,8 +245,6 @@ export default defineComponent({
         }
 
         initPrefix()
-
-        initSuffix()
 
         const aujustTextareaHeight = ()=>{
             inputRef.value.style.height = 'auto'
@@ -256,13 +287,16 @@ export default defineComponent({
             if (props.disabled){
                 inputRef.value.setAttribute('disabled' ,'')
             }
+
+            hideClearable()
         })
 
-        return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,isShowSuffix ,iconName , suffixRef,
+        return {isFocus ,xmvInputRef ,inputRef, isShowPrefix ,
                 inputType,pwdIconName ,pwdShow ,clearShow, computeClass, suffixiconRef,computeDisable,
-                computeTextareaStyle,minRowsRef,textareaHeightRef,
+                computeTextareaStyle,minRowsRef,textareaHeightRef,computeShowSuffix,rightIconName,
                 handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
-                handleIconPwdClick ,handleIconClearClick ,focus ,val ,setInputWidth ,getVal}
+                handleMouseover,handleIconPwdClick ,handleIconClearClick ,focus ,val ,setInputWidth ,getVal,
+                handleRightIconClick,handleMouseleave}
     }
 })
 </script>

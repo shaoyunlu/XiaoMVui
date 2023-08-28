@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover :beStripped="true" @show="handlePopoverShow">
+    <xmv-popover :beStripped="true" @show="handlePopoverShow" @hide="handlePopoverHide">
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor--time" :size="size" v-if="isRange == undefined"
             prefix-icon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
@@ -11,9 +11,9 @@
                 @click="handleTimeRangeMouseup"
                 ref="daterangeRef">
                 <xmv-icon name="clock" class="xmv-input__icon xmv-range__icon"></xmv-icon>
-                <input type="text" class="xmv-range-input" ref="leftInputRef">
+                <input type="text" class="xmv-range-input" ref="leftInputRef" placeholder="请输入">
                 <span class="xmv-range-separator">到</span>
-                <input type="text" class="xmv-range-input" ref="rightInputRef">
+                <input type="text" class="xmv-range-input" ref="rightInputRef" placeholder="请输入">
                 <xmv-icon name="circleClose" @click.stop="handleTimeRangeClose"
                 class="xmv-input__icon xmv-range__close-icon"></xmv-icon>
             </div>
@@ -33,6 +33,8 @@
 
 <script>
 import {reactive, defineComponent, onMounted, provide ,ref, watch ,inject, toRaw} from 'vue'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import TimePickerMode from './mode/timePicker'
 import xmvTimePanel from './panel.vue'
 import xmvTimeHour from './hour.vue'
@@ -46,10 +48,15 @@ export default defineComponent({
         modelValue : String | Array,
         isRange : String,
         splitSymbol : {type : String ,default : ":"},
-        size : String
+        size : String,
+        disabledHours : Array,
+        disabledMinutes : Array,
+        disabledSeconds : Array
     },
     components:{xmvTimePanel ,xmvTimeHour ,xmvTimeMinute ,xmvTimeSecond},
     setup(props ,context) {
+
+        dayjs.extend(customParseFormat)
 
         const panelRef = ref(null)
         const panleRightRef = ref(null)
@@ -133,6 +140,41 @@ export default defineComponent({
             decomposeVal(props.modelValue)
         }
 
+        const handlePopoverHide = ()=>{
+            if (props.isRange != undefined){
+                let leftVal = timePickerMode.inputEl.value
+                let rightVal = timePickerRightMode.inputEl.value
+
+                let leftFlag = dayjs(leftVal, 'HH:mm:ss', true).isValid()
+                let rightFlag = dayjs(rightVal, 'HH:mm:ss', true).isValid()
+
+                if (leftFlag || isEmpty(leftVal)){
+                }else{
+                    timePickerMode.inputEl.value = props.modelValue[0]?props.modelValue[0]:""
+                }
+
+                if (rightFlag || isEmpty(rightVal)){
+                }else{
+                    timePickerRightMode.inputEl.value = props.modelValue[1]?props.modelValue[1]:""
+                }
+
+                context.emit('update:modelValue' ,[
+                    timePickerMode.inputEl.value,
+                    timePickerRightMode.inputEl.value
+                ])
+            }else{
+                let val = inputRef.value.getVal()
+                let flag = dayjs(val, 'HH:mm:ss', true).isValid()
+                if (flag || isEmpty(val)){
+                    if (val != props.modelValue){
+                        context.emit('update:modelValue' ,val)
+                    }
+                }else{
+                    inputRef.value.val(props.modelValue)
+                }
+            }
+        }
+
         const handleTimeRangeMouseup = ()=>{
             isActive.value = true
         }
@@ -154,11 +196,16 @@ export default defineComponent({
 
             inputRef.value && inputRef.value.setInputWidth(1)
             decomposeVal(props.modelValue)
+
+            $emit('setDisabledHour' ,props.disabledHours)
+            $emit('setDisabledMinute' ,props.disabledMinutes)
+            $emit('setDisabledSecond' ,props.disabledSeconds)
         })
 
         return {panelRef,panleRightRef,inputRef,timePickerMode,timePickerRightMode,isActive,
                 leftInputRef ,rightInputRef ,
-                handlePopoverShow ,handleClear ,handleVal ,handleTimeRangeMouseup ,handleTimeRangeClose}
+                handlePopoverShow ,handleClear ,handleVal ,
+                handleTimeRangeMouseup ,handleTimeRangeClose ,handlePopoverHide}
     }
 })
 </script>

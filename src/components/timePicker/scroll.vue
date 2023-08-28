@@ -11,6 +11,7 @@
 <script>
 import {defineComponent ,inject,ref} from 'vue'
 import {debounce} from 'utils/event'
+import {sortIndexesByDistance} from './utils'
 import {addClass ,removeClass ,hasClass} from 'utils/dom'
 export default defineComponent({
     name:"",
@@ -24,6 +25,7 @@ export default defineComponent({
         const scrollbarRef = ref(null)
         const ulRef = ref(null)
         const isRange = inject('IsRange')
+        const {$on ,$emit} = inject('EventBus')
 
         const __handleScroll = (info)=>{
             let verVal = findVer(info.ver)
@@ -60,6 +62,19 @@ export default defineComponent({
                     else{
                         elLi = ulRef.value.querySelector('li:not(.is-disabled)')
                         num = parseInt(elLi.getAttribute('val'))
+                    }
+                }
+            }else{
+                if (hasClass(elLi ,'is-disabled')){
+                    // 找到离这个元素最近的不是 disabled的元素
+                    let indexList = sortIndexesByDistance(props.list, num);
+                    for(let i=0;i<indexList.length;i++){
+                        let tmp = indexList[i]
+                        if (!props.list[tmp].isDisabled){
+                            elLi = ulRef.value.querySelector('li[val="'+props.list[tmp].value+'"]')
+                            num = props.list[tmp].value
+                            break
+                        }
                     }
                 }
             }

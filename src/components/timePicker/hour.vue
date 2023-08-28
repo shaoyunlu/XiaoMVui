@@ -54,11 +54,18 @@ export default defineComponent({
         })
 
         $on('disabled' ,(info)=>{
-            
-                list.value.forEach(tmp =>{
-                    tmp.isDisabled = info.flag
-                })
-            
+            list.value.forEach(tmp =>{
+                tmp.isDisabled = info.flag
+            })
+        })
+
+        $on('setDisabledHour' ,(val)=>{
+            if (!val){
+                return false
+            }
+            list.value.forEach(tmp =>{
+                tmp.isDisabled = val.includes(tmp.value)
+            })
         })
 
         return {list ,handleNum ,setVal ,scrollRef}

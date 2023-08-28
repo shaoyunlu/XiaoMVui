@@ -58,6 +58,15 @@ export default defineComponent({
             })
         })
 
+        $on('setDisabledSecond' ,(val)=>{
+            if (!val){
+                return false
+            }
+            list.value.forEach(tmp =>{
+                tmp.isDisabled = val.includes(tmp.value)
+            })
+        })
+
         return {list ,handleNum ,scrollRef ,setVal}
     }
 })

@@ -3,7 +3,7 @@
         <span>
             <xmv-icon :name="icon" :class="{'xmv-icon--left':textShow}" v-if="iconPosition == 'left'"></xmv-icon>
             <slot></slot>
-            <xmv-icon :name="icon" :class="{'xmv-icon--right':textShow,'is-loading':isLoading}" v-if="iconRightShow"></xmv-icon>
+            <xmv-icon :name="icon" :class="{'xmv-icon--right':textShow,'is-loading':loading}" v-if="iconRightShow"></xmv-icon>
         </span>
     </button>
 </template>
@@ -25,15 +25,13 @@ export default defineComponent({
     },
     setup(props ,context) {
 
-        const isLoading = ref(false)
-
         const handleClick = ()=>{
             context.emit('click')
         }
 
         const iconRightShow = computed(()=>{
             if (props.loadingButton){
-                return isLoading.value
+                return props.loading
             }else{
                 return !isEmpty(props.icon) && props.iconPosition == 'right'
             }
@@ -69,16 +67,8 @@ export default defineComponent({
             return res
         })
 
-        const loadingWatch = computed(()=>{
-            return props.loading
-        })
-
-        watch(loadingWatch ,(newVal)=>{
-            isLoading.value = newVal
-        })
-
         return {
-            handleClick ,classList ,textShow ,iconRightShow ,loadingWatch ,isLoading
+            handleClick ,classList ,textShow ,iconRightShow
         }
     }
 })

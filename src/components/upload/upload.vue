@@ -1,20 +1,24 @@
 <template>
     <div :class="class">
-        <div class="xmv-upload xmv-upload--text" @mouseup="handleUploadClick" v-if="listType == 'text'">
-            <slot></slot>
-            <input class="xmv-upload__input" name="file" multiple="" accept="" type="file" ref="uploadInpRef"/>
+        <div class="xmv-upload xmv-upload--text" :class="{'is-drag':drag}"
+            @mouseup="handleUploadClick"
+            v-if="listType == 'text' || listType == 'picture'">
+            <div :class="{'xmv-upload-dragger' : drag}" @dragover.stop="handleDragover" @drop.stop="handleDrop">
+                <slot></slot>
+                <input class="xmv-upload__input" name="file" multiple="" accept="" type="file" ref="uploadInpRef"/>
+            </div>
         </div>
-        <slot name="tip" v-if="listType == 'text'"></slot>
         
+        <slot name="tip" v-if="listType == 'text'"></slot>
+
         <xmv-transition-group name="xmv-list"
             class="xmv-upload-list" 
             :class="['xmv-upload-list--'+listType]" 
             @after-leave="handleAfterLeave">
-            <xmv-upload-item v-for="(item,index) in fileList" 
+            <xmv-upload-item v-for="(item) in fileList"
+            :key="item.name"
             :data="item" 
-            :key="index"
-            :listType="listType"
-            :index="index"></xmv-upload-item>
+            :listType="listType"></xmv-upload-item>
             <div class="xmv-upload xmv-upload--picture-card xmv-filter" v-if="listType == 'picture-card'"
                 @mouseup="handleUploadClick">
                 <slot></slot>
@@ -28,6 +32,7 @@
 import {defineComponent, h ,onMounted,provide,ref ,reactive} from 'vue'
 import xmvUploadItem from './item.vue'
 import {createEventBus} from 'utils/event'
+import {deleteObjectFromArray} from 'utils/data'
 export default defineComponent({
     name:"",
     components:{xmvUploadItem},
@@ -35,12 +40,13 @@ export default defineComponent({
         class : String,
         fileList : Array,
         limit : Number,
-        listType : {type :String ,default:'text'}
+        listType : {type :String ,default:'text'},
+        drag : Boolean,
+        beforeUpload : Function
     },
     setup(props ,{slots}) {
 
         const uploadInpRef = ref(null)
-
         const eventBus = reactive({
             listeners : {}
         })
@@ -60,11 +66,15 @@ export default defineComponent({
             let limit = props.limit
             if (limit == undefined){
                 props.fileList.push(fileObj)
-            }else if (limit == 1){
-                if (props.fileList.length == 0)
+            }else{
+                if (props.fileList.length < limit){
                     props.fileList.push(fileObj)
-                else
-                    props.fileList[0].name = file.name
+                }else{
+                    props.fileList[0].isShow = false
+                    setTimeout(()=>{
+                        props.fileList.push(fileObj)
+                    },300)
+                }
             }
         }
 
@@ -72,20 +82,47 @@ export default defineComponent({
             $emit('after-leave')
         }
 
+        const handleDragover = (e)=>{
+            e.preventDefault();
+        }
+
+        const handleDrop = (e)=>{
+            e.preventDefault();
+            let file = e.dataTransfer.files[0]
+            __handleFile(file)
+        }
+
+        const __handleFile = (file)=>{
+            if (props.beforeUpload != undefined){
+                let fnRes = props.beforeUpload(file)
+                if (fnRes instanceof Promise){
+                    fnRes.then(res=>{
+                        __upload(file)
+                    })
+                }else{
+                    fnRes && __upload(file)
+                }
+            }else{
+                __upload(file)
+            }
+        }
+
+        const __upload = (file)=>{
+            const reader = new FileReader()
+            reader.addEventListener('load' ,event =>{
+                handleLimit(file ,event.target.result)
+            })
+            reader.readAsDataURL(file)
+        }
+
         onMounted(()=>{
             uploadInpRef.value.addEventListener('change' ,event =>{
                 let file = event.target.files[0];
-
-                const reader = new FileReader()
-
-                reader.addEventListener('load' ,event =>{
-                    handleLimit(file ,event.target.result)
-                })
-                reader.readAsDataURL(file)
+                __handleFile(file)
             })
         })
 
-        return {uploadInpRef ,handleUploadClick ,handleAfterLeave}
+        return {uploadInpRef ,handleUploadClick ,handleAfterLeave ,handleDrop ,handleDragover}
     }
 })
 </script>

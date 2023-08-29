@@ -31,12 +31,14 @@ export function createEventBus(eventBus){
         eventBus.listeners[event].push(callback);
     };
   
-      // 触发一个事件
+    // 触发一个事件
     const $emit = (event, ...args) => {
         if (eventBus.listeners[event]) {
           eventBus.listeners[event].forEach(callback => callback(...args));
         }
     };
+
+    // 移除一个事件
 
     return {$on ,$emit}
 }

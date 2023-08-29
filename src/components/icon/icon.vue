@@ -41,6 +41,7 @@ import setting from './category/setting.vue'
 import star from './category/star.vue'
 import successFilled from './category/successFilled.vue'
 import upload from './category/upload.vue'
+import uploadFilled from './category/uploadFilled.vue'
 import vew from './category/view.vue'
 import warningFilled from './category/warningFilled.vue'
 import zoomIn from './category/zoomIn.vue'
@@ -51,7 +52,7 @@ export default defineComponent({
                 plus ,minus ,search ,close ,arrowLeft ,arrowRight ,arrowUp ,
                 dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
                 edit ,empty ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
-                vew ,hide ,calendar ,clock,upload,download,infoFilled,successFilled,
+                vew ,hide ,calendar ,clock,upload,uploadFilled,download,infoFilled,successFilled,
                 warningFilled,moreFilled,document,zoomIn,zoomOut,message,star,
                 pieChart,lineChart,barChart
               },

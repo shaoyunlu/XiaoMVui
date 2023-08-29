@@ -4,6 +4,10 @@
     align-items: center;
     cursor: pointer;
     outline: none;
+
+    &.is-drag {
+        display: block;
+    }
 }
 
 .xmv-upload__input {
@@ -176,6 +180,10 @@
         font-size: 28px;
         color: var(--xmv-text-color-secondary); 
     }
+    &:hover{
+        border-color: var(--xmv-color-primary);
+        color: var(--xmv-color-primary);
+    }
 }
 
 .xmv-upload-list--picture-card .xmv-upload-list__item-status-label {
@@ -246,4 +254,98 @@
     display: none;
 }
 
+.xmv-upload-list--picture .xmv-upload-list__item {
+    overflow: hidden;
+    z-index: 0;
+    background-color: var(--xmv-fill-color-blank);
+    border: 1px solid var(--xmv-border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+
+    .xmv-upload-list__item-thumbnail {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+        position: relative;
+        z-index: 1;
+        background-color: var(--xmv-color-white);
+    }
+
+    .xmv-upload-list__item-info {
+        display: inline-flex;
+        justify-content: center;
+        flex-direction: column;
+        width: calc(100% - 30px);
+        margin-left: 4px;
+    }
+
+    .xmv-upload-list__item-status-label {
+        position: absolute;
+        right: -17px;
+        top: -7px;
+        width: 46px;
+        height: 26px;
+        background: var(--xmv-color-success);
+        text-align: center;
+        transform: rotate(45deg);
+    }
+
+    .xmv-upload-list__item-status-label i {
+        font-size: 12px;
+        margin-top: 12px;
+        transform: rotate(-45deg);
+    }
+
+    .xmv-icon--close {
+        top: 5px;
+        transform: translateY(0);
+    }
+}
+
+.xmv-upload-list--picture .xmv-upload-list__item:hover .xmv-upload-list__item-status-label {
+    opacity: 0;
+    display: inline-flex;
+}
+
+.xmv-upload-list--picture .xmv-upload-list__item .xmv-icon--check, 
+.xmv-upload-list--picture .xmv-upload-list__item .xmv-icon--circle-check {
+    color: #fff;
+}
+
+.xmv-upload-dragger {
+    padding: var(--xmv-upload-dragger-padding-horizontal) var(--xmv-upload-dragger-padding-vertical);
+    background-color: var(--xmv-fill-color-blank);
+    border: 1px dashed var(--xmv-border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    .xmv-icon--upload {
+        font-size: 67px;
+        color: var(--xmv-text-color-placeholder);
+        margin-bottom: 16px;
+        line-height: 50px;
+    }
+
+    .xmv-upload__text {
+        color: var(--xmv-text-color-regular);
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .xmv-upload__text em {
+        color: var(--xmv-color-primary);
+        font-style: normal;
+    }
+}
 

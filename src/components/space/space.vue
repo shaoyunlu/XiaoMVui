@@ -10,7 +10,7 @@ export default defineComponent({
         size : {type:[Number,String] ,default : 8},
         fill : {type:Boolean ,default : false},
         wrap : {type:Boolean ,default : true},
-        direction : {type:String ,default : 'horizontal'},
+        direction : {type:String ,default : 'horizontal'}, //vertical
         alignment : {type:String ,default : 'start'}    //stretch ,center ,start ,end
     },
     setup(props ,{slots}) {
@@ -51,6 +51,11 @@ export default defineComponent({
             }else if (props.size == 'large'){
                 __size = 16
             }
+
+            if (props.fill){
+                res['width'] = '100%'
+            }
+
             res['flex-wrap'] = props.wrap?'wrap':''
             res['margin-bottom'] = '-' + __size + 'px'
             res['align-items'] = props.alignment

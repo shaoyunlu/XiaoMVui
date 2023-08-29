@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-card" :class="computeCardClass">
-        <div class="xmv-card__header">
+        <div class="xmv-card__header" v-if="headerShow">
             <slot name="header"></slot>
         </div>
         <div class="xmv-card__body">
@@ -10,19 +10,21 @@
 </template>
 
 <script>
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent ,ref} from 'vue'
 export default defineComponent({
     name:"",
     props:{
         shadow : {type:String ,default:'always'}
     },
-    setup(props ,context) {
+    setup(props ,{slots}) {
+
+        const headerShow = ref((slots.header != undefined))
 
         const computeCardClass = computed(()=>{
             return ['is-' + props.shadow + '-shadow']
         })
 
-        return {computeCardClass}
+        return {computeCardClass ,headerShow}
     }
 })
 </script>

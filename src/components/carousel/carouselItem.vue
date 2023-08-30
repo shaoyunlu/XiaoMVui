@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-carousel__item" 
-        :class="computeClass" ref="itemRef">
+        :class="computeClass" ref="itemRef" @click="handleClick">
         <slot></slot>
     </div>
 </template>
@@ -14,6 +14,9 @@ export default defineComponent({
         const itemRef = ref(null)
         const instance = getCurrentInstance()
         const carouselMode = inject('CarouselMode')
+        let countObj = inject('CarouselCount')
+        let index = countObj.num
+        countObj.num++
 
         const computeClass = computed(()=>{
             let res = []
@@ -26,9 +29,13 @@ export default defineComponent({
             return res
         })
 
+        const handleClick = ()=>{
+            carouselMode.goTo(index)
+        }
+
         carouselMode.rctData.itemList.push(instance)
 
-        return {itemRef ,carouselMode ,computeClass}
+        return {itemRef ,carouselMode ,computeClass ,handleClick}
     }
 })
 </script>

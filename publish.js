@@ -9,7 +9,6 @@ const packageJson = JSON.parse(fs.readFileSync('package.json'));
 
 // 增加版本号
 const version = packageJson.version.split('.');
-console.log(version)
 version[2] = parseInt(version[2]) + 1;
 packageJson.version = version.join('.');
 

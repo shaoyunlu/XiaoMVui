@@ -223,6 +223,9 @@ class CarouselMode{
     }
 
     setActiveClass(index){
+        if (!this.indicatorUlRef.value){
+            return false
+        }
         var liList = this.indicatorUlRef.value.querySelectorAll("li")
         liList.forEach(function(li) {
             removeClass(li ,'is-active')

@@ -4,19 +4,19 @@
                 'xmv-carousel--vertical' : direction == 'vertical'}"
         @mouseover="handleMouseover" @mouseleave="handleMouseleave">
         <div class="xmv-carousel__container" ref="containerRef">
-            <transition name="xmv-fade-in">
+            <transition name="xmv-fade-in" v-if="direction != 'vertical'">
                 <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--left" @click="handleLeft" v-show="leftRightButtonShow">
                     <xmv-icon name="arrowLeft"></xmv-icon>
                 </button>
             </transition>
-            <transition name="xmv-fade-in">
+            <transition name="xmv-fade-in" v-if="direction != 'vertical'">
                 <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--right" @click="handleRight" v-show="leftRightButtonShow">
                     <xmv-icon name="arrowRight"></xmv-icon>
                 </button>
             </transition>
             <slot></slot>
         </div>
-        <ul class="xmv-carousel__indicators" ref="indicatorUlRef"
+        <ul class="xmv-carousel__indicators" ref="indicatorUlRef" v-if="indicatorPosition != 'none'"
             :class="{'xmv-carousel__indicators--outside' : indicatorPosition == 'outside',
                     'xmv-carousel__indicators--horizontal' : direction != 'vertical',
                     'xmv-carousel__indicators--vertical' : direction == 'vertical',
@@ -35,7 +35,6 @@
 <script>
 import {defineComponent, onMounted, provide, ref} from 'vue'
 import CarouselMode from './mode/carouselMode';
-import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvCarousel",
     props:{
@@ -54,8 +53,10 @@ export default defineComponent({
             direction : props.direction
         })
         const leftRightButtonShow = ref(false)
+        const countObj = {num : 0}
 
         provide('CarouselMode' ,carouselMode)
+        provide('CarouselCount' ,countObj)
 
         const handleLeft = ()=>{
             carouselMode.left()
@@ -82,7 +83,7 @@ export default defineComponent({
 
         onMounted(()=>{
             carouselMode.reset()
-            //carouselMode.animate()
+            carouselMode.animate()
         })
 
         return {containerRef ,indicatorUlRef ,leftRightButtonShow ,carouselMode,

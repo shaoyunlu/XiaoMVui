@@ -1,30 +1,59 @@
 <template>
-    <div class="xmv-carousel xmv-carousel--horizontal"
+    <div class="xmv-carousel"
+        :class="{'xmv-carousel--horizontal' : direction != 'vertical',
+                'xmv-carousel--vertical' : direction == 'vertical'}"
         @mouseover="handleMouseover" @mouseleave="handleMouseleave">
         <div class="xmv-carousel__container" ref="containerRef">
-            <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--left" @click="handleLeft">
-                <xmv-icon name="arrowLeft"></xmv-icon>
-            </button>
-            <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--right" @click="handleRight">
-                <xmv-icon name="arrowRight"></xmv-icon>
-            </button>
+            <transition name="xmv-fade-in">
+                <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--left" @click="handleLeft" v-show="leftRightButtonShow">
+                    <xmv-icon name="arrowLeft"></xmv-icon>
+                </button>
+            </transition>
+            <transition name="xmv-fade-in">
+                <button type="button" class="xmv-carousel__arrow xmv-carousel__arrow--right" @click="handleRight" v-show="leftRightButtonShow">
+                    <xmv-icon name="arrowRight"></xmv-icon>
+                </button>
+            </transition>
             <slot></slot>
         </div>
-        <ul class="xmv-carousel__indicators xmv-carousel__indicators--horizontal"></ul>
+        <ul class="xmv-carousel__indicators" ref="indicatorUlRef"
+            :class="{'xmv-carousel__indicators--outside' : indicatorPosition == 'outside',
+                    'xmv-carousel__indicators--horizontal' : direction != 'vertical',
+                    'xmv-carousel__indicators--vertical' : direction == 'vertical',
+                    'xmv-carousel__indicators--right' : direction == 'vertical'}">
+            <li v-for="tmp,index in carouselMode.rctData.itemList"
+                class="xmv-carousel__indicator"
+                :class="{'xmv-carousel__indicator--horizontal' : direction != 'vertical',
+                        'xmv-carousel__indicator--vertical' : direction == 'vertical'}"
+                @click="handleIndicatorClick(index)">
+                <button class="xmv-carousel__button"></button>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
-import {defineComponent, nextTick, onMounted, provide, ref} from 'vue'
+import {defineComponent, onMounted, provide, ref} from 'vue'
 import CarouselMode from './mode/carouselMode';
+import {addClass ,removeClass} from 'utils/dom'
 export default defineComponent({
     name:"xmvCarousel",
+    props:{
+        type : String,
+        indicatorPosition : {type : String}, //outside
+        direction : String
+    },
     setup(props ,context) {
 
         const containerRef = ref(null)
+        const indicatorUlRef = ref(null)
         const carouselMode = new CarouselMode({
-            wrapperRef : containerRef
+            wrapperRef : containerRef,
+            indicatorUlRef : indicatorUlRef,
+            type : props.type,
+            direction : props.direction
         })
+        const leftRightButtonShow = ref(false)
 
         provide('CarouselMode' ,carouselMode)
 
@@ -37,19 +66,27 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
+            leftRightButtonShow.value = true
             carouselMode.stop()
         }
 
         const handleMouseleave = ()=>{
+            leftRightButtonShow.value = false
             carouselMode.animate()
+        }
+
+        const handleIndicatorClick = (index)=>{
+            carouselMode.setActiveClass(index)
+            carouselMode.goTo(index)
         }
 
         onMounted(()=>{
             carouselMode.reset()
-            carouselMode.animate()
+            //carouselMode.animate()
         })
 
-        return {containerRef ,handleLeft ,handleRight ,handleMouseover ,handleMouseleave}
+        return {containerRef ,indicatorUlRef ,leftRightButtonShow ,carouselMode,
+                handleLeft ,handleRight ,handleMouseover ,handleMouseleave ,handleIndicatorClick}
     }
 })
 </script>

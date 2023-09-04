@@ -40,7 +40,8 @@ export function deepClone(obj) {
   }
 
 // 判断数据是否为空
-export function isEmpty(obj){
+export function isEmpty(obj ,withZero = false){
+
     if (obj == undefined){
         return true
     }
@@ -52,6 +53,11 @@ export function isEmpty(obj){
             return obj.length == 0
         else
             return !obj
+    }else if(typeof obj == "number"){
+      if (withZero){
+          return obj == 0
+      }
+      return false
     }
 }
 

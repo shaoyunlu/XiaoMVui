@@ -2,6 +2,7 @@
     <div class="xmv-collapse-item" :class="{'is-active' : isActive}">
         <div @click="handleCollapse">
             <div class="xmv-collapse-item__header" :class="{'is-active' : isActive}">
+                <slot name="title"></slot>
                 {{title}}
                 <xmv-icon name="arrowRight" class="xmv-collapse-item__arrow" 
                           :class="{'is-active' : isActive}"></xmv-icon>

@@ -59,6 +59,8 @@ import xmvBacktop from 'comps/backtop/backtop.vue'
 import xmvCascader from 'comps/cascader/cascader.vue'
 import xmvSlider from 'comps/slider/slider.vue'
 import xmvBadge from 'comps/badge/badge.vue'
+import xmvDescriptions from 'comps/descriptions/descriptions.vue'
+import xmvDescriptionsItem from 'comps/descriptions/descriptionsItem.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -154,6 +156,8 @@ const register = (vue)=>{
     vue.component('xmvCascader' ,xmvCascader)
     vue.component('xmvSlider' ,xmvSlider)
     vue.component('xmvBadge' ,xmvBadge)
+    vue.component('xmvDescriptions' ,xmvDescriptions)
+    vue.component('xmvDescriptionsItem' ,xmvDescriptionsItem)
 
     vue.directive('loading', loadingDirective);
 }

@@ -34,7 +34,10 @@ import message from './category/message.vue'
 import minus from './category/minus.vue'
 import pieChart from './category/pieChart.vue'
 import plus from './category/plus.vue'
+import pic from './category/picture.vue'
 import refresh from './category/refresh.vue'
+import refreshLeft from './category/refreshLeft.vue'
+import refreshRight from './category/refreshRight.vue'
 import search from './category/search.vue'
 import sort from './category/sort.vue'
 import setting from './category/setting.vue'
@@ -54,7 +57,7 @@ export default defineComponent({
                 edit ,empty ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
                 vew ,hide ,calendar ,clock,upload,uploadFilled,download,infoFilled,successFilled,
                 warningFilled,moreFilled,document,zoomIn,zoomOut,message,star,
-                pieChart,lineChart,barChart
+                pieChart,lineChart,barChart,pic,refreshLeft,refreshRight
               },
     props:{
         name : String | Object,

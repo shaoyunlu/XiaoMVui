@@ -14,6 +14,9 @@
         <div class="xmv-empty__description">
             <p>{{description}}</p>
         </div>
+        <div class="xmv-empty__bottom" v-if="slots.default">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
@@ -25,8 +28,8 @@ export default defineComponent({
         description : {type:String ,default:'暂无数据'},
         imageSize : {type:Number ,default:100}
     },
-    setup(props ,context) {
-        return {}
+    setup(props ,{slots}) {
+        return {slots}
     }
 })
 </script>

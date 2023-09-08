@@ -52,12 +52,22 @@ import zoomOut from './category/zoomOut.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{
-                plus ,minus ,search ,close ,arrowLeft ,arrowRight ,arrowUp ,
-                dArrowLeft ,dArrowRight,arrowDown ,loading ,check ,
-                edit ,empty ,dlt ,sort ,setting ,refresh ,circleClose ,circleCheck ,
-                vew ,hide ,calendar ,clock,upload,uploadFilled,download,infoFilled,successFilled,
-                warningFilled,moreFilled,document,zoomIn,zoomOut,message,star,
-                pieChart,lineChart,barChart,pic,refreshLeft,refreshRight
+                    arrowLeft ,arrowRight ,arrowUp ,arrowDown,
+                    barChart,
+                    calendar,check,clock,close,circleCheck,circleClose,
+                    dArrowLeft ,dArrowRight,download,dlt,document,
+                    edit,empty,
+                    hide,
+                    infoFilled,lineChart,
+                    loading , 
+                    message,minus,moreFilled,
+                    plus,pieChart,pic,
+                    refresh,refreshLeft,refreshRight,
+                    sort ,setting ,search,successFilled,star,
+                    upload,uploadFilled,
+                    vew,
+                    warningFilled,
+                    zoomIn,zoomOut
               },
     props:{
         name : String | Object,

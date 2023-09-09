@@ -16,7 +16,6 @@ export default defineComponent({
         const paginationMode = inject('PaginationMode')
 
         const handleSelectChange = (val)=>{
-            //console.log(paginationMode.sizeMode.value)
             paginationMode.ctx.emit('update:pageSize' ,val)
         }
 

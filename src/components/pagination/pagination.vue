@@ -10,11 +10,6 @@
         <component :is='"xmv-pagination-" + layoutArr[3]'></component>
         <component :is='"xmv-pagination-" + layoutArr[4]'></component>
         <component :is='"xmv-pagination-" + layoutArr[5]'></component>
-        <!-- <xmv-pagination-prev></xmv-pagination-prev> -->
-        <!-- <xmv-pagination-pager></xmv-pagination-pager>
-        <xmv-pagination-next></xmv-pagination-next>
-        <xmv-pagination-goto></xmv-pagination-goto>
-        <xmv-pagination-size></xmv-pagination-size> -->
     </div>
 </template>
 
@@ -39,7 +34,7 @@ export default defineComponent({
         pageCount : {type:Number ,default:7},
         background : String,
         small : String,
-        layout : {type:String ,default:'prev,pager,next,total'}
+        layout : {type:String ,default:'prev,pager,next'}
     },
     setup(props ,context) {
 

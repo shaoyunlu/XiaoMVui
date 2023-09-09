@@ -49,7 +49,7 @@ import {find ,filter} from 'utils/data'
 export default defineComponent({
     name:"xmvSelect",
     components:{xmvSelectItem},
-    emits : ['nodeClick' ,'nodeCheck' ,'update:modelValue'],
+    emits : ['nodeClick' ,'nodeCheck' ,'update:modelValue' ,'change'],
     props:{
         disabled : Boolean,
         clearable : Boolean,
@@ -106,6 +106,7 @@ export default defineComponent({
                 selectMode.inputRef.value.val(selectData.label)
                 selectMode.popoverRef.value.hide()
                 context.emit('update:modelValue' ,selectData.value)
+                context.emit('change' ,selectData.value)
             }
         })
 

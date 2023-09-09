@@ -1,7 +1,10 @@
 import {ref} from 'vue'
 
 class PaginationMode{
-    constructor(props){
+    constructor(props ,context){
+        this.ctx = context
+        this.$emit = null
+        this.$on = null
         this.quickprevShow = ref(false)
         this.maxPageCount = ref(1)
         this.currentPage = ref(1)
@@ -10,6 +13,8 @@ class PaginationMode{
         this.props = props
         this.prevButtonDisabled = ref(false)
         this.nextButtonDisabled = ref(false)
+        this.gotoMode = ref(0)
+        this.sizeMode = ref(0)
     }
 
     set(){
@@ -37,6 +42,11 @@ class PaginationMode{
 
         this.prevButtonDisabled.value = (this.currentPage.value == 1)
         this.nextButtonDisabled.value = (this.currentPage.value == totalPage)
+    }
+
+    emitChangeNumber(){
+        this.$emit('changeNum' ,this.currentPage.value)
+        this.ctx.emit('changeNumber')
     }
 
     generateArray(m ,n ,max){

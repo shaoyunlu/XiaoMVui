@@ -7,7 +7,7 @@ export default defineComponent({
     name:"xmvOption",
     props:{
         label : String,
-        value : String,
+        value : String | Number,
         disabled : {type : Boolean,default : false},
         hide : {type : Boolean,default : false}
     },

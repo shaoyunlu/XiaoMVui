@@ -15,7 +15,9 @@
                 ref="inputRef"
                 :disabled="computeDisable"
                 :placeholder="placeholder"
-                @focus="handleInputFocus" @blur="handleInputBlur"
+                @focus="handleInputFocus"
+                @blur="handleInputBlur"
+                @keyup.enter="handleKeyupEnter"
                 @input="handleInputInput"
                 :value="modelValue" v-if="modelValue != undefined">
             <input class="xmv-input__inner" 
@@ -48,7 +50,7 @@ import {isFirefox} from 'utils/dict'
 import { isEmpty } from 'utils/data'
 export default defineComponent({
     name:"xmvInput",
-    emits:['blur','input','clear','update:modelValue','iconClick','focus'],
+    emits:['blur','input','clear','update:modelValue','iconClick','focus','enter'],
     props:{
         disabled : Boolean,
         type : {type:String ,default:'text'},
@@ -58,7 +60,7 @@ export default defineComponent({
         suffixIcon : String | Object,
         clearable : Boolean,
         size : String,
-        modelValue : String,
+        modelValue : String | Number,
         rows:Number,
         autosize:Object,
         step:Number
@@ -126,6 +128,10 @@ export default defineComponent({
             hideClearable()
             isFocus.value = false
             context.emit('blur' ,e)
+        }
+
+        const handleKeyupEnter = ()=>{
+            context.emit('enter')
         }
 
         const handleMouseover = ()=>{
@@ -296,7 +302,7 @@ export default defineComponent({
                 computeTextareaStyle,minRowsRef,textareaHeightRef,computeShowSuffix,rightIconName,
                 handleInputFocus ,handleInputBlur , handlePrefixClick ,handleSuffixClick ,handleInputInput ,
                 handleMouseover,handleIconPwdClick ,handleIconClearClick ,focus ,val ,setInputWidth ,getVal,
-                handleRightIconClick,handleMouseleave}
+                handleRightIconClick,handleMouseleave,handleKeyupEnter}
     }
 })
 </script>

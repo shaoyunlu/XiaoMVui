@@ -71,12 +71,14 @@ export default defineComponent({
         watch(()=>props.total ,(newVal)=>{
             paginationMode.currentPage.value = 1
             paginationMode.set()
+            paginationMode.emitChangeNumber()
         })
 
         watch(()=>props.pageSize ,(newVal)=>{
             paginationMode.currentPage.value = 1
             paginationMode.gotoMode.value = 1
             paginationMode.set()
+            paginationMode.emitChangeNumber()
         })
 
         onMounted(()=>{

@@ -4,7 +4,8 @@
                     'is-background' : (background != undefined),
                     'xmv-pagination--small' : (small != undefined)
                 }">
-        <button type="button" class="btn-prev" @click="handlePrevClick">
+        <button type="button" class="btn-prev is-first" @click="handlePrevClick"
+            :disabled="paginationMode.prevButtonDisabled.value">
             <xmv-icon name="arrowLeft"></xmv-icon>
         </button>
         <ul class="xmv-pager">
@@ -30,7 +31,8 @@
                 @click="()=>handleNumClick(paginationMode.maxPageCount.value)"
                 :class="{'is-active':paginationMode.currentPage.value == paginationMode.maxPageCount.value}"> {{paginationMode.maxPageCount}} </li>
         </ul>
-        <button type="button" class="btn-next" @click="handleNextClick">
+        <button type="button" class="btn-next is-last" @click="handleNextClick"
+            :disabled="paginationMode.nextButtonDisabled.value">
             <xmv-icon name="arrowRight"></xmv-icon>
         </button>
     </div>
@@ -69,7 +71,6 @@ export default defineComponent({
             paginationMode.currentPage.value = num
             paginationMode.set()
             nextTick(()=>{
-                //$emit('changeNum' ,num)
                 emitChangeNumber()
             })
         }
@@ -77,7 +78,6 @@ export default defineComponent({
         const handleNumClick = (num)=>{
             paginationMode.currentPage.value = num
             paginationMode.set()
-            //$emit('changeNum' ,num)
             emitChangeNumber()
         }
 
@@ -89,7 +89,6 @@ export default defineComponent({
             paginationMode.currentPage.value = paginationMode.currentPage.value - 1
             paginationMode.set()
             nextTick(()=>{
-                //$emit('changeNum' ,paginationMode.currentPage.value)
                 emitChangeNumber()
             })
         }
@@ -102,7 +101,6 @@ export default defineComponent({
             paginationMode.currentPage.value = paginationMode.currentPage.value + 1
             paginationMode.set()
             nextTick(()=>{
-                //$emit('changeNum' ,paginationMode.currentPage.value)
                 emitChangeNumber()
             })
         }
@@ -115,7 +113,6 @@ export default defineComponent({
             paginationMode.currentPage.value = tmp
             paginationMode.set()
             nextTick(()=>{
-                //$emit('changeNum' ,paginationMode.currentPage.value)
                 emitChangeNumber()
             })
         }
@@ -128,7 +125,6 @@ export default defineComponent({
             paginationMode.currentPage.value = tmp
             paginationMode.set()
             nextTick(()=>{
-                //$emit('changeNum' ,paginationMode.currentPage.value)
                 emitChangeNumber()
             })
         }

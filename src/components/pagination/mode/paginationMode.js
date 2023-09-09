@@ -8,6 +8,8 @@ class PaginationMode{
         this.quicknextShow = ref(false)
         this.list = ref([])
         this.props = props
+        this.prevButtonDisabled = ref(false)
+        this.nextButtonDisabled = ref(false)
     }
 
     set(){
@@ -32,6 +34,9 @@ class PaginationMode{
         }
 
         this.generateArray(this.currentPage.value,Math.ceil((this.props.pageCount-4)/2),totalPage)
+
+        this.prevButtonDisabled.value = (this.currentPage.value == 1)
+        this.nextButtonDisabled.value = (this.currentPage.value == totalPage)
     }
 
     generateArray(m ,n ,max){

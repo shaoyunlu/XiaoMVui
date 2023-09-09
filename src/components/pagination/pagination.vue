@@ -44,8 +44,6 @@ export default defineComponent({
 
         const layoutArr = props.layout.split(',')
 
-        const comp_1 = ref('xmv-pagination-' + layoutArr[0])
-
         const {$on ,$emit} = createEventBus(eventBus)
 
         const paginationMode = new PaginationMode(props ,context)
@@ -85,8 +83,7 @@ export default defineComponent({
             paginationMode.set()
         })
 
-        return {paginationMode ,layoutArr ,getPageInfo ,reset,
-            comp_1}
+        return {paginationMode ,layoutArr ,getPageInfo ,reset}
     }
 })
 </script>

@@ -20,11 +20,10 @@ class TableMode{
     }
 
     init(){
-
         this.checkboxHeader = find(this.rctData.header ,(data)=>{
             return data.type == 'checkbox'
         })
-        
+
         this.__setAutomatic()
         this.layout()
     }

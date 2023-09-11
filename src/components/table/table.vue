@@ -42,7 +42,8 @@ export default defineComponent({
         border : String,
         stripe : String,
         maxHeight : String,
-        data : Array
+        data : Array,
+        highlightCurrentRow : Boolean
     },
     setup(props ,context) {
 

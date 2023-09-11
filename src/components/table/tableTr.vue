@@ -34,7 +34,9 @@ export default defineComponent({
             return res
         })
         const handleTrClick = ()=>{
-            tableMode.$emit('trClick' ,index)
+            if (tableMode.option.highlightCurrentRow){
+                tableMode.$emit('trClick' ,index)
+            }
         }
 
         tableMode.$on('trClick' ,__index =>{

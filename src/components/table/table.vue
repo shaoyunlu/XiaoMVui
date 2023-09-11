@@ -52,6 +52,7 @@ export default defineComponent({
         const scrollBarRef = ref(null)
         const scrollMaxHeightFlag = ref(false)
         const scrollMaxHeight = ref(0)
+        const scrollingStatus = ref('')
 
         const eventBus = reactive({
             listeners : {}
@@ -69,7 +70,20 @@ export default defineComponent({
         }
 
         const handleScroll = (info)=>{
+            setScrollClass(info)
             tableHeaderWrapperRef.value.scrollLeft = info.hor
+        }
+
+        const setScrollClass = (info = {hor : 0})=>{
+            if (!isEmpty(info.hor ,true)){
+                if (tableRef.value.clientWidth + info.hor == tableMode.rctData.tableWidth){
+                    scrollingStatus.value = 'right'
+                }else{
+                    scrollingStatus.value = 'middle'
+                }
+            }else{
+                scrollingStatus.value = 'left'
+            }
         }
 
         const computeTableClass = computed(()=>{
@@ -79,6 +93,9 @@ export default defineComponent({
             }
             if (props.stripe != undefined){
                 res.push('xmv-table--striped')
+            }
+            if (!isEmpty(scrollingStatus.value)){
+                res.push('is-scrolling-' + scrollingStatus.value)
             }
             return res
         })
@@ -111,6 +128,7 @@ export default defineComponent({
             if (!isEmpty(props.data)){
                 loadData(props.data)
             }
+            setScrollClass()
         })
 
         return {tableHeaderWrapperRef , tableRef ,tableMode ,computeTableClass,

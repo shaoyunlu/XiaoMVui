@@ -31,6 +31,9 @@ export default defineComponent({
             if (props.data.sortable != undefined){
                 res.push('is-sortable')
             }
+            if (props.data.fixed != undefined){
+                res.push('xmv-table-fixed-column--'+(props.data.fixed == ''?'left':props.data.fixed))
+            }
             return res
         })
 

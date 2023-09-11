@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {computed, defineComponent ,inject,onMounted,ref} from 'vue'
+import {computed, defineComponent ,inject,nextTick,onMounted,ref} from 'vue'
 import {getDomMartix ,setDomMartix ,removeTextSelected} from 'utils/dom'
 import {isLowVersionFirefox} from 'utils/dict'
 import {resizeOB} from 'utils/event'
@@ -267,7 +267,7 @@ export default defineComponent({
 
             resizeOB(viewRef.value ,()=>{
                 reset()
-                init()
+                //init()
                 //polyfillHeight()
             })
 

@@ -3,16 +3,20 @@
 </template>
 
 <script>
-import {defineComponent, h, computed} from 'vue'
+import {defineComponent, h, computed ,inject} from 'vue'
+import xmvCheckbox from 'comps/checkbox/checkbox.vue'
 export default defineComponent({
     name:"xmvTableTd",
     props:{
         header : Object,
         data : Object
     },
+    components:{xmvCheckbox},
     setup(props ,context) {
         let data = props.data
         const slots = props.header.slots || {}
+
+        const tableMode = inject('TableMode')
 
         const computeTdClass = computed(()=>{
             let res = []
@@ -22,6 +26,11 @@ export default defineComponent({
             }
             return res
         })
+
+        const handleCheck = (flag)=>{
+            data.checked = flag
+            tableMode.checkSingle()
+        }
 
         const render = ()=>{
 
@@ -39,6 +48,13 @@ export default defineComponent({
                         h('div', { class: 'cell' }, renderSlot)
                     ]);
                 }
+            }else if(props.header.type == 'checkbox'){
+                return h('td', { class: computeTdClass.value }, [
+                            h('div', { class: 'cell' } ,h(xmvCheckbox ,{
+                                'modelValue' : data.checked,
+                                'onCheck' : handleCheck
+                            }))
+                        ]);
             }
             else
             {

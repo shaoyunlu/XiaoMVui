@@ -1,5 +1,6 @@
-import {reactive} from 'vue'
+import {nextTick, reactive} from 'vue'
 import {resizeOB} from 'utils/event'
+import {isEmpty,filter,find} from 'utils/data'
 
 class TableMode{
 
@@ -9,13 +10,21 @@ class TableMode{
             data : [],
             tableWidth : ''
         })
+        this.checkboxHeader
         this.option = opt
         this.automatic
         this.parentEl
         this.tableRef
+        this.$on
+        this.$emit
     }
 
     init(){
+
+        this.checkboxHeader = find(this.rctData.header ,(data)=>{
+            return data.type == 'checkbox'
+        })
+        
         this.__setAutomatic()
         this.layout()
     }
@@ -31,6 +40,19 @@ class TableMode{
         }else{
             this.__handleFixed()
         }
+    }
+
+    checkAll(flag){
+        this.rctData.data.forEach(data =>{
+            data.checked = flag
+        })
+    }
+
+    checkSingle(){
+        let res = filter(this.rctData.data ,(data=>{
+            return !data.checked
+        }))
+        this.checkboxHeader.checked = isEmpty(res)
     }
 
     __setAutomatic(){

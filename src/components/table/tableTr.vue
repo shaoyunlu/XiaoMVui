@@ -1,5 +1,5 @@
 <template>
-    <tr class="xmv-table__row" :class="computeTrClass">
+    <tr class="xmv-table__row" :class="computeTrClass" @click="handleTrClick">
         <xmv-table-td v-for="header in tableMode.rctData.header" :header="header" :data="data"></xmv-table-td>
     </tr>
 </template>
@@ -28,9 +28,19 @@ export default defineComponent({
                     res.push('xmv-table__row--striped')
                 }
             }
+            if (data.checked){
+                res.push('current-row')
+            }
             return res
         })
-        return {tableMode ,computeTrClass}
+        const handleTrClick = ()=>{
+            tableMode.$emit('trClick' ,index)
+        }
+
+        tableMode.$on('trClick' ,__index =>{
+            data.checked = (index == __index)
+        })
+        return {tableMode ,computeTrClass ,handleTrClick}
     }
 })
 </script>

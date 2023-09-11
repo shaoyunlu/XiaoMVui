@@ -65,6 +65,9 @@ export default defineComponent({
         provide('TableMode' ,tableMode)
         provide('EventBus' ,{$on ,$emit})
 
+        tableMode.$on = $on
+        tableMode.$emit = $emit
+
         const loadData = (data)=>{
             tableMode.rctData.data = data
         }

@@ -6,6 +6,7 @@
                 <i class="sort-caret ascending" @click.stop="handleAscClick"></i>
                 <i class="sort-caret descending" @click.stop="handleDescClick"></i>
             </span>
+            <xmv-checkbox v-if="data.type == 'checkbox'" @check="handleCheck" v-model="data.checked"></xmv-checkbox>
         </div>
     </th>
 </template>
@@ -33,6 +34,9 @@ export default defineComponent({
             }
             if (props.data.fixed != undefined){
                 res.push('xmv-table-fixed-column--'+(props.data.fixed == ''?'left':props.data.fixed))
+            }
+            if (props.data.type == 'checkbox'){
+                res.push('xmv-table-column--selection')
             }
             return res
         })
@@ -119,7 +123,11 @@ export default defineComponent({
             return 'string'
         }
 
-        return {computeThClass ,handleThClick , handleAscClick ,handleDescClick,sortAD}
+        const handleCheck = (flag)=>{
+            tableMode.checkAll(flag)
+        }
+
+        return {computeThClass ,handleThClick , handleAscClick ,handleDescClick,handleCheck,sortAD}
     }
 })
 </script>

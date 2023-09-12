@@ -12,7 +12,8 @@ export default defineComponent({
         width : String,
         sortable : String,
         fixed : String,
-        type : String
+        type : String,
+        showOverflowTooltip : Boolean
     },
     setup(props ,context) {
         const tableMode = inject('TableMode')
@@ -25,7 +26,8 @@ export default defineComponent({
             sortable : props.sortable,
             slots : instance.slots,
             fixed : props.fixed,
-            type : props.type
+            type : props.type,
+            showOverflowTooltip : props.showOverflowTooltip
         })
 
     }

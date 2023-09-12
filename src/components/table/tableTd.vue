@@ -5,6 +5,7 @@
 <script>
 import {defineComponent, h, computed ,inject} from 'vue'
 import xmvCheckbox from 'comps/checkbox/checkbox.vue'
+import xmvTooltip from 'comps/tooltip/tooltip.vue'
 export default defineComponent({
     name:"xmvTableTd",
     props:{
@@ -33,7 +34,6 @@ export default defineComponent({
         }
 
         const render = ()=>{
-
             let renderSlot = []
             let defaultSlot = slots.default ? slots.default({ data }) : null;
             if (defaultSlot)
@@ -55,12 +55,24 @@ export default defineComponent({
                                 'onCheck' : handleCheck
                             }))
                         ]);
+            }else if(props.header.type == 'index'){
+                return h('td', { class: computeTdClass.value }, [
+                            h('div', { class: 'cell' } ,data.xmvIndex + 1)
+                        ]);
             }
             else
             {
-                return h('td', { class: computeTdClass.value }, [
+                if (props.header.showOverflowTooltip){
+                    return h('td', { class: computeTdClass.value }, [
+                                h(xmvTooltip ,
+                                    {'content':props.data[props.header.prop]},
+                                    h('div' , {class:'cell xmv-tooltip'},props.data[props.header.prop]))
+                        ]);
+                }else{
+                    return h('td', { class: computeTdClass.value }, [
                             h('div', { class: 'cell' } ,props.data[props.header.prop])
                         ]);
+                }
             }
         }
 

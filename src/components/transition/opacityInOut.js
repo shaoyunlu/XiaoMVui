@@ -3,8 +3,10 @@ import {animateDuration} from 'utils/dict'
 
 export function opacityIn(el ,cbf){
     var oriCssText = el.style.cssText
+    // el.style.cssText = oriCssText + `
+    //                     transition:opacity var(--xmv-transition-duration)`
     el.style.cssText = oriCssText + `
-                        transition:opacity var(--xmv-transition-duration)`
+                        transition:opacity var(0)`
 
     nextFrame(()=>{
         el.style.opacity = 1
@@ -19,8 +21,10 @@ export function opacityIn(el ,cbf){
 export function opacityOut(el ,cbf){
     var oriCssText = el.style.cssText
 
+    // el.style.cssText = oriCssText + `
+    //                     transition:opacity var(--xmv-transition-duration)`
     el.style.cssText = oriCssText + `
-                        transition:opacity var(--xmv-transition-duration)`
+                        transition:opacity var(0)`
 
     nextFrame(()=>{
         el.style.opacity = 0

@@ -63,11 +63,9 @@ export default defineComponent({
             else
             {
                 if (props.header.showOverflowTooltip){
-                    return h('td', { class: computeTdClass.value }, [
-                                h(xmvTooltip ,
-                                    {'content':props.data[props.header.prop]},
-                                    h('div' , {class:'cell xmv-tooltip'},props.data[props.header.prop]))
-                        ]);
+                    return h(xmvTooltip ,{'content':props.data[props.header.prop]} ,
+                                h('td' ,{ class: computeTdClass.value } ,
+                                h('div',{class:'cell xmv-tooltip'},props.data[props.header.prop])))
                 }else{
                     return h('td', { class: computeTdClass.value }, [
                             h('div', { class: 'cell' } ,props.data[props.header.prop])

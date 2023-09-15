@@ -1,23 +1,22 @@
-<template>
-
-</template>
+<template></template>
 
 <script>
-import {defineComponent, h, computed ,inject} from 'vue'
+import {defineComponent, h, computed ,inject ,ref, nextTick ,toRefs} from 'vue'
 import xmvCheckbox from 'comps/checkbox/checkbox.vue'
 import xmvTooltip from 'comps/tooltip/tooltip.vue'
+import xmvIcon from 'comps/icon/icon.vue'
 export default defineComponent({
     name:"xmvTableTd",
     props:{
         header : Object,
         data : Object
     },
-    components:{xmvCheckbox},
+    components:{xmvCheckbox,xmvIcon},
     setup(props ,context) {
         let data = props.data
         const slots = props.header.slots || {}
-
         const tableMode = inject('TableMode')
+        const isExpand = ref(false)
 
         const computeTdClass = computed(()=>{
             let res = []
@@ -28,15 +27,36 @@ export default defineComponent({
             return res
         })
 
+        const computeTdExpandClass = computed(()=>{
+            let res = []
+            res.push('xmv-table__expand-icon')
+            if (isExpand.value){
+                res.push('xmv-table__expand-icon--expanded')
+            }
+            return res
+        })
+
         const handleCheck = (flag)=>{
             data.checked = flag
             tableMode.checkSingle()
         }
 
+        const handleExpandClick = ()=>{
+            isExpand.value = !isExpand.value
+        }
+
         const render = ()=>{
             let renderSlot = []
             let defaultSlot = slots.default ? slots.default({ data }) : null;
-            if (defaultSlot)
+            if(props.header.type == 'expand'){
+                return h('td' ,{ class: computeTdClass.value },[
+                    h('div' ,{class : 'cell'} ,h(xmvIcon ,{
+                        'class' : computeTdExpandClass.value,
+                        'name' : 'arrowRight',
+                        'onClick' : handleExpandClick
+                    }))
+                ])
+            }else if (defaultSlot)
             {
                 if (defaultSlot && defaultSlot.length > 0)
                 {

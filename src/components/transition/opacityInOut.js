@@ -5,9 +5,6 @@ export function opacityIn(el ,cbf){
     var oriCssText = el.style.cssText
     el.style.cssText = oriCssText + `
                         transition:opacity var(--xmv-transition-duration)`
-    // el.style.cssText = oriCssText + `
-    //                     transition:opacity var(0)`
-
     nextFrame(()=>{
         el.style.opacity = 1
     })
@@ -23,8 +20,6 @@ export function opacityOut(el ,cbf){
 
     el.style.cssText = oriCssText + `
                         transition:opacity var(--xmv-transition-duration)`
-    // el.style.cssText = oriCssText + `
-    //                     transition:opacity var(0)`
 
     nextFrame(()=>{
         el.style.opacity = 0

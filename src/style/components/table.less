@@ -240,3 +240,16 @@
 .xmv-table__body tr.current-row>td.xmv-table__cell {
     background-color: var(--xmv-table-current-row-bg-color);
 }
+
+.xmv-table__expand-icon {
+    position: relative;
+    cursor: pointer;
+    color: var(--xmv-text-color-regular);
+    font-size: 12px;
+    transition: transform var(--xmv-transition-duration-fast) ease-in-out;
+    height: 20px;
+}
+
+.xmv-table__expand-icon--expanded {
+    transform: rotate(90deg);
+}

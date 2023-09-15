@@ -1,11 +1,12 @@
 <template>
     <tr class="xmv-table__row" :class="computeTrClass" @click="handleTrClick">
-        <xmv-table-td v-for="header in tableMode.rctData.header" :header="header" :data="data"></xmv-table-td>
+        <xmv-table-td v-for="header,index in tableMode.rctData.header" :header="header" :data="data"></xmv-table-td>
     </tr>
+    <tr v-if="isExpandTr"></tr>
 </template>
 
 <script>
-import {computed, defineComponent, inject} from 'vue'
+import {computed, defineComponent, inject ,ref} from 'vue'
 import XmvTableTd from './tableTd.vue'
 export default defineComponent({
     name:"xmvTableTr",
@@ -16,6 +17,7 @@ export default defineComponent({
     },
     setup({data ,index} ,context) {
         const tableMode = inject('TableMode')
+        const isExpandTr = ref(false)
         // 建立索引
         data.xmvIndex = index
         const computeTrClass = computed(()=>{
@@ -42,7 +44,7 @@ export default defineComponent({
         tableMode.$on('trClick' ,__index =>{
             data.checked = (index == __index)
         })
-        return {tableMode ,computeTrClass ,handleTrClick}
+        return {tableMode ,computeTrClass ,handleTrClick ,isExpandTr}
     }
 })
 </script>

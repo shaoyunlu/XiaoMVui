@@ -9,14 +9,14 @@ export default defineComponent({
     name:"xmvTableTd",
     props:{
         header : Object,
-        data : Object
+        data : Object,
+        index : Number
     },
     components:{xmvCheckbox,xmvIcon},
     setup(props ,context) {
         let data = props.data
         const slots = props.header.slots || {}
         const tableMode = inject('TableMode')
-        const isExpand = ref(false)
 
         const computeTdClass = computed(()=>{
             let res = []
@@ -24,13 +24,16 @@ export default defineComponent({
             if (props.header.fixed != undefined){
                 res.push('xmv-table-fixed-column--'+(props.header.fixed == ''?'left':props.header.fixed))
             }
+            if(props.data.xmvExpandData){
+                res.push('xmv-table__expanded-cell')
+            }
             return res
         })
 
         const computeTdExpandClass = computed(()=>{
             let res = []
             res.push('xmv-table__expand-icon')
-            if (isExpand.value){
+            if (props.data.xmvIsExpand){
                 res.push('xmv-table__expand-icon--expanded')
             }
             return res
@@ -42,13 +45,35 @@ export default defineComponent({
         }
 
         const handleExpandClick = ()=>{
-            isExpand.value = !isExpand.value
+            props.data.xmvIsExpand = !props.data.xmvIsExpand
+            if (props.data.xmvIsExpand){
+                let __data = Object.assign({} ,props.data ,{xmvExpandData : true}) 
+                tableMode.insertData(props.index + 1 ,__data)
+            }else{
+                tableMode.deleteData(props.index + 1)
+            }
         }
 
         const render = ()=>{
             let renderSlot = []
-            let defaultSlot = slots.default ? slots.default({ data }) : null;
-            if(props.header.type == 'expand'){
+            let defaultSlot = slots.default ? slots.default({ props }) : null;
+            if (props.data.xmvExpandData){
+                if(props.header.type == 'expand'){
+                    if (defaultSlot && defaultSlot.length > 0)
+                    {
+                        defaultSlot.forEach((__slot) => {
+                            renderSlot.push(h(__slot));
+                        });
+
+                        return h('td', { class: computeTdClass.value ,
+                                        colspan :  tableMode.rctData.header.length}, [
+                            h('div', { class: 'cell' }, renderSlot)
+                        ]);
+                    }
+                }
+                
+            }
+            else if(props.header.type == 'expand'){
                 return h('td' ,{ class: computeTdClass.value },[
                     h('div' ,{class : 'cell'} ,h(xmvIcon ,{
                         'class' : computeTdExpandClass.value,
@@ -77,7 +102,7 @@ export default defineComponent({
                         ]);
             }else if(props.header.type == 'index'){
                 return h('td', { class: computeTdClass.value }, [
-                            h('div', { class: 'cell' } ,data.xmvIndex + 1)
+                            h('div', { class: 'cell' } ,props.data.xmvIndex + 1)
                         ]);
             }
             else

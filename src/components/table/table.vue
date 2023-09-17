@@ -71,6 +71,7 @@ export default defineComponent({
 
         const loadData = (data)=>{
             tableMode.rctData.data = data
+            tableMode.createIndex()
         }
 
         const handleScroll = (info)=>{
@@ -125,7 +126,7 @@ export default defineComponent({
         
         watch(()=>props.data ,(newVal)=>{
             loadData(newVal)
-        })
+        } ,{ deep: true })
 
         onMounted(()=>{
             tableMode.init()

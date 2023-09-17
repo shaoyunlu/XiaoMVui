@@ -54,6 +54,27 @@ class TableMode{
         this.checkboxHeader.checked = isEmpty(res)
     }
 
+    insertData(index ,__data){
+        this.rctData.data.splice(index ,0 ,__data)
+    }
+
+    deleteData(index){
+        this.rctData.data.splice(index, 1)
+    }
+
+    createIndex(){
+        let i = 0
+        let j = 0
+        this.rctData.data.forEach(data=>{
+            data.xmvIndex = i
+            data.xmvSortIndex = j
+            if (!data.xmvExpandData){
+                i++
+            }
+            j++
+        })
+    }
+
     __setAutomatic(){
         const header = this.rctData.header
         let flag = false

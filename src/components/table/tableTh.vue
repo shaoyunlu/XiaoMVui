@@ -84,7 +84,7 @@ export default defineComponent({
             let type = judgeSortType(key)
 
             if (sortAD.value == ''){
-                key ='xmvIndex'
+                key ='xmvSortIndex'
                 type = 'number'
             }
 

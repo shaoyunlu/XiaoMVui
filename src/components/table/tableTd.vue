@@ -168,11 +168,12 @@ export default defineComponent({
             {
                 if (props.header.showOverflowTooltip){
                     return h(xmvTooltip ,{'content':props.data[props.header.prop]} ,
-                                h('td' ,{ class: computeTdClass.value } ,
-                                h('div',{class:'cell xmv-tooltip'},props.data[props.header.prop])))
+                                         {default : ()=> h('td' ,{ class: computeTdClass.value } ,
+                                            h('div',{class:'cell xmv-tooltip'},props.data[props.header.prop])
+                                        )}
+                            )
                 }else{
                     return h('td', { class: computeTdClass.value }, [
-                            //h('div', { class: 'cell' } ,[props.data[props.header.prop]])
                             h('div', { class: 'cell' } ,renderCellContent(props.data[props.header.prop]))
                         ]);
                 }

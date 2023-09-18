@@ -1,4 +1,4 @@
-import {nextTick, reactive} from 'vue'
+import {nextTick, reactive,ref} from 'vue'
 import {resizeOB} from 'utils/event'
 import {isEmpty,filter,find} from 'utils/data'
 
@@ -17,6 +17,7 @@ class TableMode{
         this.tableRef
         this.$on
         this.$emit
+        this.hasChildren = ref(false)
     }
 
     init(){
@@ -62,16 +63,25 @@ class TableMode{
         this.rctData.data.splice(index, 1)
     }
 
-    createIndex(){
+    createIndex(arr ,depth = 0 ,parentIndex = 0){
         let i = 0
         let j = 0
-        this.rctData.data.forEach(data=>{
-            data.xmvIndex = i
-            data.xmvSortIndex = j
+        arr.forEach(data=>{
+            if (depth == 0){
+                data.xmvIndex = i
+                data.xmvSortIndex = j
+            }else{
+                data.xmvChildrenIndex = (parentIndex + "-" + j)
+            }
+            data.xmvDepth = depth
+            // 展开的数据不算作xmvIndex 内
             if (!data.xmvExpandData){
                 i++
             }
             j++
+            if (!isEmpty(data.children)){
+                this.createIndex(data.children ,depth + 1 ,data.xmvChildrenIndex?data.xmvChildrenIndex:(j-1))
+            }
         })
     }
 

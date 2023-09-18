@@ -22,25 +22,25 @@ export default defineComponent({
         node:Object
     },
     components:{xmvTreeLabel},
-    setup({node} ,context) {
+    setup(props ,context) {
 
         const level = inject('Level')
         const treeMode = inject('TreeMode')
 
         const computeIconClass = computed(()=>{
             let res = []
-            if (node.iconExpanded){
+            if (props.node.iconExpanded){
                 res.push('expanded')
             }
             if (treeMode.lazy){
                 // 节点已经加载过
-                if (node.isLoaded){
-                    if (isEmpty(node.children)){
+                if (props.node.isLoaded){
+                    if (isEmpty(props.node.children)){
                         res.push('is-leaf')
                     }
                 }
             }else{
-                if (isEmpty(node.children)){
+                if (isEmpty(props.node.children)){
                     res.push('is-leaf')
                 }
             }
@@ -52,9 +52,9 @@ export default defineComponent({
         })
 
         const handleCheck = (checked)=>{
-            node.isChecked = checked
-            node.isIndeterminate = false
-            treeMode.handleNodeCheck(node ,checked)
+            props.node.isChecked = checked
+            props.node.isIndeterminate = false
+            treeMode.handleNodeCheck(props.node ,checked)
         }
 
         const handleExpandIconClick = ()=>{

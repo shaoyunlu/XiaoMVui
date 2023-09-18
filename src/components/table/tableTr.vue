@@ -2,6 +2,12 @@
     <tr class="xmv-table__row" :class="computeTrClass" @click="handleTrClick">
         <xmv-table-td v-for="header in tableMode.rctData.header" :header="header" :data="data" :index="index"></xmv-table-td>
     </tr>
+    <xmv-table-tr
+        v-if="data.xmvIsExpand"
+        v-for="(cData,cIndex) in data.children" 
+        :data="cData" 
+        :key="cIndex" 
+        :index="cIndex"></xmv-table-tr>
 </template>
 
 <script>
@@ -17,9 +23,7 @@ export default defineComponent({
     setup({data ,index} ,context) {
         const tableMode = inject('TableMode')
         const isExpandTr = ref(false)
-        // 建立索引
-        //data.xmvIndex = index
-        //data.xmvSortIndex = index
+
         const computeTrClass = computed(()=>{
             let res = []
             if (data.trStatus){
@@ -33,6 +37,9 @@ export default defineComponent({
             if (data.checked){
                 res.push('current-row')
             }
+            if (data.xmvDepth != 0){
+                res.push('xmv-table__row--level-' + data.xmvDepth)
+            }
             return res
         })
         const handleTrClick = ()=>{
@@ -40,7 +47,6 @@ export default defineComponent({
                 tableMode.$emit('trClick' ,index)
             }
         }
-
         tableMode.$on('trClick' ,__index =>{
             data.checked = (index == __index)
         })

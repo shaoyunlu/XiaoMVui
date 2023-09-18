@@ -11,7 +11,7 @@ export default defineComponent({
     props:{
         node : Object
     },
-    setup({node} ,context) {
+    setup(props ,context) {
 
         const childrenDivRef = ref(null)
 

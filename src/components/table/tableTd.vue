@@ -17,6 +17,7 @@ export default defineComponent({
         let data = props.data
         const slots = props.header.slots || {}
         const tableMode = inject('TableMode')
+        const expandIcon = ref('arrowRight')
 
         const computeTdClass = computed(()=>{
             let res = []
@@ -39,6 +40,16 @@ export default defineComponent({
             return res
         })
 
+        const computeIconClass = computed(()=>{
+            let res = []
+
+            if (expandIcon.value == 'loading'){
+                res.push('is-loading')
+            }
+
+            return res
+        })
+
         const handleCheck = (flag)=>{
             data.checked = flag
             tableMode.checkSingle()
@@ -52,6 +63,52 @@ export default defineComponent({
             }else{
                 tableMode.deleteData(props.index + 1)
             }
+        }
+
+        const handleChildrenClick = ()=>{
+            if (props.data.xmvIsExpand){
+                props.data.xmvIsExpand = false
+                return 
+            }
+
+            if (tableMode.option.lazy && !props.data.xmvHasLoad){
+                expandIcon.value = 'loading'
+                tableMode.option.load().then((res)=>{
+                    expandIcon.value = 'arrowRight'
+                    props.data.xmvHasLoad = true
+                    props.data.xmvIsExpand = true
+                    props.data.children = res
+                })
+            }else{
+                props.data.xmvIsExpand = !props.data.xmvIsExpand
+            }
+            
+        }
+
+        const renderCellContent = (content)=>{
+            let res = []
+            if (props.data.hasChildren){
+                tableMode.hasChildren.value = true
+                if (tableMode.rctData.header[0] === props.header){
+                    res.push(h('div' ,{class:computeTdExpandClass.value} 
+                                ,h(xmvIcon ,{'name' : expandIcon.value,
+                                             'onClick' : handleChildrenClick,
+                                             'class':computeIconClass.value})))
+                }
+            }
+            if (props.data.xmvDepth != 0 && tableMode.rctData.header[0] === props.header){
+                res.push(h('span' ,{
+                                    class:'xmv-table__indent',
+                                    style:{'padding-left' : (props.data.xmvDepth) * 16 + 'px'},
+                                   }))
+            }
+            if (tableMode.hasChildren.value 
+                            && tableMode.rctData.header[0] === props.header 
+                            && !props.data.hasChildren){
+                res.push(h('span' ,{class : 'xmv-table__placeholder'}))
+            }
+            res.push(content)
+            return res
         }
 
         const render = ()=>{
@@ -80,7 +137,8 @@ export default defineComponent({
                         'onClick' : handleExpandClick
                     }))
                 ])
-            }else if (defaultSlot)
+            }
+            else if (defaultSlot)
             {
                 if (defaultSlot && defaultSlot.length > 0)
                 {
@@ -92,14 +150,16 @@ export default defineComponent({
                         h('div', { class: 'cell' }, renderSlot)
                     ]);
                 }
-            }else if(props.header.type == 'checkbox'){
+            }
+            else if(props.header.type == 'checkbox'){
                 return h('td', { class: computeTdClass.value }, [
                             h('div', { class: 'cell' } ,h(xmvCheckbox ,{
                                 'modelValue' : data.checked,
                                 'onCheck' : handleCheck
                             }))
                         ]);
-            }else if(props.header.type == 'index'){
+            }
+            else if(props.header.type == 'index'){
                 return h('td', { class: computeTdClass.value }, [
                             h('div', { class: 'cell' } ,props.data.xmvIndex + 1)
                         ]);
@@ -112,7 +172,8 @@ export default defineComponent({
                                 h('div',{class:'cell xmv-tooltip'},props.data[props.header.prop])))
                 }else{
                     return h('td', { class: computeTdClass.value }, [
-                            h('div', { class: 'cell' } ,props.data[props.header.prop])
+                            //h('div', { class: 'cell' } ,[props.data[props.header.prop]])
+                            h('div', { class: 'cell' } ,renderCellContent(props.data[props.header.prop]))
                         ]);
                 }
             }

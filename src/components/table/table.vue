@@ -43,7 +43,9 @@ export default defineComponent({
         stripe : String,
         maxHeight : String,
         data : Array,
-        highlightCurrentRow : Boolean
+        highlightCurrentRow : Boolean,
+        lazy : Boolean,
+        load : Function
     },
     setup(props ,context) {
 
@@ -71,7 +73,7 @@ export default defineComponent({
 
         const loadData = (data)=>{
             tableMode.rctData.data = data
-            tableMode.createIndex()
+            tableMode.createIndex(tableMode.rctData.data)
         }
 
         const handleScroll = (info)=>{

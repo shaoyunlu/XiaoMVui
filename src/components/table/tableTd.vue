@@ -71,7 +71,6 @@ export default defineComponent({
                         ]);
                     }
                 }
-                
             }
             else if(props.header.type == 'expand'){
                 return h('td' ,{ class: computeTdClass.value },[

@@ -16,7 +16,8 @@ export default defineComponent({
     props:{
         closable : String,
         type : {type : String ,default : 'light'},
-        size : String
+        size : String,
+        effect : String
     },
     emits:['close'],
     setup(props ,context) {
@@ -32,6 +33,9 @@ export default defineComponent({
             res.push('xmv-tag--' + props.type)
             if (props.size != undefined){
                 res.push('xmv-tag--' + props.size)
+            }
+            if (props.effect != undefined){
+                res.push('xmv-tag--' + props.effect)
             }
             return res
         })

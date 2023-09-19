@@ -65,7 +65,6 @@ class TreeMode{
     }
 
     handleExpandIconClick(node ,subRef){
-
         const __innerMethod = ()=>{
             if (!isEmpty(node.children)){
                 let childrenEl = subRef.value.childrenDivRef

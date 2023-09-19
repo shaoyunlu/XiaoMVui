@@ -29,7 +29,7 @@ export default defineComponent({
         node : Object,
         parent : Object
     },
-    setup({node ,parent} ,context) {
+    setup(props ,context) {
 
         const treeMode = inject('TreeMode')
         const subRef = ref(null)
@@ -44,26 +44,26 @@ export default defineComponent({
         let tmpNodeDragPos
 
         const handleClick = ()=>{
-            treeMode.handleNodeClick(node)
+            treeMode.handleNodeClick(props.node)
         }
 
         const handleExpandIconClick = ()=>{
-            treeMode.handleExpandIconClick(node ,subRef)
+            treeMode.handleExpandIconClick(props.node ,subRef)
         }
 
         treeMode.$on('nodeClick' ,(tmpNode)=>{
-            node.isCurrent = (node === tmpNode)
+            props.node.isCurrent = (props.node === tmpNode)
         })
 
         treeMode.$on('nodeActive' ,({node : tmpNode ,type})=>{
-            if (tmpNode[type] != node[type]){
-                node.isCurrent = false
+            if (tmpNode[type] != props.node[type]){
+                props.node.isCurrent = false
             }
         })
 
         treeMode.$on('triggerExpandClick' ,({tmp ,type})=>{
-            if (tmp[type] === node[type]){
-                if (!node.isExpanded){
+            if (tmp[type] === props.node[type]){
+                if (!props.node.isExpanded){
                     handleExpandIconClick()
                 }
             }
@@ -71,22 +71,22 @@ export default defineComponent({
 
         treeMode.$on('expandNodeByLevel' ,(tmpLevel)=>{
             if (tmpLevel >= level){
-                node.isExpanded = true
+                props.node.isExpanded = true
             }
         })
 
         const handleDragStart = (e)=>{
-            treeMode.$emit('node-drag-start' ,node)
+            treeMode.$emit('node-drag-start' ,props.node)
         }
 
         const handleDragEnter = (e)=>{
             e.preventDefault()
-            if (treeMode.currentDropEnterNode === node){
+            if (treeMode.currentDropEnterNode === props.node){
 
             }else{
-                treeMode.currentDropEnterNode = node
+                treeMode.currentDropEnterNode = props.node
                 treeMode.tmpTreeBoundInfo = treeMode.treeRef.value.getBoundingClientRect()
-                treeMode.$emit('node-drag-enter' ,node)
+                treeMode.$emit('node-drag-enter' ,props.node)
                 tmpNodeLabelOffsetLeft = nodeRef.value.querySelector('.xmv-tree-node__label').offsetLeft
                 tmpNodeContentClientHeight = nodeRef.value.querySelector('.xmv-tree-node__content').clientHeight
             }     
@@ -94,7 +94,7 @@ export default defineComponent({
 
         const handleDragOver = (e)=>{
             e.preventDefault()
-            if (treeMode.currentDragNode === node){
+            if (treeMode.currentDragNode === props.node){
                 return false
             }
             let nodeClientHeight = tmpNodeContentClientHeight
@@ -118,15 +118,15 @@ export default defineComponent({
                 treeMode.dropIndicatorDisplay.value = false
                 isDropInner.value = true
             }
-            treeMode.$emit('node-drag-over' ,node)
+            treeMode.$emit('node-drag-over' ,props.node)
         }
 
         const handleDragLeave = (e)=>{
             e.preventDefault()
             isDropInner.value = false
             treeMode.dropIndicatorDisplay.value = false
-            if (treeMode.currentDropEnterNode !== node){
-                treeMode.$emit('node-drag-leave' ,node)
+            if (treeMode.currentDropEnterNode !== props.node){
+                treeMode.$emit('node-drag-leave' ,props.node)
             }
         }
 
@@ -134,7 +134,7 @@ export default defineComponent({
             e.preventDefault()
             isDropInner.value = false
             treeMode.dropIndicatorDisplay.value = false
-            treeMode.$emit('node-drop' ,{node : node ,pos : tmpNodeDragPos})
+            treeMode.$emit('node-drop' ,{node : props.node ,pos : tmpNodeDragPos})
         }
 
         const handleDragEnd = (e)=>{
@@ -145,8 +145,8 @@ export default defineComponent({
         }
 
         onMounted(()=>{
-            if (parent != undefined){
-                node.parent = parent
+            if (props.parent != undefined){
+                props.node.parent = props.parent
             }
             if (treeMode.draggable != undefined){
 

@@ -9,11 +9,12 @@ export default defineComponent({
     props:{
         node:Object
     },
-    setup({node} ,context) {
+    setup(props ,context) {
 
         const slots = inject('Slots')
 
         return ()=>{
+            let node = props.node
             if (slots.default){
                 return slots.default.call(slots ,{node})
             }else{

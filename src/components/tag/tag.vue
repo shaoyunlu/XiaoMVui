@@ -17,7 +17,8 @@ export default defineComponent({
         closable : String,
         type : {type : String ,default : 'light'},
         size : String,
-        effect : String
+        effect : String,
+        round : Boolean
     },
     emits:['close'],
     setup(props ,context) {
@@ -36,6 +37,9 @@ export default defineComponent({
             }
             if (props.effect != undefined){
                 res.push('xmv-tag--' + props.effect)
+            }
+            if (props.round){
+                res.push('is-round')
             }
             return res
         })

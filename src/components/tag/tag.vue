@@ -15,10 +15,8 @@ export default defineComponent({
     name:"xmvTag",
     props:{
         closable : String,
-        type : {
-                    type : String ,
-                    default : 'light'
-               }
+        type : {type : String ,default : 'light'},
+        size : String
     },
     emits:['close'],
     setup(props ,context) {
@@ -32,6 +30,9 @@ export default defineComponent({
         const computeTagClass = computed(()=>{
             let res = []
             res.push('xmv-tag--' + props.type)
+            if (props.size != undefined){
+                res.push('xmv-tag--' + props.size)
+            }
             return res
         })
 

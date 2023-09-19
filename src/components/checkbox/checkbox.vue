@@ -25,7 +25,7 @@ export default defineComponent({
     name:"xmvCheckbox",
     emits:['check' ,'update:modelValue'],
     props:{
-        disabled:String,
+        disabled:Boolean,
         label:String,
         checkStatus:Boolean,
         indeterminateStatus:Boolean,
@@ -36,7 +36,7 @@ export default defineComponent({
         const inputRef = ref(null)
         const isChecked = ref(false)
         const isIndeterminate = ref(false)
-        const disabled = ref(props.disabled != undefined)
+        const disabled = ref(props.disabled)
 
         const {$on ,$emit} = inject('EventBus' ,{$on:()=>{} ,$emit:()=>{}})
 

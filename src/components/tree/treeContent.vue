@@ -4,7 +4,8 @@
         :class="computeIconClass" @click.stop="handleExpandIconClick"></xmv-icon>
         <xmv-checkbox v-if="treeMode.showCheckbox != undefined"
         @check="handleCheck" 
-        :checkStatus="node.isChecked" 
+        :checkStatus="node.isChecked"
+        :disabled="node.disabled"
         :indeterminateStatus="node.isIndeterminate"></xmv-checkbox>
         <xmv-icon name="loading" class="xmv-tree-node__loading-icon is-loading" v-if="node.isLoading"></xmv-icon>
         <xmv-tree-label :node="node"></xmv-tree-label>

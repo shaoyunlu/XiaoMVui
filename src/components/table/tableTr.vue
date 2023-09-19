@@ -26,8 +26,8 @@ export default defineComponent({
 
         const computeTrClass = computed(()=>{
             let res = []
-            if (data.trStatus){
-                res.push(data.trStatus + '-row')
+            if (data.xmvTrStatus){
+                res.push(data.xmvTrStatus + '-row')
             }
             if (tableMode.option.stripe != undefined){
                 if (index%2 != 0){

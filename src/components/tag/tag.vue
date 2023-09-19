@@ -1,5 +1,5 @@
 <template>
-    <span class="xmv-tag xmv-tag--light" ref="tagRef">
+    <span class="xmv-tag" :class="computeTagClass" ref="tagRef">
         <span class="xmv-tag__content">
             <slot></slot>
         </span>
@@ -10,11 +10,15 @@
 </template>
 
 <script>
-import {defineComponent,getCurrentInstance,ref} from 'vue'
+import {computed, defineComponent,getCurrentInstance,ref} from 'vue'
 export default defineComponent({
     name:"xmvTag",
     props:{
-        closable : String
+        closable : String,
+        type : {
+                    type : String ,
+                    default : 'light'
+               }
     },
     emits:['close'],
     setup(props ,context) {
@@ -25,7 +29,13 @@ export default defineComponent({
             context.emit('close')
         }
 
-        return {tagRef ,handleCloseClick}
+        const computeTagClass = computed(()=>{
+            let res = []
+            res.push('xmv-tag--' + props.type)
+            return res
+        })
+
+        return {tagRef ,computeTagClass ,handleCloseClick}
     }
 })
 </script>

@@ -13,7 +13,7 @@ export default defineComponent({
         multiple : String,
         notAssociated : String,
         data : Array,
-        modelValue : String
+        modelValue : String | Array
     },
     setup(props ,context) {
 
@@ -32,7 +32,7 @@ export default defineComponent({
             nodeList.forEach(node =>{
                 res.push(node.value)
             })
-            context.emit('update:modelValue' ,res.join(","))
+            context.emit('update:modelValue' ,res)
         }
 
         watch(()=>props.data ,(newVal)=>{

@@ -42,7 +42,6 @@ export default defineComponent({
             })
             $emit('itemClose' ,cData)
             $emit('itemClick' ,cData)
-            
         }
 
         watch(selectMode.rctData ,(newValue, oldValue)=>{

@@ -151,6 +151,12 @@ export default defineComponent({
             nextTick(()=>{
                 selectMode.adjustWH()
             })
+            if (isEmpty(nodeList)){
+                inputPlaceholder.value = placeholderMsg
+            }else{
+                inputPlaceholder.value = ''
+            }
+            
             context.emit('nodeCheck' ,nodeList)
         }
 
@@ -176,7 +182,7 @@ export default defineComponent({
         }
 
         const handlePopoverHide = ()=>{
-            if (selectMode.filterable){
+            if (selectMode.filterable.value){
                 let sData = selectMode.rctData.sData
                 if (isEmpty(sData)){
                     selectMode.inputRef.value.inputRef.value = ''

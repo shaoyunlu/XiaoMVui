@@ -110,7 +110,8 @@ export default defineComponent({
 
         const setMultipleValue = (val ,cbf)=>{
             treeMode.rctData.sData = []
-            let list = val.split(',')
+            //let list = val.split(',')
+            let list = val
             nextTick(()=>{
                 list.forEach(tmp =>{
                     let node = treeMode.findNodeByParam(treeMode.rctData.data ,tmp)

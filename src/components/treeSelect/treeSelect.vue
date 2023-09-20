@@ -1,6 +1,6 @@
 <template>
     <xmv-select type="tree" ref="xmvSelectRef" 
-    :multiple="multiple" :notAssociated="notAssociated"
+    :multiple="multiple" :notAssociated="notAssociated" :onlyChildNode="onlyChildNode"
     @nodeClick="handleNodeClick" @nodeCheck="handleNodeCheck"></xmv-select>
 </template>
 
@@ -13,7 +13,8 @@ export default defineComponent({
         multiple : String,
         notAssociated : String,
         data : Array,
-        modelValue : String | Array
+        modelValue : String | Array,
+        onlyChildNode : Boolean
     },
     setup(props ,context) {
 

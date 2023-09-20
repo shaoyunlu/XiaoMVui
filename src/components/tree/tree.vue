@@ -24,7 +24,8 @@ export default defineComponent({
         draggable : String,
         lazy : String,
         load : Function,
-        data : Array
+        data : Array,
+        onlyChildNode : Boolean
     },
     setup(props ,context) {
         const treeMode = new TreeMode(props)
@@ -42,6 +43,7 @@ export default defineComponent({
         treeMode.draggable = (props.draggable == undefined ? false : true)
         treeMode.lazy = (props.lazy == undefined ? false : true)
         treeMode.load = props.load
+        treeMode.onlyChildNode = props.onlyChildNode
 
         provide('Level' ,0)
         provide('TreeMode' ,treeMode)

@@ -29,6 +29,7 @@
                         :ref="selectMode.treeRef"
                         :showCheckbox="multiple"
                         :notAssociated="notAssociated"
+                        :onlyChildNode="onlyChildNode"
                         @nodeClick="handleNodeClick"
                         @nodeCheck="handleNodeCheck"></xmv-tree>
                     <div class="xmv-select-empty" v-if="selectMode.isEmpty.value">没有查找到相关数据</div>
@@ -60,6 +61,7 @@ export default defineComponent({
         filterable : String,
         type:{type:String ,default:'select'},
         notAssociated : String,
+        onlyChildNode : Boolean,
         modelValue : [String,Number,Array]
     },
     components:{xmvSelectItem},

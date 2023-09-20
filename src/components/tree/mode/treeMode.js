@@ -16,6 +16,7 @@ class TreeMode{
         this.notAssociated = props.notAssociated
         this.lazy
         this.load
+        this.onlyChildNode
         this.$on = null
         this.$emit = null
         this.dropIndicatorTop = ref(0)
@@ -57,6 +58,9 @@ class TreeMode{
     }
 
     handleNodeClick(node){
+        if (this.onlyChildNode && !isEmpty(node.children)){
+            return false
+        }
         // 如果是单选模式，要有选中模式
         if (this.showCheckbox != undefined){
             return false

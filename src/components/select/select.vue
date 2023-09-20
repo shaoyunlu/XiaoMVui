@@ -214,6 +214,9 @@ export default defineComponent({
                         selectMode.rctData.sData.push(__data[0])
                     }
                 })
+                if (isEmpty(selectMode.rctData.sData)){
+                    inputPlaceholder.value = placeholderMsg
+                }
             }else{
                 selectMode.rctData.sData = filter(selectMode.rctData.options ,tmp=>{
                     return tmp.value == val

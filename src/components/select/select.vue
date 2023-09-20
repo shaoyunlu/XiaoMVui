@@ -163,6 +163,7 @@ export default defineComponent({
         const setTreeMultipleValue = (value)=>{
             selectMode.treeRef.value.setMultipleValue(value ,(list)=>{
                 selectMode.rctData.sData = list
+                inputPlaceholder.value = (isEmpty(selectMode.rctData.sData)?placeholderMsg:'')
             })
         }
 

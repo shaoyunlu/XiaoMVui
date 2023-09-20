@@ -5,7 +5,7 @@
         </span>
         <xmv-icon v-if="closable != undefined"
             name="close" class="xmv-tag__close" 
-            @click.stop="handleCloseClick"></xmv-icon>
+            @click.stop="handleCloseClick" @mouseup.stop="()=>{}"></xmv-icon>
     </span>
 </template>
 

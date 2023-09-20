@@ -10,6 +10,7 @@ import {defineComponent ,nextTick,provide ,reactive ,onMounted ,watch, computed,
 import TreeMode from './mode/treeMode';
 import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
+import TableMode from '../table/mode/tableMode';
 export default defineComponent({
     name:"xmvTree",
     emits:['nodeClick' ,'nodeCheck' ,'node-drag-start' ,
@@ -153,6 +154,10 @@ export default defineComponent({
             })
         }
 
+        const checkNode = (node)=>{
+            treeMode.$emit('checkNode' ,node)
+        }
+
         watch(()=>props.data ,(newVal)=>{
             loadData(newVal)
         })
@@ -164,7 +169,8 @@ export default defineComponent({
         })
 
         return {treeMode ,computeDropIndicatorStyle , treeRef,
-                loadData ,filter ,setValue ,setMultipleValue ,activeNode ,expandNodeByLevel}
+                loadData ,filter ,setValue ,setMultipleValue ,
+                activeNode ,expandNodeByLevel,checkNode}
     }
 })
 </script>

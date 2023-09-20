@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {defineComponent ,inject,reactive,ref,watch} from 'vue'
+import {defineComponent ,inject,nextTick,reactive,ref,watch} from 'vue'
 import {find ,filter} from 'utils/data'
 export default defineComponent({
     name:"",

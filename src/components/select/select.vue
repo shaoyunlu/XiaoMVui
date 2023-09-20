@@ -112,7 +112,9 @@ export default defineComponent({
 
         $on('itemClose' ,data =>{
             if (props.type == 'tree'){
+                // 需要调用tree自己的check方法
                 data.isChecked = false
+                selectMode.treeRef.value.checkNode(data)
             }
         })
 

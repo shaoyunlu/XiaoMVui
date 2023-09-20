@@ -62,6 +62,12 @@ export default defineComponent({
             context.emit('expandIconClick')
         }
 
+        treeMode.$on('checkNode' ,(node)=>{
+            if (node.value == props.node.value){
+                handleCheck(node.isChecked)
+            }
+        })
+
         return {treeMode ,computeStyle ,computeIconClass ,handleCheck ,handleExpandIconClick}
     }
 })

@@ -61,6 +61,9 @@ class TreeMode{
         if (this.onlyChildNode && !isEmpty(node.children)){
             return false
         }
+        if (node.disabled){
+            return false
+        }
         // 如果是单选模式，要有选中模式
         if (this.showCheckbox != undefined){
             return false

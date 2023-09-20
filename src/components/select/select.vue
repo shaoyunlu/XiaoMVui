@@ -58,7 +58,7 @@ export default defineComponent({
         size : String,
         collapseTags : String,
         maxcollapseTags : Number,
-        filterable : String,
+        filterable : Boolean,
         type:{type:String ,default:'select'},
         notAssociated : String,
         onlyChildNode : Boolean,
@@ -188,13 +188,17 @@ export default defineComponent({
 
         const handlePopoverHide = ()=>{
             if (selectMode.filterable.value){
-                let sData = selectMode.rctData.sData
-                if (isEmpty(sData)){
-                    selectMode.inputRef.value.inputRef.value = ''
-                    inputPlaceholder.value = placeholderMsg
+                if (selectMode.type == 'select'){
+                    let sData = selectMode.rctData.sData
+                    if (isEmpty(sData)){
+                        selectMode.inputRef.value.inputRef.value = ''
+                        inputPlaceholder.value = placeholderMsg
+                    }else{
+                        let label = sData[0].label  
+                        selectMode.inputRef.value.inputRef.value = label
+                    }
                 }else{
-                    let label = sData[0].label  
-                    selectMode.inputRef.value.inputRef.value = label
+                    selectMode.treeRef.value.filter('')
                 }
             }
         }

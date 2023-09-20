@@ -13,9 +13,10 @@ class SelectMode{
         this.treeRef = ref(null)
         this.isEmpty = ref(false)
         this.tagsRef
+        this.type = props.type
         this.multiple = ref(props.multiple != undefined)
         this.collapseTags = ref(props.collapseTags != undefined)
-        this.filterable = ref(props.filterable != undefined)
+        this.filterable = ref(props.filterable)
     }
 
     adjustWH(){
@@ -35,14 +36,20 @@ class SelectMode{
     }
 
     filter(label){
-        let flag = true
-        this.rctData.options.forEach(option =>{
-            option.hide = (!option.label.includes(label))
-            if (!option.hide){
-                flag = false
-            }
-        })
-        this.isEmpty.value = flag
+        if (this.type == 'select'){
+            let flag = true
+            this.rctData.options.forEach(option =>{
+                option.hide = (!option.label.includes(label))
+                if (!option.hide){
+                    flag = false
+                }
+            })
+            this.isEmpty.value = flag
+        }
+        else{
+            this.treeRef.value.filter(label)
+        }
+        
         nextTick(()=>{
             this.popoverRef.value.setPosition()
         })

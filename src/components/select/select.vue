@@ -9,7 +9,7 @@
                     <xmv-select-tags v-if="selectMode.multiple.value"></xmv-select-tags>
                     <xmv-input
                         :size="size"
-                        :placeholder="inputPlaceholder" 
+                        :placeholder="inputPlaceholder"
                         suffix-icon="arrowDown" 
                         :ref="selectMode.inputRef"
                         :disabled="disabled"
@@ -93,6 +93,9 @@ export default defineComponent({
             if (props.size != undefined){
                 res.push('xmv-select--' + props.size)
             }
+            if (selectMode.isFocus.value){
+                res.push('is-focus')
+            }
             return res
         })
 
@@ -112,7 +115,7 @@ export default defineComponent({
             }else{
                 let selectData = selectMode.rctData.sData[0]
                 selectMode.inputRef.value.val(selectData.label)
-                selectMode.popoverRef.value.hide()
+                selectMode.popoverRef.value.hide(true)
                 context.emit('update:modelValue' ,selectData.value)
                 context.emit('change' ,selectData.value)
             }
@@ -127,6 +130,7 @@ export default defineComponent({
         })
 
         const handleActive = ()=>{
+            selectMode.isFocus.value = true
             selectMode.isEmpty.value = false
             if (!props.disabled){
                 selectMode.inputRef.value.focus()
@@ -155,7 +159,7 @@ export default defineComponent({
 
         const handleNodeClick = (node)=>{
             selectMode.inputRef.value.val(node.label)
-            selectMode.popoverRef.value.hide()
+            selectMode.popoverRef.value.hide(true)
             context.emit('nodeClick' ,node)
         }
 
@@ -197,6 +201,7 @@ export default defineComponent({
         }
 
         const handlePopoverHide = ()=>{
+            selectMode.isFocus.value = false
             if (selectMode.filterable.value){
                 let sData = selectMode.rctData.sData
                 if (isEmpty(sData)){

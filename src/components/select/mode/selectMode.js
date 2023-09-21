@@ -8,6 +8,7 @@ class SelectMode{
             dropdownWidth : 0
         })
         this.selectRef = ref(null)
+        this.isFocus = ref(false)
         this.inputRef = ref(null)
         this.popoverRef = ref(null)
         this.treeRef = ref(null)

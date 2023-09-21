@@ -182,6 +182,10 @@ export default defineComponent({
             resizeOB(triggerEl ,()=>{
                 setPosition()
             })
+
+            resizeOB(popperEl ,()=>{
+                setPosition()
+            })
         })
 
         return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}

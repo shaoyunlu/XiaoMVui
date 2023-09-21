@@ -11,7 +11,7 @@ class TreeMode{
         })
         this.treeRef = null
         this.transition = new XmvTransition()
-        this.filterNodeMethod = props.filterNodeMethod
+        this.filterNodeMethod = this.__createFilterMethod(props.filterNodeMethod) //props.filterNodeMethod
         this.showCheckbox = props.showCheckbox
         this.notAssociated = props.notAssociated
         this.lazy
@@ -32,6 +32,7 @@ class TreeMode{
     }
 
     filter(label){
+        let self = this
         this.rctData.data.forEach(node =>{
             __filter(node ,label)
         })
@@ -46,7 +47,7 @@ class TreeMode{
         }
 
         function __compare(node ,label){
-            if (node.label.includes(label)){
+            if (self.filterNodeMethod(node ,label)){
                 while(node){
                     node.isHidden = false
                     node = node.parent
@@ -237,6 +238,17 @@ class TreeMode{
             node.isIndeterminate = false
         }
 
+    }
+
+    __createFilterMethod(filterNodeMethod){
+        if (filterNodeMethod){
+            return (node ,label)=>{
+                return filterNodeMethod(node ,label)
+            }
+        }
+        return (node ,label)=>{
+            return node.label.includes(label)
+        }
     }
     
     insertNode(node){

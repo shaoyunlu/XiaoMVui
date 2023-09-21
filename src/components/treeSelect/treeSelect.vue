@@ -4,7 +4,9 @@
     :notAssociated="notAssociated" 
     :onlyChildNode="onlyChildNode"
     :filterable="filterable"
-    @nodeClick="handleNodeClick" @nodeCheck="handleNodeCheck"></xmv-select>
+    @nodeClick="handleNodeClick" 
+    @nodeCheck="handleNodeCheck"
+    :filterNodeMethod="filterNodeMethod"></xmv-select>
 </template>
 
 <script>
@@ -18,7 +20,8 @@ export default defineComponent({
         data : Array,
         modelValue : String | Array,
         onlyChildNode : Boolean,
-        filterable : Boolean
+        filterable : Boolean,
+        filterNodeMethod : Function
     },
     setup(props ,context) {
 

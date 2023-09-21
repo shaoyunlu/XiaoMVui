@@ -9,6 +9,10 @@ import {defineComponent ,provide ,reactive} from 'vue'
 import {createEventBus} from 'utils/event'
 export default defineComponent({
     name:"xmvBreadcrumb",
+    props:{
+        separator : {type:String ,default:'/'},
+        separatorIcon : {type:String ,default:''}
+    },
     emits:['route'],
     setup(props ,context) {
 
@@ -17,8 +21,10 @@ export default defineComponent({
         })
 
         const {$on ,$emit} = createEventBus(eventBus)
-
+console.log(props.separatorIcon)
         provide('EventBus' ,{$on ,$emit})
+        provide('Separator' ,props.separator)
+        provide('SeparatorIcon' ,props.separatorIcon)
 
         $on('route' ,(to)=>{
             context.emit('route' ,to)

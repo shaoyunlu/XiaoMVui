@@ -32,7 +32,8 @@
                         :onlyChildNode="onlyChildNode"
                         @nodeClick="handleNodeClick"
                         @nodeCheck="handleNodeCheck"
-                        :filterNodeMethod="filterNodeMethod"></xmv-tree>
+                        :filterNodeMethod="filterNodeMethod" 
+                        :lazy="lazy" :load="load"></xmv-tree>
                     <div class="xmv-select-empty" v-if="selectMode.isEmpty.value">没有查找到相关数据</div>
                 </ul>
             </xmv-scrollbar>
@@ -65,7 +66,9 @@ export default defineComponent({
         notAssociated : String,
         onlyChildNode : Boolean,
         modelValue : [String,Number,Array],
-        filterNodeMethod : Function
+        filterNodeMethod : Function,
+        lazy : Boolean,
+        load : Function
     },
     components:{xmvSelectItem},
     setup(props ,context) {

@@ -22,7 +22,7 @@ export default defineComponent({
         },
         notAssociated : String,  // 父子节点是否相关联,
         draggable : String,
-        lazy : String,
+        lazy : Boolean,
         load : Function,
         data : Array,
         onlyChildNode : Boolean
@@ -41,7 +41,7 @@ export default defineComponent({
         treeMode.$emit = $emit
         treeMode.treeRef = treeRef
         treeMode.draggable = (props.draggable == undefined ? false : true)
-        treeMode.lazy = (props.lazy == undefined ? false : true)
+        treeMode.lazy = props.lazy
         treeMode.load = props.load
         treeMode.onlyChildNode = props.onlyChildNode
 

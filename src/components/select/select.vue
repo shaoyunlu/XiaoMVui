@@ -47,6 +47,7 @@ import xmvSelectItem from './item.vue'
 import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
 import {find ,filter} from 'utils/data'
+import TableMode from '../table/mode/tableMode'
 export default defineComponent({
     name:"xmvSelect",
     components:{xmvSelectItem},
@@ -137,6 +138,9 @@ export default defineComponent({
                     let label = sData[0].label  
                     inputPlaceholder.value = label
                 }
+                if (selectMode.type == 'tree'){
+                    selectMode.treeRef.value.filter('')
+                }
             }   
         }
 
@@ -172,7 +176,8 @@ export default defineComponent({
         }
 
         const setTreeValue = (value)=>{
-            selectMode.treeRef.value.setValue(value)
+            let node = selectMode.treeRef.value.setValue(value)
+            selectMode.rctData.sData = [node]
         }
 
         const handleInputInput = ()=>{
@@ -188,17 +193,13 @@ export default defineComponent({
 
         const handlePopoverHide = ()=>{
             if (selectMode.filterable.value){
-                if (selectMode.type == 'select'){
-                    let sData = selectMode.rctData.sData
-                    if (isEmpty(sData)){
-                        selectMode.inputRef.value.inputRef.value = ''
-                        inputPlaceholder.value = placeholderMsg
-                    }else{
-                        let label = sData[0].label  
-                        selectMode.inputRef.value.inputRef.value = label
-                    }
+                let sData = selectMode.rctData.sData
+                if (isEmpty(sData)){
+                    selectMode.inputRef.value.inputRef.value = ''
+                    inputPlaceholder.value = placeholderMsg
                 }else{
-                    selectMode.treeRef.value.filter('')
+                    let label = sData[0].label  
+                    selectMode.inputRef.value.inputRef.value = label
                 }
             }
         }

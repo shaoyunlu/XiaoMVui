@@ -24,7 +24,7 @@ class SelectMode{
         let ht = this.tagsRef.value.clientHeight
         this.inputRef.value.inputRef.style.height = ht +'px'
         // 调整popover的位置
-        this.popoverRef.value.setPosition()
+        //this.popoverRef.value.setPosition()
     }
 
     getSelectedValList(){
@@ -51,7 +51,7 @@ class SelectMode{
         }
         
         nextTick(()=>{
-            this.popoverRef.value.setPosition()
+            //this.popoverRef.value.setPosition()
         })
         
     }

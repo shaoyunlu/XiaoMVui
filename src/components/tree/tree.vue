@@ -144,6 +144,7 @@ export default defineComponent({
             nextTick(()=>{
                 treeMode.handleNodeClick(node)
             })
+            return node
         }
 
         const activeNode = (value ,type = 'value')=>{

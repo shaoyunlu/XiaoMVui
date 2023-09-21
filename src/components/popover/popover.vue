@@ -7,6 +7,7 @@
 <script>
 import {defineComponent,inject,onBeforeUnmount,onUnmounted,onMounted,ref} from 'vue'
 import {addClass ,getPagePosition} from 'utils/dom'
+import {resizeOB} from 'utils/event'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
     name:"xmvPopover",
@@ -155,11 +156,14 @@ export default defineComponent({
 
             transition.setEl(popperEl)
 
-            if (props.trigger == 'click'){
+            if (props.trigger == 'click')
+            {
                 triggerEl.addEventListener('click' ,()=>{
                     handleMouseclick()
                 })
-            }else{
+            }
+            else
+            {
                 triggerEl.addEventListener('mouseover' ,()=>{
                     handleMouseover()
                 })
@@ -175,6 +179,9 @@ export default defineComponent({
                     handleMouseleave()
                 })
             }
+            resizeOB(triggerEl ,()=>{
+                setPosition()
+            })
         })
 
         return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}

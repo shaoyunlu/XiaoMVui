@@ -59,7 +59,7 @@ export default defineComponent({
         clearable : Boolean,
         multiple : String,
         size : String,
-        collapseTags : String,
+        collapseTags : Boolean,
         maxcollapseTags : Number,
         filterable : Boolean,
         type:{type:String ,default:'select'},

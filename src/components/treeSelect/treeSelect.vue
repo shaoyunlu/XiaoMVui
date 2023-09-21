@@ -7,7 +7,8 @@
     @nodeClick="handleNodeClick" 
     @nodeCheck="handleNodeCheck"
     :filterNodeMethod="filterNodeMethod"
-    :lazy="lazy" :load="load"></xmv-select>
+    :lazy="lazy" :load="load"
+    :collapseTags="collapseTags"></xmv-select>
 </template>
 
 <script>
@@ -24,7 +25,8 @@ export default defineComponent({
         filterable : Boolean,
         filterNodeMethod : Function,
         lazy:Boolean,
-        load:Function
+        load:Function,
+        collapseTags:Boolean
     },
     setup(props ,context) {
 

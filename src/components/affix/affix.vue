@@ -56,6 +56,7 @@ export default defineComponent({
 
         let hasFirstTrigger = false
 
+        let targetRectTop
         let targetRectBottom
 
         XmvEventOn('scroll' ,(e)=>{

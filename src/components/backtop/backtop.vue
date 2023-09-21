@@ -1,7 +1,8 @@
 <template>
     <transition name="xmv-fade-in">
         <div class="xmv-backtop" :style="computeStyle" v-if="isShow" @click="handleClick">
-            <xmv-icon name="arrowRight" class="xmv-backtop__icon"></xmv-icon>
+            <xmv-icon name="arrowRight" class="xmv-backtop__icon" v-if="computeIfIcon"></xmv-icon>
+            <slot></slot>
         </div>
     </transition>
 </template>
@@ -18,6 +19,10 @@ export default defineComponent({
     setup({right,bottom,visibilityHeight} ,context) {
 
         const isShow = ref(false)
+
+        const computeIfIcon = computed(()=>{
+            return context.slots.default == undefined
+        })
 
         const $on = inject('Xmv-Event-On')
 
@@ -38,7 +43,7 @@ export default defineComponent({
             document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
         }
 
-        return {isShow ,computeStyle ,handleClick}
+        return {isShow ,computeStyle ,computeIfIcon ,handleClick}
     }
 })
 </script>

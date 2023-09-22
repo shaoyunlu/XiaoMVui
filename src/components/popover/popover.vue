@@ -22,6 +22,7 @@ export default defineComponent({
             default : 'bottom'
         },
         beStripped : {type : Boolean ,default : true},
+        popClass : {type : String}
     },
     setup(props ,{slots ,attrs ,emit}) {
         const enableRef = ref(true)
@@ -41,6 +42,9 @@ export default defineComponent({
             popperEl = document.createElement('div')
 
             addClass(popperEl ,'xmv-popper is-light is-pure')
+            if (props.popClass != undefined){
+                addClass(popperEl ,props.popClass)
+            }
 
             let cssText = `z-index:2080;position:absolute;display:none;
                             left:0px;top:0px;margin:0;right:auto;bottom:auto;`
@@ -74,6 +78,7 @@ export default defineComponent({
                 //popperEl.style.display = ''
             } ,()=>{
                 emit('show')
+                isShow.value = true
             })
             emit('mouseover')
         }
@@ -82,6 +87,7 @@ export default defineComponent({
             currentEventName = 'mouseleave'
             transition.scaleOut(()=>{
                 popperEl.style.display = 'none'
+                isShow.value = false
             })
             if (withEmit){
                 emit('mouseleave')

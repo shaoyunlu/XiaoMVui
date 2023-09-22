@@ -21,7 +21,7 @@ export default defineComponent({
         })
 
         const {$on ,$emit} = createEventBus(eventBus)
-console.log(props.separatorIcon)
+
         provide('EventBus' ,{$on ,$emit})
         provide('Separator' ,props.separator)
         provide('SeparatorIcon' ,props.separatorIcon)

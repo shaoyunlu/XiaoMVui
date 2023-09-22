@@ -70,18 +70,15 @@ export default defineComponent({
                     zoomIn,zoomOut
               },
     props:{
-        name : String | Object,
-        icon : Object
+        name : String | Object
     },
     setup(props ,context) {
-
-        const oriIcon = toRaw(props.icon)
 
         const tRaw = (val)=>{
             return toRaw(val)
         }
 
-        return {oriIcon ,tRaw}
+        return {tRaw}
     }
 })
 </script>

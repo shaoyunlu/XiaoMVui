@@ -1,5 +1,5 @@
 <template>
-    <xmv-popover :trigger="trigger" pop-class="xmv-dropdown__popper" ref="popoverRef">
+    <xmv-popover :trigger="trigger" pop-class="xmv-dropdown__popper" ref="popoverRef" is-align-center>
         <template #trigger>
             <div class="xmv-dropdown">
                 <slot></slot>

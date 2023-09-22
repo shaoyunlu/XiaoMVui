@@ -47,11 +47,12 @@ export function getHiddenDomWH(el){
 }
 
 // 获取元素位置
-export function getPagePosition(el ,type ,faceEl){
+export function getPagePosition(el ,type ,faceEl ,isAlign = false){
     let boundCr = el.getBoundingClientRect()
     let docScrollLeft = document.documentElement.scrollLeft
     let docScrollTop = document.documentElement.scrollTop
     let gutter = 5
+    let alignNum = 0
     let offsetTop = boundCr.top + docScrollTop
     let offsetLeft = boundCr.left + docScrollLeft
 
@@ -66,6 +67,10 @@ export function getPagePosition(el ,type ,faceEl){
     let screenWidth = document.documentElement.clientWidth
     let screenHeight = document.documentElement.clientHeight
 
+    if (isAlign){
+        alignNum = (elWidth - faceElWidth)/2
+    }
+
     if (type == 'top' && boundCr.top < faceElHeight){
         type = 'bottom'
     }else if (type == 'bottom' && (screenHeight - boundCr.bottom) < faceElHeight){
@@ -77,7 +82,6 @@ export function getPagePosition(el ,type ,faceEl){
     }
 
     switch (type) {
-
         case 'left':
             return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop ,type : type}
 
@@ -85,14 +89,14 @@ export function getPagePosition(el ,type ,faceEl){
             return {left : offsetLeft  + gutter +  elWidth ,top : offsetTop ,type : type}
 
         case 'top':
-            return {left : offsetLeft ,top : offsetTop - gutter - faceElHeight ,type : type}
+            return {left : offsetLeft + alignNum ,top : offsetTop - gutter - faceElHeight ,type : type}
 
         case 'bottom':
-            return {left : offsetLeft ,top : offsetTop + gutter + elHeight ,type : type}
+            return {left : offsetLeft + alignNum ,top : offsetTop + gutter + elHeight ,type : type}
 
         case 'center':
             return {left : offsetLeft ,top:offsetTop ,type : type}
-    
+
         default:
             return {left : offsetLeft ,top : offsetTop ,type : type}
     }

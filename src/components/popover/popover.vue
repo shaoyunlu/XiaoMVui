@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import {defineComponent,inject,onBeforeUnmount,onUnmounted,onMounted,ref} from 'vue'
-import {addClass ,getPagePosition} from 'utils/dom'
+import {defineComponent,inject,onUnmounted,onMounted,ref} from 'vue'
+import {addClass ,getPagePosition } from 'utils/dom'
 import {resizeOB} from 'utils/event'
 import XmvTransition from 'comps/transition/transition'
 export default defineComponent({
@@ -22,7 +22,8 @@ export default defineComponent({
             default : 'bottom'
         },
         beStripped : {type : Boolean ,default : true},
-        popClass : {type : String}
+        popClass : {type : String},
+        isAlignCenter : Boolean
     },
     setup(props ,{slots ,attrs ,emit}) {
         const enableRef = ref(true)
@@ -52,7 +53,9 @@ export default defineComponent({
         }
 
         const setPosition = ()=>{
-            let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl)
+            let offsetLeft = 0
+            let offsetTop = 0
+            let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl ,true)
             transition.placement = type
 
             if (!props.beStripped){
@@ -64,6 +67,13 @@ export default defineComponent({
                     top = triggerEl.offsetTop - 1
                 }
             }
+
+            if (props.placement == 'top' || props.placement == 'bottom'){
+                left += offsetLeft
+
+            }else{
+                top += offsetTop
+            }
             popperEl.style.left = left + 'px'
             popperEl.style.top = top + 'px'
         }
@@ -72,22 +82,22 @@ export default defineComponent({
             if (currentEventName == 'mouseover'){
                 return false
             }
+            isShow.value = true
             currentEventName = 'mouseover'
-            setPosition()
+            //setPosition()
             transition.scaleIn(()=>{
-                //popperEl.style.display = ''
+
             } ,()=>{
                 emit('show')
-                isShow.value = true
             })
             emit('mouseover')
         }
 
         const handleMouseleave = (withEmit = true)=>{
             currentEventName = 'mouseleave'
+            isShow.value = false
             transition.scaleOut(()=>{
                 popperEl.style.display = 'none'
-                isShow.value = false
             })
             if (withEmit){
                 emit('mouseleave')
@@ -195,11 +205,6 @@ export default defineComponent({
         })
 
         return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}
-
-        // return ()=>{
-        //     defaultSlot = ( slots.default) == null ? void 0 : slots.default.call(slots, attrs)
-        //     return defaultSlot
-        // }
     }
 })
 </script>

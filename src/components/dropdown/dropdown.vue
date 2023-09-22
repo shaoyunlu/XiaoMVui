@@ -44,6 +44,7 @@ export default defineComponent({
         const popoverRef = ref(null)
         provide('Context' ,context)
         provide('PopoverRef' ,popoverRef)
+        provide('Size' ,props.size)
         return {popoverRef}
     }
 })

@@ -1,7 +1,9 @@
 <template>
-    <ul class="xmv-dropdown-menu" :class="computeClass">
-        <slot></slot>
-    </ul>
+    <xmv-scrollbar :maxHeightFlag="true">
+        <ul class="xmv-dropdown-menu" :class="computeClass">
+            <slot></slot>
+        </ul>
+    </xmv-scrollbar>
 </template>
 
 <script>

@@ -199,9 +199,9 @@ export default defineComponent({
                 setPosition()
             })
 
-            resizeOB(popperEl ,()=>{
-                setPosition()
-            })
+            // resizeOB(popperEl ,()=>{
+            //     setPosition()
+            // })
         })
 
         return {enableRef ,placeSpan ,isShow ,show ,hide ,enable ,disabled ,setPosition}

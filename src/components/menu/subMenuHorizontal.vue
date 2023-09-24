@@ -1,7 +1,7 @@
 <template>
-    <li class="xmv-sub-menu" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
+    <li class="xmv-sub-menu" :class="{'is-active' : node.active}" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
         <xmv-popover :placement="level == 1?'bottom':'right'" :beStripped="level == 1?true:false"
-                ref="popoverRef"   trigger="mouse" @mouseleave="handlePopML"  @mouseover="handlePopMO">
+                ref="popoverRef"  trigger="hover" @mouseleave="handlePopML"  @mouseover="handlePopMO">
             <template #trigger>
                 <div class="xmv-sub-menu__title">
                     <span>{{node.name}}</span>

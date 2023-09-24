@@ -32,6 +32,7 @@ export default defineComponent({
 
         const menuElRef = ref(null)
         const menuMode = new MenuMode(context)
+        menuMode.isVertical = props.isVertical
 
         const eventBus = reactive({
             listeners : {}
@@ -56,8 +57,8 @@ export default defineComponent({
             menuMode.expand()
         }
 
-        const activeNode = (value ,type = 'value')=>{
-            menuMode.activeNode(value , type)
+        const activeNode = (value)=>{
+            menuMode.activeNode(value)
         }
 
         onMounted(()=>{

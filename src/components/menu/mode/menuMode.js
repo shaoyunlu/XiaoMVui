@@ -11,6 +11,7 @@ class MenuMode{
             isCollapse : false
         })
         this.ctx = ctx
+        this.isVertical
         this.menuElRef = null
         this.curSelNode = null
         this.transition = new XmvTransition()
@@ -55,7 +56,7 @@ class MenuMode{
         })
     }
 
-    activeNode(value ,type){
+    activeNode(value ,type = 'value'){
         let node = findNode(this.rctMenu.data ,value)
         node.active = true
         let parents = findParentNodeByChildNode(this.rctMenu.data ,value ,[] ,type)
@@ -71,14 +72,28 @@ class MenuMode{
                 this.$emit('triggerSubClick' ,{tmp : parents[0] ,type : type})
             })
         }
+
+        if (!this.isVertical){
+            for (let i=0;i<parents.length;i++){
+                parents[i].active = true
+            }
+        }
     }
 
     itemClick(node){
         if (this.curSelNode){
             this.curSelNode.active = false
+            if (!this.isVertical){
+                let parents = findParentNodeByChildNode(this.rctMenu.data ,this.curSelNode.value ,[] ,'value')
+                for (let i=0;i<parents.length;i++){
+                    parents[i].active = false
+                }
+            }
         }
-        node.active = !node.active
+        //node.active = !node.active
         this.curSelNode = node
+        this.activeNode(node.value)
+        
         this.ctx.emit('nodeClick' ,node)
     }
 

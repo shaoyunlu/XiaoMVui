@@ -55,7 +55,7 @@ export default defineComponent({
         const setPosition = ()=>{
             let offsetLeft = 0
             let offsetTop = 0
-            let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl ,true)
+            let {left ,top ,type} = getPagePosition(triggerEl ,props.placement ,popperEl ,props.isAlignCenter)
             transition.placement = type
 
             if (!props.beStripped){

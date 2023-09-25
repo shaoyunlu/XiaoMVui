@@ -13,6 +13,13 @@
         padding-left: calc(var(--xmv-menu-base-level-padding) 
                         + var(--xmv-menu-level) * var(--xmv-menu-level-padding))
     }
+    &.is-collapse{
+        border-right : none;
+        .xmv-menu-item,.xmv-sub-menu__title{
+            padding: 5px 20px 5px 20px;
+            width: 150px;
+        }
+    }
 }
 
 .xmv-menu--collapse {
@@ -171,8 +178,6 @@
         color: var(--xmv-menu-active-color);
     }
 }
-
-
 
 .xmv-sub-menu__title {
     display: flex;

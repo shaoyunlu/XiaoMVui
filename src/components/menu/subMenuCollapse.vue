@@ -3,12 +3,12 @@
         <xmv-popover :beStripped="level == 1?true:false"  trigger="mouse" ref="popoverRef" placement="right">
             <template #trigger>
                 <div class="xmv-sub-menu__title">
-                    <xmv-icon v-if="level == 1" name="plus"></xmv-icon>
+                    <xmv-icon v-if="level == 1" :name="node.icon"></xmv-icon>
                     <span>{{node.name}}</span>
                 </div>
             </template>
 
-            <ul class="xmv-menu"  :class="{'is-dark':menuMode.isDark}" ref="subXmvMenuRef"
+            <ul class="xmv-menu is-collapse"  :class="{'is-dark':menuMode.isDark}" ref="subXmvMenuRef"
                 :style="{'--xmv-menu-level':level}">
                 <xmv-menu-core-collapse v-for="child in node.children" :node="child"></xmv-menu-core-collapse>
             </ul>

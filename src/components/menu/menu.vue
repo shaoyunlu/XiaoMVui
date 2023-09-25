@@ -61,7 +61,7 @@ export default defineComponent({
         }
 
         const activeNode = (value)=>{
-            menuMode.activeNode(value)
+            menuMode.activeNode(value ,'value' ,true)
         }
 
         onMounted(()=>{

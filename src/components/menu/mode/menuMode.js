@@ -57,8 +57,9 @@ class MenuMode{
         })
     }
 
-    activeNode(value ,type = 'value'){
+    activeNode(value ,type = 'value' ,needAnimate = false){
         let node = findNode(this.rctMenu.data ,value)
+        this.curSelNode = node
         node.active = true
         let parents = findParentNodeByChildNode(this.rctMenu.data ,value ,[] ,type)
 
@@ -69,9 +70,11 @@ class MenuMode{
                     parents[i].childrenVisible = true
                 }
             }
-            nextTick(()=>{
-                this.$emit('triggerSubClick' ,{tmp : parents[0] ,type : type})
-            })
+            if (needAnimate){
+                nextTick(()=>{
+                    this.$emit('triggerSubClick' ,{tmp : parents[0] ,type : type})
+                })
+            }
         }
 
         if (!this.isVertical){
@@ -94,7 +97,6 @@ class MenuMode{
         //node.active = !node.active
         this.curSelNode = node
         this.activeNode(node.value)
-        
         this.ctx.emit('nodeClick' ,node)
     }
 

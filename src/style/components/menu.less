@@ -4,6 +4,7 @@
     margin: 0;
     padding-left: 0;
     background-color: var(--xmv-menu-bg-color);
+    border-right: solid 1px var(--xmv-menu-border-color);
     box-sizing: border-box;
 
     &:not(.xmv-menu--collapse) .xmv-menu-item,
@@ -171,6 +172,8 @@
     }
 }
 
+
+
 .xmv-sub-menu__title {
     display: flex;
     align-items: center;
@@ -186,6 +189,10 @@
     box-sizing: border-box;
     white-space: nowrap;
     padding-right: calc(var(--xmv-menu-base-level-padding) + var(--xmv-menu-icon-width));
+}
+
+.xmv-sub-menu__title:hover {
+    background-color: var(--xmv-menu-hover-bg-color);
 }
 
 .xmv-menu-popop{

@@ -66,6 +66,22 @@
     color: var(--xmv-menu-text-color);
 }
 
+.xmv-menu--popup {
+    z-index: 100;
+    min-width: 180px;
+    border: none;
+    padding: 5px 0;
+    border-radius: var(--xmv-border-radius-small);
+    box-shadow: var(--xmv-box-shadow-light);
+}
+
+.xmv-menu--popup.is-horizontal .xmv-menu-item,
+.xmv-menu--popup.is-horizontal .xmv-sub-menu__title {
+    padding: 0 10px;
+    height: var(--xmv-menu-horizontal-sub-item-height);
+    line-height: var(--xmv-menu-horizontal-sub-item-height);
+}
+
 .xmv-menu-item {
     display: flex;
     align-items: center;

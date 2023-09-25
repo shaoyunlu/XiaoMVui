@@ -10,7 +10,7 @@
                 </div>
             </template>
 
-            <ul class="xmv-menu xmv-menu-popop" :class="{'is-dark':menuMode.isDark}"  ref="subXmvMenuRef"
+            <ul class="xmv-menu xmv-menu--popup is-horizontal" :class="{'is-dark':menuMode.isDark}"  ref="subXmvMenuRef"
                 :style="{'--xmv-menu-level':level}">
                 <xmv-menu-core-horizontal v-for="child in node.children" :node="child"></xmv-menu-core-horizontal>
             </ul>

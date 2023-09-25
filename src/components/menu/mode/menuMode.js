@@ -12,6 +12,7 @@ class MenuMode{
         })
         this.ctx = ctx
         this.isVertical
+        this.isDark
         this.menuElRef = null
         this.curSelNode = null
         this.transition = new XmvTransition()

@@ -2,7 +2,8 @@
     <ul class="xmv-menu"  ref="menuElRef"
         :class="{'xmv-menu--collapse' : menuMode.rctMenu.isCollapse ,
                 'xmv-menu--vertical' : isVertical,
-                'xmv-menu--horizontal' : !isVertical}"  style="--xmv-menu-level:0">
+                'xmv-menu--horizontal' : !isVertical,
+                'is-dark' : isDark}"  style="--xmv-menu-level:0">
         <xmv-menu-core v-for="child in menuMode.rctMenu.data" :node="child" 
                     v-if="!menuMode.rctMenu.isCollapse && isVertical "></xmv-menu-core>
         <xmv-menu-core-collapse v-for="child in menuMode.rctMenu.data" :node="child"
@@ -26,13 +27,15 @@ export default defineComponent({
             type : Boolean,
             default : true,
         },
-        data : Array
+        data : Array,
+        isDark : Boolean
     },
     setup(props ,context) {
 
         const menuElRef = ref(null)
         const menuMode = new MenuMode(context)
         menuMode.isVertical = props.isVertical
+        menuMode.isDark = props.isDark
 
         const eventBus = reactive({
             listeners : {}

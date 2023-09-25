@@ -6,7 +6,7 @@
             <xmv-icon name="arrowRight" class="xmv-sub-menu__icon-arrow" :class="{'active' : node.isExpand}"></xmv-icon>
         </div>
 
-        <ul class="xmv-menu" v-show="node.childrenVisible" ref="subXmvMenuRef" 
+        <ul class="xmv-menu" :class="{'is-dark':menuMode.isDark}" v-show="node.childrenVisible" ref="subXmvMenuRef" 
             :style="{'--xmv-menu-level':level}">
             <xmv-menu-core v-for="child in node.children" :node="child"></xmv-menu-core>
         </ul>

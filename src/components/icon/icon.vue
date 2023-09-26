@@ -11,6 +11,7 @@ import arrowDown from './category/arrowDown.vue'
 import arrowLeft from './category/arrowLeft.vue'
 import arrowRight from './category/arrowRight.vue'
 import arrowUp from './category/arrowUp.vue'
+import back from './category/back.vue'
 import barChart from './category/barChart.vue'
 import check from './category/check.vue'
 import close from './category/close.vue'
@@ -52,8 +53,8 @@ import zoomOut from './category/zoomOut.vue'
 export default defineComponent({
     name:"xmvIcon",
     components:{
-                    arrowLeft ,arrowRight ,arrowUp ,arrowDown,
-                    barChart,
+                    arrowLeft,arrowRight,arrowUp,arrowDown,
+                    back,barChart,
                     calendar,check,clock,close,circleCheck,circleClose,
                     dArrowLeft ,dArrowRight,download,dlt,document,
                     edit,empty,

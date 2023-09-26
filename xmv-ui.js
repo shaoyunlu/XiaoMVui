@@ -64,6 +64,7 @@ import xmvDescriptionsItem from 'comps/descriptions/descriptionsItem.vue'
 import xmvDropdown from 'comps/dropdown/dropdown.vue'
 import xmvDropdownMenu from 'comps/dropdown/dropdownMenu.vue'
 import xmvDropdownItem from 'comps/dropdown/dropdownItem.vue'
+import xmvPageHeader from 'comps/pageHeader/pageHeader.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'
@@ -164,6 +165,7 @@ const register = (vue)=>{
     vue.component('xmvDropdown' ,xmvDropdown)
     vue.component('xmvDropdownMenu' ,xmvDropdownMenu)
     vue.component('xmvDropdownItem' ,xmvDropdownItem)
+    vue.component('xmvPageHeader' ,xmvPageHeader)
 
     vue.directive('loading', loadingDirective);
 }

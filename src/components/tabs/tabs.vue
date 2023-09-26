@@ -5,9 +5,12 @@
                 <div class="xmv-tabs__nav-scroll">
                     <div class="xmv-tabs__nav" :class="computePositionClass">
                         <div class="xmv-tabs__active-bar" 
+                            v-if="!type"
                             :ref="tabsMode.barRef" 
                             :class="computePositionClass"
-                            :style="{width:tabsMode.barWidth.value + 'px',transform:'translateX('+tabsMode.barTranslate.value+'px)'}"></div>
+                            :style="{width:tabsMode.barWidth.value + 'px',
+                                    transform:'translateX('+tabsMode.barTranslate.value+'px)'}">
+                        </div>
                         <xmv-tabs-item v-for="(tmp,index) in tabsMode.rctData.itemList" :data="tmp" :index="index"></xmv-tabs-item>
                     </div>
                 </div>
@@ -31,6 +34,7 @@ export default defineComponent({
     name:"xmvTabs",
     props:{
         tabPosition : {type:String ,default:'top'},
+        type : String,
         modelValue : String | Number
     },
     emits:['buildDone'],
@@ -44,7 +48,12 @@ export default defineComponent({
         const {$on ,$emit} = createEventBus(eventBus)
 
         const computeTabsClass = computed(()=>{
-            return ['xmv-tabs--' + props.tabPosition]
+            let res = []
+            res.push('xmv-tabs--' + props.tabPosition)
+            if (props.type != undefined){
+                res.push('xmv-tabs--' + props.type)
+            }
+            return res
         })
 
         const computePositionClass = computed(()=>{

@@ -21,15 +21,17 @@
 </template>
 
 <script>
-import {computed, defineComponent, nextTick, onMounted, provide ,reactive} from 'vue'
+import {computed, defineComponent, nextTick, onMounted, provide ,reactive, watch} from 'vue'
 import TabsMode from './mode/tabsMode'
 import xmvTabsItem from './item.vue';
 import xmvTabsContent from './content.vue';
 import {createEventBus} from 'utils/event'
+import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvTabs",
     props:{
-        tabPosition : {type:String ,default:'top'}
+        tabPosition : {type:String ,default:'top'},
+        modelValue : String | Number
     },
     emits:['buildDone'],
     components:{xmvTabsItem ,xmvTabsContent},
@@ -56,11 +58,22 @@ export default defineComponent({
 
         provide('TabsMode' ,tabsMode)
 
+        watch(()=>props.modelValue ,(newVal)=>{
+            handleWatch(newVal)
+        })
+
+        const handleWatch = (val)=>{
+            tabsMode.$emit('itemClick' ,val)
+        }
+
         onMounted(()=>{
             nextTick(()=>{
-                tabsMode.$emit('setActive')
                 context.emit('buildDone')
-            }) 
+                if (!isEmpty(props.modelValue)){
+                    handleWatch(props.modelValue)
+                }
+            })
+            
         })
 
         return {tabsMode ,computeTabsClass ,computePositionClass}

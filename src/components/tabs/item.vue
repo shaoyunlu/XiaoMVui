@@ -26,22 +26,15 @@ export default defineComponent({
 
         tabsMode.$on('itemClick' ,(name)=>{
             data.isActive = (name == data.name)
-        })
-
-        tabsMode.$on('setActive' ,()=>{
             if (data.isActive){
                 tabsMode.barWidth.value = itemRef.value.clientWidth - 20
                 tabsMode.barTranslate.value = itemRef.value.offsetLeft == 0 ? 0 : itemRef.value.offsetLeft + 20
-                //tabsMode.currentOffsetLeft = itemRef.value.offsetLeft
             }
         })
 
         const handleClick = ()=>{
             data.isActive = true
             tabsMode.$emit('itemClick' ,data.name)
-            tabsMode.barWidth.value = itemRef.value.clientWidth - 20
-            tabsMode.barTranslate.value = itemRef.value.offsetLeft == 0 ? 0 : itemRef.value.offsetLeft + 20
-            //tabsMode.currentOffsetLeft = itemRef.value.offsetLeft
         }
 
         return {computeClass ,handleClick ,itemRef}

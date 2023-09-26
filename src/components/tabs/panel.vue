@@ -16,13 +16,13 @@ export default defineComponent({
 
         const tabsMode = inject('TabsMode')
 
-        let isActive = (tabsMode.rctData.itemList.length == 0)
+        //let isActive = (tabsMode.rctData.itemList.length == 0)
 
         tabsMode.rctData.itemList.push({
             label : props.label,
             name : props.name,
             slots : instance.slots,
-            isActive : isActive
+            isActive : false
         })
     }
 })

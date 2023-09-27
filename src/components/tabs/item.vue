@@ -58,17 +58,30 @@ export default defineComponent({
         tabsMode.$on('itemClick' ,$onItemClick)
 
         const contentRender = ()=>{
+            let res = []
             if (props.data.slots.label){
-                return [h(props.data.slots.label) ,h(xmvIcon ,{
+                res.push(h(props.data.slots.label))
+                if (tabsMode.editable){
+                    res.push(h(xmvIcon ,{
                                 name:'close',
                                 class:'is-icon-close',
-                                onClick:handleCloseClick})]
+                                onClick:handleCloseClick}))
+                }
+                
+                return res
+
             }else{
-                return [props.data.label ,h(xmvIcon ,{
-                    name:'close',
-                    class:'is-icon-close',
-                    onClick:handleCloseClick})]
+                res.push(props.data.label)
+                if (tabsMode.editable){
+                    res.push(h(xmvIcon ,{
+                                name:'close',
+                                class:'is-icon-close',
+                                onClick:handleCloseClick}))
+                }
+                return res
+
             }
+
         }
 
         onUnmounted(()=>{

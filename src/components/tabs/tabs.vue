@@ -1,6 +1,9 @@
 <template>
     <div class="xmv-tabs" :class="computeTabsClass">
         <div class="xmv-tabs__header" :class="computePositionClass">
+            <span class="xmv-tabs__new-tab" @click="handlePlusClick">
+                <xmv-icon name="plus" class="is-icon-plus"></xmv-icon>
+            </span>
             <div class="xmv-tabs__nav-wrap" :class="computeNavWrapClass">
                 <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value" @click="handleLeft">
                     <xmv-icon name="arrowLeft"></xmv-icon>
@@ -46,7 +49,7 @@ export default defineComponent({
         modelValue : String | Number,
         editable : Boolean
     },
-    emits:['buildDone' ,'remove'],
+    emits:['buildDone' ,'remove' ,'add'],
     components:{xmvTabsItem ,xmvTabsContent},
     setup(props ,context) {
 
@@ -98,7 +101,6 @@ export default defineComponent({
         })
 
         const handleLeft = ()=>{
-            let scrollWidth = tabsMode.tabsNavRef.value.scrollWidth
             let clientWidth = tabsMode.tabsNavScrollRef.value.clientWidth
             if (tabsMode.tabsNavScrollX.value < clientWidth){
                 tabsMode.tabsNavScrollX.value = 0
@@ -116,6 +118,10 @@ export default defineComponent({
             }else{
                 tabsMode.tabsNavScrollX.value = diff + tabsMode.tabsNavScrollX.value
             }
+        }
+
+        const handlePlusClick = ()=>{
+            context.emit('add')
         }
 
         provide('TabsMode' ,tabsMode)
@@ -150,7 +156,7 @@ export default defineComponent({
         })
 
         return {tabsMode,computeTabsClass,computePositionClass,
-                handleLeft,handleRight,
+                handleLeft,handleRight,handlePlusClick,
                 computeActiveBarStyle,computeNavWrapClass}
     }
 })

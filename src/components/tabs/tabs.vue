@@ -5,10 +5,10 @@
                 <xmv-icon name="plus" class="is-icon-plus"></xmv-icon>
             </span>
             <div class="xmv-tabs__nav-wrap" :class="computeNavWrapClass">
-                <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value" @click="handleLeft">
+                <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value && tabsMode.editable" @click="handleLeft">
                     <xmv-icon name="arrowLeft"></xmv-icon>
                 </span>
-                <span class="xmv-tabs__nav-next" v-if="tabsMode.isScrollable.value" @click="handleRight">
+                <span class="xmv-tabs__nav-next" v-if="tabsMode.isScrollable.value && tabsMode.editable" @click="handleRight">
                     <xmv-icon name="arrowRight"></xmv-icon>
                 </span>
                 <div class="xmv-tabs__nav-scroll" :ref="tabsMode.tabsNavScrollRef">

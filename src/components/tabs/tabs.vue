@@ -1,7 +1,7 @@
 <template>
     <div class="xmv-tabs" :class="computeTabsClass">
         <div class="xmv-tabs__header" :class="computePositionClass">
-            <span class="xmv-tabs__new-tab" @click="handlePlusClick">
+            <span class="xmv-tabs__new-tab" @click="handlePlusClick" v-if="tabsMode.editable">
                 <xmv-icon name="plus" class="is-icon-plus"></xmv-icon>
             </span>
             <div class="xmv-tabs__nav-wrap" :class="computeNavWrapClass">
@@ -90,7 +90,7 @@ export default defineComponent({
         const computeNavWrapClass = computed(()=>{
             let res = []
             res.push('is-' + props.tabPosition)
-            if (tabsMode.isScrollable.value){
+            if (tabsMode.isScrollable.value && tabsMode.editable){
                 res.push('is-scrollable')
             }
             return res

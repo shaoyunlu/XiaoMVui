@@ -8,8 +8,7 @@
                             v-if="!type"
                             :ref="tabsMode.barRef" 
                             :class="computePositionClass"
-                            :style="{width:tabsMode.barWidth.value + 'px',
-                                    transform:'translateX('+tabsMode.barTranslate.value+'px)'}">
+                            :style="computeActiveBarStyle">
                         </div>
                         <xmv-tabs-item v-for="(tmp,index) in tabsMode.rctData.itemList" :data="tmp" :index="index"></xmv-tabs-item>
                     </div>
@@ -56,6 +55,18 @@ export default defineComponent({
             return res
         })
 
+        const computeActiveBarStyle = computed(()=>{
+            let res = {}
+            if (props.tabPosition == 'top' || props.tabPosition == 'bottom'){
+                res['width'] = tabsMode.barWidth.value + 'px'
+                res['transform'] = 'translateX('+tabsMode.barTranslateX.value+'px)'
+            }else{
+                res['height'] = tabsMode.barHeight.value + 'px'
+                res['transform'] = 'translateY('+tabsMode.barTranslateY.value+'px)'
+            }
+            return res
+        })
+
         const computePositionClass = computed(()=>{
             return ['is-' + props.tabPosition]
         })
@@ -85,7 +96,7 @@ export default defineComponent({
             
         })
 
-        return {tabsMode ,computeTabsClass ,computePositionClass}
+        return {tabsMode ,computeTabsClass ,computePositionClass ,computeActiveBarStyle}
     }
 })
 </script>

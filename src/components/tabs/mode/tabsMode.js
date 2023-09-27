@@ -9,8 +9,10 @@ class TabsMode{
         this.$emit
         this.tabPosition = options.tabPosition
         this.barRef = ref(null)
-        this.barTranslate = ref(0)
+        this.barTranslateX = ref(0)
+        this.barTranslateY = ref(0)
         this.barWidth = ref(0)
+        this.barHeight = ref(0)
         this.currentOffsetLeft = 0
     }
 }

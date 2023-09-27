@@ -27,8 +27,13 @@ export default defineComponent({
         tabsMode.$on('itemClick' ,(name)=>{
             data.isActive = (name == data.name)
             if (data.isActive){
-                tabsMode.barWidth.value = itemRef.value.clientWidth - 20
-                tabsMode.barTranslate.value = itemRef.value.offsetLeft == 0 ? 0 : itemRef.value.offsetLeft + 20
+                if (tabsMode.tabPosition == 'top' || tabsMode.tabPosition == 'bottom'){
+                    tabsMode.barWidth.value = itemRef.value.clientWidth - 20
+                    tabsMode.barTranslateX.value = itemRef.value.offsetLeft == 0 ? 0 : itemRef.value.offsetLeft + 20
+                }else{
+                    tabsMode.barHeight.value = itemRef.value.clientHeight
+                    tabsMode.barTranslateY.value = itemRef.value.offsetTop
+                }
             }
         })
 

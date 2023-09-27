@@ -218,3 +218,111 @@
     border-right-color: var(--xmv-border-color);
     border-left-color: var(--xmv-border-color);
 }
+
+.xmv-tabs--left, .xmv-tabs--right {
+    overflow: hidden;
+}
+
+.xmv-tabs--left .xmv-tabs__header.is-left,
+.xmv-tabs--left .xmv-tabs__header.is-right,
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-left,
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-right,
+.xmv-tabs--left .xmv-tabs__nav-scroll,
+.xmv-tabs--right .xmv-tabs__header.is-left,
+.xmv-tabs--right .xmv-tabs__header.is-right,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-left,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-right,
+.xmv-tabs--right .xmv-tabs__nav-scroll {
+    height: 100%;
+}
+
+.xmv-tabs--left .xmv-tabs__header.is-left {
+    float: left;
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-left,
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-right,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-left,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-right {
+    margin-bottom: 0;
+}
+
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-left {
+    margin-right: -1px;
+}
+
+.xmv-tabs--left .xmv-tabs__nav.is-left,
+.xmv-tabs--left .xmv-tabs__nav.is-right,
+.xmv-tabs--right .xmv-tabs__nav.is-left,
+.xmv-tabs--right .xmv-tabs__nav.is-right {
+    flex-direction: column;
+}
+
+.xmv-tabs--left .xmv-tabs__active-bar.is-left,
+.xmv-tabs--left .xmv-tabs__active-bar.is-right,
+.xmv-tabs--right .xmv-tabs__active-bar.is-left,
+.xmv-tabs--right .xmv-tabs__active-bar.is-right {
+    top: 0;
+    bottom: auto;
+    width: 2px;
+    height: auto;
+}
+
+.xmv-tabs--left .xmv-tabs__active-bar.is-left {
+    right: 0;
+    left: auto;
+}
+
+.xmv-tabs--left .xmv-tabs__item.is-left,
+.xmv-tabs--right .xmv-tabs__item.is-left {
+    justify-content: flex-end;
+}
+
+.xmv-tabs--left .xmv-tabs__item.is-left {
+    text-align: right;
+}
+
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-left:after,
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-right:after,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-left:after,
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-right:after {
+    height: 100% !important;
+    width: 2px !important;
+    bottom: auto !important;
+    top: 0 !important;
+}
+
+.xmv-tabs--left .xmv-tabs__nav-wrap.is-left:after {
+    left: auto !important;
+    right: 0 !important;
+}
+
+.xmv-tabs--right .xmv-tabs__content, .xmv-tabs--left .xmv-tabs__content {
+    height: 100%;
+}
+
+.xmv-tabs--right .xmv-tabs__header.is-right {
+    float: right;
+    margin-bottom: 0;
+    margin-left: 10px;
+}
+
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-right {
+    margin-left: -1px;
+}
+
+.xmv-tabs--right .xmv-tabs__nav-wrap.is-right:after {
+    left: 0;
+    right: auto;
+}
+
+.xmv-tabs--right .xmv-tabs__active-bar.is-right {
+    left: 0;
+}
+
+.xmv-tabs--left .xmv-tabs__item.is-right,
+.xmv-tabs--right .xmv-tabs__item.is-right {
+    justify-content: flex-start;
+}

@@ -14,6 +14,7 @@ class TabsMode{
         this.barRef = ref(null)
         this.tabsNavRef = ref(null)
         this.tabsNavScrollRef = ref(null)
+        this.tabsNavScrollX = ref(0)
         this.isScrollable = ref(false)
         this.barTranslateX = ref(0)
         this.barTranslateY = ref(0)

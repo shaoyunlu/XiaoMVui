@@ -2,14 +2,17 @@
     <div class="xmv-tabs" :class="computeTabsClass">
         <div class="xmv-tabs__header" :class="computePositionClass">
             <div class="xmv-tabs__nav-wrap" :class="computeNavWrapClass">
-                <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value">
+                <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value" @click="handleLeft">
                     <xmv-icon name="arrowLeft"></xmv-icon>
                 </span>
-                <span class="xmv-tabs__nav-next" v-if="tabsMode.isScrollable.value">
+                <span class="xmv-tabs__nav-next" v-if="tabsMode.isScrollable.value" @click="handleRight">
                     <xmv-icon name="arrowRight"></xmv-icon>
                 </span>
                 <div class="xmv-tabs__nav-scroll" :ref="tabsMode.tabsNavScrollRef">
-                    <div class="xmv-tabs__nav" :class="computePositionClass" :ref="tabsMode.tabsNavRef">
+                    <div class="xmv-tabs__nav" 
+                        :class="computePositionClass"
+                        :style="{'transform': 'translateX(-'+tabsMode.tabsNavScrollX.value+'px)'}"
+                        :ref="tabsMode.tabsNavRef">
                         <div class="xmv-tabs__active-bar" 
                             v-if="!type"
                             :ref="tabsMode.barRef" 
@@ -94,6 +97,27 @@ export default defineComponent({
             return ['is-' + props.tabPosition]
         })
 
+        const handleLeft = ()=>{
+            let scrollWidth = tabsMode.tabsNavRef.value.scrollWidth
+            let clientWidth = tabsMode.tabsNavScrollRef.value.clientWidth
+            if (tabsMode.tabsNavScrollX.value < clientWidth){
+                tabsMode.tabsNavScrollX.value = 0
+            }else{
+                tabsMode.tabsNavScrollX.value = tabsMode.tabsNavScrollX.value - clientWidth
+            }
+        }
+
+        const handleRight = ()=>{
+            let scrollWidth = tabsMode.tabsNavRef.value.scrollWidth
+            let clientWidth = tabsMode.tabsNavScrollRef.value.clientWidth
+            let diff = scrollWidth - tabsMode.tabsNavScrollX.value - clientWidth
+            if (diff > clientWidth){
+                tabsMode.tabsNavScrollX.value = clientWidth + tabsMode.tabsNavScrollX.value
+            }else{
+                tabsMode.tabsNavScrollX.value = diff + tabsMode.tabsNavScrollX.value
+            }
+        }
+
         provide('TabsMode' ,tabsMode)
 
         watch(()=>props.modelValue ,(newVal)=>{
@@ -106,7 +130,6 @@ export default defineComponent({
 
         const handleScoll = ()=>{
             nextTick(()=>{
-                console.log(tabsMode.tabsNavRef.value.scrollWidth , tabsMode.tabsNavScrollRef.value.clientWidth)
                 tabsMode.isScrollable.value = (tabsMode.tabsNavRef.value.scrollWidth > tabsMode.tabsNavScrollRef.value.clientWidth)
             })
             
@@ -126,7 +149,9 @@ export default defineComponent({
 
         })
 
-        return {tabsMode ,computeTabsClass ,computePositionClass ,computeActiveBarStyle,computeNavWrapClass}
+        return {tabsMode,computeTabsClass,computePositionClass,
+                handleLeft,handleRight,
+                computeActiveBarStyle,computeNavWrapClass}
     }
 })
 </script>

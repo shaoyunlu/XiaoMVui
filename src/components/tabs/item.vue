@@ -5,13 +5,15 @@
 </template>
 
 <script>
-import {computed, defineComponent ,inject, h ,ref} from 'vue'
+import {computed, defineComponent ,inject, h ,ref, onUnmounted} from 'vue'
+import xmvIcon from 'comps/icon/icon.vue'
 export default defineComponent({
     name:"",
     props:{
         data : Object,
         index : Number
     },
+    components:{xmvIcon},
     setup(props ,context) {
         const itemRef = ref(null)
         const tabsMode = inject('TabsMode')
@@ -21,10 +23,15 @@ export default defineComponent({
             if (props.data.isActive){
                 res.push('is-active')
             }
+            if (tabsMode.editable){
+                res.push('is-closable')
+            }
             return res
         })
 
-        tabsMode.$on('itemClick' ,(name)=>{
+        
+
+        const $onItemClick = (name)=>{
             props.data.isActive = (name == props.data.name)
             if (props.data.isActive){
                 if (tabsMode.tabPosition == 'top' || tabsMode.tabPosition == 'bottom'){
@@ -35,20 +42,46 @@ export default defineComponent({
                     tabsMode.barTranslateY.value = itemRef.value.offsetTop
                 }
             }
-        })
+        }
 
         const handleClick = ()=>{
             props.data.isActive = true
             tabsMode.$emit('itemClick' ,props.data.name)
         }
 
+        const handleCloseClick = (e)=>{
+            e.stopPropagation()
+            tabsMode.remove(props.data.name)
+            tabsMode.ctx.emit('remove' ,props.data.name)
+        }
+
+        tabsMode.$on('itemClick' ,$onItemClick)
+
+        const contentRender = ()=>{
+            if (props.data.slots.label){
+                return [h(props.data.slots.label) ,h(xmvIcon ,{
+                                name:'close',
+                                class:'is-icon-close',
+                                onClick:handleCloseClick})]
+            }else{
+                return [props.data.label ,h(xmvIcon ,{
+                    name:'close',
+                    class:'is-icon-close',
+                    onClick:handleCloseClick})]
+            }
+        }
+
+        onUnmounted(()=>{
+            // 需要解除监听事件
+            tabsMode.$remove('itemClick',$onItemClick)
+        })
+
         return ()=>{
-            console.log(props.data.slots.label)
             return h('div' ,{
                 'class':computeClass.value,
                 'onClick':handleClick,
                 'ref':itemRef
-            } ,props.data.slots.label?h(props.data.slots.label):props.data.label)
+            } ,contentRender())
         }
 
         //return {computeClass ,handleClick ,itemRef}

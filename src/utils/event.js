@@ -39,8 +39,14 @@ export function createEventBus(eventBus){
     };
 
     // 移除一个事件
+    const $remove = (event ,callback)=>{
+        if (eventBus.listeners[event]){
+            let index = eventBus.listeners[event].indexOf(callback)
+            eventBus.listeners[event].splice(index, 1);
+        }
+    }
 
-    return {$on ,$emit}
+    return {$on ,$emit ,$remove}
 }
 
 export function debounce(func, delay) {

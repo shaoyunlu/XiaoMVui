@@ -326,3 +326,51 @@
 .xmv-tabs--right .xmv-tabs__item.is-right {
     justify-content: flex-start;
 }
+
+.xmv-tabs__item .is-icon-close {
+    border-radius: 50%;
+    text-align: center;
+    transition: all var(--xmv-transition-duration) var(--xmv-transition-function-ease-in-out-bezier);
+    margin-left: 5px;
+}
+
+.xmv-tabs--card>.xmv-tabs__header .xmv-tabs__item .is-icon-close {
+    position: relative;
+    font-size: 12px;
+    width: 0;
+    height: 14px;
+    overflow: hidden;
+    right: -2px;
+    transform-origin: 100% 50%;
+}
+
+.xmv-tabs--card>.xmv-tabs__header .xmv-tabs__item.is-active.is-closable .is-icon-close {
+    width: 14px;
+}
+
+.xmv-tabs--card>.xmv-tabs__header .xmv-tabs__item.is-closable:hover .is-icon-close {
+    width: 14px;
+}
+
+.xmv-tabs__nav-wrap.is-scrollable {
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.xmv-tabs__nav-next, .xmv-tabs__nav-prev {
+    position: absolute;
+    cursor: pointer;
+    line-height: 44px;
+    font-size: 12px;
+    color: var(--xmv-text-color-secondary);
+    width: 20px;
+    text-align: center;
+}
+
+.xmv-tabs__nav-prev {
+    left: 0;
+}
+
+.xmv-tabs__nav-next {
+    right: 0;
+}

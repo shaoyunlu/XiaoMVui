@@ -1,9 +1,15 @@
 <template>
     <div class="xmv-tabs" :class="computeTabsClass">
         <div class="xmv-tabs__header" :class="computePositionClass">
-            <div class="xmv-tabs__nav-wrap" :class="computePositionClass">
-                <div class="xmv-tabs__nav-scroll">
-                    <div class="xmv-tabs__nav" :class="computePositionClass">
+            <div class="xmv-tabs__nav-wrap" :class="computeNavWrapClass">
+                <span class="xmv-tabs__nav-prev" v-if="tabsMode.isScrollable.value">
+                    <xmv-icon name="arrowLeft"></xmv-icon>
+                </span>
+                <span class="xmv-tabs__nav-next" v-if="tabsMode.isScrollable.value">
+                    <xmv-icon name="arrowRight"></xmv-icon>
+                </span>
+                <div class="xmv-tabs__nav-scroll" :ref="tabsMode.tabsNavScrollRef">
+                    <div class="xmv-tabs__nav" :class="computePositionClass" :ref="tabsMode.tabsNavRef">
                         <div class="xmv-tabs__active-bar" 
                             v-if="!type"
                             :ref="tabsMode.barRef" 
@@ -34,17 +40,25 @@ export default defineComponent({
     props:{
         tabPosition : {type:String ,default:'top'},
         type : String,
-        modelValue : String | Number
+        modelValue : String | Number,
+        editable : Boolean
     },
-    emits:['buildDone'],
+    emits:['buildDone' ,'remove'],
     components:{xmvTabsItem ,xmvTabsContent},
     setup(props ,context) {
+
+        const tabsMode = new TabsMode(props)
 
         const eventBus = reactive({
             listeners : {}
         })
 
-        const {$on ,$emit} = createEventBus(eventBus)
+        const {$on ,$emit ,$remove} = createEventBus(eventBus)
+
+        tabsMode.$on = $on
+        tabsMode.$emit = $emit
+        tabsMode.$remove = $remove
+        tabsMode.ctx = context
 
         const computeTabsClass = computed(()=>{
             let res = []
@@ -67,14 +81,18 @@ export default defineComponent({
             return res
         })
 
+        const computeNavWrapClass = computed(()=>{
+            let res = []
+            res.push('is-' + props.tabPosition)
+            if (tabsMode.isScrollable.value){
+                res.push('is-scrollable')
+            }
+            return res
+        })
+
         const computePositionClass = computed(()=>{
             return ['is-' + props.tabPosition]
         })
-
-        const tabsMode = new TabsMode(props)
-
-        tabsMode.$on = $on
-        tabsMode.$emit = $emit
 
         provide('TabsMode' ,tabsMode)
 
@@ -86,6 +104,14 @@ export default defineComponent({
             tabsMode.$emit('itemClick' ,val)
         }
 
+        const handleScoll = ()=>{
+            nextTick(()=>{
+                console.log(tabsMode.tabsNavRef.value.scrollWidth , tabsMode.tabsNavScrollRef.value.clientWidth)
+                tabsMode.isScrollable.value = (tabsMode.tabsNavRef.value.scrollWidth > tabsMode.tabsNavScrollRef.value.clientWidth)
+            })
+            
+        }
+
         onMounted(()=>{
             nextTick(()=>{
                 context.emit('buildDone')
@@ -94,9 +120,13 @@ export default defineComponent({
                 }
             })
             
+            watch(tabsMode.rctData ,(newVal)=>{
+                handleScoll()
+            })
+
         })
 
-        return {tabsMode ,computeTabsClass ,computePositionClass ,computeActiveBarStyle}
+        return {tabsMode ,computeTabsClass ,computePositionClass ,computeActiveBarStyle,computeNavWrapClass}
     }
 })
 </script>

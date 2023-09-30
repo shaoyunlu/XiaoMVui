@@ -22,13 +22,13 @@
                             :class="computePositionClass"
                             :style="computeActiveBarStyle">
                         </div>
-                        <xmv-tabs-item v-for="(tmp,index) in tabsMode.rctData.itemList" :data="tmp" :index="index"></xmv-tabs-item>
+                        <xmv-tabs-item v-for="(tmp,index) in tabsMode.rctData.itemList" :data="tmp" :index="index" :key="tmp.name"></xmv-tabs-item>
                     </div>
                 </div>
             </div>
         </div>
         <div class="xmv-tabs__content">
-            <xmv-tabs-content v-for="tmp in tabsMode.rctData.itemList" :data="tmp"></xmv-tabs-content>
+            <xmv-tabs-content v-for="tmp in tabsMode.rctData.itemList" :data="tmp" :key="tmp.name"></xmv-tabs-content>
         </div>
     </div>
     <slot></slot>
@@ -122,6 +122,16 @@ export default defineComponent({
 
         const handlePlusClick = ()=>{
             context.emit('add')
+            nextTick(()=>{
+                let scrollWidth = tabsMode.tabsNavRef.value.scrollWidth
+                let clientWidth = tabsMode.tabsNavScrollRef.value.clientWidth
+                let length = tabsMode.rctData.itemList.length
+                if (scrollWidth > clientWidth){
+                    tabsMode.tabsNavScrollX.value = scrollWidth - clientWidth
+                }
+                let lastNode = tabsMode.rctData.itemList[length - 1]
+                tabsMode.$emit('itemClick' ,lastNode.name)
+            })
         }
 
         provide('TabsMode' ,tabsMode)

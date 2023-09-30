@@ -51,7 +51,7 @@ export default defineComponent({
 
         const handleCloseClick = (e)=>{
             e.stopPropagation()
-            tabsMode.remove(props.data.name)
+            tabsMode.remove(props.data)
             tabsMode.ctx.emit('remove' ,props.data.name)
         }
 

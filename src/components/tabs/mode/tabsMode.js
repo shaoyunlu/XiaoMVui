@@ -23,10 +23,26 @@ class TabsMode{
         this.currentOffsetLeft = 0
     }
 
-    remove(name){
-        this.rctData.itemList = this.rctData.itemList.filter(node=>{
-            return node.name != name
+    remove(data){
+
+        let cIndex
+        this.rctData.itemList.forEach((node,i)=>{
+            if (node.name == data.name){
+                cIndex = i
+            }
         })
+
+        this.rctData.itemList = this.rctData.itemList.filter(node=>{
+            return node.name != data.name
+        })
+
+        if (data.isActive){
+            if (cIndex >= this.rctData.itemList.length){
+                cIndex = this.rctData.itemList.length - 1
+            }
+            let cData = this.rctData.itemList[cIndex]
+            this.$emit('itemClick',cData.name)
+        }
 
     }
 }

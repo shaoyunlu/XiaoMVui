@@ -65,6 +65,7 @@ import xmvDropdown from 'comps/dropdown/dropdown.vue'
 import xmvDropdownMenu from 'comps/dropdown/dropdownMenu.vue'
 import xmvDropdownItem from 'comps/dropdown/dropdownItem.vue'
 import xmvPageHeader from 'comps/pageHeader/pageHeader.vue'
+import xmvAlert from 'comps/alert/alert.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import XmvLoading from 'comps/loading/loading'

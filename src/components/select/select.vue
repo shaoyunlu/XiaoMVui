@@ -49,7 +49,6 @@ import xmvSelectItem from './item.vue'
 import {createEventBus} from 'utils/event'
 import {isEmpty} from 'utils/data'
 import {find ,filter} from 'utils/data'
-import TableMode from '../table/mode/tableMode'
 export default defineComponent({
     name:"xmvSelect",
     components:{xmvSelectItem},
@@ -132,8 +131,10 @@ export default defineComponent({
         const handleActive = ()=>{
             selectMode.isFocus.value = true
             selectMode.isEmpty.value = false
+            selectMode.rctData.dropdownWidth = selectMode.selectRef.value.clientWidth - 2
             if (!props.disabled){
                 selectMode.inputRef.value.focus()
+                selectMode.popoverRef.value.setPosition()
                 selectMode.popoverRef.value.enable()
             }
 

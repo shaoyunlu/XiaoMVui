@@ -1,7 +1,7 @@
 <template>
     <transition name="xmv-fade-in">
         <div class="xmv-alert xmv-alert--success is-light" :class="computeClass" v-if="isShow">
-            <xmv-icon class="xmv-alert__icon" 
+            <xmv-icon class="xmv-alert__icon" v-if="showIcon"
                       :class="{'is-big' : description != undefined}" 
                       :name="(type=='error'?'circleClose':type) + 'Filled'"></xmv-icon>
             <div class="xmv-alert__content">

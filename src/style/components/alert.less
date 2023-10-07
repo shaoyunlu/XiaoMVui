@@ -67,3 +67,11 @@
         width: var(--xmv-alert-icon-large-size);
     }
 }
+
+.xmv-fade-in-enter-active, .xmv-fade-in-leave-active {
+    transition: all var(--xmv-transition-duration) cubic-bezier(.55,0,.1,1);
+}
+
+.xmv-fade-in-enter-from, .xmv-fade-in-leave-active {
+    opacity: 0;
+}

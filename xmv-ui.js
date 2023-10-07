@@ -167,6 +167,7 @@ const register = (vue)=>{
     vue.component('xmvDropdownMenu' ,xmvDropdownMenu)
     vue.component('xmvDropdownItem' ,xmvDropdownItem)
     vue.component('xmvPageHeader' ,xmvPageHeader)
+    vue.component('xmvAlert' ,xmvAlert)
 
     vue.directive('loading', loadingDirective);
 }

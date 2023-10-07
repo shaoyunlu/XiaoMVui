@@ -17,6 +17,7 @@ import check from './category/check.vue'
 import close from './category/close.vue'
 import circleCheck from './category/circleCheck.vue'
 import circleClose from './category/circleClose.vue'
+import circleCloseFilled from './category/circleCloseFilled.vue'
 import calendar from './category/calendar.vue'
 import clock from './category/clock.vue'
 import document from './category/document.vue'
@@ -55,7 +56,7 @@ export default defineComponent({
     components:{
                     arrowLeft,arrowRight,arrowUp,arrowDown,
                     back,barChart,
-                    calendar,check,clock,close,circleCheck,circleClose,
+                    calendar,check,clock,close,circleCheck,circleClose,circleCloseFilled,
                     dArrowLeft ,dArrowRight,download,dlt,document,
                     edit,empty,
                     hide,

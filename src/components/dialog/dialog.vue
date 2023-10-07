@@ -31,7 +31,8 @@ export default defineComponent({
     props:{
         title : {type:String ,default : ''},
         width : String,
-        modelValue : Boolean
+        modelValue : Boolean,
+        beforeClose : Function
     },
     setup(props ,context) {
 
@@ -46,7 +47,14 @@ export default defineComponent({
         })
 
         const handleCloseClick = ()=>{
-            context.emit('update:modelValue' ,false)
+            if (props.beforeClose != undefined){
+                props.beforeClose(()=>{
+                    context.emit('update:modelValue' ,false)
+                })
+            }else{
+                context.emit('update:modelValue' ,false)
+            }
+            
         }
 
         onMounted(()=>{

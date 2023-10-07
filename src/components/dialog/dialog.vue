@@ -1,8 +1,10 @@
 <template>
     <transition name="xmv-dialog">
         <div class="xmv-overlay" v-show="modelValue">
-            <div class="xmv-overlay-dialog">
-                <div class="xmv-dialog" :style="computeStyle" ref="dialogRef">
+            <div class="xmv-overlay-dialog" :style="computeOverlayStyle">
+                <div class="xmv-dialog" 
+                    :class="{'is-align-center' : alignCenter ,'xmv-dialog--center' : center}" 
+                    :style="computeStyle" ref="dialogRef">
                     <header class="xmv-dialog__header">
                         <span class="xmv-dialog__title">
                             {{title}}
@@ -32,7 +34,9 @@ export default defineComponent({
         title : {type:String ,default : ''},
         width : String,
         modelValue : Boolean,
-        beforeClose : Function
+        beforeClose : Function,
+        center : Boolean,
+        alignCenter : Boolean
     },
     setup(props ,context) {
 
@@ -41,9 +45,21 @@ export default defineComponent({
         const transition = new XmvTransition()
 
         const computeStyle = computed(()=>{
+            let res = {}
             if (props.width != undefined){
-                return {'--xmv-dialog-width' : props.width}
+                res['--xmv-dialog-width'] = props.width
             }
+            return res
+        })
+
+        const computeOverlayStyle = computed(()=>{
+            let res = {}
+
+            if (props.alignCenter){
+                res['display'] = 'flex'
+            }
+
+            return res
         })
 
         const handleCloseClick = ()=>{
@@ -61,7 +77,7 @@ export default defineComponent({
             transition.setEl(dialogRef.el)
         })
 
-        return {dialogRef ,isShow,handleCloseClick ,computeStyle}
+        return {dialogRef,isShow,computeStyle,computeOverlayStyle,handleCloseClick}
     }
 })
 </script>

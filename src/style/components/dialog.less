@@ -19,6 +19,14 @@
     overflow: auto;
 }
 
+.xmv-dialog.is-align-center {
+    margin: auto;
+}
+
+.xmv-dialog--center {
+    text-align: center;
+}
+
 .xmv-dialog__header {
     padding: var(--xmv-dialog-padding-primary);
     padding-bottom: 10px;
@@ -54,8 +62,6 @@
     }
 }
 
-
-
 .xmv-dialog__body {
     padding: calc(var(--xmv-dialog-padding-primary) + 10px) var(--xmv-dialog-padding-primary);
     color: var(--xmv-text-color-regular);
@@ -67,6 +73,10 @@
     padding-top: 10px;
     text-align: right;
     box-sizing: border-box;
+}
+
+.xmv-dialog--center .xmv-dialog__footer {
+    text-align: inherit;
 }
 
 .xmv-dialog-enter-active ,.xmv-dialog-leave-active {

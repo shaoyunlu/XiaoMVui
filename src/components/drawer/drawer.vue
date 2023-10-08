@@ -31,7 +31,7 @@ export default defineComponent({
             default : 'rtl'
         },
         beforeClose : Function,
-        withHeader : Boolean,
+        withHeader : {type : Boolean,default : true},
         modelValue : Boolean
     },
     setup(props ,context) {

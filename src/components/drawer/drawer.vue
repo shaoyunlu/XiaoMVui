@@ -1,8 +1,8 @@
 <template>
     <transition name="xmv-drawer">
         <div class="xmv-overlay" v-show="modelValue">
-            <div class="xmv-drawer" :class="computeClass" :style="computeDrawerStyle">
-                <header class="xmv-drawer__header">
+            <div class="xmv-drawer" :class="computeClass" :style="computeDrawerStyle" v-clickoutside="handleClickOutside">
+                <header class="xmv-drawer__header" v-if="withHeader">
                     <span class="xmv-drawer__title">{{title}}</span>
                     <button class="xmv-drawer__close-btn" @click="handleCloseClick">
                         <xmv-icon name="close" class="xmv-drawer__close"></xmv-icon>
@@ -30,6 +30,8 @@ export default defineComponent({
             type : String,
             default : 'rtl'
         },
+        beforeClose : Function,
+        withHeader : Boolean,
         modelValue : Boolean
     },
     setup(props ,context) {
@@ -57,10 +59,23 @@ export default defineComponent({
         })
 
         const handleCloseClick = ()=>{
-            context.emit('update:modelValue' ,false)
+            if (props.beforeClose != undefined){
+                props.beforeClose(()=>{
+                    context.emit('update:modelValue' ,false)
+                })
+            }else{
+                context.emit('update:modelValue' ,false)
+            }
         }
 
-        return {isOpenRef ,computeClass ,computeDrawerStyle ,handleCloseClick}
+        const handleClickOutside = ()=>{
+            if (props.modelValue){
+                handleCloseClick()
+            }
+        }
+
+        return {isOpenRef ,computeClass ,computeDrawerStyle ,
+                handleCloseClick ,handleClickOutside}
     }
 })
 </script>

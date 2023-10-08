@@ -68,6 +68,7 @@ import xmvPageHeader from 'comps/pageHeader/pageHeader.vue'
 import xmvAlert from 'comps/alert/alert.vue'
 
 import loadingDirective from 'comps/loading/directive'
+import clickoutsideDirective from 'directives/clickoutside.js'
 import XmvLoading from 'comps/loading/loading'
 import XmvMessageBox from 'comps/messageBox/messageBox.js'
 import XmvMessage from 'comps/message/message.js'
@@ -170,6 +171,7 @@ const register = (vue)=>{
     vue.component('xmvAlert' ,xmvAlert)
 
     vue.directive('loading', loadingDirective);
+    vue.directive('clickoutside', clickoutsideDirective);
 }
 
 export {XmvLoading ,XmvMessageBox ,XmvMessage}

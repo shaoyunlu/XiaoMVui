@@ -1,13 +1,23 @@
+import { addStyle } from "../../utils/dom"
+
 let loadingInstance = null
 
+/**
+ * 构造函数参数
+ * lock
+ * text
+ * background
+ */
 class XmvLoading{
-    constructor(options){
+    constructor(options = {}){
         const container = document.createElement('div')
         this.container = container
 
         container.className = 'xmv-loading-mask'
+        addStyle(container,'position','fixed')
 
         const spinner = document.createElement('div')
+        this.spinner = spinner
         spinner.className = 'xmv-loading-spinner'
         container.appendChild(spinner)
 
@@ -23,12 +33,14 @@ class XmvLoading{
         circle.setAttribute('fill', 'none');
         svg.appendChild(circle)
         spinner.appendChild(svg)
+        this.__setText(options.text)
+        this.__setBackground(options.background)
         document.body.appendChild(container)
         container.style.display = 'block'
     }
 
     loadingOptions(options){
-
+        
     }
 
     loading(){
@@ -37,6 +49,19 @@ class XmvLoading{
 
     close(){
         this.container.style.display = 'none'
+    }
+
+    __setText(text){
+        if (text){
+            const loadingTextEl = document.createElement('p')
+            loadingTextEl.className = 'xmv-loading-text'
+            loadingTextEl.innerHTML = text
+            this.spinner.appendChild(loadingTextEl)
+        }
+    }
+
+    __setBackground(background){
+        addStyle(this.container,'background-color' ,background)
     }
 }
 

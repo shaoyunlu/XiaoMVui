@@ -4,9 +4,8 @@ export default {
     mounted(el, binding){
         const container = document.createElement('div')
         container.className = 'xmv-loading-mask'
-        const bgcolor = el.getAttribute('xmv-loading-background')
-        if (bgcolor){
-            addStyle(container,'background-color' ,bgcolor)
+        if (el.getAttribute('xmv-loading-background')){
+            addStyle(container,'background-color' ,el.getAttribute('xmv-loading-background'))
         }
 
         const spinner = document.createElement('div')
@@ -21,7 +20,6 @@ export default {
             svg.setAttribute('viewBox' ,'0 0 50 50')
         }
         
-
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('class', 'path');
         circle.setAttribute('cx', '25');
@@ -29,23 +27,26 @@ export default {
         circle.setAttribute('r', '20');
         circle.setAttribute('fill', 'none');
 
-        const svgContent = el.getAttribute('xmv-loading-svg')
-        if (svgContent){
-            svg.innerHTML = svgContent
+        if (el.getAttribute('xmv-loading-svg')){
+            svg.innerHTML = el.getAttribute('xmv-loading-svg')
         }else{
             svg.appendChild(circle)
         }
         spinner.appendChild(svg)
 
-        let loadingText = el.getAttribute('xmv-loading-text')
-        if (loadingText){
+        if (el.getAttribute('xmv-loading-text')){
             const loadingTextEl = document.createElement('p')
             loadingTextEl.className = 'xmv-loading-text'
-            loadingTextEl.innerHTML = loadingText
+            loadingTextEl.innerHTML = el.getAttribute('xmv-loading-text')
             spinner.appendChild(loadingTextEl)
         }
 
-        el.appendChild(container)
+        if (binding.modifiers.fullscreen){
+            addStyle(container,'position','fixed')
+            document.body.appendChild(container)
+        }else{
+            el.appendChild(container)
+        }
 
         el._loadingContainer = container
 

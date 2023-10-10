@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref, onMounted, watch ,nextTick, computed} from 'vue'
+import {defineComponent ,ref, onMounted ,nextTick, computed, watch} from 'vue'
 import xmvIcon  from 'comps/icon/icon.vue'
 import xmvBadge from 'comps/badge/badge.vue'
 export default defineComponent({
@@ -29,12 +29,13 @@ export default defineComponent({
         grouping : Boolean
     },
     setup(props ,context) {
-
         const isShow = ref(false)
         const isDisplay = ref(false)
 
         const topRef = ref(props.top)
         const groupNumRef = ref(1)
+
+        let timeout
 
         const computeClass = computed(()=>{
             let res = []
@@ -62,6 +63,14 @@ export default defineComponent({
             context.emit('destroy')
         }
 
+        watch(groupNumRef ,()=>{
+            clearTimeout(timeout)
+            setTimeout(()=>{
+                isShow.value = false
+                context.emit('destroy')
+            } ,props.duration)
+        })
+
         onMounted(()=>{
             isDisplay.value = true
             nextTick(()=>{
@@ -69,7 +78,7 @@ export default defineComponent({
             })
 
             if (props.duration != 0){
-                setTimeout(()=>{
+                timeout = setTimeout(()=>{
                     isShow.value = false
                     context.emit('destroy')
                 } ,props.duration)

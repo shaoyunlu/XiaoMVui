@@ -29,6 +29,18 @@
     p {
         margin: 0;
     }
+    .xmv-message__closeBtn {
+        position: absolute;
+        top: 50%;
+        right: 19px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--xmv-message-close-icon-color);
+        font-size: var(--xmv-message-close-size);
+    }
+    &.is-closable{
+        transition: top var(--xmv-transition-duration);
+    }
 }
 
 .xmv-message__icon {
@@ -82,4 +94,8 @@
     .xmv-message{
         transform: translateY(-30px);
     }
+}
+
+.xmv-message.is-closable .xmv-message__content {
+    padding-right: 31px;
 }

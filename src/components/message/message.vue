@@ -1,10 +1,11 @@
 <template>
     <transition name="xmv-message"  @after-leave="handleLeave">
         <div v-show="isShow" v-if="isDisplay">
-            <div class="xmv-message" :class="computeClass" :style="{top:top+'px'}">
+            <div class="xmv-message" :class="computeClass" :style=computeStyle>
                 <xmv-icon :name="(type=='error'?'circleClose':type) + 'Filled'"
                           class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
+                <xmv-icon name="close" class="xmv-message__closeBtn" @click="handleCloseClick"></xmv-icon>
             </div>
         </div>
     </transition>
@@ -20,27 +21,44 @@ export default defineComponent({
         top : {type:Number ,default:20},
         message : String,
         instances : Array,
-        type : {type:String ,default : 'info'}
+        type : {type:String ,default : 'info'},
+        showClose : Boolean,
+        duration : {type:Number ,default : 3000}
     },
     setup(props ,context) {
 
         const isShow = ref(false)
         const isDisplay = ref(false)
 
-        // watch(props.instances ,(newVal)=>{
-
-        // })
+        const topRef = ref(props.top)
 
         const computeClass = computed(()=>{
-            return ['xmv-message--' + props.type]
+            let res = []
+            res.push('xmv-message--' + props.type)
+            if (props.showClose){
+                res.push('is-closable')
+            }
+            return res
+        })
+
+        const computeStyle = computed(()=>{
+            return {top : topRef.value + 'px'}
         })
 
         const computeIconClass = computed(()=>{
             return ['xmv-message-icon--' + props.type]
         })
 
+        const setTop = (top)=>{
+            topRef.value = top
+        }
+
         const handleLeave = ()=>{
             isDisplay.value = false
+        }
+
+        const handleCloseClick = ()=>{
+            isShow.value = false
             context.emit('destroy')
         }
 
@@ -50,12 +68,16 @@ export default defineComponent({
                 isShow.value = true
             })
 
-            setTimeout(()=>{
-                isShow.value = false
-            } ,3000)
+            if (props.duration != 0){
+                setTimeout(()=>{
+                    isShow.value = false
+                    context.emit('destroy')
+                } ,props.duration)
+            }
         })
 
-        return {isShow ,isDisplay, computeClass , computeIconClass,handleLeave}
+        return {isShow ,isDisplay, computeClass , computeIconClass,computeStyle,topRef,
+                handleLeave,handleCloseClick,setTop}
     }
 })
 </script>

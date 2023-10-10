@@ -64,8 +64,6 @@ export default {
         }
     },
     unmounted(el) {
-        console.log('loading directive unmounted')
-
         el._loadingContainer && el._loadingContainer.remove()
 
     }

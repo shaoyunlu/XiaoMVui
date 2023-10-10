@@ -23,17 +23,10 @@ function XmvMessage({message ,type ,showClose ,duration ,grouping}){
         showClose : showClose,
         grouping : grouping,
         onDestroy:()=>{
-            console.log('onDestroy')
             let index = instances.findIndex(obj => obj === vm)
             instances.splice(index, 1)
             //render(null ,container)
             container.remove()
-        },
-        onVnodeUnmounted : ()=>{
-            console.log('onVnodeUnmounted')
-        },
-        onUnmounted : ()=>{
-            console.log('onUnmounted js')
         }
     })
     render(vnode, container)

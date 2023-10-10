@@ -79,12 +79,6 @@ export default defineComponent({
             destroy()
         })
 
-        onUnmounted(()=>{
-            console.log('unmounted')
-            console.log(divRef.value)
-            context.emit('destroy')
-        })
-
         onMounted(()=>{
             isDisplay.value = true
             nextTick(()=>{

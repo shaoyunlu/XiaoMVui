@@ -2,7 +2,8 @@
     <transition name="xmv-message"  @after-leave="handleLeave">
         <div v-show="isShow" v-if="isDisplay">
             <div class="xmv-message" :class="computeClass" :style="{top:top+'px'}">
-                <xmv-icon :name="type + 'Filled'" class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
+                <xmv-icon :name="(type=='error'?'circleClose':type) + 'Filled'"
+                          class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
             </div>
         </div>

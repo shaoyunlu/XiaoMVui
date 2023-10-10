@@ -16,7 +16,7 @@ export default defineComponent({
     name:"xmvMessage",
     components:{xmvIcon},
     props:{
-        top : {type:String ,default:'20'},
+        top : {type:Number ,default:20},
         message : String,
         instances : Array,
         type : {type:String ,default : 'info'}
@@ -51,7 +51,7 @@ export default defineComponent({
 
             setTimeout(()=>{
                 isShow.value = false
-            } ,3000)
+            } ,300000)
         })
 
         return {isShow ,isDisplay, computeClass , computeIconClass,handleLeave}

@@ -64,5 +64,6 @@ export default {
         }
     },
     unmounted(el) {
+        console.log('loading directive unmounted')
     }
 }

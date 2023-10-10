@@ -65,5 +65,8 @@ export default {
     },
     unmounted(el) {
         console.log('loading directive unmounted')
+        if (binding.modifiers.fullscreen){
+            el._loadingContainer.remove()
+        }
     }
 }

@@ -29,8 +29,8 @@ function XmvMessage({message ,type ,showClose ,duration ,grouping}){
             //render(null ,container)
             container.remove()
         },
-        onVnodeBeforeMount : ()=>{
-            console.log('onVnodeBeforeMount')
+        onVnodeUnmounted : ()=>{
+            console.log('onVnodeUnmounted')
         },
         onUnmounted : ()=>{
             console.log('onUnmounted js')

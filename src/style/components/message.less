@@ -14,6 +14,7 @@
     padding: var(--xmv-message-padding);
     display: flex;
     align-items: center;
+    transition: top var(--xmv-transition-duration);
     .xmv-message-icon--info {
         color: var(--xmv-message-text-color);
     }
@@ -37,9 +38,6 @@
         cursor: pointer;
         color: var(--xmv-message-close-icon-color);
         font-size: var(--xmv-message-close-size);
-    }
-    &.is-closable{
-        transition: top var(--xmv-transition-duration);
     }
 }
 

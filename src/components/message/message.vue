@@ -1,12 +1,12 @@
 <template>
     <transition name="xmv-message"  @after-leave="handleLeave">
-        <div v-show="isShow" v-if="isDisplay">
+        <div v-show="isShow" v-if="isDisplay" ref="divRef">
             <div class="xmv-message" :class="computeClass" :style=computeStyle>
-                <xmv-badge class="xmv-message__badge" :value="groupNumRef"></xmv-badge>
+                <xmv-badge class="xmv-message__badge" :value="groupNumRef" v-if="grouping"></xmv-badge>
                 <xmv-icon :name="(type=='error'?'circleClose':type) + 'Filled'"
                           class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
-                <xmv-icon name="close" class="xmv-message__closeBtn" @click="handleCloseClick"></xmv-icon>
+                <xmv-icon v-if="showClose" name="close" class="xmv-message__closeBtn" @click="handleCloseClick"></xmv-icon>
             </div>
         </div>
     </transition>
@@ -35,6 +35,8 @@ export default defineComponent({
         const topRef = ref(props.top)
         const groupNumRef = ref(1)
 
+        const divRef = ref(null)
+
         let timeout
 
         const computeClass = computed(()=>{
@@ -58,6 +60,15 @@ export default defineComponent({
             isDisplay.value = false
         }
 
+        const destroy = ()=>{
+            if (props.duration != 0){
+                timeout = setTimeout(()=>{
+                    isShow.value = false
+                    context.emit('destroy')                    
+                } ,props.duration)
+            }
+        }
+
         const handleCloseClick = ()=>{
             isShow.value = false
             context.emit('destroy')
@@ -65,14 +76,12 @@ export default defineComponent({
 
         watch(groupNumRef ,()=>{
             clearTimeout(timeout)
-            setTimeout(()=>{
-                isShow.value = false
-                context.emit('destroy')
-            } ,props.duration)
+            destroy()
         })
 
         onUnmounted(()=>{
             console.log('unmounted')
+            console.log(divRef.value)
             context.emit('destroy')
         })
 
@@ -82,15 +91,11 @@ export default defineComponent({
                 isShow.value = true
             })
 
-            if (props.duration != 0){
-                timeout = setTimeout(()=>{
-                    isShow.value = false
-                    context.emit('destroy')
-                } ,props.duration)
-            }
+            destroy()
         })
 
         return {isShow ,isDisplay, computeClass , computeIconClass,computeStyle,topRef,groupNumRef,
+                divRef,
                 handleLeave,handleCloseClick}
     }
 })

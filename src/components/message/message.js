@@ -21,10 +21,12 @@ function XmvMessage({message ,type ,showClose ,duration ,grouping}){
         type : type,
         duration : duration,
         showClose : showClose,
+        grouping : grouping,
         onDestroy:()=>{
+            console.log('onDestroy')
             let index = instances.findIndex(obj => obj === vm)
             instances.splice(index, 1)
-            render(null ,container)
+            //render(null ,container)
             container.remove()
         }
     })

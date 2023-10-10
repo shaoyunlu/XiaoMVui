@@ -3,7 +3,14 @@ import MessageConstructor from "./message.vue"
 
 const instances = reactive([])
 
-function XmvMessage({message ,type ,showClose ,duration}){
+function XmvMessage({message ,type ,showClose ,duration ,grouping}){
+    if (grouping && instances.length > 0){
+        let ins = instances.filter((instance => instance.message == message))
+        if (ins.length > 0){
+            ins[0].groupNumRef += 1
+            return false
+        }
+    }
     let vm
     let container = document.createElement('div')
     document.body.appendChild(container)
@@ -26,9 +33,9 @@ function XmvMessage({message ,type ,showClose ,duration}){
     instances.push(vm)
 }
 
-watch(instances ,(newVal)=>{
+watch(instances ,()=>{
     instances.forEach((instance,i) =>{
-        instance.setTop(20 + i * 64)
+        instance.topRef = 20 + i * 64
     })
 } ,{deep : false})
 

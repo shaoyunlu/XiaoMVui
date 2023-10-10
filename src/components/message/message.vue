@@ -2,6 +2,7 @@
     <transition name="xmv-message"  @after-leave="handleLeave">
         <div v-show="isShow" v-if="isDisplay">
             <div class="xmv-message" :class="computeClass" :style=computeStyle>
+                <xmv-badge class="xmv-message__badge" :value="groupNumRef"></xmv-badge>
                 <xmv-icon :name="(type=='error'?'circleClose':type) + 'Filled'"
                           class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
@@ -14,16 +15,18 @@
 <script>
 import {defineComponent ,ref, onMounted, watch ,nextTick, computed} from 'vue'
 import xmvIcon  from 'comps/icon/icon.vue'
+import xmvBadge from 'comps/badge/badge.vue'
 export default defineComponent({
     name:"xmvMessage",
-    components:{xmvIcon},
+    components:{xmvIcon,xmvBadge},
     props:{
         top : {type:Number ,default:20},
         message : String,
         instances : Array,
         type : {type:String ,default : 'info'},
         showClose : Boolean,
-        duration : {type:Number ,default : 3000}
+        duration : {type:Number ,default : 3000},
+        grouping : Boolean
     },
     setup(props ,context) {
 
@@ -31,6 +34,7 @@ export default defineComponent({
         const isDisplay = ref(false)
 
         const topRef = ref(props.top)
+        const groupNumRef = ref(1)
 
         const computeClass = computed(()=>{
             let res = []
@@ -48,10 +52,6 @@ export default defineComponent({
         const computeIconClass = computed(()=>{
             return ['xmv-message-icon--' + props.type]
         })
-
-        const setTop = (top)=>{
-            topRef.value = top
-        }
 
         const handleLeave = ()=>{
             isDisplay.value = false
@@ -76,8 +76,8 @@ export default defineComponent({
             }
         })
 
-        return {isShow ,isDisplay, computeClass , computeIconClass,computeStyle,topRef,
-                handleLeave,handleCloseClick,setTop}
+        return {isShow ,isDisplay, computeClass , computeIconClass,computeStyle,topRef,groupNumRef,
+                handleLeave,handleCloseClick}
     }
 })
 </script>

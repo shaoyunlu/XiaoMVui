@@ -1,6 +1,6 @@
 <template>
-    <transition name="xmv-message" v-show="isShow" v-if="isDisplay" @after-leave="handleLeave">
-        <div>
+    <transition name="xmv-message"  @after-leave="handleLeave">
+        <div v-show="isShow" v-if="isDisplay">
             <div class="xmv-message" :class="computeClass" :style="{top:top+'px'}">
                 <xmv-icon :name="type + 'Filled'" class="xmv-message__icon" :class="computeIconClass"></xmv-icon>
                 <p class="xmv-message__content">{{message}}</p>
@@ -51,7 +51,7 @@ export default defineComponent({
 
             setTimeout(()=>{
                 isShow.value = false
-            } ,300000)
+            } ,3000)
         })
 
         return {isShow ,isDisplay, computeClass , computeIconClass,handleLeave}

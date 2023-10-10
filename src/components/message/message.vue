@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent ,ref, onMounted ,nextTick, computed, watch} from 'vue'
+import {defineComponent ,ref, onMounted ,nextTick, computed, watch, onUnmounted} from 'vue'
 import xmvIcon  from 'comps/icon/icon.vue'
 import xmvBadge from 'comps/badge/badge.vue'
 export default defineComponent({
@@ -69,6 +69,11 @@ export default defineComponent({
                 isShow.value = false
                 context.emit('destroy')
             } ,props.duration)
+        })
+
+        onUnmounted(()=>{
+            console.log('unmounted')
+            context.emit('destroy')
         })
 
         onMounted(()=>{

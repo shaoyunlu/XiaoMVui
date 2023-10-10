@@ -28,6 +28,12 @@ function XmvMessage({message ,type ,showClose ,duration ,grouping}){
             instances.splice(index, 1)
             //render(null ,container)
             container.remove()
+        },
+        onVnodeBeforeMount : ()=>{
+            console.log('onVnodeBeforeMount')
+        },
+        onUnmounted : ()=>{
+            console.log('onUnmounted js')
         }
     })
     render(vnode, container)

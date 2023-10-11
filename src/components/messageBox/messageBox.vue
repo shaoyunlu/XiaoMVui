@@ -17,10 +17,16 @@
                                 <p>{{message}}</p>
                             </div>
                         </div>
+                        <div class="xmv-message-box__input" v-if="type == 'prompt'">
+                            <xmv-input v-model="inputModel"></xmv-input>
+                            <div class="xmv-message-box__errormsg" :style="computeErrormsgStyle">
+                                {{ errormsgRef }}
+                            </div>
+                        </div>
                     </div>
                     <div class="xmv-message-box__btns">
-                        <xmv-button @click="handleClose" v-if="isShowCloseButton">取消</xmv-button>
-                        <xmv-button type="primary" @click="handleEnter">确认</xmv-button>
+                        <xmv-button @click="handleClose" v-if="isShowCloseButton">{{ cancelButtonText }}</xmv-button>
+                        <xmv-button type="primary" @click="handleEnter">{{ confirmButtonText }}</xmv-button>
                     </div>
                 </div>
             </div>
@@ -29,16 +35,23 @@
 </template>
 
 <script>
-import {defineComponent ,nextTick,onMounted,onUnmounted,onBeforeUnmount,ref} from 'vue'
+import {defineComponent ,nextTick,watch,ref, computed} from 'vue'
 import xmvButton from 'comps/button/button.vue'
 import xmvIcon  from 'comps/icon/icon.vue'
+import xmvInput from 'comps/input/input.vue'
+import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvMessageBox",
     props:{
         title : String,
-        message : String
+        message : String,
+        type : String,
+        confirmButtonText : {type:String ,default:'确认'},
+        cancelButtonText : {type:String ,default:'取消'},
+        inputPattern : RegExp,
+        inputErrorMessage : {type:String ,default:'error'}
     },
-    components : {xmvButton ,xmvIcon},
+    components : {xmvButton ,xmvIcon ,xmvInput},
     emits : ['leave'],
     setup(props ,context) {
 
@@ -48,8 +61,31 @@ export default defineComponent({
         const isDisplay = ref(false)
         const isShowCloseButton = ref(false)
 
+        const inputModel = ref('')
+        const errormsgRef = ref('')
+
         let currentResolve
         let currentReject
+
+        watch(inputModel ,(newVal)=>{
+            validate(newVal)
+        })
+
+        const validate = (newVal)=>{
+            if ( !isEmpty(newVal) &&  props.inputPattern.test(newVal)){
+                errormsgRef.value = ''
+            }else{
+                errormsgRef.value = props.inputErrorMessage
+            }
+        }
+
+        const computeErrormsgStyle = computed(()=>{
+            if (isEmpty(errormsgRef.value)){
+                return {'visibility':'hidden'}
+            }else{
+                return {'visibility':'visible'}
+            }
+        })
 
         const setAlert = ()=>{
             isShowCloseButton.value = false
@@ -58,6 +94,12 @@ export default defineComponent({
         }
 
         const setConfirm = (resolve ,reject)=>{
+            isShowCloseButton.value = true
+            currentResolve = resolve
+            currentReject = reject
+        }
+
+        const setPrompt = (resolve ,reject)=>{
             isShowCloseButton.value = true
             currentResolve = resolve
             currentReject = reject
@@ -76,7 +118,15 @@ export default defineComponent({
         }
 
         const handleEnter = ()=>{
-            currentResolve && currentResolve('')
+            if ( props.type == 'prompt' ){
+                validate(inputModel.value)
+                if (!isEmpty(errormsgRef.value)){
+                    return false
+                }
+                currentResolve && currentResolve(inputModel.value)
+            }else if (props.type == 'confirm'){
+                currentResolve && currentResolve('')
+            }
             isShow.value = false
         }
 
@@ -85,8 +135,9 @@ export default defineComponent({
             context.emit('leave')
         }
 
-        return {isShow , isDisplay ,isShowCloseButton ,messageBoxRef ,
-                show ,handleClose ,handleLeave ,handleEnter ,setAlert ,setConfirm}
+        return {isShow , isDisplay ,isShowCloseButton ,messageBoxRef ,errormsgRef,computeErrormsgStyle,
+                inputModel,
+                show ,handleClose ,handleLeave ,handleEnter ,setAlert ,setConfirm ,setPrompt}
     }
 })
 </script>

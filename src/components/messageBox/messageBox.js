@@ -7,13 +7,16 @@ class XmvMessageBox{
 
 const messageInstance = new Map()
 
-function createComponent(msg,title){
+function createComponent(msg,title,type,option={}){
     let vm
     let container = document.createElement('div')
     document.body.appendChild(container)
     let vnode = createVNode(MessageBoxConstructor ,{
         title : title,
         message : msg,
+        type : type,
+        inputPattern : option.inputPattern,
+        inputErrorMessage : option.inputErrorMessage,
         onLeave : ()=>{
             messageInstance.delete(vm)
             render(null ,container)
@@ -27,15 +30,24 @@ function createComponent(msg,title){
 }
 
 XmvMessageBox.alert = (msg,title)=>{
-    let vm = createComponent(msg,title)
+    let vm = createComponent(msg,title,'alert')
     vm.setAlert()
     vm.show()
 }
 
 XmvMessageBox.confirm = (msg ,title)=>{
-    let vm = createComponent(msg,title)
+    let vm = createComponent(msg,title,'confirm')
     let confirmPromise = new Promise((resolve ,reject)=>{
         vm.setConfirm(resolve ,reject)
+        vm.show()
+    })
+    return confirmPromise
+}
+
+XmvMessageBox.prompt = (msg ,title ,option)=>{
+    let vm = createComponent(msg,title,'prompt',option)
+    let confirmPromise = new Promise((resolve ,reject)=>{
+        vm.setPrompt(resolve ,reject)
         vm.show()
     })
     return confirmPromise

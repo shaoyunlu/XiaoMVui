@@ -47,6 +47,30 @@
     color: var(--el-messagebox-title-color);
 }
 
+.xmv-message-box--center{
+    .xmv-message-box__title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .xmv-message-box__status {
+        position: relative;
+        top: auto;
+        padding-right: 5px;
+        text-align: center;
+        transform: translateY(-1px);
+    }
+    .xmv-message-box__content {
+        padding-left: calc(var(--xmv-messagebox-padding-primary) + 12px);
+        padding-right: calc(var(--xmv-messagebox-padding-primary) + 12px);
+        text-align: center;
+    }
+    .xmv-message-box__btns {
+        justify-content: center;
+    }
+}
+
 .xmv-message-box__headerbtn {
     position: absolute;
     top: var(--xmv-messagebox-padding-primary);

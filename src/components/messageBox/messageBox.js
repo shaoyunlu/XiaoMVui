@@ -18,6 +18,7 @@ function createComponent(msg,title,type,option={}){
         inputPattern : option.inputPattern,
         inputErrorMessage : option.inputErrorMessage,
         dangerouslyUseHTMLString : option.dangerouslyUseHTMLString,
+        center : option.center,
         onLeave : ()=>{
             messageInstance.delete(vm)
             render(null ,container)

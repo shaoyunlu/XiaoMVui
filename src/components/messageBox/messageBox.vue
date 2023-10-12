@@ -2,13 +2,13 @@
     <transition name="xmv-message-box" v-show="isShow" v-if="isDisplay" @after-leave="handleLeave">
         <div class="xmv-overlay is-message-box" ref="messageBoxRef">
             <div class="xmv-overlay-message-box">
-                <div class="xmv-message-box">
+                <div class="xmv-message-box" :class="{'xmv-message-box--center':center}">
                     <div class="xmv-message-box__header">
                         <div class="xmv-message-box__title">
                             <span>{{title}}</span>
                         </div>
                         <button class="xmv-message-box__headerbtn">
-                            <xmv-icon name="close" class="xmv-message-box__close" @click="handleClose"></xmv-icon>
+                            <xmv-icon name="close" class="xmv-message-box__close" @click="handleClose('close')"></xmv-icon>
                         </button>
                     </div>
                     <div class="xmv-message-box__content">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="xmv-message-box__btns">
-                        <xmv-button @click="handleClose" v-if="isShowCloseButton">{{ cancelButtonText }}</xmv-button>
+                        <xmv-button @click="handleClose('cancel')" v-if="isShowCloseButton">{{ cancelButtonText }}</xmv-button>
                         <xmv-button type="primary" @click="handleEnter">{{ confirmButtonText }}</xmv-button>
                     </div>
                 </div>
@@ -52,7 +52,8 @@ export default defineComponent({
         cancelButtonText : {type:String ,default:'取消'},
         inputPattern : RegExp,
         inputErrorMessage : {type:String ,default:'error'},
-        dangerouslyUseHTMLString : false
+        dangerouslyUseHTMLString : false,
+        center : false
     },
     components : {xmvButton ,xmvIcon ,xmvInput},
     emits : ['leave'],
@@ -115,8 +116,8 @@ export default defineComponent({
             })
         }
 
-        const handleClose = ()=>{
-            currentReject && currentReject('')
+        const handleClose = (closeType)=>{
+            currentReject && currentReject(closeType)
             isShow.value = false
         }
 

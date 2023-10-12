@@ -72,6 +72,7 @@ import clickoutsideDirective from 'directives/clickoutside.js'
 import XmvLoading from 'comps/loading/loading'
 import XmvMessageBox from 'comps/messageBox/messageBox.js'
 import XmvMessage from 'comps/message/message.js'
+import XmvNotification from 'comps/notification/notification.js'
 
 import {createEventBus} from 'utils/event'
 
@@ -174,5 +175,5 @@ const register = (vue)=>{
     vue.directive('clickoutside', clickoutsideDirective);
 }
 
-export {XmvLoading ,XmvMessageBox ,XmvMessage}
+export {XmvLoading ,XmvMessageBox ,XmvMessage ,XmvNotification}
 export default register

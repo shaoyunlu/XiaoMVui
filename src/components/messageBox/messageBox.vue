@@ -14,7 +14,8 @@
                     <div class="xmv-message-box__content">
                         <div class="xmv-message-box__container">
                             <div class="xmv-message-box__message">
-                                <p>{{message}}</p>
+                                <p v-if="type != 'vnode'">{{message}}</p>
+                                <slot v-else></slot>
                             </div>
                         </div>
                         <div class="xmv-message-box__input" v-if="type == 'prompt'">
@@ -44,7 +45,7 @@ export default defineComponent({
     name:"xmvMessageBox",
     props:{
         title : String,
-        message : String,
+        message : String | Object | Function,
         type : String,
         confirmButtonText : {type:String ,default:'确认'},
         cancelButtonText : {type:String ,default:'取消'},

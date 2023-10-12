@@ -22,6 +22,8 @@ function createComponent(msg,title,type,option={}){
             render(null ,container)
             container.remove()
         }
+    },{
+        default : msg
     })
     render(vnode, container)
     vm = vnode.component.proxy
@@ -51,6 +53,12 @@ XmvMessageBox.prompt = (msg ,title ,option)=>{
         vm.show()
     })
     return confirmPromise
+}
+
+XmvMessageBox.vnode = ({title ,message})=>{
+    let vm = createComponent(message,title,'vnode')
+    vm.setAlert()
+    vm.show()
 }
 
 export default XmvMessageBox

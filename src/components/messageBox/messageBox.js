@@ -17,6 +17,7 @@ function createComponent(msg,title,type,option={}){
         type : type,
         inputPattern : option.inputPattern,
         inputErrorMessage : option.inputErrorMessage,
+        dangerouslyUseHTMLString : option.dangerouslyUseHTMLString,
         onLeave : ()=>{
             messageInstance.delete(vm)
             render(null ,container)
@@ -31,14 +32,14 @@ function createComponent(msg,title,type,option={}){
     return vm
 }
 
-XmvMessageBox.alert = (msg,title)=>{
-    let vm = createComponent(msg,title,'alert')
+XmvMessageBox.alert = (msg,title,option)=>{
+    let vm = createComponent(msg,title,'alert',option)
     vm.setAlert()
     vm.show()
 }
 
-XmvMessageBox.confirm = (msg ,title)=>{
-    let vm = createComponent(msg,title,'confirm')
+XmvMessageBox.confirm = (msg ,title,option)=>{
+    let vm = createComponent(msg,title,'confirm',option)
     let confirmPromise = new Promise((resolve ,reject)=>{
         vm.setConfirm(resolve ,reject)
         vm.show()

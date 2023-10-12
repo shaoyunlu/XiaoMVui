@@ -14,8 +14,9 @@
                     <div class="xmv-message-box__content">
                         <div class="xmv-message-box__container">
                             <div class="xmv-message-box__message">
-                                <p v-if="type != 'vnode'">{{message}}</p>
-                                <slot v-else></slot>
+                                <p v-if="type != 'vnode' && !dangerouslyUseHTMLString">{{message}}</p>
+                                <div v-html="message" v-if="dangerouslyUseHTMLString"></div>
+                                <slot v-if="type == 'vnode'"></slot>
                             </div>
                         </div>
                         <div class="xmv-message-box__input" v-if="type == 'prompt'">
@@ -50,7 +51,8 @@ export default defineComponent({
         confirmButtonText : {type:String ,default:'确认'},
         cancelButtonText : {type:String ,default:'取消'},
         inputPattern : RegExp,
-        inputErrorMessage : {type:String ,default:'error'}
+        inputErrorMessage : {type:String ,default:'error'},
+        dangerouslyUseHTMLString : false
     },
     components : {xmvButton ,xmvIcon ,xmvInput},
     emits : ['leave'],

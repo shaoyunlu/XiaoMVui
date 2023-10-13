@@ -31,7 +31,7 @@ export default defineComponent({
         message : String,
         top : Number | String,
         bottom : Number | String,
-        duration : {type:Number ,default : 3000},
+        duration : {type:Number ,default : 4500},
         showClose : {type:Boolean,default : true}
     },
     components:{xmvIcon},

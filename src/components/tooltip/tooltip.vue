@@ -60,7 +60,7 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
-            if (mouseType == 'mouseover'){
+            if (mouseType == 'mouseover' || keepShow.value){
                 return false
             }
             mouseType = 'mouseover'
@@ -73,7 +73,7 @@ export default defineComponent({
             })
         }
 
-        const handleMouseleave = ()=>{
+        const handleMouseleave = ()=>{       
             mouseType = 'mouseleave'
             if (!keepShow.value){
                 transition.opacityOut(()=>{

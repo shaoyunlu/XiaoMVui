@@ -28,7 +28,6 @@ export default defineComponent({
         const createPopperEl = ()=>{
             if (popperEl)
                 return false
-            console.log(slots.content())
             popperEl = document.createElement('div')
             if (slots.content){
                 render(h(() => slots.content()), popperEl)

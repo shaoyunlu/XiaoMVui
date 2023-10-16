@@ -81,6 +81,21 @@ export function getPagePosition(el ,type ,faceEl ,isAlign = false){
         type = 'left'
     }
 
+    let isOverWidth = false
+    let overValue = 0
+    // 需要判断是否超出屏幕，如果超出，需要进行校正
+    if (type == 'top' || type == 'bottom'){
+        let t1 = (boundCr.left + boundCr.width/2) * 2
+        isOverWidth = (faceElWidth > t1)
+        let allowMaxWidth = document.documentElement.clientWidth - boundCr.left
+        
+        if (faceElWidth > allowMaxWidth){
+            overValue = faceElWidth - allowMaxWidth + 10
+        }
+    }
+
+    console.log(alignNum)
+
     switch (type) {
         case 'left':
             return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop ,type : type}
@@ -89,10 +104,10 @@ export function getPagePosition(el ,type ,faceEl ,isAlign = false){
             return {left : offsetLeft  + gutter +  elWidth ,top : offsetTop ,type : type}
 
         case 'top':
-            return {left : offsetLeft + alignNum ,top : offsetTop - gutter - faceElHeight ,type : type}
+            return {left : isOverWidth?0:(offsetLeft + alignNum - overValue) ,top : offsetTop - gutter - faceElHeight ,type : type}
 
         case 'bottom':
-            return {left : offsetLeft + alignNum ,top : offsetTop + gutter + elHeight ,type : type}
+            return {left : isOverWidth?0:(offsetLeft + alignNum - overValue) ,top : offsetTop + gutter + elHeight ,type : type}
 
         case 'center':
             return {left : offsetLeft ,top:offsetTop ,type : type}

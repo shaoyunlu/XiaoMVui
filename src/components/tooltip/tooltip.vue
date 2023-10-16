@@ -5,7 +5,7 @@
 
 <script>
 import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch} from 'vue'
-import {addClass ,getPagePosition ,getAlignPosition} from 'utils/dom'
+import {addClass ,getPagePosition ,getAlignPosition ,addStyle} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 
 export default defineComponent({
@@ -50,15 +50,12 @@ export default defineComponent({
             let offsetLeft = 0
             let offsetTop = 0
             let {placement} = props
-            let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl)
-            if (props.isAlignCenter){
-                let alignInfo = getAlignPosition(triggerEl ,popperEl)
-                offsetLeft = alignInfo.offsetLeft
-                offsetTop = alignInfo.offsetTop
-            }
+
+            addStyle(popperEl,'max-width',document.documentElement.clientWidth + 'px')
+
+            let {left ,top} = getPagePosition(triggerEl ,props.placement ,popperEl ,props.isAlignCenter)
             if (placement == 'top' || placement == 'bottom'){
                 left += offsetLeft
-
             }else{
                 top += offsetTop
             }

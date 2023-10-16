@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch} from 'vue'
+import {defineComponent, onMounted  ,onUnmounted, ref ,inject, watch ,render ,h} from 'vue'
 import {addClass ,getPagePosition ,getAlignPosition ,addStyle} from 'utils/dom'
 import XmvTransition from 'comps/transition/transition'
 
@@ -28,9 +28,13 @@ export default defineComponent({
         const createPopperEl = ()=>{
             if (popperEl)
                 return false
+            console.log(slots.content())
             popperEl = document.createElement('div')
-            popperEl.innerHTML = props.content
-
+            if (slots.content){
+                render(h(() => slots.content()), popperEl)
+            }else{
+                popperEl.innerHTML = props.content
+            }
             addClass(popperEl ,'xmv-popper is-' + props.effect)
             
             let cssText = `z-index:2002;width:${props.width};position:absolute;opacity:0;

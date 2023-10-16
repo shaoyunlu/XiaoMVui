@@ -12,18 +12,10 @@ export default defineComponent({
     name:"xmvTooltip",
     props:{
         content : String | Number,
-        placement : {
-            type : String,
-            default : 'top'
-        },
-        width : {
-            type : String,
-            default : 'auto'
-        },
-        isAlignCenter : {
-            type : Boolean,
-            default : false 
-        }
+        placement : {type : String,default : 'top'},
+        width : {type : String,default : 'auto'},
+        isAlignCenter : {type : Boolean,default : false },
+        effect : {type : String ,default : 'dark'}
     },
     setup(props ,{slots ,attrs}) {
         const placeSpan = ref(null)
@@ -39,7 +31,7 @@ export default defineComponent({
             popperEl = document.createElement('div')
             popperEl.innerHTML = props.content
 
-            addClass(popperEl ,'xmv-popper is-dark')
+            addClass(popperEl ,'xmv-popper is-' + props.effect)
             
             let cssText = `z-index:2002;width:${props.width};position:absolute;opacity:0;
                             left:0px;top:0px;margin:0;right:auto;bottom:auto;transform: translate(0px,0px)`
@@ -63,9 +55,6 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
-            // if (pEl.contains(popperEl)){
-            //     return false
-            // }
             transition.opacityIn(()=>{
                 pEl.appendChild(popperEl)
                 setPosition()

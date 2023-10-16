@@ -63,9 +63,9 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
-            if (pEl.contains(popperEl)){
-                return false
-            }
+            // if (pEl.contains(popperEl)){
+            //     return false
+            // }
             transition.opacityIn(()=>{
                 pEl.appendChild(popperEl)
                 setPosition()

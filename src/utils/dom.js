@@ -94,8 +94,6 @@ export function getPagePosition(el ,type ,faceEl ,isAlign = false){
         }
     }
 
-    console.log(alignNum)
-
     switch (type) {
         case 'left':
             return {left : offsetLeft - gutter - faceElWidth ,top : offsetTop ,type : type}

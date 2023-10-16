@@ -15,7 +15,8 @@ export default defineComponent({
         placement : {type : String,default : 'top'},
         width : {type : String,default : 'auto'},
         isAlignCenter : {type : Boolean,default : false },
-        effect : {type : String ,default : 'dark'}
+        effect : {type : String ,default : 'dark'},
+        disabled : Boolean
     },
     setup(props ,{slots ,attrs}) {
         const placeSpan = ref(null)
@@ -24,6 +25,7 @@ export default defineComponent({
         var triggerEl
         var popperEl
         const keepShow = ref(false)
+        let mouseType = ''
 
         const createPopperEl = ()=>{
             if (popperEl)
@@ -58,6 +60,13 @@ export default defineComponent({
         }
 
         const handleMouseover = ()=>{
+            if (mouseType == 'mouseover'){
+                return false
+            }
+            mouseType = 'mouseover'
+            if (props.disabled){
+                return false
+            }
             transition.opacityIn(()=>{
                 pEl.appendChild(popperEl)
                 setPosition()
@@ -65,6 +74,7 @@ export default defineComponent({
         }
 
         const handleMouseleave = ()=>{
+            mouseType = 'mouseleave'
             if (!keepShow.value){
                 transition.opacityOut(()=>{
                     pEl.removeChild(popperEl)
@@ -83,7 +93,10 @@ export default defineComponent({
             setTimeout(()=>{
                 setPosition()
             } ,10)
-            
+        })
+
+        watch(()=>props.disabled ,(newVal)=>{
+            newVal && handleMouseleave()
         })
 
         onMounted(()=>{
@@ -92,7 +105,7 @@ export default defineComponent({
             createPopperEl()
             transition.setEl(popperEl)
 
-            triggerEl.addEventListener('mouseover' ,()=>{
+            triggerEl.addEventListener('mouseover' ,(event)=>{
                 handleMouseover()
             })
             triggerEl.addEventListener('mouseleave' ,()=>{

@@ -20,6 +20,11 @@ class XmvTransition{
         this.el = el
     }
 
+    reset(){
+        this.animateType = ''
+        this.isAnimating = false
+    }
+
     opacityIn(beforeCbf){
         if (this.animateType == 'opacityIn' && this.isAnimating){
             return false

@@ -44,9 +44,13 @@ class SliderMode{
         if (val >= 100)
             val = 100
 
-        this.sliderVal.value = val
+        this.sliderVal.value = this.__nearestStep(val,this.props.step)
         this.trigger()
         //this.ctx.emit('update:modelValue' ,val)
+    }
+
+    __nearestStep(num, step){
+        return Math.round(num / step) * step;
     }
 }
 

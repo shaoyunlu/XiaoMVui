@@ -1,7 +1,7 @@
 <template>
     <xmv-popover :beStripped="true" @show="handlePopoverShow" @hide="handlePopoverHide">
         <template #trigger>
-            <xmv-input class="xmv-date-editor xmv-date-editor--time" :size="size" v-if="isRange == undefined"
+            <xmv-input class="xmv-date-editor xmv-date-editor--time" :style="style" :size="size" v-if="isRange == undefined"
             prefix-icon="clock" clearable ref="inputRef" @clear="handleClear"></xmv-input>
 
             <div v-else
@@ -49,6 +49,7 @@ export default defineComponent({
         isRange : String,
         splitSymbol : {type : String ,default : ":"},
         size : String,
+        style : String,
         disabledHours : Array,
         disabledMinutes : Array,
         disabledSeconds : Array

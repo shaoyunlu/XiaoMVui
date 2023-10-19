@@ -2,7 +2,7 @@
     <xmv-popover placement="bottom" :ref="datePickerMode.popoverRef">
         <template #trigger>
             <xmv-input class="xmv-date-editor xmv-date-editor xmv-date-editor--date" :size="size"
-                v-if="type != 'daterange' && type != 'monthrange'" 
+                v-if="type != 'daterange' && type != 'monthrange'" :style="style"
                 prefix-icon="calendar" clearable  ref="inputRef" @clear="handleDateClear"></xmv-input>
             <div v-if="type == 'daterange' || type == 'monthrange'" 
                 class="xmv-date-editor xmv-date-editor--daterange xmv-input__wrapper 
@@ -46,7 +46,8 @@ export default defineComponent({
         format : {type:String,default:'YYYY-MM-DD'},
         modelValue : String | Array,
         withTime : String,
-        size : String
+        size : String,
+        style : String
     },
     setup(props ,context) {
         const storeMode = new StoreMode()

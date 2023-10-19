@@ -45,12 +45,14 @@ export default defineComponent({
         })
 
         const propWatch = computed(()=>{
-            return mode[prop]
+            let value = prop.split('.').reduce((o, k) => o[k], mode);
+            return value
         })
 
         if (prop != undefined){
             watch(propWatch,(newVal)=>{
-                validateByRules().then(()=>{}).catch(()=>{})
+                console.log(newVal)
+                validateByRules(newVal).then(()=>{}).catch(()=>{})
             })
         }
 
@@ -60,9 +62,10 @@ export default defineComponent({
                     resolve()
                     return false
                 }
+                let newVal = prop.split('.').reduce((o, k) => o[k], mode);
                 let val = mode[prop]
                 let ruleList = rules[prop] || __rules
-                let info = validate(val ,ruleList)
+                let info = validate(newVal ,ruleList)
                 if (info){
                     isError.value = true
                     errorInfo.value = info
@@ -73,7 +76,7 @@ export default defineComponent({
                 if (!isError.value){
                     let validator = findValidator()
                     if (validator){
-                        validator(val).then(()=>{
+                        validator(newVal).then(()=>{
                             isError.value = false
                             errorInfo.value = ''
                             resolve()

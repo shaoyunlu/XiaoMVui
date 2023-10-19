@@ -15,13 +15,15 @@
 <script>
 import {defineComponent, inject, watch ,computed ,ref, getCurrentInstance} from 'vue'
 import {validate} from './mode/validate'
+import {isEmpty} from 'utils/data'
 export default defineComponent({
     name:"xmvFormItem",
     props:{
         label : {type:String ,default:''},
-        prop : String
+        prop : String,
+        required : Boolean
     },
-    setup({label ,prop} ,context) {
+    setup({label ,prop ,required} ,context) {
 
         const formProps = inject('Props')
         const formItemCollector = inject('Collector')
@@ -47,11 +49,50 @@ export default defineComponent({
 
         if (prop != undefined){
             watch(propWatch,(newVal)=>{
-                validateByRules()
+                validateByRules().then(()=>{}).catch(()=>{})
             })
         }
 
         const validateByRules = ()=>{
+            return new Promise((resolve ,reject)=>{
+                if (prop == undefined){
+                    resolve()
+                    return false
+                }
+                let val = mode[prop]
+                let ruleList = rules[prop]
+                let info = validate(val ,ruleList)
+                if (info){
+                    isError.value = true
+                    errorInfo.value = info
+                }else{
+                    isError.value = false
+                    errorInfo.value = ''
+                }
+                if (!isError.value){
+                    //resolve()
+                    let validator = findValidator()
+                    if (validator){
+                        validator().then(()=>{
+                            isError.value = false
+                            errorInfo.value = ''
+                            resolve()
+                        }).catch((msg)=>{
+                            isError.value = true
+                            errorInfo.value = msg
+                            reject()
+                        })
+                    }else{
+                        resolve()
+                    }
+                }
+                else{
+                    reject(prop + ':' + info)
+                }
+            })
+        }
+
+        const validateByRules_ = ()=>{
             if (prop == undefined){
                 return false
             }
@@ -68,11 +109,27 @@ export default defineComponent({
             return isError.value
         }
 
+        const findValidator = ()=>{
+            let validator = null
+            let ruleList = rules[prop]
+            ruleList.forEach(rule =>{
+                let keys = Object.keys(rule)
+                keys.forEach(key=>{
+                    if (key == 'validator'){
+                        validator = rule[key]
+                    }
+                })
+            })
+            return validator
+        }
+
         const computeRequired = computed(()=>{
+            if (required){
+                return true
+            }
             if (prop == undefined){
                 return false
             }
-            let val = mode[prop]
             let ruleList = rules[prop]
             if (!ruleList){
                 return false

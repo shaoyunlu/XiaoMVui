@@ -41,6 +41,14 @@ export default defineComponent({
         })
 
         const validate = ()=>{
+            let promiseArray = []
+            formItemCollector.forEach(formItemInstance =>{
+                promiseArray.push(formItemInstance.proxy.validateByRules())
+            })
+            return Promise.all(promiseArray)
+        }
+
+        const validate_ = ()=>{
             let flag = true
             formItemCollector.forEach(formItemInstance =>{
                 if (formItemInstance.proxy.validateByRules()){

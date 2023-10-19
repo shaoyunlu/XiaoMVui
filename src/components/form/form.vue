@@ -48,16 +48,6 @@ export default defineComponent({
             return Promise.all(promiseArray)
         }
 
-        const validate_ = ()=>{
-            let flag = true
-            formItemCollector.forEach(formItemInstance =>{
-                if (formItemInstance.proxy.validateByRules()){
-                    flag = false
-                }
-            })
-            return flag
-        }
-
         return {computeFormClass ,validate}
     }
 })

@@ -21,15 +21,16 @@ export default defineComponent({
     props:{
         label : {type:String ,default:''},
         prop : String,
-        required : Boolean
+        required : Boolean,
+        rules : Array
     },
-    setup({label ,prop ,required} ,context) {
+    setup({label ,prop ,required ,rules:__rules} ,context) {
 
         const formProps = inject('Props')
         const formItemCollector = inject('Collector')
 
         const mode = formProps.mode
-        const rules = formProps.rules
+        const rules = formProps.rules || {}
 
         const isError = ref(false)
         const errorInfo = ref('')
@@ -60,7 +61,7 @@ export default defineComponent({
                     return false
                 }
                 let val = mode[prop]
-                let ruleList = rules[prop]
+                let ruleList = rules[prop] || __rules
                 let info = validate(val ,ruleList)
                 if (info){
                     isError.value = true
@@ -91,23 +92,6 @@ export default defineComponent({
             })
         }
 
-        const validateByRules_ = ()=>{
-            if (prop == undefined){
-                return false
-            }
-            let val = mode[prop]
-            let ruleList = rules[prop]
-            let info = validate(val ,ruleList)
-            if (info){
-                isError.value = true
-                errorInfo.value = info
-            }else{
-                isError.value = false
-                errorInfo.value = ''
-            }
-            return isError.value
-        }
-
         const findValidator = ()=>{
             let validator = null
             let ruleList = rules[prop]
@@ -129,7 +113,7 @@ export default defineComponent({
             if (prop == undefined){
                 return false
             }
-            let ruleList = rules[prop]
+            let ruleList = rules[prop] || __rules
             if (!ruleList){
                 return false
             }

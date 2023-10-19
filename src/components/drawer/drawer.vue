@@ -69,6 +69,8 @@ export default defineComponent({
         }
 
         const handleClickOutside = ()=>{
+            // TODO  暂时拿掉
+            return false
             if (props.modelValue){
                 handleCloseClick()
             }

@@ -51,7 +51,6 @@ export default defineComponent({
 
         if (prop != undefined){
             watch(propWatch,(newVal)=>{
-                console.log(newVal)
                 validateByRules(newVal).then(()=>{}).catch(()=>{})
             })
         }

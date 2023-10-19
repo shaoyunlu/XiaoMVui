@@ -47,7 +47,7 @@ export default defineComponent({
         modelValue : String | Array,
         withTime : String,
         size : String,
-        style : String
+        style : String | Object
     },
     setup(props ,context) {
         const storeMode = new StoreMode()

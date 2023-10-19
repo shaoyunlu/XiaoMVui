@@ -49,7 +49,7 @@ export default defineComponent({
         isRange : String,
         splitSymbol : {type : String ,default : ":"},
         size : String,
-        style : String,
+        style : String | Object,
         disabledHours : Array,
         disabledMinutes : Array,
         disabledSeconds : Array

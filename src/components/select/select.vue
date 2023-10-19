@@ -67,13 +67,14 @@ export default defineComponent({
         modelValue : [String,Number,Array],
         filterNodeMethod : Function,
         lazy : Boolean,
-        load : Function
+        load : Function,
+        placeholder : {type:String ,default:'请选择'}
     },
     components:{xmvSelectItem},
     setup(props ,context) {
 
         const selectMode = new SelectMode(props)
-        const placeholderMsg = '请选择'
+        const placeholderMsg = props.placeholder
         const eventBus = reactive({
             listeners : {}
         })

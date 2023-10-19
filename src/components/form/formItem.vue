@@ -1,6 +1,6 @@
 <template>
     <div class="xmv-form-item" :class="{'is-error':isError ,'is-required':computeRequired}">
-        <label class="xmv-form-item__label" :style="computeLabelStyle">
+        <label class="xmv-form-item__label" :style="computeLabelStyle" v-if="label != ''">
             {{label}}
         </label>
         <div class="xmv-form-item__content">

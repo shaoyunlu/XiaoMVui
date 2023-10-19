@@ -70,10 +70,9 @@ export default defineComponent({
                     errorInfo.value = ''
                 }
                 if (!isError.value){
-                    //resolve()
                     let validator = findValidator()
                     if (validator){
-                        validator().then(()=>{
+                        validator(val).then(()=>{
                             isError.value = false
                             errorInfo.value = ''
                             resolve()

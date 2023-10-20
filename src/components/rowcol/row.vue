@@ -22,7 +22,7 @@ export default defineComponent({
             if (gutter == 0){
                 return {}
             }else{
-                return {'margin-left' : gutter + 'px' ,'margin-right' : gutter + 'px'}
+                return {'margin-left' : '-' + gutter + 'px' ,'margin-right' : '-' + gutter + 'px'}
             }
         })
 

@@ -1,7 +1,7 @@
 <template>
     <transition name="xmv-drawer">
-        <div class="xmv-overlay" v-show="modelValue">
-            <div class="xmv-drawer" :class="computeClass" :style="computeDrawerStyle" v-clickoutside="handleClickOutside">
+        <div class="xmv-overlay" v-show="modelValue" @click="handleOverlayClick">
+            <div class="xmv-drawer" :class="computeClass" :style="computeDrawerStyle" @click.stop>
                 <header class="xmv-drawer__header" v-if="withHeader">
                     <span class="xmv-drawer__title">{{title}}</span>
                     <button class="xmv-drawer__close-btn" @click="handleCloseClick">
@@ -68,16 +68,14 @@ export default defineComponent({
             }
         }
 
-        const handleClickOutside = ()=>{
-            // TODO  暂时拿掉
-            return false
+        const handleOverlayClick = ()=>{
             if (props.modelValue){
                 handleCloseClick()
             }
         }
 
         return {isOpenRef ,computeClass ,computeDrawerStyle ,
-                handleCloseClick ,handleClickOutside}
+                handleCloseClick ,handleOverlayClick}
     }
 })
 </script>

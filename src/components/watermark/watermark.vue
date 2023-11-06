@@ -14,7 +14,8 @@ export default defineComponent({
         width : {type : Number ,default : 200},
         height : {type : Number ,default : 200},
         gap : {type : Number ,default : 80},
-        offset : {type : Number ,default : 80},
+        offsetX : {type : Number ,default : 10},
+        offsetY : {type : Number ,default : 80},
         rotate : {type : Number ,default : -Math.PI / 12},
         fontSize : {type : Number ,default : 20},
         content : {type : String ,default : ''},
@@ -44,12 +45,10 @@ export default defineComponent({
             return res
         })
 
-        const drawText = (text)=>{
+        const drawText = ()=>{
             var ctx = canvas.getContext("2d");
-            var x = props.offset;
-            var y = props.offset;
             ctx.font = props.fontSize + "px Arial";
-            ctx.translate(x, y); // 平移坐标原点到当前位置
+            ctx.translate(props.offsetX, props.offsetY); // 平移坐标原点到当前位置
             ctx.rotate(props.rotate); // 旋转角度，这里是45度
             ctx.fillText(props.content, 0, 0); // 在平移后的坐标原点绘制文本
             base64Ref.value = canvas.toDataURL()
@@ -57,10 +56,8 @@ export default defineComponent({
 
         const drawImage = ()=>{
             var ctx = canvas.getContext("2d");
-            var x = props.offset;
-            var y = props.offset;
             ctx.font = props.fontSize + "px Arial";
-            ctx.translate(x, y); // 平移坐标原点到当前位置
+            ctx.translate(props.offsetX, props.offsetY); // 平移坐标原点到当前位置
             ctx.rotate(props.rotate); 
 
             const image = new Image();

@@ -46,6 +46,7 @@ export default defineComponent({
 
         const drawText = ()=>{
             var ctx = canvas.getContext("2d");
+            ctx.globalAlpha = 0.5;
             ctx.font = props.fontSize + "px Arial";
             ctx.translate(props.offsetX, props.offsetY); // 平移坐标原点到当前位置
             ctx.rotate(props.rotate); // 旋转角度，这里是45度
@@ -55,6 +56,7 @@ export default defineComponent({
 
         const drawImage = ()=>{
             var ctx = canvas.getContext("2d");
+            ctx.globalAlpha = 0.5;
             ctx.font = props.fontSize + "px Arial";
             ctx.translate(props.offsetX, props.offsetY); // 平移坐标原点到当前位置
             ctx.rotate(props.rotate); 

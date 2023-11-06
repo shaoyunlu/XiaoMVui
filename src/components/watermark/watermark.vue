@@ -3,7 +3,6 @@
         <slot></slot>
         <div ref="canvasDiv" :style="computeStyle"></div>
     </div>
-    <canvas id="canvas"></canvas>
 </template>
 
 <script>

@@ -66,6 +66,7 @@ import xmvDropdownMenu from 'comps/dropdown/dropdownMenu.vue'
 import xmvDropdownItem from 'comps/dropdown/dropdownItem.vue'
 import xmvPageHeader from 'comps/pageHeader/pageHeader.vue'
 import xmvAlert from 'comps/alert/alert.vue'
+import xmvWatermark from 'comps/watermark/watermark.vue'
 
 import loadingDirective from 'comps/loading/directive'
 import clickoutsideDirective from 'directives/clickoutside.js'
@@ -170,6 +171,7 @@ const register = (vue)=>{
     vue.component('xmvDropdownItem' ,xmvDropdownItem)
     vue.component('xmvPageHeader' ,xmvPageHeader)
     vue.component('xmvAlert' ,xmvAlert)
+    vue.component('xmvWatermark' ,xmvWatermark)
 
     vue.directive('loading', loadingDirective);
     vue.directive('clickoutside', clickoutsideDirective);

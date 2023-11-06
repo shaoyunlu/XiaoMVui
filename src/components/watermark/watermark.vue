@@ -12,7 +12,6 @@ export default defineComponent({
     props:{
         width : {type : Number ,default : 200},
         height : {type : Number ,default : 200},
-        gap : {type : Number ,default : 80},
         offsetX : {type : Number ,default : 10},
         offsetY : {type : Number ,default : 80},
         rotate : {type : Number ,default : -Math.PI / 12},

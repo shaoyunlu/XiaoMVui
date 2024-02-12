@@ -18,6 +18,7 @@
                         <xmv-table-body></xmv-table-body>
                     </table>
                 </xmv-scrollbar>
+                <xmv-empty v-if="isShowEmpty"></xmv-empty>
             </div>
         </div>
         <div class="xmv-table__column-resize-proxy"></div>
@@ -56,6 +57,7 @@ export default defineComponent({
         const scrollMaxHeightFlag = ref(false)
         const scrollMaxHeight = ref(0)
         const scrollingStatus = ref('')
+        const isShowEmpty = ref(true)
 
         const eventBus = reactive({
             listeners : {}
@@ -72,6 +74,7 @@ export default defineComponent({
         tableMode.$emit = $emit
 
         const loadData = (data)=>{
+            isShowEmpty.value = isEmpty(data)
             tableMode.rctData.data = data
             tableMode.createIndex(tableMode.rctData.data)
         }
@@ -140,7 +143,7 @@ export default defineComponent({
 
         return {tableHeaderWrapperRef , tableRef ,tableMode ,computeTableClass,
                 computeTableStyle ,computeTableInnerStyle,scrollBarRef ,
-                scrollMaxHeightFlag ,scrollMaxHeight ,
+                scrollMaxHeightFlag ,scrollMaxHeight ,isShowEmpty,
                 loadData ,handleScroll}
 
     }

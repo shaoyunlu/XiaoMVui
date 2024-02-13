@@ -49,6 +49,10 @@ class PaginationMode{
         this.ctx.emit('changeNumber')
     }
 
+    emitInnerChangeNumber(){
+        this.$emit('changeNum' ,this.currentPage.value)
+    }
+
     generateArray(m ,n ,max){
         let left = []
         let right = []

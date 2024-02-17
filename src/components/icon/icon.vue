@@ -47,6 +47,8 @@ import star from './category/star.vue'
 import successFilled from './category/successFilled.vue'
 import upload from './category/upload.vue'
 import uploadFilled from './category/uploadFilled.vue'
+import user from './category/user.vue'
+import userFilled from './category/userFilled.vue'
 import vew from './category/view.vue'
 import warningFilled from './category/warningFilled.vue'
 import zoomIn from './category/zoomIn.vue'
@@ -66,7 +68,7 @@ export default defineComponent({
                     plus,pieChart,pic,
                     refresh,refreshLeft,refreshRight,
                     sort ,setting ,search,successFilled,star,
-                    upload,uploadFilled,
+                    upload,uploadFilled,user,userFilled,
                     vew,
                     warningFilled,
                     zoomIn,zoomOut

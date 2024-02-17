@@ -2,7 +2,8 @@
     <div class="xmv-pagination" 
         :class="{
                     'is-background' : (background != undefined),
-                    'xmv-pagination--small' : (small != undefined)
+                    'xmv-pagination--small' : (small != undefined),
+                    'is-total-zero' : (total == 0)
                 }">
         <component :is='"xmv-pagination-" + layoutArr[0]' class="is-first"></component>
         <component :is='"xmv-pagination-" + layoutArr[1]'></component>

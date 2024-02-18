@@ -48,6 +48,8 @@ export default defineComponent({
             return Promise.all(promiseArray)
         }
 
+        $emit('errorReset')
+
         return {computeFormClass ,validate}
     }
 })

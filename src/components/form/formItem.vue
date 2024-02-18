@@ -28,6 +28,7 @@ export default defineComponent({
 
         const formProps = inject('Props')
         const formItemCollector = inject('Collector')
+        const {$on ,$emit} = inject('EventBus' ,{$on:()=>{} ,$emit:()=>{}})
 
         const mode = formProps.mode
         const rules = formProps.rules || {}
@@ -42,6 +43,10 @@ export default defineComponent({
             if (formProps.labelWidth != undefined){
                 return {'width' : formProps.labelWidth}
             }
+        })
+
+        $on('errorReset',()=>{
+            isError.value = false
         })
 
         const propWatch = computed(()=>{

@@ -35,6 +35,7 @@ import {createEventBus} from 'utils/event'
 import {deleteObjectFromArray} from 'utils/data'
 export default defineComponent({
     name:"",
+    emits:['uploadDone'],
     components:{xmvUploadItem},
     props:{
         class : String,
@@ -44,7 +45,7 @@ export default defineComponent({
         drag : Boolean,
         beforeUpload : Function
     },
-    setup(props ,{slots}) {
+    setup(props ,context) {
 
         const uploadInpRef = ref(null)
         const eventBus = reactive({
@@ -64,15 +65,24 @@ export default defineComponent({
         const handleLimit = (file ,imgSrc)=>{
             let fileObj = {name : file.name ,imgSrc : imgSrc}
             let limit = props.limit
-            if (limit == undefined){
+            if (limit == undefined)
+            {
                 props.fileList.push(fileObj)
-            }else{
-                if (props.fileList.length < limit){
+                context.emit('uploadDone',props.fileList)
+            }
+            else
+            {
+                if (props.fileList.length < limit)
+                {
                     props.fileList.push(fileObj)
-                }else{
+                    context.emit('uploadDone',props.fileList)
+                }
+                else
+                {
                     props.fileList[0].isShow = false
                     setTimeout(()=>{
                         props.fileList.push(fileObj)
+                        context.emit('uploadDone',props.fileList)
                     },300)
                 }
             }

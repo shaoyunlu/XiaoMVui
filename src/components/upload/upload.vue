@@ -63,7 +63,7 @@ export default defineComponent({
         provide('FileList' ,props.fileList)
 
         const handleLimit = (file ,imgSrc)=>{
-            let fileObj = {name : file.name ,imgSrc : imgSrc}
+            let fileObj = {name : file.name ,imgSrc : imgSrc ,obj : file}
             let limit = props.limit
             if (limit == undefined)
             {

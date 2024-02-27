@@ -32,7 +32,8 @@ export default defineComponent({
         },
         beforeClose : Function,
         withHeader : {type : Boolean,default : true},
-        modelValue : Boolean
+        modelValue : Boolean,
+        autoClose : {type : Boolean,default : true}
     },
     setup(props ,context) {
 
@@ -69,7 +70,7 @@ export default defineComponent({
         }
 
         const handleOverlayClick = ()=>{
-            if (props.modelValue){
+            if (props.modelValue && props.autoClose){
                 handleCloseClick()
             }
         }

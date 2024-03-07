@@ -102,6 +102,9 @@ export default defineComponent({
         const findValidator = ()=>{
             let validator = null
             let ruleList = rules[prop]
+            if (isEmpty(ruleList)){
+                return null
+            }
             ruleList.forEach(rule =>{
                 let keys = Object.keys(rule)
                 keys.forEach(key=>{

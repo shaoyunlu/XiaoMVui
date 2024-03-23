@@ -37,7 +37,62 @@ export function deepClone(obj) {
     }
   
     return clone;
+}
+
+export function areArraysEqualDeep(array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
   }
+
+  for (let i = 0; i < array1.length; i++) {
+    const item1 = array1[i];
+    const item2 = array2[i];
+
+    const areBothObjects = isObject(item1) && isObject(item2);
+    if (areBothObjects) {
+      if (!areObjectsEqualDeep(item1, item2)) {
+        return false;
+      }
+    } else if (Array.isArray(item1) && Array.isArray(item2)) {
+      if (!areArraysEqualDeep(item1, item2)) {
+        return false;
+      }
+    } else if (item1 !== item2) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function isObject(item) {
+  return item !== null && typeof item === 'object';
+}
+
+function areObjectsEqualDeep(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    const val1 = obj1[key];
+    const val2 = obj2[key];
+    const areBothObjects = isObject(val1) && isObject(val2);
+
+    if (
+      areBothObjects && !areObjectsEqualDeep(val1, val2) ||
+      Array.isArray(val1) && Array.isArray(val2) && !areArraysEqualDeep(val1, val2) ||
+      val1 !== val2
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 // 判断数据是否为空
 export function isEmpty(obj ,withZero = false){

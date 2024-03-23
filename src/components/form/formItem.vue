@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import {defineComponent, inject, watch ,computed ,ref, getCurrentInstance} from 'vue'
+import {defineComponent, inject, watch ,computed ,ref, getCurrentInstance, nextTick, onMounted} from 'vue'
 import {validate} from './mode/validate'
-import {isEmpty} from 'utils/data'
+import {isEmpty ,areArraysEqualDeep} from 'utils/data'
 export default defineComponent({
     name:"xmvFormItem",
     props:{
@@ -37,6 +37,9 @@ export default defineComponent({
         const errorInfo = ref('')
         const isRequired = ref(false)
 
+        let isFormReset = false
+        let oriValue
+
         formItemCollector.push(getCurrentInstance())
 
         const computeLabelStyle = computed(()=>{
@@ -49,13 +52,30 @@ export default defineComponent({
             isError.value = false
         })
 
+        $on('formReset' ,()=>{
+            isFormReset = true
+            isError.value = false
+            setNestedValue(mode ,prop ,oriValue)
+            nextTick(()=>{
+                isFormReset = false
+            })
+            
+        })
+
         const propWatch = computed(()=>{
             let value = prop.split('.').reduce((o, k) => o[k], mode);
             return value
         })
 
         if (prop != undefined){
-            watch(propWatch,(newVal)=>{
+            watch(propWatch,(newVal,oldVal)=>{
+                if (isFormReset){
+                    return false
+                }
+                // 这里需要对数组进行单独判断，因为数组重新赋值之后一定是个新值
+                if (Array.isArray(newVal) && areArraysEqualDeep(newVal ,oldVal)){
+                    return false
+                }
                 validateByRules(newVal).then(()=>{}).catch(()=>{})
             })
         }
@@ -137,6 +157,25 @@ export default defineComponent({
                 })
             })
             return flag
+        })
+
+        function setNestedValue(obj, path, value) {
+            // 将路径字符串分解成数组
+            const keys = path.split('.');
+            // 获取最后一个键
+            const lastKey = keys.pop();
+            // 遍历路径中的每个键，除了最后一个
+            const lastObj = keys.reduce((acc, key) => {
+                // 确保键对应的值是一个对象
+                if (!acc[key]) acc[key] = {};
+                return acc[key];
+            }, obj);
+            // 给最后一个键赋值
+            lastObj[lastKey] = value;
+        }
+
+        onMounted(()=>{
+            oriValue = prop.split('.').reduce((o, k) => o[k], mode);
         })
 
         return {isError,errorInfo,isRequired,computeLabelStyle,computeRequired,validateByRules}

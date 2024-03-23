@@ -49,7 +49,7 @@ export default defineComponent({
         }
 
         const reset = ()=>{
-            $emit('errorReset')
+            $emit('formReset')
         }
 
         return {computeFormClass ,validate,reset}

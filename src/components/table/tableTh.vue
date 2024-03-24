@@ -52,7 +52,12 @@ export default defineComponent({
             }else{
                 sortAD.value = 'ascending'
             }
-            sort(props.data.prop)
+
+            if (props.data.sortMethod){
+                props.data.sortMethod(props.data.prop ,sortAD.value)  
+            }else{
+                sort(props.data.prop)
+            }
         }
 
         const handleAscClick = ()=>{
@@ -64,7 +69,11 @@ export default defineComponent({
             }else{
                 sortAD.value = 'ascending'
             }
-            sort(props.data.prop)
+            if (props.data.sortMethod){
+                props.data.sortMethod(props.data.prop ,sortAD.value)  
+            }else{
+                sort(props.data.prop)
+            }
         }
 
         const handleDescClick = ()=>{
@@ -76,7 +85,11 @@ export default defineComponent({
             }else{
                 sortAD.value = 'descending'
             }
-            sort(props.data.prop)
+            if (props.data.sortMethod){
+                props.data.sortMethod(props.data.prop ,sortAD.value)  
+            }else{
+                sort(props.data.prop)
+            }
         }
 
         const sort = (key)=>{

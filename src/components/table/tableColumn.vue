@@ -11,6 +11,7 @@ export default defineComponent({
         label : String,
         width : String,
         sortable : String,
+        sortMethod : Function,
         fixed : String,
         type : String,
         showOverflowTooltip : Boolean
@@ -18,12 +19,12 @@ export default defineComponent({
     setup(props ,context) {
         const tableMode = inject('TableMode')
         const instance = getCurrentInstance()
-
         tableMode.rctData.header.push({
             label : props.label,
             prop : props.prop,
             width : props.width,
             sortable : props.sortable,
+            sortMethod : props.sortMethod,
             slots : instance.slots,
             fixed : props.fixed,
             type : props.type,

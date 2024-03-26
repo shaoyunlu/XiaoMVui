@@ -14,7 +14,8 @@ export default defineComponent({
     props:{
         icon : String | Object,
         disabled : Boolean,
-        divided : Boolean
+        divided : Boolean,
+        itemValue : String | Number
     },
     setup(props ,context) {
 
@@ -25,7 +26,7 @@ export default defineComponent({
             if (props.disabled){
                 return false
             }
-            parentContext.emit('itemClick')
+            parentContext.emit('itemClick' ,props.itemValue)
             popoverRef.value.hide()
         }
         return {handleClick}

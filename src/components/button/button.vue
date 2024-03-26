@@ -26,7 +26,9 @@ export default defineComponent({
     setup(props ,context) {
 
         const handleClick = ()=>{
-            context.emit('click')
+            if (!props.disabled){
+                context.emit('click')
+            }
         }
 
         const iconRightShow = computed(()=>{
